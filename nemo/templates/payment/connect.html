@@ -1,0 +1,61 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+         <form method="post" action="">
+             {% csrf_token %}
+             <div>
+                    {{ form.street_address.label_tag}}
+                    {{ form.street_address }}
+                    {{ form.street_address.errors }}
+             </div>
+             <div>
+                    {{ form.locality.label_tag}}
+                    {{ form.locality }}
+                    {{ form.locality.errors }}
+             </div>
+             <div>
+                    {{ form.region.label_tag}}
+                    {{ form.region }}
+                    {{ form.region.errors }}
+             </div>
+             <div>
+                    {{ form.postal_code.label_tag}}
+                    {{ form.postal_code }}
+                    {{ form.postal_code.errors }}
+             </div>
+             <div>
+                    {{ form.phone_number.label_tag}}
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+             </div>
+             <div>
+                    {{ form.birthdate.label_tag}}
+                    {{ form.birthdate }}
+                    {{ form.birthdate.errors }}
+             </div>
+             <div>
+                    {{ form.ssn.label_tag}}
+                    {{ form.ssn }}
+                    {{ form.ssn.errors }}
+             </div>
+             <div>
+                    {{ form.routing_number.label_tag}}
+                    {{ form.routing_number }}
+                    {{ form.routing_number.errors }}
+             </div>
+             <div>
+                    {{ form.account_number.label_tag}}
+                    {{ form.account_number }}
+                    {{ form.account_number.errors }}
+             </div>
+             <div>
+                    {{ form.terms.label_tag}}
+                    {{ form.terms }}
+                    {{ form.terms.errors }}
+             </div>
+             <input type="submit" value="send">
+         </form>
+
+
+
+{% endblock %}

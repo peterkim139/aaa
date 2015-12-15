@@ -1,0 +1,36 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+         <form method="post" action="">
+             {% csrf_token %}
+             <div>
+                    {{ form.card_number.label_tag}}
+                    {{ form.card_number }}
+                    {{ form.card_number.errors }}
+             </div>
+             <div>
+                    {{ form.cvv.label_tag}}
+                    {{ form.cvv }}
+                    {{ form.cvv.errors }}
+             </div>
+             <div>
+                    {{ form.month.label_tag}}
+                    {{ form.month }}
+                    {{ form.month.errors }}
+             </div>
+             <div>
+                    {{ form.year.label_tag}}
+                    {{ form.year }}
+                    {{ form.year.errors }}
+             </div>
+             <div>
+                    {{ form.rent_date.label_tag}}
+                    {{ form.rent_date }}
+                    {{ form.rent_date.errors }}
+             </div>
+             <input type="submit" value="send">
+         </form>
+
+
+
+{% endblock %}

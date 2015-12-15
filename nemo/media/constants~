@@ -1,0 +1,7 @@
+
+DATABASE
+
+export DJANGO_DATABASE_NAME=retreats
+export DJANGO_USER=root
+export DJANGO_PASSWORD=root
+export DJANGO_DATABASE_HOST=localhost

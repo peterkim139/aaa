@@ -1,0 +1,7 @@
+{% extends "base/base.html" %}
+{% block content %}
+        <p>{{item.name|title}}</p>
+        <p>{{item.price}}</p>
+        <p>{{item.description}}</p>
+        <a href="/payment/rent/{{item.id}}">Rent</a>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site_settings.meta_description }}">
+    <meta name="author" content="{{ site_settings.meta_author }}">
+    <title>
+        {% block title %}
+        {{ site_settings.page_title }}
+        {% endblock title %}
+    </title>
+    {% include "elements/styles.html" %}
+     {% include "elements/javascript.html" %}
+</head>
+<body>
+    <header >
+        {% include "elements/notification.html" %}
+        {% include "elements/menu.html" %}
+    </header>
+    {% block content %}
+    <div ></div>
+    {% endblock content %}
+
+    {% include "elements/footer.html" %}
+</body>
+</html>
