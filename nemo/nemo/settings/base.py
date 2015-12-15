@@ -135,10 +135,10 @@ STATIC_URL = '/static/'
 
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'collectstatic')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(os.path.dirname(BASE_DIR), 'static'),
 )
 # Email settings
 DEFAULT_FROM_EMAIL = 'local@email.com'
