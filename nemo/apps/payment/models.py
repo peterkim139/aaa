@@ -20,8 +20,11 @@ class Rent(AbstractDateTime,models.Model):
                     ('approved', 'approved'),
                     ('customer_canceled', 'customer_canceled'),
                     ('seller_canceled', 'seller_canceled'))
+    TRANSACTION_STATUS = (('pending','pending'),
+                          ('settled','settled'))
     status = models.CharField(max_length=30, choices=STATUS_TYPES,default='pending')
     transaction = models.CharField(max_length=255, blank=True,default='')
+    transaction_status = models.CharField(max_length=30, choices=TRANSACTION_STATUS,default='pending')
     price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     rent_date = models.DateTimeField(default=timezone.now)
     def __unicode__(self):

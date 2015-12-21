@@ -125,13 +125,14 @@ class RegisterView(TemplateView, View):
     template_name = 'accounts/registr.html'
 
     def get_context_data(self, **kwargs):
+        data = {}
         context = super(RegisterView, self).get_context_data(**kwargs)
         context['form'] = RegistrationForm()
         if 'form' in kwargs:
             context.update({'form': RegistrationForm(self.request.POST)})
         return context
 
-    def get(self, request):
+    def get(self, request,*args, **kwargs):
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
         return self.render_to_response(self.get_context_data())

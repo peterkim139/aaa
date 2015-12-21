@@ -79,10 +79,11 @@ class RegistrationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        if 'is_social' in kwargs['data']:
-            self.fields['password'].required = False
-            self.fields['confirmpassword'].required = False
-            self.fields['phone_number'].required = False
+        if 'form' in kwargs:
+            if 'is_social' in kwargs['data']:
+                self.fields['password'].required = False
+                self.fields['confirmpassword'].required = False
+                self.fields['phone_number'].required = False
 
     def clean_email(self):
         email = self.cleaned_data['email']
