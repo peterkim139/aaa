@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.contrib.auth import login,logout
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from  django.template.context_processors import csrf
 from django.contrib import messages
@@ -158,3 +159,30 @@ class LogoutView(TemplateView):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect('/')
+
+def save_profile(backend, user, response, *args, **kwargs):
+    data = {}
+    data['is_social'] = True
+    if backend.name == 'facebook':
+        if kwargs['is_new']:
+            data['first_name'] = kwargs['details']['first_name']
+            data['last_name'] = kwargs['details']['last_name']
+            data['email'] = kwargs['details']['email']
+            register_form = RegistrationForm(data=data)
+            if register_form.is_valid():
+                new_user_instance = User()
+                new_user_instance.first_name = kwargs['details']['first_name']
+                new_user_instance.email = kwargs['details']['email']
+                new_user_instance.last_name = kwargs['details']['last_name']
+                new_user_instance.is_active = 1
+                new_user_instance.save()
+
+                return {
+                    'is_new': True,
+                    'user': new_user_instance
+                }
+            else:
+
+                backend.strategy.session_set('social_data', data)
+
+                return HttpResponseRedirect('/')
