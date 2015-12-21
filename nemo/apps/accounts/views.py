@@ -185,7 +185,7 @@ def save_profile(backend, user, response, *args, **kwargs):
 
                 backend.strategy.session_set('social_data', data)
 
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/registration/')
 
     elif backend.name == 'google-oauth2':
         if kwargs['is_new']:
@@ -209,4 +209,4 @@ def save_profile(backend, user, response, *args, **kwargs):
 
                 backend.strategy.session_set('social_data', data)
 
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/registration/')
