@@ -2,19 +2,18 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.utils.timezone
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('payment', '0002_auto_20151215_0703'),
+        ('payment', '0003_auto_20151218_0748'),
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='rent',
-            name='rent_date',
-            field=models.DateTimeField(default=django.utils.timezone.now),
+            name='price',
+            field=models.DecimalField(default=0, max_digits=5, decimal_places=2),
         ),
     ]

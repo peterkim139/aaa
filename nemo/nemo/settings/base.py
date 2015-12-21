@@ -143,45 +143,11 @@ STATICFILES_DIRS = (
 # Email settings
 DEFAULT_FROM_EMAIL = 'local@email.com'
 
-# FACEBOOK_EXTENDED_PERMISSIONS = ['email']
-# FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'en_GB'}
-#
-# FACEBOOK_API_SECRET = '199b5a1f0a4a5f9649e8c68ce16e1b19'
-# FACEBOOK_APP_ID = '423057731224981'
-#
-# FACEBOOK_EXTENDED_PERMISSIONS = ['email']
-#
-# SOCIAL_AUTH_USER_MODEL = 'accounts.User'
-# SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
-# SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-# SOCIAL_AUTH_RAISE_EXCEPTIONS = True
-#
-# GOOGLE_AUTH_CLIENT_ID = ''
-# GOOGLE_AUTH_CLIENT_SECRET = ''
-#
-#
-# AUTHENTICATION_BACKENDS = (
-#     'social_auth.backends.facebook.FacebookBackend',
-#     'social.backends.google.GooglePlusAuth',
-#     'django.contrib.auth.backends.ModelBackend',
-#
-# )
-#
-# LOGIN_URL = '/login/'
-# LOGIN_REDIRECT_URL = '/'
-# LOGIN_ERROR_URL = '/'
-
-
 TEMPLATE_CONTEXT_PROCESSORS = (
-   'django.contrib.auth.context_processors.auth',
-   'django.core.context_processors.debug',
-   'django.core.context_processors.i18n',
-   'django.core.context_processors.media',
-   'django.core.context_processors.static',
-   'django.core.context_processors.tz',
-   'django.contrib.messages.context_processors.messages',
-   'social.apps.django_app.context_processors.backends',
-   'social.apps.django_app.context_processors.login_redirect',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+    'django.contrib.messages.context_processors.messages',
+    'django.contrib.auth.context_processors.auth',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -198,14 +164,36 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '199b5a1f0a4a5f9649e8c68ce16e1b19'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ' 494326582186-4kii2iirbo8ra17lg24k4fnlqtlq5b33.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'DviMdQS87GpR3E4cozuU-LZe '
 
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email', # needed starting from protocol v2.4
+}
+
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'fields': 'id, name, email, age_range'
-}
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_URL = '/'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    # 'social.pipeline.user.create_user',
+    # 'accounts.views.save_profile',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
+
+
+#BRAINTREE
+
+BRAINTREE_MERCHANT_ID = '5d5xq56qq88nnnv3'
+BRAINTREE_PUBLIC_KEY = 'xsp7n87828mv5j9f'
+BRAINTREE_PRIVATE_KEY = '407840324125e98f5efc1d4666101ed5'
 

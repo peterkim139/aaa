@@ -19,7 +19,6 @@ import braintree
 
 class HomeView(TemplateView):
     template_name = 'accounts/home.html'
-
     # def get(self, request):
     #
     #     braintree.Configuration.configure(braintree.Environment.Sandbox,
@@ -92,7 +91,7 @@ class HomeView(TemplateView):
         # print transaction.id
         # result = braintree.Transaction.release_from_escrow("8jqc5y")
         # print result
-        # transaction = braintree.Transaction.find("8jqc5y")
+        # transaction = braintree.Transaction.find("bt2g8t")
         # print transaction.escrow_status
 
 

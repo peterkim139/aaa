@@ -21,7 +21,8 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-     url(r'^requests/$',views.RequestsView.as_view(),name='request'),
-     # url(r'^requests/(?P<id>\d+)/$',views.ItemView.as_view(),name='item'),
-#
+     url(r'^requests/$',views.RequestsView.as_view(),name='requests'),
+     url(r'^requests/(?P<id>\d+)/$',views.RequestsView.as_view(),name='requests'),
+     url(r'^my_requests/$',views.MyRequestsView.as_view(),name='my_requests'),
+     url(r'^my_requests/(?P<id>\d+)/$',views.MyRequestsView.as_view(),name='my_requests'),
 ]

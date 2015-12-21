@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% block content %}
+    <p>{{requests.param.name|title}}</p>
+    <p>{{requests.param.description}}</p>
+
+    <form method="POST" action=''>
+        {% csrf_token %}
+        <input type='hidden' value='{{requests.id}}' name="rent">
+        {% if requests.status == 'pending' %}
+            <input type="submit" name="action" value="Approve" />
+            <input type="submit" name="action" value="Decline" />
+        {% elif requests.status == 'approved' %}
+            <input type="submit" name="action" value="Cancel" />
+        {% endif %}
+    </form>
+{% endblock %}
+

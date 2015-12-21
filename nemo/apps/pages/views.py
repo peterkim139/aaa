@@ -1,6 +1,9 @@
 import datetime
+import braintree
+import decimal
 from Crypto.Cipher import AES
 import base64
+from django.utils import timezone
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect, HttpResponse
@@ -11,60 +14,150 @@ from django.core import serializers
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
-from category.models import Params
+from payment.models import Rent
+from accounts.models import User
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-
+from payment.utils import payment_connection
 
 
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(RentView, self).get_context_data(**kwargs)
-#         context['form'] = RentForm()
-#         if 'form' in kwargs:
-#             context.update({'form': RentForm(data=self.request.POST)})
-#         return context
-#
-#     def get(self, request,id):
-#
-#         return self.render_to_response(self.get_context_data())
-#
-#     def post(self, request,id):
-#
-#         form = RentForm(data=request.POST)
-#         if form.is_valid():
-#             expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
-#             braintree.Configuration.configure(braintree.Environment.Sandbox,
-#                               merchant_id="5d5xq56qq88nnnv3",
-#                               public_key="xsp7n87828mv5j9f",
-#                               private_key="407840324125e98f5efc1d4666101ed5")
-#
-#             customer = braintree.Customer.create({
-#                 "first_name": request.user.first_name,
-#                 "last_name": request.user.last_name,
-#                 "email": request.user.email,
-#                 "credit_card": {
-#                 "number": form.cleaned_data['card_number'],
-#                 "expiration_date": expiration_date,
-#                 "cvv": form.cleaned_data['cvv']
-#                 }
-#             })
-#             if customer.is_success:
-#                 encrypt= NemoEncrypt()
-#                 customer_id = encrypt.encrypt_val(customer.customer.id)
-#                 item = Params.objects.get(id=id)
-#                 User.objects.filter(id=request.user.id).update(customer_id=customer_id)
-#                 rent = Rent()
-#                 rent.status = 'pending'
-#                 rent.price = item.price
-#                 rent.rent_date = form.cleaned_data['rent_date']
-#                 rent.param_id = item.id
-#                 rent.user_id = request.user.id
-#                 rent.save()
-#             messages.success(request, "Your request has been sent successfully")
-#             return HttpResponseRedirect('/')
-#
-#         else:
-#             return self.render_to_response(self.get_context_data(form=form))
+
+    def get(self,request,id=None):
+        if id:
+            self.template_name = 'pages/request.html'
+            requests = Rent.objects.get(param_id=id)
+        else:
+            requests = Rent.objects.filter(owner_id=request.user.id)
+
+        return self.render_to_response({'requests':requests})
+
+    def post(self,request,id):
+
+        if request.POST['rent']:
+            payment_connection()
+            rent = int(request.POST['rent'])
+            if request.POST['action'] == 'Approve':
+                status = 'approved'
+            elif request.POST['action'] == 'Decline':
+                status = 'seller_declined'
+            else:
+                status = 'seller_canceled'
+
+            requests = Rent.objects.get(owner_id=request.user.id,id=rent)
+            if requests.status == 'pending' or requests.status == 'approved':
+                encrypt= NemoEncrypt()
+                current_user = User.objects.get(id=requests.owner_id)
+                orderer = User.objects.get(id=requests.user_id)
+                if status == 'approved':
+                    customer_id = encrypt.decrypt_val(orderer.customer_id)
+                    fee = requests.price*5/100
+                    result = braintree.Transaction.sale({
+                        "amount": requests.price,
+                        "merchant_account_id": current_user.merchant_id,
+                        "customer_id": customer_id,
+                        "options": {
+                        "submit_for_settlement": True,
+                        "hold_in_escrow": True,
+                        },
+                        "service_fee_amount": fee
+                    })
+                    if result.is_success:
+                        transaction = result.transaction
+                        Rent.objects.filter(owner_id=request.user.id,id=rent).update(transaction=transaction.id,status=status)
+                        messages.success(request, "The request has been approved")
+                    else:
+                        messages.error(request, "There are some errors in transaction process")
+
+                elif status == 'seller_declined':
+                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                    messages.success(request, "Request has been declined")
+
+                elif status == 'seller_canceled':
+                    today = timezone.now() + datetime.timedelta(days=1)
+                    customer_id = encrypt.decrypt_val(current_user.customer_id)
+                    if today < requests.rent_date:
+                        amount = '2.00'
+                    else:
+                        amount  = '5.00'
+
+                    transaction = braintree.Transaction.find(requests.transaction)
+                    if transaction.escrow_status == 'held':
+                        refund = braintree.Transaction.refund(requests.transaction)
+                    elif transaction.escrow_status == 'hold_pending':
+                        refund = braintree.Transaction.void(requests.transaction)
+
+                    if refund.is_success:
+                        result = braintree.Transaction.sale({
+                            "amount": amount,
+                            "customer_id": customer_id,
+                            "options": {
+                                "submit_for_settlement": True
+                            }
+                        })
+                        if result.is_success:
+                            messages.success(request, "Request has been canceled")
+                        else:
+                            messages.error(request, "There is an error in refund process")
+
+                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+            else:
+                messages.error(request, "There is no request")
+        else:
+            messages.error(request, "There is no request")
+
+        return HttpResponseRedirect('/profile/requests/'+id)
+        return self.render_to_response({'requests':requests})
+
+
+class MyRequestsView(LoginRequiredMixin,TemplateView, View):
+    template_name = 'pages/my_requests.html'
+
+    def get(self,request,id=None):
+        if id:
+            self.template_name = 'pages/my_request.html'
+            requests = Rent.objects.get(param_id=id)
+        else:
+            requests = Rent.objects.filter(user_id=request.user.id)
+
+        return self.render_to_response({'requests':requests})
+
+    def post(self,request,id):
+
+        if request.POST['rent']:
+            payment_connection()
+            rent = int(request.POST['rent'])
+            if request.POST['action'] == 'Decline':
+                status = 'customer_declined'
+            else:
+                status = 'customer_canceled'
+
+            requests = Rent.objects.get(user_id=request.user.id,id=rent)
+            if requests.status == 'pending' or requests.status == 'approved':
+                encrypt= NemoEncrypt()
+                current_user = User.objects.get(id=requests.owner_id)
+                orderer = User.objects.get(id=requests.user_id)
+                if requests.status == 'customer_declined':
+                    Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+                    messages.success(request, "Request has been declined")
+                else:
+                    today = timezone.now() + datetime.timedelta(days=1)
+                    customer_id = encrypt.decrypt_val(current_user.customer_id)
+                    amount = requests.price*50/100
+                    if today >= requests.rent_date:
+                        result = braintree.Transaction.refund(requests.transaction_id,amount)
+                        if result.is_success:
+                            messages.success(request, "Request has been canceled")
+                        else:
+                            messages.error(request, "There is an error in refund process")
+
+                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                    messages.success(request, "Request has been canceled")
+            else:
+                messages.error(request, "There is no request")
+        else:
+            messages.error(request, "There is no request")
+
+        return HttpResponseRedirect('/profile/requests/'+id)
+        return self.render_to_response({'requests':requests})

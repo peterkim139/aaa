@@ -16,6 +16,7 @@ from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from .models import User,Params,Rent
+from payment.utils import payment_connection
 
 class ConnectView(LoginRequiredMixin,TemplateView, View):
     template_name = 'payment/connect.html'
@@ -34,11 +35,7 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
     def post(self, request):
         form = ConnectForm(data=request.POST)
         if form.is_valid():
-            braintree.Configuration.configure(braintree.Environment.Sandbox,
-                              merchant_id="5d5xq56qq88nnnv3",
-                              public_key="xsp7n87828mv5j9f",
-                              private_key="407840324125e98f5efc1d4666101ed5")
-
+            payment_connection()
             year = request.POST['birthdate_year']
             month = request.POST['birthdate_month']
             day = request.POST['birthdate_day']
@@ -98,11 +95,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
         form = RentForm(data=request.POST)
         if form.is_valid():
             expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
-            braintree.Configuration.configure(braintree.Environment.Sandbox,
-                              merchant_id="5d5xq56qq88nnnv3",
-                              public_key="xsp7n87828mv5j9f",
-                              private_key="407840324125e98f5efc1d4666101ed5")
-
+            payment_connection()
             customer = braintree.Customer.create({
                 "first_name": request.user.first_name,
                 "last_name": request.user.last_name,
@@ -122,6 +115,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                 rent.status = 'pending'
                 rent.price = item.price
                 rent.rent_date = form.cleaned_data['rent_date']
+                rent.owner_id = item.item_owner_id
                 rent.param_id = item.id
                 rent.user_id = request.user.id
                 rent.save()

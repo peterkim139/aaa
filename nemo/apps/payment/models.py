@@ -12,13 +12,20 @@ from accounts.models import User
 class Rent(AbstractDateTime,models.Model):
 
     param = models.ForeignKey(Params)
-    user = models.ForeignKey(User)
-    STATUS_TYPES = (('pending', 'pending'),('approved', 'approved'),('canceled', 'canceled'))
+    user = models.ForeignKey(User,related_name='order')
+    owner = models.ForeignKey(User,related_name='owner')
+    STATUS_TYPES = (('seller_declined', 'seller_declined'),
+                    ('customer_declined', 'customer_declined'),
+                    ('pending', 'pending'),
+                    ('approved', 'approved'),
+                    ('customer_canceled', 'customer_canceled'),
+                    ('seller_canceled', 'seller_canceled'))
     status = models.CharField(max_length=30, choices=STATUS_TYPES,default='pending')
-    price = models.DecimalField(max_digits=5, decimal_places=2,default=0)
+    transaction = models.CharField(max_length=255, blank=True,default='')
+    price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     rent_date = models.DateTimeField(default=timezone.now)
     def __unicode__(self):
-        return unicode(self.name) or 'not found'
+        return unicode(self.status) or 'not found'
 
     class Meta:
         ordering = ["id"]

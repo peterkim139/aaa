@@ -11,8 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelTable(
-            name='rent',
-            table='rent',
+        migrations.AddField(
+            model_name='rent',
+            name='transaction',
+            field=models.CharField(default=b'', max_length=255, blank=True),
         ),
     ]

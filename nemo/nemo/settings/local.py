@@ -14,10 +14,10 @@ ALLOWED_HOSTS = ['*', ]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': get_env_variable('DJANGO_DATABASE_NAME'),
-        'USER': get_env_variable('DJANGO_USER'),
-        'PASSWORD': get_env_variable('DJANGO_PASSWORD'),
-        'HOST': get_env_variable('DJANGO_DATABASE_HOST'),
+        'NAME': 'nemo',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
         'PORT': ''
     }
 }
