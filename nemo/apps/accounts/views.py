@@ -186,3 +186,27 @@ def save_profile(backend, user, response, *args, **kwargs):
                 backend.strategy.session_set('social_data', data)
 
                 return HttpResponseRedirect('/')
+
+    elif backend.name == 'google-oauth2':
+        if kwargs['is_new']:
+            data['first_name'] = kwargs['details']['first_name']
+            data['last_name'] = kwargs['details']['last_name']
+            data['email'] = kwargs['details']['email']
+            register_form = RegistrationForm(data=data)
+            if register_form.is_valid():
+                new_user_instance = User()
+                new_user_instance.first_name = kwargs['details']['first_name']
+                new_user_instance.email = kwargs['details']['email']
+                new_user_instance.last_name = kwargs['details']['last_name']
+                new_user_instance.is_active = 1
+                new_user_instance.save()
+
+                return {
+                    'is_new': True,
+                    'user': new_user_instance
+                }
+            else:
+
+                backend.strategy.session_set('social_data', data)
+
+                return HttpResponseRedirect('/')
