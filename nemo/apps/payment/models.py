@@ -18,9 +18,11 @@ class Rent(AbstractDateTime,models.Model):
                     ('customer_declined', 'customer_declined'),
                     ('pending', 'pending'),
                     ('approved', 'approved'),
+                    ('paid', 'paid'),
                     ('customer_canceled', 'customer_canceled'),
                     ('seller_canceled', 'seller_canceled'))
     TRANSACTION_STATUS = (('pending','pending'),
+                          ('error','error'),
                           ('settled','settled'))
     status = models.CharField(max_length=30, choices=STATUS_TYPES,default='pending')
     transaction = models.CharField(max_length=255, blank=True,default='')

@@ -1,6 +1,6 @@
 import datetime
 import braintree
-import decimal
+from decimal import Decimal
 from Crypto.Cipher import AES
 import base64
 from django.utils import timezone

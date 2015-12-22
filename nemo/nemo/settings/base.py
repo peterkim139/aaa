@@ -92,6 +92,49 @@ MEDIA_URL = '/media/'
 WSGI_APPLICATION = 'nemo.wsgi.application'
 
 
+DEFAULT_FROM_EMAIL = 'sipanm19@gmail.com'
+
+
+SERVER_EMAIL = 'sipanm19@gmail.com'
+
+
+# ADMINS
+ADMINS = (
+    ('Sipan Margaryan', 'sipanm19@gmail.com'),
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'error.log',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file','mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

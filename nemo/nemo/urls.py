@@ -28,4 +28,4 @@ urlpatterns = [
      url('', include('social.apps.django_app.urls', namespace='social')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'home.views.error404'
+handler404 = 'accounts.views.error404'

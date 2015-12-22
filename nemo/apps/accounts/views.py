@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.contrib.auth import login,logout
@@ -26,7 +27,6 @@ class HomeView(TemplateView):
     #                               merchant_id="5d5xq56qq88nnnv3",
     #                               public_key="xsp7n87828mv5j9f",
     #                               private_key="407840324125e98f5efc1d4666101ed5")
-
 
         # result = braintree.Customer.create({
         #     "first_name": "firstname",
@@ -211,3 +211,6 @@ def save_profile(backend, user, response, *args, **kwargs):
                 backend.strategy.session_set('social_data', data)
 
                 return HttpResponseRedirect('/registration/')
+
+def error404(request):
+    return render(request, '404.html')
