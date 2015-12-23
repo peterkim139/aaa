@@ -54,6 +54,15 @@ class AuthenticationForm(LoginFormMixin, CoreAuthenticationForm):
         required=True
     )
 
+class SocialForm(forms.Form):
+
+    email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
+    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[valdiate_lettersonly],
+                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[valdiate_lettersonly],
+                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
+
 class RegistrationForm(forms.Form):
 
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)

@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.core import serializers
 from django.contrib.auth.hashers import make_password
-from .forms import RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm
+from .forms import RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm
 from accounts.mixins import LoginRequiredMixin
 from accounts.utils import generate_activation_key,reset_mail
 from django.conf import settings
@@ -170,7 +170,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             data['first_name'] = kwargs['details']['first_name']
             data['last_name'] = kwargs['details']['last_name']
             data['email'] = kwargs['details']['email']
-            register_form = RegistrationForm(data=data)
+            register_form = SocialForm(data=data)
             if register_form.is_valid():
                 new_user_instance = User()
                 new_user_instance.first_name = kwargs['details']['first_name']
@@ -194,7 +194,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             data['first_name'] = kwargs['details']['first_name']
             data['last_name'] = kwargs['details']['last_name']
             data['email'] = kwargs['details']['email']
-            register_form = RegistrationForm(data=data)
+            register_form = SocialForm(data=data)
             if register_form.is_valid():
                 new_user_instance = User()
                 new_user_instance.first_name = kwargs['details']['first_name']
