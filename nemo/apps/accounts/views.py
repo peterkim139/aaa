@@ -269,7 +269,7 @@ class ChangePasswordView(TemplateView, View):
         form = ChangePasswordForm(data=request.POST)
         if form.is_valid():
             try:
-                reset_key = request.POST['reset_key']
+                reset_key = reset_key
                 user = User.objects.get(reset_key=reset_key)
                 user.reset_key = None
                 user.set_password(form.cleaned_data['password'])

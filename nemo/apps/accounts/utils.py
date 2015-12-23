@@ -27,6 +27,5 @@ def reset_mail(request, email, first_name, reset_key):
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('accounts/emails/password_reset_email.html', context)
-    msg = EmailMessage(subject, content, from_email, to=to)
-    msg.send()
+    msg = EmailMessage(subject, content, from_email, to=to).send()
 
