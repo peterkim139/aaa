@@ -52,7 +52,8 @@ class RequestsView(LoginRequiredMixin,TemplateView, View):
                 orderer = User.objects.get(id=requests.user_id)
                 if status == 'approved':
                     customer_id = encrypt.decrypt_val(orderer.customer_id)
-                    fee = requests.price*5/100
+                    TWOPLACES = Decimal(10) ** -2
+                    fee = Decimal(requests.price*5/100).quantize(TWOPLACES)
                     result = braintree.Transaction.sale({
                         "amount": requests.price,
                         "merchant_account_id": current_user.merchant_id,

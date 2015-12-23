@@ -97,3 +97,44 @@ class RegistrationForm(forms.Form):
         if password != confirmpassword:
             raise forms.ValidationError("Passwords don't match")
         return self.cleaned_data
+
+class ResetForm(forms.Form):
+    email = forms.CharField(label='Email', max_length=255, required=True,
+                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        if not User.objects.filter(email=email).exists():
+            not_exists = 'The email account that you tried to reach does not exist'
+            raise forms.ValidationError(not_exists, code='not_exists')
+        return email
+
+
+class ChangePasswordForm(forms.Form):
+    error_messages = {
+        'password_mismatch': "The two password fields didn't match.",
+        'password_length': "Password too short.",
+    }
+
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'formControl'}),
+                               required=True)
+    password2 = forms.CharField(label="Password confirmation",
+                                widget=forms.PasswordInput(attrs={'class': 'formControl'}), required=True)
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 2:  # must be changed
+            raise forms.ValidationError(
+                self.error_messages['password_length'],
+                code='password_length',
+            )
+        return password
+
+    def clean_password2(self):
+        password = self.cleaned_data.get("password")
+        password2 = self.cleaned_data.get("password2")
+        if password and password2 and password != password2:
+            raise forms.ValidationError(
+                self.error_messages['password_mismatch'],
+                code='password_mismatch',
+            )

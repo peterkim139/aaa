@@ -11,8 +11,9 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.core import serializers
 from django.contrib.auth.hashers import make_password
-from .forms import RegistrationForm,AuthenticationForm
+from .forms import RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm
 from accounts.mixins import LoginRequiredMixin
+from accounts.utils import generate_activation_key,reset_mail
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
@@ -211,6 +212,75 @@ def save_profile(backend, user, response, *args, **kwargs):
                 backend.strategy.session_set('social_data', data)
 
                 return HttpResponseRedirect('/registration/')
+
+
+
+class ResetView(TemplateView, View):
+    template_name = 'accounts/reset.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ResetView, self).get_context_data(**kwargs)
+        if 'form' not in kwargs:
+            context.update({'form': ResetForm()})
+        return context
+
+    def get(self, request):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/')
+        return self.render_to_response(self.get_context_data())
+
+    def post(self, request):
+        form = ResetForm(data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            reset_key = generate_activation_key(email)
+            user = User.objects.get(email=email)
+            user.reset_key = reset_key
+            user.save()
+            reset_mail(request, email, user.first_name, reset_key)
+            messages.success(request, "Please check your email address for change your account password")
+            return HttpResponseRedirect('/')
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class ChangePasswordView(TemplateView, View):
+    template_name = 'accounts/change_password.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ChangePasswordView, self).get_context_data(**kwargs)
+        if 'form' not in kwargs:
+            context.update({'form': ChangePasswordForm()})
+        if 'reset_key' in kwargs:
+            context['reset_key'] = kwargs['reset_key']
+        return context
+
+    def get(self, request, reset_key):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/')
+        try:
+            user = User.objects.get(reset_key=reset_key)
+            return self.render_to_response(self.get_context_data(reset_key=reset_key))
+        except:
+            messages.error(request, "Sorry, key is invalid")
+            return HttpResponseRedirect('/')
+
+    def post(self, request, reset_key):
+        form = ChangePasswordForm(data=request.POST)
+        if form.is_valid():
+            try:
+                reset_key = request.POST['reset_key']
+                user = User.objects.get(reset_key=reset_key)
+                user.reset_key = None
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                messages.success(request, "Your password has been successfully changed")
+            except:
+                messages.success(request, "Sorry, there are some problems")
+            return HttpResponseRedirect('/')
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
 
 def error404(request):
     return render(request, '404.html')
