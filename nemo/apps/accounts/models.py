@@ -19,7 +19,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=255,blank=False,default='')
     STATUS_TYPES = (('admin', 'admin'),('client', 'client'))
     role = models.CharField(max_length=10,choices=STATUS_TYPES,default='client')
-    reset_key = models.CharField(max_length=255, blank=True,default=None)
+    reset_key = models.CharField(max_length=255, blank=True,default='')
     is_staff = models.BooleanField(default=0)
     is_active = models.BooleanField(default=1)
     objects = AuthUserManager()
