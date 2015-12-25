@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     'pages',
     'category',
-    'payment'
+    'payment',
 ]
 
 
@@ -193,6 +193,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.login_redirect',
     'django.contrib.messages.context_processors.messages',
     'django.contrib.auth.context_processors.auth',
+    'django_messages.context_processors.inbox',
 )
 
 AUTHENTICATION_BACKENDS = (
