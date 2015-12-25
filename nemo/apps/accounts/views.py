@@ -173,7 +173,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             register_form = SocialForm(data=data)
             if register_form.is_valid():
                 new_user_instance = User.objects.get(email=kwargs['details']['email'])
-                if not new_user_instance:
+                if new_user_instance.id:
                     new_user_instance = User()
                     new_user_instance.first_name = kwargs['details']['first_name']
                     new_user_instance.email = kwargs['details']['email']
@@ -200,7 +200,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             register_form = SocialForm(data=data)
             if register_form.is_valid():
                 new_user_instance = User.objects.get(email=kwargs['details']['email'])
-                if not new_user_instance:
+                if new_user_instance.id:
                     new_user_instance = User()
                     new_user_instance.first_name = kwargs['details']['first_name']
                     new_user_instance.email = kwargs['details']['email']
