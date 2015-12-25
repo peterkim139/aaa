@@ -172,8 +172,8 @@ def save_profile(backend, user, response, *args, **kwargs):
             data['email'] = kwargs['details']['email']
             register_form = SocialForm(data=data)
             if register_form.is_valid():
-                new_user_instance = User.objects.get(email=kwargs['details']['email'])
-                if new_user_instance.id:
+                new_user_instance = User.objects.filter(email=kwargs['details']['email'])
+                if not new_user_instance:
                     new_user_instance = User()
                     new_user_instance.first_name = kwargs['details']['first_name']
                     new_user_instance.email = kwargs['details']['email']
@@ -181,7 +181,7 @@ def save_profile(backend, user, response, *args, **kwargs):
                     new_user_instance.is_active = 1
                     new_user_instance.save()
                 else:
-                    new_user_instance = new_user_instance
+                    new_user_instance = User.objects.get(email=kwargs['details']['email'])
                 return {
                     'is_new': True,
                     'user': new_user_instance
@@ -199,8 +199,8 @@ def save_profile(backend, user, response, *args, **kwargs):
             data['email'] = kwargs['details']['email']
             register_form = SocialForm(data=data)
             if register_form.is_valid():
-                new_user_instance = User.objects.get(email=kwargs['details']['email'])
-                if new_user_instance.id:
+                new_user_instance = User.objects.filter(email=kwargs['details']['email'])
+                if not new_user_instance:
                     new_user_instance = User()
                     new_user_instance.first_name = kwargs['details']['first_name']
                     new_user_instance.email = kwargs['details']['email']
@@ -208,7 +208,7 @@ def save_profile(backend, user, response, *args, **kwargs):
                     new_user_instance.is_active = 1
                     new_user_instance.save()
                 else:
-                    new_user_instance = new_user_instance
+                    new_user_instance = User.objects.get(email=kwargs['details']['email'])
                 return {
                     'is_new': True,
                     'user': new_user_instance
