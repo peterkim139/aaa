@@ -13,7 +13,7 @@ class Rent(AbstractDateTime,models.Model):
 
     param = models.ForeignKey(Params)
     user = models.ForeignKey(User,related_name='order')
-    owner = models.ForeignKey(User,related_name='owner')
+    owner = models.ForeignKey(User,related_name='item_owner')
     STATUS_TYPES = (('seller_declined', 'seller_declined'),
                     ('customer_declined', 'customer_declined'),
                     ('pending', 'pending'),
