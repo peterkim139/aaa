@@ -1,12 +1,12 @@
 
 import hashlib
 import random
-
-from django.core.mail import EmailMessage
+import mandrill
 from django.template import Context
 from django.template import loader
 from django.conf import settings
 
+mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
 def generate_activation_key(email):
     salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
@@ -17,6 +17,9 @@ def generate_activation_key(email):
 
 
 def reset_mail(request, email, first_name, reset_key):
+
+    mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
+
     subject = 'Reset account password'
     from_email = settings.AUTO_REPLY
     to = [email]
@@ -27,5 +30,17 @@ def reset_mail(request, email, first_name, reset_key):
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('accounts/emails/password_reset_email.html', context)
-    msg = EmailMessage(subject, content, from_email, to=to).send()
-
+    message = {
+        'subject' : 'Reset account password',
+        'bcc_address': 'message.bcc_address@example.com',
+        'from_email': 'message.from_email@example.com',
+        'from_name': 'Nemo',
+        'html':content,
+        'to': [{'email': email,
+             'name': first_name,
+             'type': 'to'}],
+        'return_path_domain': 'nemo.codebnb.me',
+        'signing_domain': 'nemo.codebnb.me',
+        'tracking_domain': 'nemo.codebnb.me',
+    }
+    result = mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')

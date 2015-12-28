@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'pages',
     'category',
     'payment',
+    'pinax.messages'
 ]
 
 
@@ -243,3 +244,6 @@ BRAINTREE_MERCHANT_ID = '5d5xq56qq88nnnv3'
 BRAINTREE_PUBLIC_KEY = 'xsp7n87828mv5j9f'
 BRAINTREE_PRIVATE_KEY = '407840324125e98f5efc1d4666101ed5'
 
+#Mandrill
+
+MANDRILL_KEY = 'VRFMjPImxCGKZ6Amy-4m9A'
