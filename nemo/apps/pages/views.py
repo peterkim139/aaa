@@ -15,6 +15,7 @@ from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from payment.models import Rent
+from .forms import RentForm
 from accounts.models import User
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
@@ -24,17 +25,33 @@ from payment.utils import payment_connection
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
 
+
     def get(self,request,id=None):
-        if id:
-            self.template_name = 'pages/request.html'
-            requests = Rent.objects.get(param_id=id)
-        else:
-            requests = Rent.objects.filter(owner_id=request.user.id)
+
+        requests = Rent.objects.filter(owner_id=request.user.id)
 
         return self.render_to_response({'requests':requests})
 
-    def post(self,request,id):
+class RequestView(LoginRequiredMixin,TemplateView, View):
+    template_name = 'pages/request.html'
+    id = 0
+    def get_context_data(self, **kwargs):
 
+            context = super(RequestView, self).get_context_data(**kwargs)
+            context['form'] = RentForm()
+            requests = Rent.objects.get(param_id=self.id)
+            context.update({'requests': requests})
+            if 'form' in kwargs:
+                context.update({'form': RentForm(self.request.POST)})
+
+            return context
+
+    def get(self,request,id):
+        self.id = id
+        return self.render_to_response(self.get_context_data())
+
+    def post(self,request,id):
+        self.id = id
         if request.POST['rent']:
             payment_connection()
             rent = int(request.POST['rent'])
@@ -76,39 +93,43 @@ class RequestsView(LoginRequiredMixin,TemplateView, View):
                     messages.success(request, "Request has been declined")
 
                 elif status == 'seller_canceled':
-                    today = timezone.now() + datetime.timedelta(days=1)
-                    customer_id = encrypt.decrypt_val(current_user.customer_id)
-                    if today < requests.rent_date:
-                        amount = '2.00'
-                    else:
-                        amount  = '5.00'
-
-                    transaction = braintree.Transaction.find(requests.transaction)
-                    if transaction.escrow_status == 'held':
-                        refund = braintree.Transaction.refund(requests.transaction)
-                    elif transaction.escrow_status == 'hold_pending':
-                        refund = braintree.Transaction.void(requests.transaction)
-
-                    if refund.is_success:
-                        result = braintree.Transaction.sale({
-                            "amount": amount,
-                            "customer_id": customer_id,
-                            "options": {
-                                "submit_for_settlement": True
-                            }
-                        })
-                        if result.is_success:
-                            messages.success(request, "Request has been canceled")
+                    form = RentForm(data=request.POST)
+                    if form.is_valid():
+                        today = timezone.now() + datetime.timedelta(days=1)
+                        customer_id = encrypt.decrypt_val(current_user.customer_id)
+                        if today < requests.rent_date:
+                            amount = '2.00'
                         else:
-                            messages.error(request, "There is an error in refund process")
+                            amount  = '5.00'
 
-                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                        transaction = braintree.Transaction.find(requests.transaction)
+                        if transaction.escrow_status == 'held':
+                            refund = braintree.Transaction.refund(requests.transaction)
+                        elif transaction.escrow_status == 'hold_pending':
+                            refund = braintree.Transaction.void(requests.transaction)
+
+                        if refund.is_success:
+                            result = braintree.Transaction.sale({
+                                "amount": amount,
+                                "customer_id": customer_id,
+                                "options": {
+                                    "submit_for_settlement": True
+                                }
+                            })
+                            if result.is_success:
+                                messages.success(request, "Request has been canceled")
+                            else:
+                                messages.error(request, "There is an error in refund process")
+
+                        Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                    else:
+                        return self.render_to_response(self.get_context_data(form=form))
             else:
                 messages.error(request, "There is no request")
         else:
             messages.error(request, "There is no request")
 
-        return HttpResponseRedirect('/profile/requests/'+id)
+        return HttpResponseRedirect('/profile/request/'+id)
         return self.render_to_response({'requests':requests})
 
 

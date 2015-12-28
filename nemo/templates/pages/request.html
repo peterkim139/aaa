@@ -10,6 +10,26 @@
             <input type="submit" name="action" value="Approve" />
             <input type="submit" name="action" value="Decline" />
         {% elif requests.status == 'approved' %}
+                <div>
+                    {{ form.card_number.label_tag}}
+                    {{ form.card_number }}
+                    {{ form.card_number.errors }}
+                </div>
+                <div>
+                    {{ form.cvv.label_tag}}
+                    {{ form.cvv }}
+                    {{ form.cvv.errors }}
+                </div>
+                <div>
+                    {{ form.month.label_tag}}
+                    {{ form.month }}
+                    {{ form.month.errors }}
+                </div>
+                <div>
+                    {{ form.year.label_tag}}
+                    {{ form.year }}
+                    {{ form.year.errors }}
+                </div>
             <input type="submit" name="action" value="Cancel" />
         {% endif %}
     </form>
