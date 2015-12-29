@@ -1,0 +1,41 @@
+<main class="drawerCont">
+		<div class="wrapper">
+			<main class="mainWrap">
+				<section class="homeTop">
+					<header class="sticky">
+						<div class="container">
+							<a href="/" class="headerLogo pullLeft">
+								<img src="/media/images/header-logo.png">
+							</a>
+							<div class="pullRight">
+								<nav class="headerNav linkHover">
+									<ul>
+										<li><a href="/">Home</a></li>
+										{% if user.is_authenticated %}
+										<li><a href="/profile/requests/">Rquests</a></li>
+										{% endif %}
+										{% if user.is_anonymous %}
+										<li><a href="/registration/">Sign up</a></li>
+										<li><a href="/login/">Login</a></li>
+										{% else %}
+										<li><a href="/logout/">Logout</a></li>
+										{% endif %}
+										<li><a href="#">List Your Item</a></li>
+										<li><a href="#">Support</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						<button id="showMenu" class="hamburgerBtn"><i class="icon-bars"></i></button>
+					</header>
+					<div class="container">
+						<div class="homeTopTxt">
+							<h1 class="wow fadeInDown">WELCOME TO YOUR <span>NEIGHBOR</span> HOOD</h1>
+							<h4 class="wow fadeInDown" data-wow-delay=".3s">Borrow, rent and buy from your neighbours</h4>
+						</div>
+						<div class="alignC howWrkBtn">
+							<a href="#howItWorks" class="btn btnBorder white scrollToHref">How it works</a><br>
+							<i class="icon-arrow-down-a"></i>
+						</div>
+					</div>
+				</section>

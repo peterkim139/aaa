@@ -1,0 +1,111 @@
+@media (max-width: 1070px) {
+	body {
+		min-width: 100%;
+	}
+	.container {
+		width: 100%;
+	}
+} /* end of (max-width: 1070px) */
+
+@media (max-width: 980px) {
+	.grid-sizer, .grid-item {
+		width: 33.33333%;
+	}
+} /* end of (max-width: 980px) */
+
+@media (max-width: 768px) {
+	.colRow {
+		@for $i from $colCount through 1 {
+			.#{colTab}#{$i} {
+				width: (100% / $colCount) * $i;
+			}
+		}
+		@for $i from $colCount through 0 {
+			.#{offsetTab}#{$i} {
+				margin-left: (100% / $colCount) * $i;
+			}
+		}
+	}
+	.grid-sizer, .grid-item {
+		width: 50%;
+	}
+	.headerNav  {
+		display: none;
+	}
+	.hamburgerBtn {
+		display: block;
+	}
+
+	footer {
+		.colTab12 {
+			margin-bottom: 40px;
+		} 
+	}
+	.sectionTestim {
+		.testimWrap {
+			max-width: 100%;
+		}
+	}
+	.homeTop {
+		height: auto;
+		padding-bottom: 20px;
+	}
+	.homeTopTxt {
+		margin: 120px 0; 
+	}
+	.sectTitle:after {
+		width: 96%;
+	}
+} /* end of (max-width: 768px) */
+
+@media (max-width: 520px) {
+	.colRow {
+		@for $i from $colCount through 1 {
+			.#{colMob}#{$i} {
+				width: (100% / $colCount) * $i;
+			}
+		}
+		@for $i from $colCount through 0 {
+			.#{offsetMob}#{$i} {
+				margin-left: (100% / $colCount) * $i;
+			}
+		}
+	}
+	.grid-sizer, .grid-item {
+		width: 100%;
+	}
+	.homeSrch .listInline {
+		margin-top: 20px;
+	}
+	.homeTopTxt h1 {
+		font-size: $fontSize + 45px;
+	}
+	.testimWrap {
+		text-align: 100%;
+		.singleTestim {
+			padding-right: 0;
+			text-align: center;
+			img {
+				position: static;
+			}
+		}
+		.owl-buttons {
+			text-align: center;
+		}
+		h2 {
+			text-align: center;
+		}
+		h4 {
+			border-left: none;
+		}
+	}
+} /* end of (max-width: 520px) */
+
+@media (max-width: 360px) {
+	.homeTopTxt h1 {
+		font-size: $fontSize + 30px;
+	}
+	.homeTopTxt h4 {
+		font-size: $fontSize + 6px;
+	}
+} /* end of (max-width: 360px) */

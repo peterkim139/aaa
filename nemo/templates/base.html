@@ -15,14 +15,18 @@
      {% include "elements/javascript.html" %}
 </head>
 <body>
-    <header >
-        {% include "elements/notification.html" %}
+    {% if request.path != "/" %}
         {% include "elements/menu.html" %}
-    </header>
+    {% endif %}
+    {% if request.path == "/" %}
+        {% include "elements/header.html" %}
+    {% endif %}
+    {% include "elements/notification.html" %}
     {% block content %}
     <div ></div>
     {% endblock content %}
-
-    {% include "elements/footer.html" %}
+    {% if request.path == "/" %}
+        {% include "elements/footer.html" %}
+    {% endif %}
 </body>
 </html>
