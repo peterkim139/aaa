@@ -55,6 +55,7 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
         if request.POST['rent']:
             payment_connection()
             rent = int(request.POST['rent'])
+            print rent
             if request.POST['action'] == 'Approve':
                 status = 'approved'
             elif request.POST['action'] == 'Decline':
@@ -95,6 +96,29 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                 elif status == 'seller_canceled':
                     form = RentForm(data=request.POST)
                     if form.is_valid():
+                        expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
+                        if current_user.customer_id:
+                            customer = braintree.Customer.update(encrypt.decrypt_val(current_user.customer_id), {
+                                "credit_card": {
+                                    "number": form.cleaned_data['card_number'],
+                                    "expiration_date": expiration_date,
+                                    "cvv": form.cleaned_data['cvv']
+                                }
+                            })
+                        else:
+                            customer = braintree.Customer.create({
+                                "first_name": request.user.first_name,
+                                "last_name": request.user.last_name,
+                                "email": request.user.email,
+                                "credit_card": {
+                                "number": form.cleaned_data['card_number'],
+                                "expiration_date": expiration_date,
+                                "cvv": form.cleaned_data['cvv']
+                                }
+                            })
+                            if customer.is_success:
+                                User.objects.filter(id=request.user.id).update(customer_id=encrypt.encrypt_val(customer.customer.id))
+                                current_user = User.objects.get(id=requests.owner_id)
                         today = timezone.now() + datetime.timedelta(days=1)
                         customer_id = encrypt.decrypt_val(current_user.customer_id)
                         if today < requests.rent_date:

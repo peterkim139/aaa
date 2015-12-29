@@ -1,8 +1,0 @@
-{% for message in thread.messages.all %}
-    {{ message.sender }} -- {{ message.content }}
-{% endfor %}
-<form action='' method='post'>
-    {% csrf_token %}
-    {{ form }}
-    <button>send</button>
-</form>

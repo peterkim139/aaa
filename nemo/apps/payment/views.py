@@ -94,20 +94,30 @@ class RentView(LoginRequiredMixin,TemplateView, View):
 
         form = RentForm(data=request.POST)
         if form.is_valid():
+            encrypt= NemoEncrypt()
+            current_user = User.objects.get(id=request.user.id)
             expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
             payment_connection()
-            customer = braintree.Customer.create({
-                "first_name": request.user.first_name,
-                "last_name": request.user.last_name,
-                "email": request.user.email,
-                "credit_card": {
-                "number": form.cleaned_data['card_number'],
-                "expiration_date": expiration_date,
-                "cvv": form.cleaned_data['cvv']
-                }
-            })
+            if current_user.customer_id:
+                customer = braintree.Customer.update(encrypt.decrypt_val(current_user.customer_id), {
+                    "credit_card": {
+                        "number": form.cleaned_data['card_number'],
+                        "expiration_date": expiration_date,
+                        "cvv": form.cleaned_data['cvv']
+                    }
+                })
+            else:
+                customer = braintree.Customer.create({
+                    "first_name": request.user.first_name,
+                    "last_name": request.user.last_name,
+                    "email": request.user.email,
+                    "credit_card": {
+                    "number": form.cleaned_data['card_number'],
+                    "expiration_date": expiration_date,
+                    "cvv": form.cleaned_data['cvv']
+                    }
+                })
             if customer.is_success:
-                encrypt= NemoEncrypt()
                 customer_id = encrypt.encrypt_val(customer.customer.id)
                 item = Params.objects.get(id=id)
                 User.objects.filter(id=request.user.id).update(customer_id=customer_id)

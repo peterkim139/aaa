@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'pages',
     'category',
     'payment',
-    'pinax.messages'
 ]
 
 

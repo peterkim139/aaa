@@ -25,7 +25,6 @@ urlpatterns = [
      url(r'^payment/', include('payment.urls', namespace='payment')),
      url(r'^profile/', include('pages.urls', namespace='profile')),
      url(r'^admin/', include(admin.site.urls)),
-     url(r'^messages/', include("pinax.messages.urls")),
      url('', include('social.apps.django_app.urls', namespace='social')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
