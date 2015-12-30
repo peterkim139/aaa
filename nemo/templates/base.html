@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -28,5 +29,7 @@
     {% if request.path == "/" %}
         {% include "elements/footer.html" %}
     {% endif %}
+    <script src="{% static 'js/classie.js' %}"></script>
+	<script src="{% static 'js/menu.js' %}"></script>
 </body>
 </html>
