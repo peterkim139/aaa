@@ -702,6 +702,9 @@ footer {
   margin-top: -1px;
   margin-right: 4px; }
 
+.icheckbox_square-green, .iradio_square-green {
+  background: url("/media/images/icheck-green.png") no-repeat; }
+
 /*== end form styles ==*/
 .listInline > * {
   display: inline-block;
@@ -808,7 +811,9 @@ i {
   width: 40px;
   height: 40px;
   padding: 6px;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  display: none; }
 
 /*== end general styles ==*/
 /*
@@ -915,11 +920,19 @@ Home page
     display: block;
     font-weight: 600;
     font-size: 11px;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    margin-bottom: 3px; }
 
 .listingBy {
   font-style: italic;
-  font-size: 14px; }
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: center; }
+
+.ownerWrap .stars {
+  vertical-align: middle;
+  width: 80px;
+  margin-left: 10px; }
 
 /*== end grid listing styles ==*/
 .sectionTestim {

@@ -1,471 +1,450 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="homeSrch">
-    <div class="container">
-        <div class="colRow">
-            <div class="col7 colTab12 colMob12">
-                <div class="formRow">
-                    <input type="text" placeholder="Enter item name to search (e.g. drill, tent, etc...)" class="formControl">
-                </div>
-            </div>
-            <div class="col3 colTab10 colMob12">
-                <div class="formRow">
-                    <select class="formControl">
-                        <option>Rent</option>
-                        <option>Buy</option>
-                        <option>Share</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col2 colMob12">
-                <button type="submit" class="btn btnPrime btnIcon btnBlock">
-                    <i class="icon-search"></i>
-                </button>
+<div class="container">
+    <div class="colRow">
+        <div class="col7 colTab12 colMob12">
+            <div class="formRow">
+                <input type="text" placeholder="Enter item name to search (e.g. drill, tent, etc...)" class="formControl">
             </div>
         </div>
-        <div class="listInline">
-            <label class="checkAndRadio">
-                <input type="checkbox" class="">
-                Books & Games
-            </label>
-            <label class="checkAndRadio">
-                <input type="checkbox" class="">
-                Electronics
-            </label>
-            <label class="checkAndRadio">
-                <input type="checkbox" class="">
-                Home & Tools
-            </label>
-            <label class="checkAndRadio">
-                <input type="checkbox" class="">
-                Household
-            </label>
-            <label class="checkAndRadio">
-                <input type="checkbox" class="">
-                Sports & Outdoors
-            </label>
-            <label class="checkAndRadio">
-                <input type="checkbox" class="">
-                Other
-            </label>
+        <div class="col3 colTab10 colMob12">
+            <div class="formRow">
+                <select class="formControl">
+                    <option>Rent</option>
+                    <option>Buy</option>
+                    <option>Share</option>
+                </select>
+            </div>
+        </div>
+        <div class="col2 colMob12">
+            <button type="submit" class="btn btnPrime btnIcon btnBlock">
+                <i class="icon-search"></i>
+            </button>
         </div>
     </div>
+    <div class="listInline">
+        <label class="checkAndRadio">
+            <input type="checkbox" class="">
+            Books & Games
+        </label>
+        <label class="checkAndRadio">
+            <input type="checkbox" class="">
+            Electronics, Home & Tools
+        </label>
+        <label class="checkAndRadio">
+            <input type="checkbox" class="">
+            Household, Sports & Outdoors
+        </label>
+        <label class="checkAndRadio">
+            <input type="checkbox" class="">
+            Others
+        </label>
+    </div>
+</div>
 </section>
 <section class="homeMap">
-    <div id="gMap" class="gMap"></div>
+<div id="gMap" class="gMap"></div>
 </section>
 <section class="gridListing hasPadTB">
-    <div class="container">
-        <div class="grid">
-            <div class="grid-sizer"></div>
-            <div class="grid-item">
-                <div class="listingSingle" class="wow fadeInDown">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-1.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
+<div class="container">
+    <div class="grid">
+        <div class="grid-sizer"></div>
+        <div class="grid-item">
+            <div class="listingSingle" class="wow fadeInDown">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-1.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
                             </div>
                         </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
                     </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-2.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-3.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-4.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-7.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-5.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-6.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div class="listingSingle">
-                    <figure>
-                        <img src="/media/images/thumbs/thumb-8.jpg" class="imgBlock">
-                        <figcaption>Rent</figcaption>
-                    </figure>
-                    <div class="listingDets">
-                        <div class="listDetsTop">
-                            <div class="listDetsTopL">
-                                <span class="listingName">Heavy duty power drill</span>
-                                <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                            </div>
-                            <div class="listDetsTopR">
-                                <div class="listPriceSect">
-                                    <span class="listPrice">$3</span>
-                                    <span class="listDuration">day</span>
-                                </div>
-                                <span class="listingBy">by L.S.</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btnBorder btnBlock">Details</a>
-                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
                 </div>
             </div>
         </div>
-        <div class="alignC mt20">
-            <a href="#" class="btn btnPrime">See More</a>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-2.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-3.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-4.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-7.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-5.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-6.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="listingSingle">
+                <figure>
+                    <img src="/media/images/thumbs/thumb-8.jpg" class="imgBlock">
+                    <figcaption>Rent</figcaption>
+                </figure>
+                <div class="listingDets">
+                    <div class="listDetsTop">
+                        <div class="listDetsTopL">
+                            <span class="listingName">Heavy duty power drill</span>
+                            <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                        </div>
+                        <div class="listDetsTopR">
+                            <div class="listPriceSect">
+                                <span class="listPrice">$3</span>
+                                <span class="listDuration">per day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btnBorder btnBlock">Details</a>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="alignC mt20">
+        <a href="#" class="btn btnPrime">See More</a>
+    </div>
+</div>
 </section>
 <section class="hasPadTB darkenBg">
-    <div class="container">
-        <div class="sectTitle">
-            <h3>Recently Added</h3>
+<div class="container">
+    <div class="sectTitle">
+        <h3>Recently Added</h3>
+    </div>
+    <div class="owlSlider">
+        <div class="item">
+            <div class="listingSingle">
+                <a href="#">
+                    <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
+                        <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
+                        <figcaption>Rent</figcaption>
+                    </figure>
+                    <div class="listingDets">
+                        <div class="listDetsTop">
+                            <div class="listDetsTopL">
+                                <span class="listingName">Heavy duty power drill</span>
+                                <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                            </div>
+                            <div class="listDetsTopR">
+                                <div class="listPriceSect">
+                                    <span class="listPrice">$3</span>
+                                    <span class="listDuration">per day</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
-        <div class="owlSlider">
-            <div class="item">
-                <div class="listingSingle">
-                    <a href="#">
-                        <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
-                            <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
-                            <figcaption>Rent</figcaption>
-                        </figure>
-                        <div class="listingDets">
-                            <div class="listDetsTop">
-                                <div class="listDetsTopL">
-                                    <span class="listingName">Heavy duty power drill</span>
-                                    <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                                </div>
-                                <div class="listDetsTopR">
-                                    <div class="listPriceSect">
-                                        <span class="listPrice">$3</span>
-                                        <span class="listDuration">day</span>
-                                    </div>
-                                    <span class="listingBy">by L.S.</span>
+        <div class="item">
+            <div class="listingSingle">
+                <a href="#">
+                    <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
+                        <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
+                        <figcaption>Rent</figcaption>
+                    </figure>
+                    <div class="listingDets">
+                        <div class="listDetsTop">
+                            <div class="listDetsTopL">
+                                <span class="listingName">Heavy duty power drill</span>
+                                <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                            </div>
+                            <div class="listDetsTopR">
+                                <div class="listPriceSect">
+                                    <span class="listPrice">$3</span>
+                                    <span class="listDuration">per day</span>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
-            <div class="item">
-                <div class="listingSingle">
-                    <a href="#">
-                        <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
-                            <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
-                            <figcaption>Rent</figcaption>
-                        </figure>
-                        <div class="listingDets">
-                            <div class="listDetsTop">
-                                <div class="listDetsTopL">
-                                    <span class="listingName">Heavy duty power drill</span>
-                                    <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                                </div>
-                                <div class="listDetsTopR">
-                                    <div class="listPriceSect">
-                                        <span class="listPrice">$3</span>
-                                        <span class="listDuration">day</span>
-                                    </div>
-                                    <span class="listingBy">by L.S.</span>
+        </div>
+        <div class="item">
+            <div class="listingSingle">
+                <a href="#">
+                    <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
+                        <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
+                        <figcaption>Rent</figcaption>
+                    </figure>
+                    <div class="listingDets">
+                        <div class="listDetsTop">
+                            <div class="listDetsTopL">
+                                <span class="listingName">Heavy duty power drill</span>
+                                <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                            </div>
+                            <div class="listDetsTopR">
+                                <div class="listPriceSect">
+                                    <span class="listPrice">$3</span>
+                                    <span class="listDuration">per day</span>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
-            <div class="item">
-                <div class="listingSingle">
-                    <a href="#">
-                        <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
-                            <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
-                            <figcaption>Rent</figcaption>
-                        </figure>
-                        <div class="listingDets">
-                            <div class="listDetsTop">
-                                <div class="listDetsTopL">
-                                    <span class="listingName">Heavy duty power drill</span>
-                                    <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                                </div>
-                                <div class="listDetsTopR">
-                                    <div class="listPriceSect">
-                                        <span class="listPrice">$3</span>
-                                        <span class="listDuration">day</span>
-                                    </div>
-                                    <span class="listingBy">by L.S.</span>
+        </div>
+        <div class="item">
+            <div class="listingSingle">
+                <a href="#">
+                    <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
+                        <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
+                        <figcaption>Rent</figcaption>
+                    </figure>
+                    <div class="listingDets">
+                        <div class="listDetsTop">
+                            <div class="listDetsTopL">
+                                <span class="listingName">Heavy duty power drill</span>
+                                <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                            </div>
+                            <div class="listDetsTopR">
+                                <div class="listPriceSect">
+                                    <span class="listPrice">$3</span>
+                                    <span class="listDuration">per day</span>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
-            <div class="item">
-                <div class="listingSingle">
-                    <a href="#">
-                        <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
-                            <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
-                            <figcaption>Rent</figcaption>
-                        </figure>
-                        <div class="listingDets">
-                            <div class="listDetsTop">
-                                <div class="listDetsTopL">
-                                    <span class="listingName">Heavy duty power drill</span>
-                                    <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                                </div>
-                                <div class="listDetsTopR">
-                                    <div class="listPriceSect">
-                                        <span class="listPrice">$3</span>
-                                        <span class="listDuration">day</span>
-                                    </div>
-                                    <span class="listingBy">by L.S.</span>
+        </div>
+        <div class="item">
+            <div class="listingSingle">
+                <a href="#">
+                    <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
+                        <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
+                        <figcaption>Rent</figcaption>
+                    </figure>
+                    <div class="listingDets">
+                        <div class="listDetsTop">
+                            <div class="listDetsTopL">
+                                <span class="listingName">Heavy duty power drill</span>
+                                <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
+                            </div>
+                            <div class="listDetsTopR">
+                                <div class="listPriceSect">
+                                    <span class="listPrice">$3</span>
+                                    <span class="listDuration">per day</span>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="item">
-                <div class="listingSingle">
-                    <a href="#">
-                        <figure style="background-image: url('/media/images/thumbs/thumb-1.jpg');" class="fluidImage">
-                            <img class="sizer" src="/media/images/sizers/square-sizer.png" class="imgBlock">
-                            <figcaption>Rent</figcaption>
-                        </figure>
-                        <div class="listingDets">
-                            <div class="listDetsTop">
-                                <div class="listDetsTopL">
-                                    <span class="listingName">Heavy duty power drill</span>
-                                    <span class="stars"><img src="/media/images/rating-badges.png" alt=""></span>
-                                </div>
-                                <div class="listDetsTopR">
-                                    <div class="listPriceSect">
-                                        <span class="listPrice">$3</span>
-                                        <span class="listDuration">day</span>
-                                    </div>
-                                    <span class="listingBy">by L.S.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
+</div>
 </section>
 </section>
 <section class="hasPadTB sectionTestim">
-    <div class="container">
-        <div class="testimWrap">
-            <h2>Check out what your neighbors say!</h2>
-            <div class="owlSingle">
-                <div class="item">
-                    <div class="singleTestim">
-                        <img src="/media/images/thumbs/user-img-1.jpg">
-                        <h4>Melanie Sampini</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
-                    </div>
+<div class="container">
+    <div class="testimWrap">
+        <h2>Check out what your neighbors say!</h2>
+        <div class="owlSingle">
+            <div class="item">
+                <div class="singleTestim">
+                    <img src="/media/images/thumbs/user-img-1.jpg">
+                    <h4>Melanie Sampini</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
                 </div>
-                <div class="item">
-                    <div class="singleTestim">
-                        <h4>Gabriel Harvey</h4>
-                        <p>Odio, tenetur minus eligendi officia commodi voluptatibus non distinctio dignissimos, fugit quo culpa modi rem, quos totam nam at. Explicabo, praesentium, deserunt. Odio, tenetur minus eligendi officia commodi voluptatibus non distinctio dignissimos, fugit quo culpa modi rem, quos totam nam at. Explicabo, praesentium, deserunt.</p>
-                        <img src="/media/images/thumbs/user-img-2.jpg">
-                    </div>
+            </div>
+            <div class="item">
+                <div class="singleTestim">
+                    <h4>Gabriel Harvey</h4>
+                    <p>Odio, tenetur minus eligendi officia commodi voluptatibus non distinctio dignissimos, fugit quo culpa modi rem, quos totam nam at. Explicabo, praesentium, deserunt. Odio, tenetur minus eligendi officia commodi voluptatibus non distinctio dignissimos, fugit quo culpa modi rem, quos totam nam at. Explicabo, praesentium, deserunt.</p>
+                    <img src="/media/images/thumbs/user-img-2.jpg">
                 </div>
             </div>
         </div>
     </div>
+</div>
 </section>
 <section class="hasPadTB" id="howItWorks">
-    <div class="container">
-        <div class="sectTitle">
-            <h3>HOW DOES IT WORK</h3>
+<div class="container">
+    <div class="sectTitle">
+        <h3>HOW DOES IT WORK</h3>
+    </div>
+    <div class="colRow">
+        <div class="col6 colTab12">
+            <div class="howWorkSingle">
+                <div class="howWorkIcon">
+                    <img src="/media/images/icons/add-list.png">
+                </div>
+                <div class="howWorkTxt">
+                    <strong>List Your Items</strong>
+                    <p>List your items that you want to share with, rent to or sell to your neighbors.</p>
+                </div>
+            </div>
         </div>
-        <div class="colRow">
-            <div class="col6 colTab12">
-                <div class="howWorkSingle">
-                    <div class="howWorkIcon">
-                        <img src="/media/images/icons/add-list.png">
-                    </div>
-                    <div class="howWorkTxt">
-                        <strong>List Your Items</strong>
-                        <p>List your items that you want to share with, rent to or sell to your neighbors.</p>
-                    </div>
+        <div class="col6 colTab12">
+            <div class="howWorkSingle">
+                <div class="howWorkIcon">
+                    <img src="/media/images/icons/search-item.png">
+                </div>
+                <div class="howWorkTxt">
+                    <strong>Search for what you need</strong>
+                    <p>Search what you need via the search bar and check the items posted by your neighbors on the map.</p>
                 </div>
             </div>
-            <div class="col6 colTab12">
-                <div class="howWorkSingle">
-                    <div class="howWorkIcon">
-                        <img src="/media/images/icons/search-item.png">
-                    </div>
-                    <div class="howWorkTxt">
-                        <strong>Search for what you need</strong>
-                        <p>Search what you need via the search bar and check the items posted by your neighbors on the map.</p>
-                    </div>
+        </div>
+        <div class="col6 colTab12">
+            <div class="howWorkSingle">
+                <div class="howWorkIcon">
+                    <img src="/media/images/icons/respond-request.png">
+                </div>
+                <div class="howWorkTxt">
+                    <strong>Respond to requests</strong>
+                    <p>Approve the request, talk to your neighbors, and arrange to pass the item in person.</p>
                 </div>
             </div>
-            <div class="col6 colTab12">
-                <div class="howWorkSingle">
-                    <div class="howWorkIcon">
-                        <img src="/media/images/icons/respond-request.png">
-                    </div>
-                    <div class="howWorkTxt">
-                        <strong>Respond to requests</strong>
-                        <p>Approve the request, talk to your neighbors, and arrange to pass the item in person.</p>
-                    </div>
+        </div>
+        <div class="col6 colTab12">
+            <div class="howWorkSingle">
+                <div class="howWorkIcon">
+                    <img src="/media/images/icons/request-item.png">
                 </div>
-            </div>
-            <div class="col6 colTab12">
-                <div class="howWorkSingle">
-                    <div class="howWorkIcon">
-                        <img src="/media/images/icons/request-item.png">
-                    </div>
-                    <div class="howWorkTxt">
-                        <strong>Request items</strong>
-                        <p>Request an item to borrow, rent or buy from your neighbors.</p>
-                    </div>
+                <div class="howWorkTxt">
+                    <strong>Request items</strong>
+                    <p>Request an item to borrow, rent or buy from your neighbors.</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </section>
 </main>
 {% endblock %}

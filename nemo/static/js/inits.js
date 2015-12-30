@@ -67,7 +67,15 @@ $(document).ready(function() {
 	      scrollTop: 0
 	    }, 1000);
 	    return false;
+	});
+	$(window).on('scroll', function(){
+		if ($(window).scrollTop() > 120) {
+			$('.scrollToTop').fadeIn();
+		} else {
+			$('.scrollToTop').fadeOut();
+		}
 	})
+
 
 	// sticky
 	var options = {
