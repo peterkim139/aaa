@@ -68,6 +68,7 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
                 try:
                     User.objects.filter(id=request.user.id).update(merchant_id=result.merchant_account.id)
                     messages.success(request, "Your account has been created successfully")
+                    return HttpResponseRedirect('/list')
                 except Exception as e:
                     messages.error(request, "Error")
                 return HttpResponseRedirect('/list')
