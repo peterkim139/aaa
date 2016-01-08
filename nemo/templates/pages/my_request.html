@@ -8,8 +8,10 @@
         <input type='hidden' value='{{requests.id}}' name="rent">
         {% if requests.status == 'pending' %}
             <input type="submit" name="action" value="Decline" />
-        {% elif requests.status == 'approved' %}
+        {% elif requests.status == 'approved' and cancel == 1 %}
             <input type="submit" name="action" value="Cancel" />
+        {% elif requests.status == 'approved' and cancel == 0 %}
+            {{'You will be able to cancel the request  2 hours later after approving'}}
         {% else %}
             {{requests.status}}
         {% endif %}

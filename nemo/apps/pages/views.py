@@ -84,7 +84,7 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                     })
                     if result.is_success:
                         transaction = result.transaction
-                        Rent.objects.filter(owner_id=request.user.id,id=rent).update(transaction=transaction.id,status=status)
+                        Rent.objects.filter(owner_id=request.user.id,id=rent).update(transaction=transaction.id,status=status,modified=timezone.now())
                         messages.success(request, "The request has been approved")
                     else:
                         messages.error(request, "There are some errors in transaction process")
@@ -159,15 +159,18 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
 
 class MyRequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/my_requests.html'
-
     def get(self,request,id=None):
+        cancel = 0
         if id:
             self.template_name = 'pages/my_request.html'
             requests = Rent.objects.get(param_id=id)
+            hour = timezone.now() - datetime.timedelta(hours=2)
+            if requests.modified < hour:
+                cancel = 1
         else:
             requests = Rent.objects.filter(user_id=request.user.id)
 
-        return self.render_to_response({'requests':requests})
+        return self.render_to_response({'requests':requests,'cancel':cancel})
 
     def post(self,request,id):
 
@@ -194,11 +197,10 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                     if today >= requests.rent_date:
                         result = braintree.Transaction.refund(requests.transaction,amount)
                         if result.is_success:
+                            Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
                             messages.success(request, "Request has been canceled")
                         else:
                             messages.error(request, "There is an error in refund process")
-                    Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-                    messages.success(request, "Request has been canceled")
             else:
                 messages.error(request, "There is no request")
         else:
