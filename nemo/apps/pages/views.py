@@ -192,7 +192,7 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                     customer_id = encrypt.decrypt_val(current_user.customer_id)
                     amount = requests.price*50/100
                     if today >= requests.rent_date:
-                        result = braintree.Transaction.refund(requests.transaction_id,amount)
+                        result = braintree.Transaction.refund(requests.transaction,amount)
                         if result.is_success:
                             messages.success(request, "Request has been canceled")
                         else:
