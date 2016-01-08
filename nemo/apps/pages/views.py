@@ -26,7 +26,7 @@ class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
 
 
-    def get(self,request,id=None):
+    def get(self,request):
 
         requests = Rent.objects.filter(owner_id=request.user.id)
 
