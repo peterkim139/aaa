@@ -197,12 +197,10 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                             messages.success(request, "Request has been canceled")
                         else:
                             messages.error(request, "There is an error in refund process")
-
-                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                    Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
                     messages.success(request, "Request has been canceled")
             else:
                 messages.error(request, "There is no request")
         else:
             messages.error(request, "There is no request")
-
-        return self.render_to_response({'requests':requests})
+        return HttpResponseRedirect('/profile/my_requests/'+id)

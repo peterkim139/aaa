@@ -8,8 +8,10 @@
         <input type='hidden' value='{{requests.id}}' name="rent">
         {% if requests.status == 'pending' %}
             <input type="submit" name="action" value="Decline" />
-        {% else %}
+        {% elif requests.status == 'approved' %}
             <input type="submit" name="action" value="Cancel" />
+        {% else %}
+            {{requests.status}}
         {% endif %}
     </form>
 {% endblock %}
