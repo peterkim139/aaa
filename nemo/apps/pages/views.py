@@ -205,5 +205,4 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
         else:
             messages.error(request, "There is no request")
 
-        return HttpResponseRedirect('/profile/requests/'+id)
         return self.render_to_response({'requests':requests})
