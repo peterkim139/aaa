@@ -194,7 +194,7 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                     today = timezone.now() + datetime.timedelta(days=1)
                     customer_id = encrypt.decrypt_val(current_user.customer_id)
                     amount = requests.price*50/100
-                    if today >= requests.rent_date:
+                    if today < requests.rent_date:
                         result = braintree.Transaction.refund(requests.transaction,amount)
                         if result.is_success:
                             Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
