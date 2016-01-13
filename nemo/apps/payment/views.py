@@ -47,7 +47,6 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
                 'email': request.user.email,
                 'phone': form.cleaned_data['phone_number'],
                 'date_of_birth': date_of_birth,
-                'ssn': form.cleaned_data['ssn'],
                 'address': {
                     'street_address': form.cleaned_data['street_address'],
                     'locality': form.cleaned_data['locality'],

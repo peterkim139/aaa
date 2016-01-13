@@ -62,10 +62,6 @@ class ConnectForm(forms.Form):
                                    validators=[valdiate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
-    ssn = forms.CharField(label="Ssn", max_length=9, required=False,
-                                   validators=[valdiate_numbersonly,valdiate_length],
-                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
-
     region = forms.CharField(max_length=2,
                 widget=forms.Select(choices=CHOICES),required=True)
 
