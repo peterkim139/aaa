@@ -187,7 +187,7 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                 encrypt= NemoEncrypt()
                 current_user = User.objects.get(id=requests.owner_id)
                 orderer = User.objects.get(id=requests.user_id)
-                if requests.status == 'customer_declined':
+                if  status == 'customer_declined':
                     Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
                     messages.success(request, "Request has been declined")
                 else:
