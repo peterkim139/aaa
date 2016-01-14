@@ -35,11 +35,31 @@
 	.hamburgerBtn {
 		display: block;
 	}
-
+	.howWorkOr {
+		display: block;
+	}
 	footer {
 		.colTab12 {
 			margin-bottom: 40px;
 		} 
+		h3 {
+			text-align: center;
+			border-left: none;
+			padding-left: 0;
+			br {
+				display: none;
+			}
+		}
+		nav {
+			text-align: center;
+			li {
+				display: inline-block;
+				padding: 0 10px;
+			}
+		}
+		.col3 {
+			display: none;
+		}
 	}
 	.sectionTestim {
 		.testimWrap {

@@ -463,6 +463,9 @@ footer {
 	margin-top: -1px;
 	margin-right: 4px;
 }
+.icheckbox_square-green, .iradio_square-green {
+	background: url('../media/images/icheck-green.png') no-repeat;
+}
 /*== end form styles ==*/
 .listInline>* {
 	display: inline-block;
@@ -572,6 +575,30 @@ i {
     height: 40px;
     padding: 6px;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    display: none;
+}
+.howWorkOr {
+	display: none;
+	clear: both;
+	margin: 30px 0;
+	text-align: center;
+	position: relative;
+	span {
+		background: #F7F7F7;
+		padding: 0 5px;
+	}
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: 100%;
+		height: 1px;
+		background: $borderGrey;
+		z-index: -1;
+	}
 }
 /*== end general styles ==*/
 
@@ -582,7 +609,7 @@ Home page
 */
 .homeTop {
 	height: 700px;
-	@include bgCover('/media/images/home-banner.jpg');
+	@include bgCover('../media/images/home-banner.jpg');
 }
 .homeTopTxt {
 	text-align: center;
@@ -696,15 +723,23 @@ Home page
 		font-weight: 600;
 		font-size: $fontSize - 5px;
 		text-transform: uppercase;
+		margin-bottom: 3px;
 	}
 }
 .listingBy {
 	font-style: italic;
 	font-size: $fontSize - 2px;
+	display: inline-block;
+	vertical-align: center;
+}
+.ownerWrap .stars {
+	vertical-align: middle;
+	width: 80px;
+	margin-left: 10px;
 }
 /*== end grid listing styles ==*/
 .sectionTestim {
-	@include bgCover('/media/images/testim-bg.jpg');
+	@include bgCover('../media/images/testim-bg.jpg');
 	color: #fff;
 	// height: 570px;
 	h2 {
