@@ -835,6 +835,29 @@ i {
     background: #c8c8c8;
     z-index: -1; }
 
+/*== popup styles ==*/
+.popupWrap {
+  width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  position: relative; }
+
+.popupHead {
+  padding: 20px;
+  padding-bottom: 0; }
+  .popupHead h3 {
+    padding: 0 0 15px 0;
+    color: #5BBC2E;
+    border-bottom: solid 1px #5BBC2E;
+    font-size: 22px; }
+
+.popupBody {
+  padding: 20px; }
+
+.mfp-close {
+  top: 7px; }
+
+/*== end popup styles ==*/
 /*== end general styles ==*/
 /*
 Home page 
@@ -877,6 +900,17 @@ Home page
     height: 50px;
     background: #5bbc2e;
     font-size: 20px; }
+
+.srchAddress {
+  margin-bottom: 10px; }
+  .srchAddress p {
+    font-size: 13px;
+    color: #fff; }
+    .srchAddress p a, .srchAddress p button {
+      font-size: inherit;
+      color: inherit;
+      font-style: italic;
+      text-decoration: underline; }
 
 .homeMap {
   height: 400px; }

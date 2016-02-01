@@ -74,7 +74,14 @@ $(document).ready(function() {
 		} else {
 			$('.scrollToTop').fadeOut();
 		}
-	})
+	});
+
+
+	// magnific popup
+	$('.popupBtn').magnificPopup({
+		type: 'inline',
+		preloader: false
+	});
 
 
 	// sticky

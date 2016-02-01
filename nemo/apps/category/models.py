@@ -29,6 +29,34 @@ class SubCategory(AbstractDateTime,models.Model):
         db_table = "sub_category"
         get_latest_by = "created"
 
+class Properties(AbstractDateTime,models.Model):
+
+    sub_category = models.ForeignKey(SubCategory,related_name='title')
+    property_name  = models.CharField(max_length=255, unique=True)
+    PROPERTY_TYPES = (('checkbox', 'checkbox'),('select', 'select'),('input', 'input'))
+    property_type = models.CharField(max_length=10,choices=PROPERTY_TYPES,default='select')
+
+    def __unicode__(self):
+        return unicode(self.property_name) or 'not found'
+
+    class Meta:
+        ordering = ["id"]
+        db_table = "properties"
+        get_latest_by = "created"
+
+class Porperty_values(AbstractDateTime,models.Model):
+
+    property = models.ForeignKey(Properties,related_name='property')
+    value_name  = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return unicode(self.value_name) or 'not found'
+
+    class Meta:
+        ordering = ["id"]
+        db_table = "porperty_values"
+        get_latest_by = "created"
+
 
 class Params(AbstractDateTime,models.Model):
 
