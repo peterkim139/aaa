@@ -1,0 +1,11 @@
+{% load i18n %}{% autoescape off %}
+
+{% blocktrans %}Hi {{ client }}.{% endblocktrans %}
+{% blocktrans %}
+    Notice: Your request of {{item}} has just been approved by
+    your neighbor {{seller}} and {{price}} is charged from your credit card,
+    please click <a href="#">here</a> . to contact him/her to arrange pickup of the item.
+{% endblocktrans %}
+{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
+
+{% endautoescape %}

@@ -243,7 +243,8 @@ class ResetView(TemplateView, View):
             user = User.objects.get(email=email)
             user.reset_key = reset_key
             user.save()
-            reset_mail(request, email, user.first_name, reset_key)
+            first_name = user.first_name
+            reset_mail(request, email,first_name, reset_key)
             messages.success(request, "Please check your email address for change your account password")
             return HttpResponseRedirect('/')
         else:

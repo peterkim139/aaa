@@ -20,6 +20,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
     STATUS_TYPES = (('admin', 'admin'),('client', 'client'))
     role = models.CharField(max_length=10,choices=STATUS_TYPES,default='client')
     reset_key = models.CharField(max_length=255, blank=True,default='')
+    credits = models.DecimalField(max_digits=5, decimal_places=2,default=0)
     is_staff = models.BooleanField(default=0)
     is_active = models.BooleanField(default=1)
     objects = AuthUserManager()

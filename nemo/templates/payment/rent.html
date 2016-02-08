@@ -1,36 +1,93 @@
 {% extends "base.html" %}
 {% block content %}
 
-         <form method="post" action="">
-             {% csrf_token %}
-             <div>
-                    {{ form.card_number.label_tag}}
-                    {{ form.card_number }}
-                    {{ form.card_number.errors }}
-             </div>
-             <div>
-                    {{ form.cvv.label_tag}}
-                    {{ form.cvv }}
-                    {{ form.cvv.errors }}
-             </div>
-             <div>
-                    {{ form.month.label_tag}}
-                    {{ form.month }}
-                    {{ form.month.errors }}
-             </div>
-             <div>
-                    {{ form.year.label_tag}}
-                    {{ form.year }}
-                    {{ form.year.errors }}
-             </div>
-             <div>
-                    {{ form.rent_date.label_tag}}
-                    {{ form.rent_date }}
-                    {{ form.rent_date.errors }}
-             </div>
-             <input type="submit" value="send">
-         </form>
+<form method="post" action="" id="">
+    {% csrf_token %}
+    <div>
+        {{ form.card_number.label_tag}}
+        {{ form.card_number }}
+        {{ form.card_number.errors }}
+    </div>
+    <div>
+        {{ form.cvv.label_tag}}
+        {{ form.cvv }}
+        {{ form.cvv.errors }}
+    </div>
+    <div>
+        {{ form.month.label_tag}}
+        {{ form.month }}
+        {{ form.month.errors }}
+    </div>
+    <div>
+        {{ form.year.label_tag}}
+        {{ form.year }}
+        {{ form.year.errors }}
+    </div>
+    <div>
+        {{ form.start_date.label_tag}}
+        {{ form.start_date }}
+        {{ form.start_date.errors }}
+    </div>
+    <div>
+        {{ form.rent_date.label_tag}}
+        {{ form.rent_date }}
+        {{ form.rent_date.errors }}
+    </div>
+    <input type="submit" value="send">
+</form>
+<script>
+$(document).ready(function() {
+
+    var dates = new Object()
+
+    {% for key,blockday in blockdays.items %}
+        dates["{{key}}"] = "{{blockday}}"
+    {% endfor %}
+
+    dateRange = []
+    for (var k in dates){
+        var startDate = dates[k];
+        var endDate  = k;
+        for (var d = new Date(startDate); d <= new Date(endDate); d.setDate(d.getDate() + 1)) {
+            dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
+        }
+    }
+
+    var dateToday = new Date();
+    var lastDate = new Date(dateToday.getFullYear(), dateToday.getMonth()+1, 0);
+
+    $('#id_start_date').on("change", validateDateRange).datepicker({
+
+        dateFormat: "yy-mm-dd",
+        minDate: dateToday,
+        maxDate: lastDate,
+        numberOfMonths: 1,
+        beforeShowDay: function (date) {
+            var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [dateRange.indexOf(dateString) == -1];
+        },
+        onClose: function (selectedDate) {
+        }
+
+    });
 
 
+    $('#id_rent_date').on("change", validateDateRange).datepicker({
 
+        dateFormat: "yy-mm-dd",
+        minDate: dateToday,
+        maxDate: lastDate,
+        numberOfMonths: 1,
+        beforeShowDay: function (date) {
+        var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+        return [dateRange.indexOf(dateString) == -1];
+        },
+        onClose: function (selectedDate) {
+            $("#id_start_date").datepicker("option", "maxDate", selectedDate);
+        }
+
+    });
+
+})
+</script>
 {% endblock %}

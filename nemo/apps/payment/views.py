@@ -16,7 +16,7 @@ from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from .models import User,Params,Rent
-from payment.utils import payment_connection
+from payment.utils import payment_connection,new_rent_mail
 
 class ConnectView(LoginRequiredMixin,TemplateView, View):
     template_name = 'payment/connect.html'
@@ -78,22 +78,45 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
 
 class RentView(LoginRequiredMixin,TemplateView, View):
     template_name = 'payment/rent.html'
-
+    id = ''
     def get_context_data(self, **kwargs):
         context = super(RentView, self).get_context_data(**kwargs)
         context['form'] = RentForm()
+        blockdays = Rent.objects.filter(param_id=self.id)
+        dates = {}
+        for blockday in blockdays:
+            dates[ blockday.rent_date.strftime('%Y-%m-%d')] = blockday.start_date.strftime('%Y-%m-%d')
+        context['blockdays'] = dates
         if 'form' in kwargs:
             context.update({'form': RentForm(data=self.request.POST)})
         return context
 
     def get(self, request,id):
-
+        self.id = id
+        print datetime.datetime.now().date()
         return self.render_to_response(self.get_context_data())
 
     def post(self, request,id):
 
+        self.id = id
         form = RentForm(data=request.POST)
         if form.is_valid():
+
+            blockdays = Rent.objects.filter(param_id=self.id)
+            dates = []
+            for blockday in blockdays:
+                while blockday.start_date <= blockday.rent_date:
+                    dates.append(blockday.start_date.strftime('%Y-%m-%d'))
+                    blockday.start_date = blockday.start_date + datetime.timedelta(days=1)
+
+            rent_date = datetime.datetime.strptime(form.cleaned_data['rent_date'], '%Y-%m-%d')
+            start_date = datetime.datetime.strptime(form.cleaned_data['start_date'], '%Y-%m-%d')
+            while start_date <= rent_date:
+                if start_date.strftime('%Y-%m-%d') in dates:
+                    messages.error(request, "Invalid Date Range")
+                    return HttpResponseRedirect('/payment/rent/'+id)
+                start_date = start_date + datetime.timedelta(days=1)
+
             encrypt= NemoEncrypt()
             current_user = User.objects.get(id=request.user.id)
             expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
@@ -124,11 +147,14 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                 rent = Rent()
                 rent.status = 'pending'
                 rent.price = item.price
+                rent.start_date = form.cleaned_data['start_date']
                 rent.rent_date = form.cleaned_data['rent_date']
                 rent.owner_id = item.item_owner_id
                 rent.param_id = item.id
                 rent.user_id = request.user.id
                 rent.save()
+                seller = User.objects.get(id=item.item_owner_id)
+                new_rent_mail(request,seller.email,request.user.first_name,item.name,seller.first_name,item.id)
             messages.success(request, "Your request has been sent successfully")
             return HttpResponseRedirect('/')
 

@@ -30,6 +30,8 @@
         {% include "elements/footer.html" %}
     {% endif %}
     <script src="{% static 'js/classie.js' %}"></script>
-	<script src="{% static 'js/menu.js' %}"></script>
+    {% if request.path == "/" %}
+	    <script src="{% static 'js/menu.js' %}"></script>
+    {% endif %}
 </body>
 </html>

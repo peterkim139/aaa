@@ -88,5 +88,8 @@ class RentForm(forms.Form):
                                    validators=[valdiate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': '','autocomplete':'off'}), )
 
+      start_date = forms.CharField(label='Start Date', max_length=255, required=True,
+                           widget=forms.TextInput(attrs={'class': ''}), )
+
       rent_date = forms.CharField(label='Rent Date', max_length=255, required=True,
                            widget=forms.TextInput(attrs={'class': ''}), )

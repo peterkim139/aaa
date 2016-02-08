@@ -1,0 +1,10 @@
+{% load i18n %}{% autoescape off %}
+
+{% blocktrans %}Hi {{ seller }}.{% endblocktrans %}
+{% blocktrans %}
+    Notice: Based on our review of the disputes between you and your neighbor over the rental of {{item}},
+    we are sorry that we have to charge ${{amount}} to your account to cover your neighbor’s loss.
+{% endblocktrans %}
+{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
+
+{% endautoescape %}

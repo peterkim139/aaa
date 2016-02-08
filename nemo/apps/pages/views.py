@@ -17,14 +17,14 @@ from django.contrib.auth.decorators import user_passes_test
 from payment.models import Rent
 from .forms import RentForm
 from accounts.models import User
+from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from payment.utils import payment_connection
+from pages.utils import payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
 
 
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
-
 
     def get(self,request):
 
@@ -39,8 +39,13 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
 
             context = super(RequestView, self).get_context_data(**kwargs)
             context['form'] = RentForm()
-            requests = Rent.objects.get(param_id=self.id)
+            requests = Rent.objects.get(id=self.id)
             context.update({'requests': requests})
+            today = timezone.now() + datetime.timedelta(days=1)
+            if today < requests.start_date:
+                context.update({'amount': 2 })
+            else:
+                context.update({'amount': 5})
             if 'form' in kwargs:
                 context.update({'form': RentForm(self.request.POST)})
 
@@ -48,6 +53,10 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
 
     def get(self,request,id):
         self.id = id
+        param = Rent.objects.get(id=id)
+        if(request.user.id != param.owner_id):
+            return HttpResponseRedirect('/')
+
         return self.render_to_response(self.get_context_data())
 
     def post(self,request,id):
@@ -55,7 +64,6 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
         if request.POST['rent']:
             payment_connection()
             rent = int(request.POST['rent'])
-            print rent
             if request.POST['action'] == 'Approve':
                 status = 'approved'
             elif request.POST['action'] == 'Decline':
@@ -71,26 +79,20 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                 if status == 'approved':
                     customer_id = encrypt.decrypt_val(orderer.customer_id)
                     TWOPLACES = Decimal(10) ** -2
-                    fee = Decimal(requests.price*5/100).quantize(TWOPLACES)
-                    result = braintree.Transaction.sale({
-                        "amount": requests.price,
-                        "merchant_account_id": current_user.merchant_id,
-                        "customer_id": customer_id,
-                        "options": {
-                        "submit_for_settlement": True,
-                        "hold_in_escrow": True,
-                        },
-                        "service_fee_amount": fee
-                    })
+                    fee = Decimal(requests.price)*Decimal(12.9/100)+Decimal('0.30')
+                    fee = fee.quantize(TWOPLACES)
+                    result = seller_approve(requests,current_user,customer_id,fee)
                     if result.is_success:
                         transaction = result.transaction
                         Rent.objects.filter(owner_id=request.user.id,id=rent).update(transaction=transaction.id,status=status,modified=timezone.now())
+                        seller_approved_request(request,orderer.first_name,current_user.first_name,orderer.email,requests.param.name,requests.price)
                         messages.success(request, "The request has been approved")
                     else:
                         messages.error(request, "There are some errors in transaction process")
 
                 elif status == 'seller_declined':
                     Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                    seller_declined_request(request,orderer.first_name,orderer.email,requests.param.name)
                     messages.success(request, "Request has been declined")
 
                 elif status == 'seller_canceled':
@@ -121,10 +123,10 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                                 current_user = User.objects.get(id=requests.owner_id)
                         today = timezone.now() + datetime.timedelta(days=1)
                         customer_id = encrypt.decrypt_val(current_user.customer_id)
-                        if today < requests.rent_date:
+                        if today < requests.start_date:
                             amount = '2.00'
                         else:
-                            amount  = '5.00'
+                            amount = '5.00'
 
                         transaction = braintree.Transaction.find(requests.transaction)
                         if transaction.escrow_status == 'held':
@@ -141,6 +143,13 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                                 }
                             })
                             if result.is_success:
+                                seller_penalize_email(request,current_user.first_name,amount,current_user.email)
+                                if amount == '2.00':
+                                    seller_canceled_request_before(request,orderer.first_name,orderer.email,requests.param.name)
+                                else:
+                                    credits = Decimal(orderer.credits) + Decimal('2.00')
+                                    User.objects.filter(id=orderer.id).update(credits=credits)
+                                    seller_canceled_request_after(request,orderer.first_name,orderer.email,requests.param.name)
                                 messages.success(request, "Request has been canceled")
                             else:
                                 messages.error(request, "There is an error in refund process")
@@ -154,7 +163,6 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
             messages.error(request, "There is no request")
 
         return HttpResponseRedirect('/profile/request/'+id)
-        return self.render_to_response({'requests':requests})
 
 
 class MyRequestsView(LoginRequiredMixin,TemplateView, View):
@@ -187,18 +195,22 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                 encrypt= NemoEncrypt()
                 current_user = User.objects.get(id=requests.owner_id)
                 orderer = User.objects.get(id=requests.user_id)
+                item = Params.objects.get(id=requests.param_id)
                 if  status == 'customer_declined':
                     Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+                    cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name)
                     messages.success(request, "Request has been declined")
                 else:
                     today = timezone.now() + datetime.timedelta(days=1)
                     customer_id = encrypt.decrypt_val(current_user.customer_id)
-                    TWOPLACES = Decimal(10) ** -2
-                    amount = Decimal(requests.price*50/100).quantize(TWOPLACES)
-                    if today < requests.rent_date:
-                        result = braintree.Transaction.refund(requests.transaction,amount)
+                    paid = refund_price(requests.price)
+                    if today < requests.start_date:
+                        result = cancel_transaction(paid['amount'],orderer)
                         if result.is_success:
                             Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+                            credits = Decimal(current_user.credits) + Decimal(paid['credit'])
+                            User.objects.filter(id=current_user.id).update(credits=credits)
+                            cancel_after_approving(request, current_user.email, orderer.first_name,item.name,current_user.first_name,paid['credit'])
                             messages.success(request, "Request has been canceled")
                         else:
                             messages.error(request, "There is an error in refund process")

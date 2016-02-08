@@ -1,0 +1,11 @@
+{% load i18n %}{% autoescape off %}
+
+{% blocktrans %}Hi {{ client }}.{% endblocktrans %}
+{% blocktrans %}
+    Your rental start date of {{item}} from {{seller_fullName}} is tomorrow,
+    please arrange with {{seller}} to pickup the item if you haven’t done so.
+{% endblocktrans %}
+{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
+
+{% endautoescape %}
+

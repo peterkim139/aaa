@@ -1,0 +1,13 @@
+{% load i18n %}{% autoescape off %}
+
+{% blocktrans %} Hi {{ seler }}.{% endblocktrans %}
+
+{% blocktrans %} You received a new rental request for {{item}} from your neighbor {{client}}.{% endblocktrans %}
+
+{% block reset_link %}
+  Please <a href="{{ 'http' }}://{{ absolute_url }}/profile/request/{{id}}">Click here</a> to approve.
+{% endblock %}
+
+{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
+
+{% endautoescape %}

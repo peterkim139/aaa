@@ -7,11 +7,15 @@
 <script src="{% static 'js/gmap.js' %}"></script>
 <script src="{% static 'js/owl.carousel.js' %}"></script>
 <script src="{% static 'js/wow.js' %}"></script>
+{% if request.path == "/" %}
 <script src="{% static 'js/headhesive.js' %}"></script>
-<script src="{% static 'js/modernizr.custom.25376.js' %}"></script>
 <script src="{% static 'js/inits.js' %}"></script>
-<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcmB4e5pBJXdWKzbY90FFhxi6WE4sGcOc&callback=initMap"></script>
+{% endif %}
+<script src="{% static 'js/modernizr.custom.25376.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/jquery.jgrowl.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/scripts.js' %}"></script>
 
 

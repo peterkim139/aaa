@@ -1,0 +1,18 @@
+{% load i18n %}{% autoescape off %}
+
+{% blocktrans %}Hi {{ client }}.{% endblocktrans %}
+{% blocktrans %}
+    The rent request has been expired because of unresponsiveness on your side.
+
+        Product details:
+             - Name: {{item}}
+             - Description:{{description}}
+             - Seller:{{seller}}
+             - Price:{{price}}
+             - Date:{{start_date}} - {{rent_date}}
+
+{% endblocktrans %}
+If you still want to rent the product, please make a new request.
+{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
+
+{% endautoescape %}

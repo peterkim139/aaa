@@ -107,11 +107,16 @@ ADMINS = (
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
-        }
+        },
     },
     'handlers': {
         'file': {
@@ -120,17 +125,16 @@ LOGGING = {
             'filename': 'error.log',
         },
         'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
-        },
+             'level': 'ERROR',
+             'filters': ['require_debug_false'],
+             'class': 'django.utils.log.AdminEmailHandler',
+        }
     },
     'loggers': {
-        '': {
+        'nemo': {
             'handlers': ['file','mail_admins'],
-            'level': 'ERROR',
             'propagate': True,
+            'level': 'DEBUG',
         },
     },
 }
@@ -246,3 +250,5 @@ BRAINTREE_PRIVATE_KEY = '407840324125e98f5efc1d4666101ed5'
 #Mandrill
 
 MANDRILL_KEY = 'VRFMjPImxCGKZ6Amy-4m9A'
+
+CUSTOMER_ID = '30179242'
