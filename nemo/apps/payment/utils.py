@@ -128,7 +128,7 @@ def admin_cancel_rent_to_seller(info):
     start_date = info.start_date.strftime('%Y-%m-%d')
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Rent request has been expired'
+    subject = 'Rent request has been canceled by website administrator'
     from_email = settings.AUTO_REPLY
     to = [info.owner.email]
     context = Context({
