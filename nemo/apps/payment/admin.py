@@ -18,7 +18,7 @@ def refund_transaction(modeladmin, request, queryset):
 
 class RentAdmin(admin.ModelAdmin):
     model = Rent
-    list_display = ['client','seller','item','price','status','rent_date']
+    list_display = ['id','client','seller','item','price','status','rent_date']
 
     def client(self, obj):
         return obj.user.first_name + ' ' + obj.user.last_name

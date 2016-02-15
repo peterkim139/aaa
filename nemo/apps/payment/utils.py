@@ -25,7 +25,7 @@ def new_rent_mail(request, email, client,item,seler,id):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Reset account password'
+    subject = 'You have received a rental request!'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
@@ -38,7 +38,7 @@ def new_rent_mail(request, email, client,item,seler,id):
     })
     content = loader.render_to_string('payment/emails/new_rent.html', context)
     message = {
-        'subject' : 'New rent request',
+        'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
         'from_name': 'Nemo',
@@ -195,7 +195,7 @@ def admin_cancel_rent_to_client(info):
 def reminder_rent_client(info):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
-    subject = 'Pickup process should be started'
+    subject = 'The rental date of your ' + info.param.name + ' starts tomorrow, please arrange for pickup soon'
     from_email = settings.AUTO_REPLY
     to = [info.user.email]
     context = Context({
@@ -225,7 +225,7 @@ def reminder_rent_seller(info):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Pickup process will be started soon'
+    subject = 'Rent for your ' + info.param.name + ' starts tomorrow, please arrange for Pickup soon'
     from_email = settings.AUTO_REPLY
     to = [info.owner.email]
     context = Context({
@@ -261,7 +261,7 @@ def seller_transaction_email(info):
     fee = Decimal(info.price)*Decimal(12.9/100)+Decimal('0.30')
     fee = fee.quantize(TWOPLACES)
     total = Decimal(info.price)-Decimal(fee)
-    subject = 'Rental fee received'
+    subject = 'A new payment has been credited to your account!'
     from_email = settings.AUTO_REPLY
     to = [info.owner.email]
     context = Context({
@@ -295,7 +295,7 @@ def return_rent_client(info):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Do not forget to return the item to the owner'
+    subject = 'Your rental of the ' + info.param.name + ' ends tomorrow, please remember to return the item to the owner'
     from_email = settings.AUTO_REPLY
     to = [info.user.email]
     context = Context({

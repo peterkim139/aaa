@@ -14,16 +14,17 @@ def payment_connection():
                                   public_key = settings.BRAINTREE_PUBLIC_KEY,
                                   private_key = settings.BRAINTREE_PRIVATE_KEY)
 
-def cancel_before_approving(request,email,client,seller):
+def cancel_before_approving(request,email,client,seller,item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'The rent request has been cancelled'
+    subject = 'The request for ' + item + ' has been cancelled by your neighbor'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
         'client': client,
         'seller':seller,
+        'item':item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
@@ -47,7 +48,7 @@ def cancel_after_approving(request, email, client,item,seller,amount):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'The rent request has been cancelled'
+    subject = 'The request for ' + item + ' has been cancelled'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
@@ -122,7 +123,7 @@ def seller_penalize_email(request,seller,amount,email):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'You have been penalized'
+    subject = 'Your case is resolved'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
@@ -150,7 +151,7 @@ def seller_canceled_request_before(request,client,email,item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Your  request has been cancelled'
+    subject = 'Your  request for ' + item + ' has been cancelled by the owner'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
@@ -179,7 +180,7 @@ def seller_canceled_request_after(request,client,email,item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Your  request has been cancelled'
+    subject = 'Your request for ' + item + ' has been cancelled by the owner and we have given a $2 credit to use on Nemo'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({

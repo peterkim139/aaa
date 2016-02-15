@@ -198,7 +198,7 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                 item = Params.objects.get(id=requests.param_id)
                 if  status == 'customer_declined':
                     Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-                    cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name)
+                    cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name,item.name)
                     messages.success(request, "Request has been declined")
                 else:
                     today = timezone.now() + datetime.timedelta(days=1)
