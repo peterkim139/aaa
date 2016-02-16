@@ -3,6 +3,6 @@
 
     {% for request in requests %}
         <p>{{request.param.name|title}}</p>
-        <a href='/profile/my_requests/{{request.param_id}}'>See Request</a>
+        <a href='/profile/my_requests/{{request.id}}'>See Request</a>
     {% endfor %}
 {% endblock %}

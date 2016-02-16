@@ -171,7 +171,7 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
         cancel = 0
         if id:
             self.template_name = 'pages/my_request.html'
-            requests = Rent.objects.get(param_id=id)
+            requests = Rent.objects.get(id=id)
             hour = timezone.now() - datetime.timedelta(hours=2)
             if requests.modified < hour:
                 cancel = 1
