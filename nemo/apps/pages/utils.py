@@ -248,7 +248,7 @@ def seller_approved_request(request,client,seller,email,item,price):
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
-    content = loader.render_to_string('pages/emails/seller_declined_request.html', context)
+    content = loader.render_to_string('pages/emails/seller_approved_request.html', context)
     message = {
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',

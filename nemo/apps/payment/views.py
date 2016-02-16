@@ -15,6 +15,7 @@ from django.core import serializers
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Q
 from .models import User,Params,Rent
 from payment.utils import payment_connection,new_rent_mail
 
@@ -82,7 +83,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
     def get_context_data(self, **kwargs):
         context = super(RentView, self).get_context_data(**kwargs)
         context['form'] = RentForm()
-        blockdays = Rent.objects.filter(param_id=self.id)
+        blockdays = Rent.objects.filter(Q(status='pending',param_id=self.id) | Q(status='approved',param_id=self.id))
         dates = {}
         for blockday in blockdays:
             dates[ blockday.rent_date.strftime('%Y-%m-%d')] = blockday.start_date.strftime('%Y-%m-%d')

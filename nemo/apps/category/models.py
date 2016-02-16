@@ -56,6 +56,7 @@ class Porperty_values(AbstractDateTime,models.Model):
         ordering = ["id"]
         db_table = "porperty_values"
         get_latest_by = "created"
+        # verbose_name_plural = 'Values'
 
 
 class Params(AbstractDateTime,models.Model):
