@@ -155,7 +155,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                 rent.user_id = request.user.id
                 rent.save()
                 seller = User.objects.get(id=item.item_owner_id)
-                new_rent_mail(request,seller.email,request.user.first_name,item.name,seller.first_name,item.id)
+                new_rent_mail(request,seller.email,request.user.first_name,item.name,seller.first_name,rent.id)
             messages.success(request, "Your request has been sent successfully")
             return HttpResponseRedirect('/')
 
