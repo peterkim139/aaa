@@ -94,7 +94,6 @@ class RentView(LoginRequiredMixin,TemplateView, View):
 
     def get(self, request,id):
         self.id = id
-        print datetime.datetime.now().date()
         return self.render_to_response(self.get_context_data())
 
     def post(self, request,id):
