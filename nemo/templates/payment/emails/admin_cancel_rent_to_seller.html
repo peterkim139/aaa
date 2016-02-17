@@ -1,18 +1,15 @@
-{% load i18n %}{% autoescape off %}
+<p>Hi {{ seller }},</p></br>
 
-{% blocktrans %}Hi {{ seller }}.{% endblocktrans %}
-{% blocktrans %}
-    We have got a complaint to your account
+    <p>We have got a complaint to your account.</p>
 
-        Complaint details:
-             - Item Name: {{item}}
-             - Item Description:{{description}}
-             - Complainer Name:{{client}}
-             - Quoted Price:{{price}}
-             - Rent Date:{{start_date}} - {{rent_date}}
+        <dl>
+            <dt>Complaint details:</dt>
+                <dd> - Item Name: {{item}} </dd>
+                <dd> - Item Description:{{description}} </dd>
+                <dd> - Complainer Name:{{client}} </dd>
+                <dd> - Quoted Price:{{price}} </dd>
+                <dd> - Rent Date:{{start_date}} - {{rent_date}} </dd>
+        </dl>
 
-{% endblocktrans %}
-To prevent this please make sure to deliver the product properly.
-{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
-
-{% endautoescape %}
+<p>To prevent this please make sure to deliver the product properly.</p>
+<p>The {{ site_name }} team.</p>

@@ -1,18 +1,14 @@
-{% load i18n %}{% autoescape off %}
+<p>Hi {{ client }},</p></br>
 
-{% blocktrans %}Hi {{ client }}.{% endblocktrans %}
-{% blocktrans %}
-    Your complaint has been dealt successfully
+    <p>Your complaint has been dealt successfully.</p>
+        <dl>
+            <dt>Complaint details:</dt>
+                <dd> - Item Name: {{item}} </dd>
+                <dd> - Item Description:{{description}} </dd>
+                <dd> - Seller Name:{{seller}} </dd>
+                <dd> - Refunded amount:{{price}} </dd>
+                <dd> - Rent Date:{{start_date}} - {{rent_date}} </dd>
+        </dl>
 
-        Complaint details:
-             - Item Name: {{item}}
-             - Description:{{description}}
-             - Seller Name:{{seller}}
-             - Refunded amount:{{price}}
-             - Rent Date:{{start_date}} - {{rent_date}}
-
-{% endblocktrans %}
-If you have questions, please contact us.
-{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
-
-{% endautoescape %}
+<p>If you have questions, please contact us.</p>
+<p>The {{ site_name }} team.</p>

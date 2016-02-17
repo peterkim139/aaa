@@ -1,18 +1,13 @@
-{% load i18n %}{% autoescape off %}
+<p>Hi {{ seller }}.</p>
+    <p>The rental fee of {{fee}} for {{item}} is credited to your account. Here is the a summary of the transaction.</p>
 
-{% blocktrans %}Hi {{ seller }}.{% endblocktrans %}
-{% blocktrans %}
-    The rental fee of {{fee}} for {{item}} is credited to your account. Here is the a summary of the transaction:
+        <dl>
+            <dt>Complaint details:</dt>
+                <dd> - Item Name: {{item}} </dd>
+                <dd> - Rented by:{{client}} </dd>
+                <dd> - Dates of Rental:{{start_date}} - {{rent_date}} </dd>
+                <dd> - Price:{{price}} </dd>
+                <dd> - Total amount received:{{total}} </dd>
+        </dl>
 
-
-        Complaint details:
-            - Item Name: {{item}}
-            - Rented by:{{client}}
-            - Dates of Rental:{{start_date}} - {{rent_date}}
-            - Price:{{price}}
-            - Total amount received:{{total}}
-
-{% endblocktrans %}
-{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
-
-{% endautoescape %}
+<p>The {{ site_name }} team.</p>

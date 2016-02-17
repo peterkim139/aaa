@@ -1,9 +1,5 @@
-{% load i18n %}{% autoescape off %}
+<p>Hi {{ seller }},</p></br>
 
-{% blocktrans %}Hi {{ seller }}.{% endblocktrans %}
-{% blocktrans %} The request for {{item}} from {{client}} has been cancelled.{% endblocktrans %}
-As you haven’t approved the request, no action needs to be taken on your side.
+<p>The request for {{item}} from {{client}} has been cancelled.As you haven’t approved the request, no action needs to be taken on your side.</p></br>
 
-{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
-
-{% endautoescape %}
+<p>The {{ site_name }} team.</p>

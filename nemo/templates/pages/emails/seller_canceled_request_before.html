@@ -1,11 +1,6 @@
-{% load i18n %}{% autoescape off %}
+<p>Hi {{ client }},</p></br>
 
-{% blocktrans %}Hi {{ client }}.{% endblocktrans %}
+<p>We are really sorry that the owner had to cancel the approved request for {{item}} due to unforeseen circumstances.
+The full refund is being credited to your account within 48 hours.Please feel free to request a similar item from another owner.</p></br>
 
-{% blocktrans %}
-We are really sorry that the owner had to cancel the approved request for {{item}} due to unforeseen circumstances.
-The full refund is being credited to your account within 48 hours.Please feel free to request a similar item from another owner.
-{% endblocktrans %}
-{% blocktrans %}The {{ site_name }} team.{% endblocktrans %}
-
-{% endautoescape %}
+<p>The {{ site_name }} team.</p>
