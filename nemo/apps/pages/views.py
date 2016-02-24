@@ -64,13 +64,13 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
         if request.POST['rent']:
             payment_connection()
             rent = int(request.POST['rent'])
+            print request.POST['action']
             if request.POST['action'] == 'Approve':
                 status = 'approved'
             elif request.POST['action'] == 'Decline':
                 status = 'seller_declined'
             else:
                 status = 'seller_canceled'
-
             requests = Rent.objects.get(owner_id=request.user.id,id=rent)
             if requests.status == 'pending' or requests.status == 'approved':
                 encrypt= NemoEncrypt()

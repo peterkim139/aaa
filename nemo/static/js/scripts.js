@@ -114,12 +114,17 @@ $(document).ready(function(){
 
     })
 
-    $("#cancel_request_yes").on('click',function(){
+    $(".cancel_request_yes").on('click',function(){
          $( "#cancel_rent" ).submit();
          $.magnificPopup.close();
     })
 
-    $("#cancel_request_no").on('click',function(){
+    $(".cancel_request_no").on('click',function(){
          $.magnificPopup.close();
+    })
+
+    $(".approve").on('click',function(){
+        var type = $(this).val();
+        $('.action').val(type);
     })
 })
