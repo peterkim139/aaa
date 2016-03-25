@@ -33,7 +33,7 @@ def cancel_before_approving(request,email,client,seller,item):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],
@@ -64,7 +64,7 @@ def cancel_after_approving(request, email, client,item,seller,amount):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],
@@ -123,7 +123,7 @@ def seller_penalize_email(request,seller,amount,email):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Your case is resolved'
+    subject = 'Your case has been resolved'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
@@ -132,12 +132,12 @@ def seller_penalize_email(request,seller,amount,email):
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
-    content = loader.render_to_string('pages/emails/cancel_before_approving.html', context)
+    content = loader.render_to_string('pages/emails/seller_penalize_email.html', context)
     message = {
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],
@@ -165,7 +165,7 @@ def seller_canceled_request_before(request,client,email,item):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],
@@ -180,7 +180,7 @@ def seller_canceled_request_after(request,client,email,item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Your request for ' + item + ' has been cancelled by the owner and we have given a $2 credit to use on Nemo'
+    subject = 'Your request for ' + item + ' has been cancelled by the owner and we have given a $2 credit to use on NEMO'
     from_email = settings.AUTO_REPLY
     to = [email]
     context = Context({
@@ -194,7 +194,7 @@ def seller_canceled_request_after(request,client,email,item):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],
@@ -223,7 +223,7 @@ def seller_declined_request(request,client,email,item):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],
@@ -253,7 +253,7 @@ def seller_approved_request(request,client,seller,email,item,price):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'type': 'to'}],

@@ -41,7 +41,7 @@ def new_rent_mail(request, email, client,item,seler,id):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': email,
              'name': seler,
@@ -75,7 +75,7 @@ def expired_rent_client(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': info.user.email,
              'name': info.user.first_name,
@@ -110,7 +110,7 @@ def expired_rent_seller(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
@@ -146,7 +146,7 @@ def admin_cancel_rent_to_seller(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
@@ -181,7 +181,7 @@ def admin_cancel_rent_to_client(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
@@ -210,7 +210,7 @@ def reminder_rent_client(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email':info.user.email,
              'name': info.user.first_name,
@@ -225,7 +225,7 @@ def reminder_rent_seller(info):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Rent for your ' + info.param.name + ' starts tomorrow, please arrange for Pickup soon'
+    subject = 'Rent for your ' + info.param.name + ' starts tomorrow, please arrange for pickup soon'
     from_email = settings.AUTO_REPLY
     to = [info.owner.email]
     context = Context({
@@ -240,7 +240,7 @@ def reminder_rent_seller(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
@@ -280,7 +280,7 @@ def seller_transaction_email(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
@@ -309,7 +309,7 @@ def return_rent_client(info):
         'subject' : subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': 'message.from_email@example.com',
-        'from_name': 'Nemo',
+        'from_name': 'NEMO',
         'html':content,
         'to': [{'email':info.user.email,
              'name': info.user.first_name,
