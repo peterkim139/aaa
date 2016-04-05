@@ -163,6 +163,7 @@ $(document).ready(function(){
             },
             'confirmpassword':{
                 required: true,
+                equalTo: "#id_password",
             }
 
         },
@@ -184,7 +185,7 @@ $(document).ready(function(){
             },
             'confirmpassword':{
                 required: "This field is required.",
-                equalTo: "#password",
+                equalTo: "Password and Confirm Password must match"
             }
 
         },
