@@ -127,4 +127,76 @@ $(document).ready(function(){
         var type = $(this).val();
         $('.action').val(type);
     })
+    //////////////////////////////////////////// Validate only letters /////////////////////////////////////
+
+    $.validator.addMethod("only_letters",
+        function(value, element) {
+        value = value.match(/^[a-zA-Z\s]+$/)
+        value == null ? value = false : value = true;
+        return value;
+    }, "Please enter only letters");
+
+    ///////////////////////////////////// Registr form validation //////////////////////////////////////////////
+
+
+
+    $("#registration").validate({
+        rules: {
+            'email': {
+                required: true,
+                email: true
+            },
+            'phone_number': {
+                required: true,
+                digits: true,
+            },
+            'first_name': {
+                required: true,
+                only_letters: true
+            },
+            'last_name':{
+                required: true,
+                only_letters: true
+            },
+            'password':{
+                required: true,
+            },
+            'confirmpassword':{
+                required: true,
+            }
+
+        },
+        messages: {
+            'email': {
+                required: "This field is required."
+            },
+            'phone_number': {
+                required: "This field is required."
+            },
+            'first_name': {
+                required: "This field is required.",
+            },
+            'last_name':{
+                required: "This field is required.",
+            },
+            'password':{
+                required: "This field is required."
+            },
+            'confirmpassword':{
+                required: "This field is required.",
+                equalTo: "#password",
+            }
+
+        },
+        errorClass: "help-inline",
+            errorElement: "span",
+            highlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').addClass('error');
+                $(element).parents('.control-group').removeClass('success');
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+    });
 })
