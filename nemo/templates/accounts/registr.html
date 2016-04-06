@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-         <form method="post" action="">
+         <form method="post" action="" id="registration">
              {% csrf_token %}
              <div>
                     {{ form.email.label_tag}}
