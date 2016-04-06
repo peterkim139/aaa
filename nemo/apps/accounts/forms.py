@@ -16,6 +16,10 @@ def valdiate_numbersonly(value):
     if not re.match("^[0-9 \+\-\(\)]*$", value):
         raise ValidationError('Please enter a valid phone number')
 
+def validate_zipcodeonly(value):
+    if not re.match("^[0-9 \-]*$", value):
+        raise ValidationError('Please enter a valid zip code')
+
 class LoginFormMixin(object):
     username = forms.CharField(label='User Name', max_length=255, required=True)
     password = forms.CharField(label="Password", widget=forms.PasswordInput, required=True)
@@ -68,6 +72,9 @@ class RegistrationForm(forms.Form):
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
     phone_number = forms.CharField(label="Phone number", max_length=50, required=True,
                                    validators=[valdiate_numbersonly],
+                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
+    zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=10, required=True,
+                                   validators=[validate_zipcodeonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[valdiate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )

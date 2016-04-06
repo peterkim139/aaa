@@ -89,7 +89,7 @@ MEDIA_URL = '/media/'
 
 
 AUTO_REPLY = 'sipanm24@gmail.com'
-ADMIN_EMAIL = 'Nemo'
+ADMIN_EMAIL = 'NEMO'
 
 WSGI_APPLICATION = 'nemo.wsgi.application'
 
@@ -181,8 +181,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_URL = '/static/'
-
-
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'collectstatic')
 
