@@ -150,6 +150,10 @@ $(document).ready(function(){
                 required: true,
                 digits: true,
             },
+            'zip_code': {
+                required: true,
+                digits: true,
+            },
             'first_name': {
                 required: true,
                 only_letters: true
@@ -172,6 +176,9 @@ $(document).ready(function(){
                 required: "This field is required."
             },
             'phone_number': {
+                required: "This field is required."
+            },
+            'zip_code': {
                 required: "This field is required."
             },
             'first_name': {

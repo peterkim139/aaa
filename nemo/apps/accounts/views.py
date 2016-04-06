@@ -13,7 +13,7 @@ from django.core import serializers
 from django.contrib.auth.hashers import make_password
 from .forms import RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm
 from accounts.mixins import LoginRequiredMixin
-from accounts.utils import generate_activation_key,reset_mail
+from accounts.utils import generate_activation_key,reset_mail, confirm_register_mail
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
@@ -72,9 +72,11 @@ class RegisterView(TemplateView, View):
             user.role = 'client'
             user.first_name = form.cleaned_data['first_name']
             user.phone_number = form.cleaned_data['phone_number']
+            user.zip_code = form.cleaned_data['zip_code']
             user.last_name = form.cleaned_data['last_name']
             user.set_password(form.cleaned_data['password'])
             user.save()
+            confirm_register_mail(request, user.email, user.first_name, user.last_name, user.zip_code)
             messages.success(request, "Your request has been sent successfully")
             return HttpResponseRedirect('/')
         else:
