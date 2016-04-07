@@ -119,7 +119,7 @@ def seller_approve(requests,current_user,customer_id,fee):
 
     return result
 
-def seller_penalize_email(request,seller,amount,email):
+def seller_penalize_email(request,seller,item,amount,email):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -129,6 +129,7 @@ def seller_penalize_email(request,seller,amount,email):
     context = Context({
         'seller': seller,
         'amount':amount,
+        'item':item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })

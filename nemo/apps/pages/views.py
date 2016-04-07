@@ -27,9 +27,9 @@ class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
 
     def get(self,request):
-
+        print request.user.id
         requests = Rent.objects.filter(owner_id=request.user.id)
-
+        print requests
         return self.render_to_response({'requests':requests})
 
 class RequestView(LoginRequiredMixin,TemplateView, View):
@@ -143,7 +143,8 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                                 }
                             })
                             if result.is_success:
-                                seller_penalize_email(request,current_user.first_name,amount,current_user.email)
+                                item = Params.objects.get(id=requests.param_id)
+                                seller_penalize_email(request,current_user.first_name, item.name, amount,current_user.email)
                                 if amount == '2.00':
                                     seller_canceled_request_before(request,orderer.first_name,orderer.email,requests.param.name)
                                 else:
@@ -189,7 +190,6 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
                 status = 'customer_declined'
             else:
                 status = 'customer_canceled'
-
             requests = Rent.objects.get(user_id=request.user.id,id=rent)
             if requests.status == 'pending' or requests.status == 'approved':
                 encrypt= NemoEncrypt()

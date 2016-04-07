@@ -74,7 +74,10 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
                     messages.error(request, "Error")
                     return HttpResponseRedirect('/list')
             else:
-                messages.error(request, "error")
+                for error in result.errors.deep_errors:
+                    error_message = error.message
+
+                messages.error(request, error_message)
                 return self.render_to_response(self.get_context_data(form=form))
         else:
             return self.render_to_response(self.get_context_data(form=form))
