@@ -64,6 +64,7 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
             "master_merchant_account_id": "sipan",
             }
             result = braintree.MerchantAccount.create(merchant_account_params)
+            print result
             if result.is_success:
                 try:
                     User.objects.filter(id=request.user.id).update(merchant_id=result.merchant_account.id)
@@ -71,7 +72,10 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
                     return HttpResponseRedirect('/list')
                 except Exception as e:
                     messages.error(request, "Error")
-                return HttpResponseRedirect('/list')
+                    return HttpResponseRedirect('/list')
+            else:
+                messages.error(request, "error")
+                return self.render_to_response(self.get_context_data(form=form))
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
@@ -102,7 +106,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
         form = RentForm(data=request.POST)
         if form.is_valid():
 
-            blockdays = Rent.objects.filter(param_id=self.id)
+            blockdays = Rent.objects.filter(Q(status='pending',param_id=self.id) | Q(status='approved',param_id=self.id))
             dates = []
             for blockday in blockdays:
                 while blockday.start_date <= blockday.rent_date:
