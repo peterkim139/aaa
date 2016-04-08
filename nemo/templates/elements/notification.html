@@ -4,11 +4,11 @@ $(document).ready(function() {
         {% for message in messages %}
             {% if message.tags == 'success' %}
                 var success = "{{ message }}";
-                $.jGrowl(success, {theme: 'right',sticky: true});
+                $.jGrowl(success, {theme:'right',sticky:true});
             {% endif %}
             {% if message.tags == 'error' %}
                 var error = "{{ message }}";
-                $.jGrowl(error, {theme: 'right',sticky: true});
+                $.jGrowl(error, {theme:'right',sticky:true});
             {% endif %}
         {% endfor %}
     {% endif %}

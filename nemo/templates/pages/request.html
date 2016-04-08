@@ -2,15 +2,21 @@
 {% block content %}
     <p>{{requests.param.name|title}}</p>
     <p>{{requests.param.description}}</p>
+    {% if requests.status == 'pending' %}
+    <form  action='' method="POST" id="decline_rent">
+        {% csrf_token %}
+        <input type='hidden' value='{{requests.id}}' name="rent">
+        <input type='hidden' value='' name="action" class='action'>
 
+            <input type="submit"  value="Approve" class="approve"/>
+            <input type="submit"  value="Cancel" class="approve"/>
+    </form>
+    {% elif requests.status == 'approved' %}
     <form  action='' method="POST" id="cancel_rent">
         {% csrf_token %}
         <input type='hidden' value='{{requests.id}}' name="rent">
         <input type='hidden' value='' name="action" class='action'>
-        {% if requests.status == 'pending' %}
-            <input type="submit"  value="Approve" class="approve"/>
-            <input type="submit"  value="Cancel" class="approve"/>
-        {% elif requests.status == 'approved' %}
+
                 <div>
                     {{ form.card_number.label_tag}}
                     {{ form.card_number }}
@@ -32,8 +38,8 @@
                     {{ form.year.errors }}
                 </div>
             <input type="submit"  value="Cancel" id="cancel_request" class="approve"/>
-        {% endif %}
     </form>
+    {% endif %}
     <div id="cancel_request_popup_2" class="popupWrap mfp-hide">
         <h1>Confirmation</h1>
         <p>Please note that you have already approved your neighbor’s request and your neighbor is awaiting the item, if you cancel now, you will be charged $2 as a compensation to your neighbor and to cover the transaction fee.</p>

@@ -51,25 +51,25 @@ $(document).ready(function(){
                 required: true,
                 digits: true,
                 minlength: 15,
-                minlength: 16,
+                maxlength: 16,
             },
             'cvv': {
                 required: true,
                 digits: true,
-                minlength: 4,
+                maxlength: 4,
                 minlength: 3,
             },
             'month': {
                 required: true,
                 digits: true,
                 minlength: 2,
-                minlength: 2,
+                maxlength: 2,
             },
             'year':{
                 required: true,
                 digits: true,
                 minlength: 4,
-                minlength: 4,
+                maxlength: 4,
             },
 
         },
@@ -102,16 +102,17 @@ $(document).ready(function(){
     });
 
     $("#cancel_request").on('click',function (e) {
-        e.preventDefault();
-        var src = '';
-        amount == '2' ? src = '#cancel_request_popup_2' : src = '#cancel_request_popup_5';
-        $.magnificPopup.open({
-            items: {
-                src: src,
-            },
-            showCloseBtn: false,
-        });
-
+        if($("#cancel_rent").valid()){
+            var src = '';
+            amount == '2' ? src = '#cancel_request_popup_2' : src = '#cancel_request_popup_5';
+            $.magnificPopup.open({
+                items: {
+                    src: src,
+                },
+                showCloseBtn: false,
+            });
+            return false;
+        }
     })
 
     $(".cancel_request_yes").on('click',function(){
@@ -121,6 +122,7 @@ $(document).ready(function(){
 
     $(".cancel_request_no").on('click',function(){
          $.magnificPopup.close();
+         return false;
     })
 
     $(".approve").on('click',function(){
