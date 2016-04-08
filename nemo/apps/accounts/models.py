@@ -17,7 +17,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
     merchant_id = models.CharField(max_length=255, blank=True,default='')
     customer_id = models.CharField(max_length=255, blank=True,default='')
     phone_number = models.CharField(max_length=255,blank=False,default='')
-    zip_code = models.CharField(max_length=10,blank=False,default='')
+    zip_code = models.CharField(max_length=5,blank=False,default='')
     STATUS_TYPES = (('admin', 'admin'),('client', 'client'))
     role = models.CharField(max_length=10,choices=STATUS_TYPES,default='client')
     reset_key = models.CharField(max_length=255, blank=True,default='')
