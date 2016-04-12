@@ -64,7 +64,6 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
             "master_merchant_account_id": "sipan",
             }
             result = braintree.MerchantAccount.create(merchant_account_params)
-            print result
             if result.is_success:
                 try:
                     User.objects.filter(id=request.user.id).update(merchant_id=result.merchant_account.id)
