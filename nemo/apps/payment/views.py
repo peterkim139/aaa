@@ -17,7 +17,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 from .models import User,Params,Rent
-from payment.utils import payment_connection,new_rent_mail
+from payment.utils import payment_connection,new_rent_mail,show_errors
 
 class ConnectView(LoginRequiredMixin,TemplateView, View):
     template_name = 'payment/connect.html'
@@ -73,10 +73,7 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
                     messages.error(request, "Error")
                     return HttpResponseRedirect('/list')
             else:
-                for error in result.errors.deep_errors:
-                    error_message = error.message
-
-                messages.error(request, error_message)
+                show_errors(request,result)
                 return self.render_to_response(self.get_context_data(form=form))
         else:
             return self.render_to_response(self.get_context_data(form=form))
@@ -146,6 +143,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                     "cvv": form.cleaned_data['cvv']
                     }
                 })
+
             if customer.is_success:
                 customer_id = encrypt.encrypt_val(customer.customer.id)
                 item = Params.objects.get(id=id)
@@ -161,7 +159,10 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                 rent.save()
                 seller = User.objects.get(id=item.item_owner_id)
                 new_rent_mail(request,seller.email,request.user.first_name,item.name,seller.first_name,rent.id)
-            messages.success(request, "Your request has been sent successfully")
+                messages.success(request, "Your request has been sent successfully")
+            else:
+                show_errors(request,customer)
+                return self.render_to_response(self.get_context_data(form=form))
             return HttpResponseRedirect('/')
 
         else:

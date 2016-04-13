@@ -5,6 +5,7 @@ from decimal import Decimal
 from django.template import Context
 from django.template import loader
 from django.conf import settings
+from django.contrib import messages
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -320,5 +321,10 @@ def return_rent_client(info):
     }
     result = mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
-
-
+def show_errors(request,result):
+    if type(result) is str:
+        messages.error(request, result)
+    else:
+        for error in result.errors.deep_errors:
+            error_message = error.message
+        messages.error(request, error_message)
