@@ -150,9 +150,14 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                 User.objects.filter(id=request.user.id).update(customer_id=customer_id)
                 rent = Rent()
                 rent.status = 'pending'
-                rent.price = item.price
                 rent.start_date = form.cleaned_data['start_date']
                 rent.rent_date = form.cleaned_data['rent_date']
+                start_date_str = str(rent.start_date)
+                converted_start_date = datetime.datetime.strptime(start_date_str, '%Y-%m-%d')
+                rent_date_str = str(rent.rent_date)
+                converted_rent_date = datetime.datetime.strptime(rent_date_str, '%Y-%m-%d')
+                rent_period = converted_rent_date-converted_start_date
+                rent.price = item.price*rent_period.days
                 rent.owner_id = item.item_owner_id
                 rent.param_id = item.id
                 rent.user_id = request.user.id

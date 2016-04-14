@@ -2,6 +2,8 @@
 {% block content %}
     <p>{{requests.param.name|title}}</p>
     <p>{{requests.param.description}}</p>
+    <p>{{requests.start_date.date}}</p>
+    <p>{{requests.rent_date.date}}</p>
     {% if requests.status == 'pending' %}
     <form  action='' method="POST" id="decline_rent">
         {% csrf_token %}
