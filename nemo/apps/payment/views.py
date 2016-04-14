@@ -157,7 +157,7 @@ class RentView(LoginRequiredMixin,TemplateView, View):
                 rent_date_str = str(rent.rent_date)
                 converted_rent_date = datetime.datetime.strptime(rent_date_str, '%Y-%m-%d')
                 rent_period = converted_rent_date-converted_start_date
-                rent.price = item.price*rent_period.days
+                rent.price = item.price*(rent_period.days+1)
                 rent.owner_id = item.item_owner_id
                 rent.param_id = item.id
                 rent.user_id = request.user.id
