@@ -5,10 +5,6 @@ from django.forms import extras
 from django.core.exceptions import ValidationError
 import datetime
 
-def validate_lettersonly(value):
-    if not re.match("^[A-Za-z ]*$", value):
-        raise ValidationError('Name field should contain only letters')
-
 def validate_numbersonly(value):
     if not re.match("^[0-9]*$", value):
         raise ValidationError('Field should contain only number')
@@ -21,13 +17,6 @@ def validate_year(value):
     if not re.match("^[0-9]*$", value) or ( int(value) > 2050 or int(value) < datetime.datetime.now().year):
         raise ValidationError('Please enter a correct year')
 
-def has_numbers(value):
-    if not any(char.isdigit() for char in value):
-        raise ValidationError('Field should contain at least 1 digit')
-
-def validate_length(value):
-    if len(value) != 4:
-        raise ValidationError('Field should contain Social Security Number last 4 digits')
 
 class RentForm(forms.Form):
 

@@ -64,14 +64,15 @@ $(document).ready(function(){
                 digits: true,
                 minlength: 2,
                 maxlength: 2,
+                valid_month: true
             },
             'year':{
                 required: true,
                 digits: true,
                 minlength: 4,
                 maxlength: 4,
+                valid_year: true
             },
-
         },
         messages: {
 
@@ -100,6 +101,27 @@ $(document).ready(function(){
                 $(element).parents('.control-group').addClass('success');
             }
     });
+
+    $.validator.addMethod("valid_year", function(value, element) {
+       var result
+       if(value >= (new Date).getFullYear() && value <= 2050){
+           result = true;
+       }else{
+           result = false;
+       }
+       return result;
+    }, "Please enter a correct year.");
+
+    $.validator.addMethod("valid_month", function(value, element) {
+       var result
+       if (value != 10){value = value.replace(/0/g,'')}
+       if(value >= 1 && value <= 12){
+           result = true;
+       }else{
+           result = false;
+       }
+       return result;
+    }, "Month field can accept values from 01 to 12");
 
     $("#cancel_request").on('click',function (e) {
         if($("#cancel_rent").valid()){
@@ -158,7 +180,7 @@ $(document).ready(function(){
             },
             'first_name': {
                 required: true,
-                only_letters: true
+                only_letters: true,
             },
             'last_name':{
                 required: true,
