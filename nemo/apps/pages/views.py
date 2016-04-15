@@ -21,7 +21,7 @@ from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
 from pages.utils import payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
-
+from payment.utils import show_errors
 
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
@@ -118,44 +118,47 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                                 "cvv": form.cleaned_data['cvv']
                                 }
                             })
-                            if customer.is_success:
-                                User.objects.filter(id=request.user.id).update(customer_id=encrypt.encrypt_val(customer.customer.id))
-                                current_user = User.objects.get(id=requests.owner_id)
-                        today = timezone.now() + datetime.timedelta(days=1)
-                        customer_id = encrypt.decrypt_val(current_user.customer_id)
-                        if today < requests.start_date:
-                            amount = '2.00'
-                        else:
-                            amount = '5.00'
-
-                        transaction = braintree.Transaction.find(requests.transaction)
-                        if transaction.escrow_status == 'held':
-                            refund = braintree.Transaction.refund(requests.transaction)
-                        elif transaction.escrow_status == 'hold_pending':
-                            refund = braintree.Transaction.void(requests.transaction)
-
-                        if refund.is_success:
-                            result = braintree.Transaction.sale({
-                                "amount": amount,
-                                "customer_id": customer_id,
-                                "options": {
-                                    "submit_for_settlement": True
-                                }
-                            })
-                            if result.is_success:
-                                item = Params.objects.get(id=requests.param_id)
-                                seller_penalize_email(request,current_user.first_name, item.name, amount,current_user.email)
-                                if amount == '2.00':
-                                    seller_canceled_request_before(request,orderer.first_name,orderer.email,requests.param.name)
-                                else:
-                                    credits = Decimal(orderer.credits) + Decimal('2.00')
-                                    User.objects.filter(id=orderer.id).update(credits=credits)
-                                    seller_canceled_request_after(request,orderer.first_name,orderer.email,requests.param.name)
-                                messages.success(request, "Request has been canceled")
+                        if customer.is_success:
+                            User.objects.filter(id=request.user.id).update(customer_id=encrypt.encrypt_val(customer.customer.id))
+                            current_user = User.objects.get(id=requests.owner_id)
+                            today = timezone.now() + datetime.timedelta(days=1)
+                            customer_id = encrypt.decrypt_val(current_user.customer_id)
+                            if today < requests.start_date:
+                                amount = '2.00'
                             else:
-                                messages.error(request, "There is an error in refund process")
+                                amount = '5.00'
 
-                        Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                            transaction = braintree.Transaction.find(requests.transaction)
+                            if transaction.escrow_status == 'held':
+                                refund = braintree.Transaction.refund(requests.transaction)
+                            elif transaction.escrow_status == 'hold_pending':
+                                refund = braintree.Transaction.void(requests.transaction)
+
+                            if refund.is_success:
+                                result = braintree.Transaction.sale({
+                                    "amount": amount,
+                                    "customer_id": customer_id,
+                                    "options": {
+                                        "submit_for_settlement": True
+                                    }
+                                })
+                                if result.is_success:
+                                    item = Params.objects.get(id=requests.param_id)
+                                    seller_penalize_email(request,current_user.first_name, item.name, amount,current_user.email)
+                                    if amount == '2.00':
+                                        seller_canceled_request_before(request,orderer.first_name,orderer.email,requests.param.name)
+                                    else:
+                                        credits = Decimal(orderer.credits) + Decimal('2.00')
+                                        User.objects.filter(id=orderer.id).update(credits=credits)
+                                        seller_canceled_request_after(request,orderer.first_name,orderer.email,requests.param.name)
+                                    messages.success(request, "Request has been canceled")
+                                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                                else:
+                                    messages.error(request, "There is an error in refund process")
+                            else:
+                                show_errors(request, refund)
+                        else:
+                            show_errors(request, customer)
                     else:
                         return self.render_to_response(self.get_context_data(form=form))
             else:
