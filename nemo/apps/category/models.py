@@ -66,6 +66,14 @@ class Params(AbstractDateTime,models.Model):
     name = models.CharField(max_length=255, blank=False,default='')
     price = models.DecimalField(max_digits=5, decimal_places=2,default=0)
     description  = models.TextField(blank=False,null=False,validators=[MaxLengthValidator(200)],default='')
+    address = models.CharField(max_length=255, blank=False, default='')
+    state = models.CharField(max_length=255, blank=False, default='')
+    city = models.CharField(max_length=255, blank=False, default='')
+    postal_code = models.CharField(max_length=255, blank=False, default='')
+    latitude = models.CharField(max_length=255, blank=False, default='')
+    longitude = models.CharField(max_length=255, blank=False, default='')
+
+
     def __unicode__(self):
         return unicode(self.name) or 'not found'
 
@@ -73,3 +81,4 @@ class Params(AbstractDateTime,models.Model):
         ordering = ["id"]
         db_table = "parametrs"
         get_latest_by = "created"
+

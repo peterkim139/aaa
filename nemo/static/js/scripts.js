@@ -1,5 +1,5 @@
 
-//////////////////////           datepicker  range dates            //////////////////////////////
+//////////////////////  datepicker  range dates  //////////////////////////////
 
 function validateDateRange() {
 
@@ -160,9 +160,9 @@ $(document).ready(function(){
         return value;
     }, "Please enter only letters");
 
+
+
     ///////////////////////////////////// Registr form validation //////////////////////////////////////////////
-
-
 
     $("#registration").validate({
         rules: {
@@ -231,4 +231,160 @@ $(document).ready(function(){
                 $(element).parents('.control-group').addClass('success');
             }
     });
+
+
+    $("#image-uploader").each(function(){
+               var id = $(this).attr('id');
+               imageUpload(id);
+    });
+
+    function imageUpload(id){
+        return new qq.FileUploader({
+            element: document.getElementById(id),
+            'action': '/profile/upload_image/',
+            'debug': false,
+            multiple: false,
+            sizeLimit: 2 * 1024 * 1024, // max size
+            minSizeLimit: 0, // min size
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+            onSubmit: function(id, fileName){
+                if ($('.qq-upload-list').has('li')) {
+                    $('.qq-upload-list').html('');
+                }
+            },
+            onProgress: function(id, fileName, responseJSON){
+
+            },
+            onComplete: function(id, fileName, responseJSON){
+                if(responseJSON.filename){
+                    $('.qq-upload-file').append(" - "),
+                    $('.qq-upload-failed-text').text(''),
+                    $('#filename').val(responseJSON.filename),
+                    $('#preview_image').attr('src','/media/images/items/'+responseJSON.filename)
+                }
+            },
+            onCancel: function(id, fileName){$('.qq-upload-button').removeClass('.qq-upload-button-visited')},
+            messages: {
+                sizeError: "Your photo(s) couldn't be uploaded. Photos should be less than 2 MB and saved as JPG, JPEG, GIF or PNG files. ",
+                typeError: "Your photo(s) couldn't be uploaded. Photos should be less than 2 MB and saved as JPG, JPEG, GIF or PNG files. ",
+            },
+            showMessage: function(message){
+                $.jGrowl(message,{theme: 'jGrowlError'});
+            }
+        });
+    }
+
+    //////////////////////////////////////////// Validate if image is uploaded /////////////////////////////////////
+
+    $.validator.addMethod("image_uploaded",
+        function(value, element) {
+            value == '' ? value = false : value = true;
+            return value;
+         },
+    "This field is required");
+
+    ///////////////////////////////////// Add Listing Fօrm Validation //////////////////////////////////////////////
+
+    $("#add_listing_form").validate({
+
+        ignore:[], // to validate hidden fields
+        rules: {
+            'street_address': {
+                required: true,
+            },
+            'city': {
+                required: true,
+            },
+            'state': {
+                required: true,
+            },
+            'postal_code': {
+                required: true,
+                digits: true,
+                maxlength: 5,
+                minlength: 5,
+            },
+            'name':{
+                required: true,
+            },
+            'subcategory':{
+                required: true,
+            },
+            'description':{
+                required: true,
+            },
+            'price':{
+                required: true,
+                digits: true,
+                maxlength: 3,
+            },
+            'image_file':{
+                image_uploaded: true,
+            },
+        },
+        messages: {
+            'street_address': {
+                required: "This field is required."
+            },
+            'city': {
+                required: "This field is required."
+            },
+            'state': {
+                required: "This field is required."
+            },
+            'postal_code': {
+                required: "This field is required."
+            },
+            'name':{
+                required: "This field is required."
+            },
+            'subcategory':{
+                required: "This field is required."
+            },
+            'description':{
+                required: "This field is required."
+            },
+            'price':{
+                required: "This field is required."
+            },
+        },
+        errorClass: "help-inline",
+            errorElement: "span",
+            highlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').addClass('error');
+                $(element).parents('.control-group').removeClass('success');
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+    });
+
+    ///////////////////////  preview add listing form //////////////////////////
+
+    $('#add_listing_form_preview').hide();
+    $("#preview_add_listing_form").on('click',function(e){
+        if($("#add_listing_form").valid()){
+                e.preventDefault();
+                $("#add_listing_form_preview").show();
+                $("#preview_location").text($("#street_address").val())
+                $("#preview_title").text($("#name").val());
+                $("#preview_category").text($("#id_subcategory option:selected").text());
+                $("#preview_description").text($("#description").val());
+                $("#preview_price").text($("#price").val());
+                $("#add_listing_form").hide();
+        }
+    })
+
+    $("#edit_add_listing_form").on('click',function(e){
+        $("#add_listing_form_preview").hide();
+        $("#add_listing_form").show();
+    })
+
+    $("#submit_add_listing_form").on('click',function(e){
+        $( "#add_listing_form" ).submit();
+    })
+
+
 })
+

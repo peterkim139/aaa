@@ -1,10 +1,11 @@
 import datetime
 import braintree
+from django.http import JsonResponse
 from decimal import Decimal
 from Crypto.Cipher import AES
 import base64
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect, HttpResponse
 from  django.template.context_processors import csrf
@@ -15,13 +16,15 @@ from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from payment.models import Rent
-from .forms import RentForm
+from .forms import RentForm, AddListingForm
 from accounts.models import User
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from pages.utils import payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
+from pages.utils import save_file,payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
 from payment.utils import show_errors
+from category.models import Params
+from pages.models import Image
 
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
@@ -222,3 +225,66 @@ class MyRequestsView(LoginRequiredMixin,TemplateView, View):
         else:
             messages.error(request, "There is no request")
         return HttpResponseRedirect('/profile/my_requests/'+id)
+
+
+class UploadImageView(LoginRequiredMixin, View):
+    def post(self, request):
+        if request.method == "POST":
+            if request.is_ajax( ):
+                upload = request
+                filename = request.GET[ 'qqfile' ]
+                response = save_file(request, upload,filename,'images/items/',True)
+
+
+            return JsonResponse({'filename':response})
+
+
+class AddListingView(LoginRequiredMixin,TemplateView, View):
+    template_name = 'pages/add_listing.html'
+
+    def get_context_data(self, **kwargs):
+        data = {}
+        context = super(AddListingView, self).get_context_data(**kwargs)
+        context['form'] = AddListingForm()
+        if 'form' in kwargs:
+            context.update({'form': AddListingForm(self.request.POST)})
+        return context
+
+    def get(self, request):
+        return self.render_to_response(self.get_context_data())
+
+    def post(self, request):
+
+        form = AddListingForm(request.POST, request.FILES)
+        if form.is_valid():
+
+            parameters = Params()
+            parameters.price = form.cleaned_data['price']
+            parameters.name = form.cleaned_data['name']
+            parameters.item_owner_id = request.user.id
+            parameters.subcategory = form.cleaned_data['subcategory']
+            parameters.description = form.cleaned_data['description']
+            parameters.address = form.cleaned_data['street_address']
+            parameters.city = form.cleaned_data['city']
+            parameters.postal_code = form.cleaned_data['postal_code']
+            parameters.state = form.cleaned_data['state']
+            parameters.latitude = form.cleaned_data['latitude']
+            parameters.longitude = form.cleaned_data['longitude']
+            parameters.save()
+
+            image = Image()
+            if 'image_filename' in request.session:
+                image_filename = request.session['image_filename']
+            image_name = form.cleaned_data['image_file']
+            if image_name == image_filename:
+                image.name = image_name
+                image.param_image_id = parameters.id
+                image.save()
+                del request.session['image_filename']
+
+            messages.success(request,"Successfully Added")
+            return HttpResponseRedirect('/')
+        else:
+            messages.error(request,"Not Added")
+            return self.render_to_response(self.get_context_data(form=form))
+

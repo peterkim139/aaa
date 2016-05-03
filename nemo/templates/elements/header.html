@@ -36,7 +36,11 @@
 										{% else %}
 										<li><a href="/logout/">Logout</a></li>
 										{% endif %}
-										<li><a href="#">List Your Item</a></li>
+										{% if user.is_anonymous %}
+										<li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Item</a></li>
+										{% else %}
+										<li><a href="/profile/add_listing">List Your Item</a></li>
+										{% endif %}
 										<li><a href="#">Support</a></li>
 									</ul>
 								</nav>
@@ -44,6 +48,20 @@
 						</div>
 						<button id="showMenu" class="hamburgerBtn"><i class="icon-bars"></i></button>
 					</header>
+
+					<div id="login_popup" class="mfp-hide popupWrap">
+						<form method="post" action="login/?next=/profile/add_listing/">
+							  {% csrf_token %}
+							  <div>
+                				<label for="id_username">Email:</label>
+                				<input class="formControl" id="id_username" maxlength="255" name="username" type="text" />
+							  </div>
+							  <div>
+							    <label for="id_password">Password:</label>
+								<input class="formControl" id="id_password" name="password" type="password" />
+							  </div><input type="submit" value="send">
+						</form>
+					</div>
 					<div class="container">
 						<div class="homeTopTxt">
 							<h1 class="wow fadeInDown">WELCOME TO YOUR <span>NEIGHBOR</span>HOOD</h1>

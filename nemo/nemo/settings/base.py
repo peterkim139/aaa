@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
     'accounts',
-    'pages',
     'category',
     'payment',
+    'pages',
 ]
 
 

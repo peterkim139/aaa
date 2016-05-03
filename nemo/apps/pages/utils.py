@@ -4,6 +4,10 @@ from decimal import Decimal
 from django.template import Context
 from django.template import loader
 from django.conf import settings
+import uuid
+from pages.models import Image
+import os
+
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -263,3 +267,31 @@ def seller_approved_request(request,client,seller,email,item,price):
         'tracking_domain': 'nemo.codebnb.me',
     }
     result = mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
+def save_file(request, uploaded,filename,path,raw_data = True):
+
+    if 'image_filename' in request.session:
+        image_filename = request.session['image_filename']
+        try:
+            image = Image.objects.get(name=image_filename)
+        except Image.DoesNotExist:
+            image = None
+        if image == None:
+            myfile="media/images/items/" + image_filename
+            if os.path.isfile(myfile):
+                os.remove(myfile)
+
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    request.session['image_filename'] = filename
+    image_filename = request.session['image_filename']
+    try:
+        fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)), 'wb')
+        if raw_data:
+            foo = uploaded.read( 1024 )
+            while foo:
+                fd.write( foo )
+                foo = uploaded.read( 1024 )
+        return filename
+    except IOError:
+        return False

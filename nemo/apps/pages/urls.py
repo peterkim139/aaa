@@ -18,11 +18,14 @@ Including another URLconf
 
 from django.conf.urls import patterns,include, url
 from django.contrib import admin
+from django.views.decorators.csrf import csrf_exempt
 from . import views
 
 urlpatterns = [
      url(r'^requests/$',views.RequestsView.as_view(),name='requests'),
      url(r'^request/(?P<id>\d+)/$',views.RequestView.as_view(),name='request'),
+     url(r'^add_listing/$',views.AddListingView.as_view(),name='add_listing'),
+     url(r'^upload_image/$',csrf_exempt(views.UploadImageView.as_view()),name='upload_image'),
      url(r'^my_requests/$',views.MyRequestsView.as_view(),name='my_requests'),
      url(r'^my_requests/(?P<id>\d+)/$',views.MyRequestsView.as_view(),name='my_requests'),
 ]

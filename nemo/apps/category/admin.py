@@ -24,7 +24,7 @@ class PropertiesAdmin(admin.ModelAdmin):
 
 class ValuesAdmin(admin.ModelAdmin):
     readonly_fields = ['created','modified']
-    
+
 admin.site.register(Porperty_values,ValuesAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Params, ParamsAdmin)
