@@ -285,6 +285,5 @@ class AddListingView(LoginRequiredMixin,TemplateView, View):
             messages.success(request,"Successfully Added")
             return HttpResponseRedirect('/')
         else:
-            messages.error(request,"Not Added")
             return self.render_to_response(self.get_context_data(form=form))
 
