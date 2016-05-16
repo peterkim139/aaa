@@ -26,6 +26,7 @@ from payment.utils import show_errors
 from category.models import Params
 from pages.models import Image
 
+
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
 
@@ -234,8 +235,6 @@ class UploadImageView(LoginRequiredMixin, View):
                 upload = request
                 filename = request.GET[ 'qqfile' ]
                 response = save_file(request, upload,filename,'images/items/',True)
-
-
             return JsonResponse({'filename':response})
 
 
@@ -277,7 +276,7 @@ class AddListingView(LoginRequiredMixin,TemplateView, View):
                 image_filename = request.session['image_filename']
             image_name = form.cleaned_data['image_file']
             if image_name == image_filename:
-                image.name = image_name
+                image.image_name = image_name
                 image.param_image_id = parameters.id
                 image.save()
                 del request.session['image_filename']

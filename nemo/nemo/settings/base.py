@@ -187,6 +187,9 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'collectstatic')
 STATICFILES_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), 'static'),
 )
+
+GEOIP_PATH =os.path.join(os.path.dirname(BASE_DIR), 'geoip')
+
 # Email settings
 DEFAULT_FROM_EMAIL = 'local@email.com'
 
@@ -247,6 +250,11 @@ BRAINTREE_PRIVATE_KEY = '407840324125e98f5efc1d4666101ed5'
 
 #Mandrill
 
-MANDRILL_KEY = 'VRFMjPImxCGKZ6Amy-4m9A'
+MANDRILL_KEY = 'A2Bh8H6M1FWKHTa8KOpMhw'
 
 CUSTOMER_ID = '30179242'
+
+#Image validation
+
+CONTENT_TYPES = ['image']
+MAX_UPLOAD_SIZE = "2097152"

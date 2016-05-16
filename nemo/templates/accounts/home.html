@@ -1,6 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 
+		<form method="GET" action="/search_results/">
+			<input type="text" name="name" value="{{request.GET.name}}"/><br>
+			<!--{% if cats %}-->
+				<!--{% for cat in cats %}-->
+					<!--<input type="checkbox" name="category" id="option_{{cat.id}}" value={{cat.id}} />-->
+					<!--<label for="option_{{cat.id}}"><b>{{cat.name}}</b></label><br />-->
+				<!--{% endfor %}-->
+			<!--{% endif %}-->
+			<input type="submit" value="Search"/>
+		</form>
+		{% if items and count > 0 %}
+			{% for item in items %}
+				<div class="item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
+						<p class="item_name">{{ item.name }}</p>
+						<p class="item_description">{{ item.description }}</p>
+						<p class="item_price">{{ item.price }}</p>
+						<p class="item_distance">{{ item.distance }} miles away</p>
+                    	<img class="item_image" src="/media/images/items/{{ item.image_name }}"/>
+				</div>
+			{% endfor %}
+		{% else %}
+			<p>No results found.</p>
+		{% endif %}
+
+	<div id="map_canvas" style="width : 500px; height: 500px;"></div>
+    <script>
+    var latitude = '{{ latitude }}';
+    var longitude = '{{ longitude }}'
+    getLocation();
+    initMap(latitude,longitude) ;
+    </script>
+
+
 <!-- POPUPS -->
 	<div id="change-address" class="mfp-hide popupWrap">
 		<div class="popupHead">
@@ -28,6 +61,7 @@
 	</div>
 
 <section class="homeSrch">
+
 					<div class="container">
 						<div class="srchAddress">
 							<p><i class="icon-location"></i> Address: <a href="#change-address" class="popupBtn">Default</a></p>

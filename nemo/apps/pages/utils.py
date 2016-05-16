@@ -268,7 +268,7 @@ def seller_approved_request(request,client,seller,email,item,price):
     }
     result = mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
-def save_file(request, uploaded,filename,path,raw_data = True):
+def save_file(request, uploaded,filename,path,raw_data = True,):
 
     if 'image_filename' in request.session:
         image_filename = request.session['image_filename']

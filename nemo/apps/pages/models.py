@@ -11,8 +11,7 @@ from category.models import Params
 class Image(models.Model):
 
     param_image = models.ForeignKey(Params)
-    #name = models.FileField(upload_to = 'images/items/', null=True,blank=False)
-    name = models.CharField(max_length=255, blank=False, default='')
+    image_name = models.CharField(max_length=255, blank=False, default='')
     created = models.DateTimeField(auto_now=False,auto_now_add=True)
     modified = models.DateTimeField(auto_now=True,auto_now_add=False)
 

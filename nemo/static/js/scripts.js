@@ -22,6 +22,8 @@ function validateDateRange() {
     }
 
 }
+
+
 $(document).ready(function(){
 
 ////////////////////////////////////////////////  datepicker validation ////////////////////////////////////
@@ -384,7 +386,115 @@ $(document).ready(function(){
     $("#submit_add_listing_form").on('click',function(e){
         $( "#add_listing_form" ).submit();
     })
-
-
 })
+
+/////////////////////  set data in cookie /////////////////////////////////
+
+     function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+     }
+
+/////////////////////// get user location ////////////////////////////
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+    }
+
+    function showPosition(position) {
+        $("#latitude").val(position.coords.latitude);
+        $("#longitude").val(position.coords.longitude)
+        var cvalue = [position.coords.latitude,position.coords.longitude]
+        setCookie('lat_lng',cvalue,30)
+    }
+
+ /////////////////////////     init map ,show items on map /////////////////////////
+
+function initMap(latitude,longitude) {
+
+    window.pin = '/media/images/icons/map-pin.png';
+    window.pun = '/media/images/icons/map-pun.png';
+    window.user = '/media/images/icons/map-user.png'
+    var markers = [];
+    var latlngbounds = new google.maps.LatLngBounds();
+
+    var map = new google.maps.Map(document.getElementById("map_canvas"), {
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        frameborder: 0,
+        scrollwheel: false,
+        style: "border:0",
+        allowfullscreen: true,
+        zoom: 8,
+        center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
+    });
+
+    var myLatLng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+
+    var my_marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: window.user,
+        title: 'Your Location!'
+    });
+
+    var currentInfoWindow = null;
+    var show = false;
+
+    $('.item_details:visible').each(function(){
+
+        var lat = $(this).attr('data-lat');
+        var lng = $(this).attr('data-lng');
+
+        if(lat && lng) {
+            show = true;
+            var id = $(this).attr('data-id');
+            var latLng = new google.maps.LatLng(lat, lng);
+            var marker = new google.maps.Marker({
+                position: latLng,
+                animation: google.maps.Animation.DROP,
+                title: $(this).children('.item_name').text(),
+                icon: window.pin,
+                map: map
+            });
+
+            markers[id] = marker;
+
+            latlngbounds.extend(marker.position);
+
+            $(".item_details").on('mouseenter', function () {
+                var id = $(this).attr('data-id');
+                if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pun);
+            }).on('mouseleave', function () {
+                var id = $(this).attr('data-id');
+                if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
+            });
+
+
+            var content = '<div class="singleMapVendor" style="width:100%;" data-id="'+id+'"><p>'+
+            $(this).children('.item_name').text()+'</p><p>'+
+            $(this).children('.item_description').text()+'</p><p>'+
+            $(this).children('.item_price').text()+
+            '</p><img class="item_image" src="'+$(this).children('.item_image').attr('src')+'"/></div>';
+
+            var infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(marker,'click', function(){
+                if (currentInfoWindow != null) {
+                    currentInfoWindow.close();
+                }
+                infowindow.setContent(content);
+                infowindow.open(map,marker);
+                currentInfoWindow = infowindow;
+            });
+
+            google.maps.event.addListener(map, "click", function(event) {
+                infowindow.close();
+            });
+        }
+    });
+}
 

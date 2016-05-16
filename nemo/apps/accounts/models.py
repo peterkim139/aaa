@@ -9,7 +9,7 @@ from accounts.managers import AuthUserManager, AbstractDateTime
 
 
 
-class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
+class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
 
     email = models.EmailField(max_length=255, unique=True,blank=False,default='')
     first_name = models.CharField(max_length=255, blank=False,default='')
@@ -18,6 +18,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
     customer_id = models.CharField(max_length=255, blank=True,default='')
     phone_number = models.CharField(max_length=255,blank=False,default='')
     zip_code = models.CharField(max_length=10,blank=False,default='')
+    photo = models.FileField(upload_to='images/users', null=True,blank=True)
     STATUS_TYPES = (('admin', 'admin'),('client', 'client'))
     role = models.CharField(max_length=10,choices=STATUS_TYPES,default='client')
     reset_key = models.CharField(max_length=255, blank=True,default='')
@@ -42,3 +43,5 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
         ordering = ["id"]
         db_table = "user"
         get_latest_by = "created"
+
+

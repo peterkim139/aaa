@@ -5,6 +5,8 @@ import mandrill
 from django.template import Context
 from django.template import loader
 from django.conf import settings
+from django.contrib.gis.geoip import GeoIP
+
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -75,4 +77,30 @@ def confirm_register_mail(request, email, first_name, last_name, zip_code):
         'tracking_domain': 'nemo.codebnb.me',
     }
     result = mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
+def get_coordinates(request):
+
+    g = GeoIP()
+    x_forwarded_for = request.META.get('HTTP_CLIENT_IP')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    lat_lng = g.lat_lon(ip)
+
+    cookies = request.COOKIES.get('lat_lng')
+    if cookies:
+        cookies = request.COOKIES.get('lat_lng').split(',')
+    if cookies and cookies[0] and cookies[1]:
+        latitude = cookies[0]
+        longitude = cookies[1]
+    elif lat_lng:
+        latitude = lat_lng[0]
+        longitude = lat_lng[1]
+    else:
+        latitude = 25.775278
+        longitude = -80.208889
+
+    coordinates = [latitude,longitude]
+    return coordinates
 
