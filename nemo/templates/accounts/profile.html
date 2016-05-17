@@ -3,7 +3,7 @@
 <br><br>
 {% include 'elements/account_menu.html' %}
     <br><br>
-    <img class="item_image" src="/media/{% if request.user.photo %}{{ request.user.photo }}{% else %}default_user_photo.jpg{% endif %}"/>
+    <img class="item_image" src="/media/{% if request.user.photo %}{{ request.user.photo }}{% else %}images/users/default_user_photo.jpg{% endif %}"/>
     <p>Name: {{ request.user.first_name }} {{ request.user.last_name }}</p>
     <p>Email: {{ request.user.email }}</p>
     <p>Phone: {{ request.phone_number }}</p>

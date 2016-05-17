@@ -268,18 +268,7 @@ def seller_approved_request(request,client,seller,email,item,price):
     }
     result = mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
-def save_file(request, uploaded,filename,path,raw_data = True,):
-
-    if 'image_filename' in request.session:
-        image_filename = request.session['image_filename']
-        try:
-            image = Image.objects.get(name=image_filename)
-        except Image.DoesNotExist:
-            image = None
-        if image == None:
-            myfile="media/images/items/" + image_filename
-            if os.path.isfile(myfile):
-                os.remove(myfile)
+def save_file(request, uploaded,filename,path,raw_data = True):
 
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
