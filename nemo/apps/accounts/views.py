@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 import logging
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
@@ -307,9 +308,16 @@ class EditProfileView(LoginRequiredMixin, View):
             user.email = form.cleaned_data['email']
             user.phone_number = form.cleaned_data['phone_number']
             user.zip_code = form.cleaned_data['zip_code']
+
             if 'image_file' in request.FILES:
+                if user.photo:
+                    user_photo = str(user.photo)
                 user.photo = request.FILES['image_file']
             user.save()
+            if user_photo:
+                myfile="media/" + user_photo
+                if os.path.isfile(myfile):
+                    os.remove(myfile)
             messages.success(request,"Successfully Added")
             return HttpResponseRedirect('/profile/')
         else:
