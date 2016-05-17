@@ -273,7 +273,6 @@ def save_file(request, uploaded,filename,path,raw_data = True):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     request.session['image_filename'] = filename
-    image_filename = request.session['image_filename']
     try:
         fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)), 'wb')
         if raw_data:

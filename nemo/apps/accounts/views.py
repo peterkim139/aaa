@@ -300,6 +300,7 @@ class EditProfileView(LoginRequiredMixin, View):
         return render(request, 'accounts/edit_profile.html', context)
 
     def post(self, request):
+        request.POST['user'] = request.user.id
         form = ProfileForm(request.POST,request.FILES)
         if form.is_valid():
             user = User.objects.get(id=request.user.id)

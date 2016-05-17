@@ -246,7 +246,7 @@ $(document).ready(function(){
             'action': '/profile/upload_image/',
             'debug': false,
             multiple: false,
-            sizeLimit: 2 * 1024 * 1024, // max size
+            sizeLimit: 5 * 1024 * 1024, // max size
             minSizeLimit: 0, // min size
             allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
             onSubmit: function(id, fileName){
@@ -255,13 +255,14 @@ $(document).ready(function(){
                 }
             },
             onProgress: function(id, fileName, responseJSON){
-
+                $('.qq-upload-file').append(" - ");
+                $('.qq-upload-failed-text').text('');
             },
             onComplete: function(id, fileName, responseJSON){
                 if(responseJSON.filename){
-                    $('.qq-upload-file').append(" - "),
-                    $('.qq-upload-failed-text').text(''),
-                    $('#filename').val(responseJSON.filename),
+                    $('.qq-upload-file').append(" - ");
+                    $('.qq-upload-failed-text').text('');
+                    $('#filename').val(responseJSON.filename);
                     $('#preview_image').attr('src','/media/images/items/'+responseJSON.filename)
                 }
             },
@@ -275,6 +276,24 @@ $(document).ready(function(){
             }
         });
     }
+
+    //////////////////////////////////////////// Check if address contains at least one digit /////////////////////////////////////
+
+    $.validator.addMethod("address_validated",
+        function(value, element) {
+            var nemo = false;
+            for (i=0;i<=9;i++){
+                if (value.indexOf(i) === -1) {
+                    nemo = false;
+                }
+                else {
+                    nemo = true;
+                    break;
+                }
+            }
+            return nemo;
+        },
+    "This field should contain at least one digit");
 
     //////////////////////////////////////////// Validate if image is uploaded /////////////////////////////////////
 
@@ -293,6 +312,7 @@ $(document).ready(function(){
         rules: {
             'street_address': {
                 required: true,
+                address_validated: true,
             },
             'city': {
                 required: true,

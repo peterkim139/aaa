@@ -87,11 +87,16 @@ class ProfileForm(forms.Form):
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
     image_file = forms.FileField(label='Select an Image',required=False,validators=[validate_file])
 
-    def clean_email(self):
+    user = forms.CharField(required=True,
+                               widget=forms.TextInput(attrs={'id': 'user', 'class': 'formControl', 'type': 'hidden'}), )
+
+
+    def clean(self):
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email is already taken")
-        return email
+        user = self.cleaned_data['user']
+        if User.objects.filter(email=email).exclude(id = user).exists():
+             raise forms.ValidationError("This email is already taken")
+        return self.cleaned_data
 
 class RegistrationForm(forms.Form):
 
