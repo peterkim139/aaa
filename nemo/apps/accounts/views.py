@@ -337,7 +337,12 @@ class ListingsView(LoginRequiredMixin,View):
 
         listings = Params.objects.raw('''SELECT DISTINCT *, images.image_name as image_name, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date FROM parametrs
                 LEFT JOIN rent
-                ON rent.param_id=parametrs.id
+                ON rent.param_id=parametrs.id AND rent.param_id =
+                (
+                   SELECT MAX(rent.id)
+                   FROM rent ren
+                   WHERE ren.param_id=parametrs.id
+                )
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
                 WHERE parametrs.item_owner_id = %s
