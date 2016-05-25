@@ -27,69 +27,86 @@ from category.models import Params
 from pages.models import Image
 from pprint import pprint
 
-class OutTransactionsView(LoginRequiredMixin, View):
+class OutTransactionsView(LoginRequiredMixin,TemplateView,View):
 
-    def get(self, request):
-        out_transactions = Rent.objects.raw('''SELECT *, parametrs.name as item_name, user.first_name as user_first_name, user.last_name as user_last_name FROM rent
-                LEFT JOIN user
-                ON rent.user_id=user.id
-                LEFT JOIN parametrs
-                ON rent.param_id=parametrs.id
-                WHERE rent.user_id = %s''',[request.user.id])
-
-        context = {'out_transactions': out_transactions, }
-        return render(request, 'pages/out_transactions.html', context)
-
-class InTransactionsView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        in_transactions = Rent.objects.filter(owner_id=request.user.id)
-        # in_transactions = Rent.objects.raw('''SELECT *, parametrs.name as item_name, user.first_name as user_first_name, user.last_name as user_last_name FROM rent
-        #         LEFT JOIN user
-        #         ON rent.user_id=user.id
-        #         LEFT JOIN parametrs
-        #         ON rent.param_id=parametrs.id
-        #         WHERE rent.owner_id = %s''',[request.user.id])
-
-        context = {'in_transactions': in_transactions }
-        return render(request, 'pages/in_transactions.html', context)
-
-class RequestsView(LoginRequiredMixin,TemplateView, View):
-    template_name = 'pages/requests.html'
-
-    def get(self,request):
-        requests = Rent.objects.filter(owner_id=request.user.id)
-        return self.render_to_response({'requests':requests})
-
-class RequestView(LoginRequiredMixin,TemplateView, View):
-    template_name = 'pages/request.html'
-    id = 0
-    def get_context_data(self, **kwargs):
-
-            context = super(RequestView, self).get_context_data(**kwargs)
+    template_name = 'pages/out_transactions.html'
+    def get_context_data(self, data,**kwargs):
+            context = super(OutTransactionsView, self).get_context_data(out_transactions=data,**kwargs)
             context['form'] = RentForm()
-            requests = Rent.objects.get(id=self.id)
-            context.update({'requests': requests})
-            today = timezone.now() + datetime.timedelta(days=1)
-            if today < requests.start_date:
-                context.update({'amount': 2 })
-            else:
-                context.update({'amount': 5})
-            if 'form' in kwargs:
-                context.update({'form': RentForm(self.request.POST)})
-
             return context
 
-    def get(self,request,id):
-        self.id = id
-        param = Rent.objects.get(id=id)
-        if(request.user.id != param.owner_id):
-            return HttpResponseRedirect('/')
+    def get(self, request):
+        out_transactions = Rent.objects.filter(user_id=request.user.id)
+        hour = timezone.now() - datetime.timedelta(hours=2)
+        for out_transaction in out_transactions:
+            if out_transaction.modified < hour:
+                out_transaction.cancel = 1
+            else:
+                out_transaction.cancel = 0
 
-        return self.render_to_response(self.get_context_data())
+        return self.render_to_response(self.get_context_data(out_transactions))
 
-    def post(self,request,id):
-        self.id = id
+    def post(self,request):
+
+        if request.POST['rent']:
+            payment_connection()
+            rent = int(request.POST['rent'])
+            if request.POST['action'] == 'Decline':
+                status = 'customer_declined'
+            else:
+                status = 'customer_canceled'
+            requests = Rent.objects.get(user_id=request.user.id,id=rent)
+            if requests.status == 'pending' or requests.status == 'approved':
+                encrypt= NemoEncrypt()
+                current_user = User.objects.get(id=requests.owner_id)
+                orderer = User.objects.get(id=requests.user_id)
+                item = Params.objects.get(id=requests.param_id)
+                if  status == 'customer_declined':
+                    Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+                    cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name,item.name)
+                    return JsonResponse({'success':True,'message':'Request has been declined'})
+                else:
+                    today = timezone.now() + datetime.timedelta(days=1)
+                    customer_id = encrypt.decrypt_val(current_user.customer_id)
+                    paid = refund_price(requests.price)
+                    if today < requests.start_date:
+                        result = cancel_transaction(paid['amount'],orderer)
+                        if result.is_success:
+                            Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+                            credits = Decimal(current_user.credits) + Decimal(paid['credit'])
+                            User.objects.filter(id=current_user.id).update(credits=credits)
+                            cancel_after_approving(request, current_user.email, orderer.first_name,item.name,current_user.first_name,paid['credit'])
+                            return JsonResponse({'success':True,'message':'Request has been canceled'})
+                        else:
+                            return JsonResponse({'success':False,'message':'There is an error in refund process'})
+            else:
+                messages.error(request, "There is no request")
+        else:
+            messages.error(request, "There is no request")
+        return HttpResponseRedirect('/profile/out_transactions/')
+
+class InTransactionsView(LoginRequiredMixin,TemplateView, View):
+
+    template_name = 'pages/in_transactions.html'
+    def get_context_data(self, data,**kwargs):
+            context = super(InTransactionsView, self).get_context_data(in_transactions=data,**kwargs)
+            context['form'] = RentForm()
+            return context
+
+    def get(self, request):
+
+        in_transactions = Rent.objects.filter(owner_id=request.user.id)
+        today = timezone.now() + datetime.timedelta(days=1)
+        for in_transaction in in_transactions:
+            if today < in_transaction.start_date:
+                in_transaction.param.amount = '2'
+            else:
+                in_transaction.param.amount = '5'
+        return self.render_to_response(self.get_context_data(in_transactions))
+
+
+    def post(self,request):
+
         if request.POST['rent']:
             payment_connection()
             rent = int(request.POST['rent'])
@@ -115,9 +132,9 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
                         transaction = result.transaction
                         Rent.objects.filter(owner_id=request.user.id,id=rent).update(transaction=transaction.id,status=status,modified=timezone.now())
                         seller_approved_request(request,orderer.first_name,current_user.first_name,orderer.email,requests.param.name,requests.price)
-                        messages.success(request, "The request has been approved")
+                        return JsonResponse({'success':True,'message':'The request has been approved'})
                     else:
-                        messages.error(request, "There are some errors in transaction process")
+                        return JsonResponse({'success':False,'message':'There are some errors in transaction process'})
 
                 elif status == 'seller_declined':
                     Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
@@ -195,63 +212,64 @@ class RequestView(LoginRequiredMixin,TemplateView, View):
         else:
             messages.error(request, "There is no request")
 
-        return HttpResponseRedirect('/profile/request/'+id)
+        return HttpResponseRedirect('/profile/in_transactions/')
 
 
-class MyRequestsView(LoginRequiredMixin,TemplateView, View):
-    template_name = 'pages/my_requests.html'
-    def get(self,request,id=None):
-        cancel = 0
-        if id:
-            self.template_name = 'pages/my_request.html'
-            requests = Rent.objects.get(id=id)
-            hour = timezone.now() - datetime.timedelta(hours=2)
-            if requests.modified < hour:
-                cancel = 1
-        else:
-            requests = Rent.objects.filter(user_id=request.user.id)
 
-        return self.render_to_response({'requests':requests,'cancel':cancel})
-
-    def post(self,request,id):
-
-        if request.POST['rent']:
-            payment_connection()
-            rent = int(request.POST['rent'])
-            if request.POST['action'] == 'Decline':
-                status = 'customer_declined'
-            else:
-                status = 'customer_canceled'
-            requests = Rent.objects.get(user_id=request.user.id,id=rent)
-            if requests.status == 'pending' or requests.status == 'approved':
-                encrypt= NemoEncrypt()
-                current_user = User.objects.get(id=requests.owner_id)
-                orderer = User.objects.get(id=requests.user_id)
-                item = Params.objects.get(id=requests.param_id)
-                if  status == 'customer_declined':
-                    Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-                    cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name,item.name)
-                    messages.success(request, "Request has been declined")
-                else:
-                    today = timezone.now() + datetime.timedelta(days=1)
-                    customer_id = encrypt.decrypt_val(current_user.customer_id)
-                    paid = refund_price(requests.price)
-                    if today < requests.start_date:
-                        result = cancel_transaction(paid['amount'],orderer)
-                        if result.is_success:
-                            Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-                            credits = Decimal(current_user.credits) + Decimal(paid['credit'])
-                            User.objects.filter(id=current_user.id).update(credits=credits)
-                            cancel_after_approving(request, current_user.email, orderer.first_name,item.name,current_user.first_name,paid['credit'])
-                            messages.success(request, "Request has been canceled")
-                        else:
-                            messages.error(request, "There is an error in refund process")
-            else:
-                messages.error(request, "There is no request")
-        else:
-            messages.error(request, "There is no request")
-        return HttpResponseRedirect('/profile/my_requests/'+id)
-
+# class MyRequestsView(LoginRequiredMixin,TemplateView, View):
+#     template_name = 'pages/my_requests.html'
+#     def get(self,request,id=None):
+#         cancel = 0
+#         if id:
+#             self.template_name = 'pages/my_request.html'
+#             requests = Rent.objects.get(id=id)
+#             hour = timezone.now() - datetime.timedelta(hours=2)
+#             if requests.modified < hour:
+#                 cancel = 1
+#         else:
+#             requests = Rent.objects.filter(user_id=request.user.id)
+#
+#         return self.render_to_response({'requests':requests,'cancel':cancel})
+#
+#     def post(self,request,id):
+#
+#         if request.POST['rent']:
+#             payment_connection()
+#             rent = int(request.POST['rent'])
+#             if request.POST['action'] == 'Decline':
+#                 status = 'customer_declined'
+#             else:
+#                 status = 'customer_canceled'
+#             requests = Rent.objects.get(user_id=request.user.id,id=rent)
+#             if requests.status == 'pending' or requests.status == 'approved':
+#                 encrypt= NemoEncrypt()
+#                 current_user = User.objects.get(id=requests.owner_id)
+#                 orderer = User.objects.get(id=requests.user_id)
+#                 item = Params.objects.get(id=requests.param_id)
+#                 if  status == 'customer_declined':
+#                     Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+#                     cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name,item.name)
+#                     messages.success(request, "Request has been declined")
+#                 else:
+#                     today = timezone.now() + datetime.timedelta(days=1)
+#                     customer_id = encrypt.decrypt_val(current_user.customer_id)
+#                     paid = refund_price(requests.price)
+#                     if today < requests.start_date:
+#                         result = cancel_transaction(paid['amount'],orderer)
+#                         if result.is_success:
+#                             Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+#                             credits = Decimal(current_user.credits) + Decimal(paid['credit'])
+#                             User.objects.filter(id=current_user.id).update(credits=credits)
+#                             cancel_after_approving(request, current_user.email, orderer.first_name,item.name,current_user.first_name,paid['credit'])
+#                             messages.success(request, "Request has been canceled")
+#                         else:
+#                             messages.error(request, "There is an error in refund process")
+#             else:
+#                 messages.error(request, "There is no request")
+#         else:
+#             messages.error(request, "There is no request")
+#         return HttpResponseRedirect('/profile/my_requests/'+id)
+#
 
 class UploadImageView(LoginRequiredMixin, View):
     def post(self, request):

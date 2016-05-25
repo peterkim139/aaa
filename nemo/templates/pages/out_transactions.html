@@ -1,27 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<div id="out_transactions" style="display:none;">
-    {% if out_transactions %}
-        <p>Items rented from my neighbors</p><br>
-        <table>
-            <tr>
-              <th>#</th>
-              <th>Item name</th>
-              <th>Item owner name</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Action</th>
-              <th>Transaction Date</th>
-              <th>Reserved Dates</th>
-            </tr>
-            {% for out_transaction in out_transactions %}
-                <tr>
-                  </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
-</div>
-
 <div class="topLighLine"></div>
     <div class="container accountWrapper pb80">
         {% include "elements/profile.html" %}
@@ -89,9 +67,9 @@
                                 </thead>
                                 <tbody>
                                     {% for out_transaction in out_transactions %}
-                                        <tr>
+                                        <tr  rent='{{out_transaction.id}}' >
                                             <td>{{ forloop.counter }}</td>
-                                            <td>{{ out_transaction.item_name }}</td>
+                                            <td>{{ out_transaction.param.name }}</td>
                                             <td><span class="success">Rent</span></td>
                                             <td>{{ out_transaction.status }}</td>
                                             <td>{{ out_transaction.user_first_name }} {{ out_transaction.user_last_name }}</td>
@@ -100,7 +78,17 @@
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
                                             <td>waiting Approval</td>
                                             <td>Make payment</td>
-                                            <td><button class="success expandBtn">Approve</button></td>
+                                            <td>
+                                                {% if out_transaction.status == 'pending' %}
+                                                    <button class="success client_actions" action="Decline">Decline</button>
+                                                {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}
+                                                    <button class="success client_actions" action="Cancel">Cancel</button>
+                                                {% elif out_transaction.status == 'approved' and out_transaction.cancel == 0 %}
+                                                    {{'You will be able to cancel the request  2 hours later after approving'}}
+                                                {% else %}
+                                                    {{out_transaction.status}}
+                                                {% endif %}
+                                            </td>
                                             <td><a href="#" class="btn btnBorder sizeS valignM">Add Review</a></td>
                                             <td>
                                                 <div class="tableShares">

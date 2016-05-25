@@ -123,6 +123,8 @@ $(document).ready(function(){
 
     $("#cancel_request").on('click',function (e) {
         if($("#cancel_rent").valid()){
+            var tax = $("input[name='rent']").val();
+            var amount = $('tr[rent='+tax+']').attr('amount');
             var src = '';
             amount == '2' ? src = '#cancel_request_popup_2' : src = '#cancel_request_popup_5';
             $.magnificPopup.open({
@@ -289,6 +291,54 @@ $(document).ready(function(){
                 }else {
                     self.attr("data-account-status",0);
                     self.text("Deactivate");
+                }
+            },
+        });
+    });
+
+    ///////////////////////////////////////////// Seller Cancel  or approve request ////////////////
+
+    $(".seller_actions").on('click',function(){
+        var self = $(this)
+        var action = self.attr("action");
+        var rent = self.closest('tr').attr('rent');
+        $.ajax({
+            url:'/profile/in_transactions/',
+            type:'post',
+            data:{
+                action: action,
+                rent: rent
+            },
+            success:function(response) {
+                alert(response.success);
+                if(response.success){
+                    self.closest('td').html('<button class="success expandBtn">Cancel</button>')
+                }else {
+                    alert(response.message);
+                }
+            },
+        });
+    });
+
+    ///////////////////////////////////////////// Customer Cancel  or approve request ////////////////
+
+    $(".client_actions").on('click',function(){
+        var self = $(this)
+        var action = self.attr("action");
+        var rent = self.closest('tr').attr('rent');
+        $.ajax({
+            url:'/profile/out_transactions/',
+            type:'post',
+            data:{
+                action: action,
+                rent: rent
+            },
+            success:function(response) {
+                if(response.success){
+                    alert(response.message);
+                    self.closest('td').html('The request has been declined from your side.')
+                }else {
+                    alert(response.message);
                 }
             },
         });
@@ -506,84 +556,84 @@ $(document).ready(function(){
 
  /////////////////////////     init map ,show items on map /////////////////////////
 
-function initMap(latitude,longitude) {
+    function initMap(latitude,longitude) {
 
-    window.pin = '/media/images/icons/map-pin.png';
-    window.pun = '/media/images/icons/map-pun.png';
-    window.user = '/media/images/icons/map-user.png'
-    var markers = [];
-    var latlngbounds = new google.maps.LatLngBounds();
+        window.pin = '/media/images/icons/map-pin.png';
+        window.pun = '/media/images/icons/map-pun.png';
+        window.user = '/media/images/icons/map-user.png'
+        var markers = [];
+        var latlngbounds = new google.maps.LatLngBounds();
 
-    var map = new google.maps.Map(document.getElementById("map_canvas"), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        frameborder: 0,
-        scrollwheel: false,
-        style: "border:0",
-        allowfullscreen: true,
-        zoom: 8,
-        center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
-    });
+        var map = new google.maps.Map(document.getElementById("map_canvas"), {
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            frameborder: 0,
+            scrollwheel: false,
+            style: "border:0",
+            allowfullscreen: true,
+            zoom: 8,
+            center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
+        });
 
-    var myLatLng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+        var myLatLng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
 
-    var my_marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        icon: window.user,
-        title: 'Your Location!'
-    });
+        var my_marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            icon: window.user,
+            title: 'Your Location!'
+        });
 
-    var currentInfoWindow = null;
-    var show = false;
+        var currentInfoWindow = null;
+        var show = false;
 
-    $('.item_details:visible').each(function(){
+        $('.item_details:visible').each(function(){
 
-        var lat = $(this).attr('data-lat');
-        var lng = $(this).attr('data-lng');
+            var lat = $(this).attr('data-lat');
+            var lng = $(this).attr('data-lng');
 
-        if(lat && lng) {
-            show = true;
-            var id = $(this).attr('data-id');
-            var latLng = new google.maps.LatLng(lat, lng);
-            var marker = new google.maps.Marker({
-                position: latLng,
-                animation: google.maps.Animation.DROP,
-                title: $(this).children('.item_name').text(),
-                icon: window.pin,
-                map: map
-            });
-
-            markers[id] = marker;
-
-            latlngbounds.extend(marker.position);
-
-            $(".item_details").on('mouseenter', function () {
+            if(lat && lng) {
+                show = true;
                 var id = $(this).attr('data-id');
-                if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pun);
-            }).on('mouseleave', function () {
-                var id = $(this).attr('data-id');
-                if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
-            });
+                var latLng = new google.maps.LatLng(lat, lng);
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    animation: google.maps.Animation.DROP,
+                    title: $(this).children('.item_name').text(),
+                    icon: window.pin,
+                    map: map
+                });
 
-            var content = '<div class="singleMapVendor" style="width:100%;" data-id="'+id+'"><p>'+
-            $(this).find('span.item_name').text()+'</p><p>'+
-            $(this).find('span.item_price').text()+
-            '</p><img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/></div>';
-            var infowindow = new google.maps.InfoWindow();
+                markers[id] = marker;
 
-            google.maps.event.addListener(marker,'click', function(){
-                if (currentInfoWindow != null) {
-                    currentInfoWindow.close();
-                }
-                infowindow.setContent(content);
-                infowindow.open(map,marker);
-                currentInfoWindow = infowindow;
-            });
+                latlngbounds.extend(marker.position);
 
-            google.maps.event.addListener(map, "click", function(event) {
-                infowindow.close();
-            });
-        }
-    });
-}
+                $(".item_details").on('mouseenter', function () {
+                    var id = $(this).attr('data-id');
+                    if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pun);
+                }).on('mouseleave', function () {
+                    var id = $(this).attr('data-id');
+                    if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
+                });
+
+                var content = '<div class="singleMapVendor" style="width:100%;" data-id="'+id+'"><p>'+
+                $(this).find('span.item_name').text()+'</p><p>'+
+                $(this).find('span.item_price').text()+
+                '</p><img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/></div>';
+                var infowindow = new google.maps.InfoWindow();
+
+                google.maps.event.addListener(marker,'click', function(){
+                    if (currentInfoWindow != null) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.setContent(content);
+                    infowindow.open(map,marker);
+                    currentInfoWindow = infowindow;
+                });
+
+                google.maps.event.addListener(map, "click", function(event) {
+                    infowindow.close();
+                });
+            }
+        });
+    }
 
