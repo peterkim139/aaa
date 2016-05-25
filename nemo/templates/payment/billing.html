@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="topLighLine"></div>
+    <div class="container accountWrapper pb80">
+        {% include "elements/profile.html" %}
+        <div class="accountR">
+            {% include "elements/account_menu.html" %}
+            <div class="wow fadeInDown" data-wow-delay="1s">
+                <div id="billing">
+                    <section class="mb70">
+                        <div class="subTitleWrap">
+                            <h2>Add a Billing Method</h2>
+                        </div>
+                        <div class="addPayMethod tabsWrap">
+                            <div class="colRow">
+                                <div class="col4">
+                                    <ul class="tabs">
+                                        <li>
+                                            <a href="#add-credit-card" class="payMethod active">
+                                                <img src="media/images/icons/credit-card.png">
+                                                <span>Add Credit Card</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#add-paypal-account" class="payMethod">
+                                                <img src="media/images/icons/paypal.png">
+                                                <span>Add Paypal Account</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col8">
+                                    <div id="add-credit-card">
+                                        <div class="formRow">
+                                            <label class="formLabel">Cardholder name</label>
+                                            <input class="formControl" type="text">
+                                        </div>
+                                        <div class="formRow">
+                                            <label class="formLabel">Card Number</label>
+                                            <input class="formControl" type="text" placeholder="XXXX - XXXX - XXXX - XXXX">
+                                        </div>
+                                        <div class="colRow">
+                                            <div class="col5">
+                                                <div class="formRow">
+                                                    <label class="formLabel">Card Number</label>
+                                                    <select class="formControl">
+                                                        <option>January</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col5">
+                                                <div class="formRow">
+                                                    <label class="formLabel">Card Number</label>
+                                                    <select class="formControl">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col2">
+                                                <div class="formRow">
+                                                    <label class="formLabel">CVC</label>
+                                                    <input type="text" class="formControl">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="additionalTxt">Your account security is our first priority. We will never charge your account without your consent.</p>
+                                        <button class="btn btn btnBorder">ADD PAYMENT METHOD</button>
+                                    </div>
+                                    <div id="add-paypal-account">
+                                        <div class="formRow">
+                                            <label class="formLabel">Paypal account</label>
+                                            <input class="formControl" type="text">
+                                        </div>
+                                        <p class="additionalTxt">Your account security is our first priority. We will never charge your account without your consent.</p>
+                                        <button class="btn btn btnBorder">ADD PAYMENT METHOD</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="subTitleWrap">
+                            <h2>Saved Billing Methods</h2>
+                        </div>
+                        <div class="addedPayments">
+                            <ul>
+                                <li>
+                                    <img class="paymIcon" src="media/images/icons/visa-card.png">
+                                    <span class="paymAccount">4355 17** **** 4137</span>
+                                    <div class="paymActions">
+                                        <button>Make Default</button>
+                                        <button class="success"><i class="icon-edit"></i></button>
+                                        <button class="danger"><i class="icon-trash"></i></button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <img class="paymIcon" src="media/images/icons/paypal-card.png">
+                                    <span class="paymAccount">mail@company.com</span>
+                                    <div class="paymActions">
+                                        <button>Default Method</button>
+                                        <button class="success"><i class="icon-edit"></i></button>
+                                        <button class="danger"><i class="icon-trash"></i></button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -74,7 +74,7 @@ class SocialForm(forms.Form):
 
 class ProfileForm(forms.Form):
 
-    email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
+    email = forms.CharField(label='Email',max_length=60,min_length=5,required=True,widget=forms.TextInput(attrs={'class': 'formControl'}))
     phone_number = forms.CharField(label="Phone number", max_length=50, required=True,
                                    validators=[valdiate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
@@ -89,7 +89,6 @@ class ProfileForm(forms.Form):
 
     user = forms.CharField(required=True,
                                widget=forms.TextInput(attrs={'id': 'user', 'class': 'formControl', 'type': 'hidden'}), )
-
 
     def clean(self):
         email = self.cleaned_data['email']

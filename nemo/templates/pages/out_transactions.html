@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="out_transactions" style="display:none;">
+    {% if out_transactions %}
+        <p>Items rented from my neighbors</p><br>
+        <table>
+            <tr>
+              <th>#</th>
+              <th>Item name</th>
+              <th>Item owner name</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+              <th>Transaction Date</th>
+              <th>Reserved Dates</th>
+            </tr>
+            {% for out_transaction in out_transactions %}
+                <tr>
+                  </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+
+<div class="topLighLine"></div>
+    <div class="container accountWrapper pb80">
+        {% include "elements/profile.html" %}
+        <div class="accountR">
+            {% include "elements/account_menu.html" %}
+            <div class="wow fadeInDown" data-wow-delay="1s">
+                <div id="transaction">
+                    <div class="subTitleWrap hasTabs">
+                        <h2>Transactions</h2>
+                        <ul class="tabs subTitleTabs">
+                            <li><a href="/profile/in_transactions">Incoming</a></li>
+                            <li><a href="/profile/out_transactions">Outgoing</a></li>
+                        </ul>
+                    </div>
+                    <div id="outgoing">
+                        {% if out_transactions %}
+                            <table class="tableStyle footable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item name</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th data-hide="all">From</th>
+                                        <th>Total Amount</th>
+                                        <th data-hide="all">Transaction Dates</th>
+                                        <th data-hide="all">Reserved Dates</th>
+                                        <th data-hide="all">Action</th>
+                                        <th>Payment</th>
+                                        <th data-hide="all">Rate & Review</th>
+                                        <th data-hide="all">Share</th>
+                                        <th data-toggle="true">More</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for out_transaction in out_transactions %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ out_transaction.item_name }}</td>
+                                            <td><span class="success">Rent</span></td>
+                                            <td>{{ out_transaction.status }}</td>
+                                            <td>{{ out_transaction.user_first_name }} {{ out_transaction.user_last_name }}</td>
+                                            <td>${{ out_transaction.price }}</td>
+                                            <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
+                                            <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
+                                            <td>waiting Approval</td>
+                                            <td>Make payment</td>
+                                            <td><a href="#" class="btn btnBorder sizeS valignM">Add Review</a></td>
+                                            <td>
+                                                <div class="tableShares">
+                                                    <button class="fbBtn"><i class="icon-facebook44"></i></button>
+                                                    <button class="twBtn"><i class="icon-twitter37"></i></button>
+                                                    <button class="gpBtn"><i class="icon-google110"></i></button>
+                                                </div>
+                                            </td>
+                                            <td class="alignC"></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

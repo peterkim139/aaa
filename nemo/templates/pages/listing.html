@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container small">
+    <div class="viewListingTop">
+        <div class="clearAfter">
+            <div class="pullLeft wow fadeIn" data-wow-delay=".5s">
+                <h3>{{ param.name }}</h3>
+                <address>
+                    <i class="icon-location-1"></i>
+                    {{ param.address }}
+                </address>
+            </div>
+            <div class="pullRight wow fadeIn" data-wow-delay=".5s">
+                <strong>${{ param.price }}</strong>
+                <span>Per day</span>
+            </div>
+        </div>
+    </div>
+        <div class="listingViewL">
+            <figure class="wow fadeInDown listinhMainImg">
+                <img src="/media/images/items/{{ param.image_filename }}">
+            </figure>
+            <div class="listingRatingLine wow fadeInDown" data-wow-delay=".2s">
+                <div class="pullLeft">
+                    <label class="block mb5">Item Rating</label>
+                    <img src="/media/images/rating-badges.png">
+                </div>
+                <div class="pullRight">
+                    <span>Contact<br>with owner</span>
+                    <button class="btn btnPrime btnSquare">
+                        <i class="icon-message"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="subSect wow fadeInDown" data-wow-delay=".4s">
+                <ul class="labelValueList evenOdd">
+                    <li>
+                        <label>Category:</label>
+                        <span>{{ param.subcategory.name }}</span>
+                    </li>
+                    <li>
+                        <label>Owner:</label>
+                        <span class="success"><a href="#" class="txtBtn">{{ param.user_firstname }} {{ param.user_lastname }}</a></span>
+                    </li>
+                    <li>
+                        <label>Rating Budges:</label>
+                        <span><img src="/media/images/rating-badges.png" alt=""></span>
+                    </li>
+                    <li>
+                        <label>Summary:</label>
+                        <span>${{ param.price }} x 0 days</span>
+                    </li>
+                    <li>
+                        <label>Today’s status:</label>
+                        <span {% if param.rent_status == 'approved' and param.rent_start_date|date:"Y-m-d h:i:s" <= this_moment|date:"Y-m-d h:i:s" and param.rent_end_date|date:"Y-m-d h:i:s" >= this_moment|date:"Y-m-d h:i:s" %}class="danger">Not Available{% else %} class="success">Available{% endif %}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="subSect wow fadeInDown" data-wow-delay=".6s">
+                <h4 class="subSectTitle">Description</h4>
+                <p>{{ param.description }}</p>
+            </div>
+        </div>
+        <div class="listingViewR wow fadeInDown" data-wow-delay="1s">
+            <div class="subSect wow fadeInDown" data-wow-delay=".8s">
+                <div class="gMap listingMap" id="gMap"></div>
+            </div>
+            <div class="datepicker mb5"></div>
+            <p class="additionalTxt">Reserve the dates when you need the item</p>
+            <div class="subSect wow fadeInDown" data-wow-delay=".4s">
+                <ul class="labelValueList evenOdd">
+                    <li>
+                        <label>Summary:</label>
+                        <span>${{ param.price }} x 0 days</span>
+                    </li>
+                    <li>
+                        <label>Total amount:</label>
+                        <span>$0</span>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btnBorder btnBlock">Request</button>
+        </div>
+    </div>
+</main>
+<script>
+  var myLatLng = {lat: parseFloat('{{param.latitude}}'), lng: parseFloat('{{param.longitude}}')};
+
+  var map = new google.maps.Map(document.getElementById('gMap'), {
+    zoom: 10,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: '{{ param.name }}'
+  });
+</script>
+
+{% endblock %}

@@ -1,7 +1,7 @@
-import datetime
 import json
 import os
 import logging
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.contrib.auth import login,logout
@@ -20,7 +20,11 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from accounts.models import User
 from category.models import Params, SubCategory
+from pages.models import Image
+from payment.models import Rent
+from pages.forms import AddListingForm
 import braintree
+import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class HomeView(View):
@@ -35,6 +39,10 @@ class HomeView(View):
         items = Params.objects.raw('''SELECT *,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
+                LEFT JOIN user
+                ON user.id=parametrs.item_owner_id
+                WHERE parametrs.status = 'published'
+                AND user.is_active=1
                 ORDER BY distance ASC
                 LIMIT %s''',
                 [latitude, latitude, longitude, limit])
@@ -269,24 +277,29 @@ class SearchView(View):
         coordinates = get_coordinates(request)
         latitude = coordinates[0]
         longitude = coordinates[1]
+        limit = 1
 
         items = Params.objects.raw('''SELECT *,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
+                LEFT JOIN user
+                ON user.id=parametrs.item_owner_id
                 WHERE (parametrs.name LIKE %s or parametrs.description LIKE %s)
                 and parametrs.subcategory_id IN %s
+                and user.is_active = 1
                 and parametrs.price >= %s and parametrs.price <= %s
-                ORDER BY distance ASC''',
-                [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range])
+                and parametrs.status = 'published'
+                ORDER BY distance ASC
+                LIMIT %s''',
+                [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range, limit])
 
         count = len(list(items))
         context = {'longitude':longitude,'latitude':latitude,'items': items,'cats': cats, 'count':count, 'checked_categories':checked_categories,'max_price': max_price }
-        return render(request, 'accounts/search_results.html', context)
 
-class ProfileView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        return render(request, 'accounts/profile.html')
+        if request.is_ajax():
+            return JsonResponse(context)
+        else:
+            return render(request, 'accounts/search_results.html', context)
 
 class EditProfileView(LoginRequiredMixin, View):
 
@@ -312,11 +325,80 @@ class EditProfileView(LoginRequiredMixin, View):
             if 'image_file' in request.FILES:
                 user.photo = request.FILES['image_file']
             user.save()
-            messages.success(request,"Successfully Added")
-            return HttpResponseRedirect('/profile/')
+            messages.success(request,"Successfully Edited")
+            return HttpResponseRedirect('/edit_profile/')
         else:
             context = {'form':form }
             return render(request, 'accounts/edit_profile.html', context)
+
+class ListingsView(LoginRequiredMixin,View):
+
+    def get(self, request):
+
+        listings = Params.objects.raw('''SELECT DISTINCT *, images.image_name as image_name, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date FROM parametrs
+                LEFT JOIN rent
+                ON rent.param_id=parametrs.id
+                LEFT JOIN images
+                ON images.param_image_id=parametrs.id
+                WHERE parametrs.item_owner_id = %s
+                AND parametrs.status!=%s''',[request.user.id, 'deleted'])
+
+        form = AddListingForm()
+        this_moment = datetime.datetime.now()
+        context = {'listings': listings, 'this_moment':this_moment,'form':form}
+        return render(request, 'accounts/listings.html', context)
+
+
+    def post(self, request):
+
+        form = AddListingForm(request.POST, request.FILES)
+        if form.is_valid():
+            parameters = Params()
+            parameters.price = form.cleaned_data['price']
+            parameters.name = form.cleaned_data['name']
+            parameters.item_owner_id = request.user.id
+            parameters.subcategory = form.cleaned_data['subcategory']
+            parameters.description = form.cleaned_data['description']
+            parameters.address = form.cleaned_data['street_address']
+            parameters.city = form.cleaned_data['city']
+            parameters.postal_code = form.cleaned_data['postal_code']
+            parameters.state = form.cleaned_data['state']
+            parameters.latitude = form.cleaned_data['latitude']
+            parameters.longitude = form.cleaned_data['longitude']
+            parameters.save()
+
+            image = Image()
+            if 'image_filename' in request.session:
+                image_filename = request.session['image_filename']
+            image_name = form.cleaned_data['image_file']
+            if image_name == image_filename:
+                image.image_name = image_name
+                image.param_image_id = parameters.id
+                image.save()
+                del request.session['image_filename']
+
+            messages.success(request,"Successfully Added")
+            return HttpResponseRedirect('/listings/')
+        else:
+            context = {'form': form, 'val_error':'true' }
+            return render(request, 'accounts/listings.html', context)
+
+class ChangeAccountStatusView(LoginRequiredMixin,View):
+
+    def post(self, request):
+        user_id = request.user.id
+        status = int(request.POST['status'])
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            user = None
+        if user:
+            user.is_active = status
+            user.save()
+            return JsonResponse({'response':True})
+        else:
+            return JsonResponse({'response':False})
+
 
 def error404(request):
     return render(request, '404.html')

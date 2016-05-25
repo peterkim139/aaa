@@ -72,6 +72,10 @@ class Params(AbstractDateTime,models.Model):
     postal_code = models.CharField(max_length=255, blank=False, default='')
     latitude = models.CharField(max_length=255, blank=False, default='')
     longitude = models.CharField(max_length=255, blank=False, default='')
+    PUBLISH_TYPES = (('published', 'published'),
+                    ('unpublished', 'unpublished'),
+                    ('deleted','deleted'))
+    status = models.CharField(max_length=11, choices=PUBLISH_TYPES, default='published')
 
 
     def __unicode__(self):

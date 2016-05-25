@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topLighLine"></div>
+    <div class="container accountWrapper pb80">
+        {% include "elements/profile.html" %}
+        <div class="accountR">
+            {% include "elements/account_menu.html" %}
+            <div class="wow fadeInDown" data-wow-delay="1s">
+                <div id="my-listing">
+                    <div class="sideSlideWrap">
+                        <div id="added-listings" class="addedListingsWrap singleSlide active">
+                            <div class="subTitleWrap hasInput">
+                                <h2>Listings</h2>
+                                <a href="#add-listing" class="openSlideBtn btn btnBorder btnSquare" id="add_listing_button">+</a>
+                                <div class="formRow">
+                                    <input type="text" class="formControl" placeholder="SEARCH LISTING...">
+                                </div>
+                            </div>
+                            {% if listings %}
+                                <div class="listingsList">
+                                    <ul>
+                                        {% for listing in listings %}
+                                            <li class="listing_li">
+                                                <div class="listingImg">
+                                                    <img src="/media/images/items/{{ listing.image_name }}">
+                                                </div>
+                                                <div class="listingR">
+                                                    <h3>{{ listing.name }}</h3>
+                                                    <div class="colRow">
+                                                        <div class="col4">
+                                                            <ul class="labelValueList">
+                                                                <li>
+                                                                    <label>Type:</label>
+                                                                    <span>Rent</span>
+                                                                </li>
+                                                                <li>
+                                                                    <label>Status:</label>
+                                                                    <span {% if listing.rent_status == 'approved' and listing.rent_start_date|date:"Y-m-d h:i:s" <= this_moment|date:"Y-m-d h:i:s" and listing.rent_end_date|date:"Y-m-d h:i:s" >= this_moment|date:"Y-m-d h:i:s" %}class="danger">Loaned-out{% else %} class="success">In-House{% endif %}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <label>Price:</label>
+                                                                    <span>${{ listing.price }}/day</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col5">
+                                                            <ul class="labelValueList labelBlock">
+                                                                <li>
+                                                                    <label>Item details:</label>
+                                                                    <span>{{ listing.description }}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col3">
+                                                            <ul class="labelValueList labelBlock">
+                                                                <li>
+                                                                    <label>Actions:</label>
+                                                                    <span class="listingActions">
+                                                                        <button class="success"><i class="icon-edit"></i></button>
+                                                                        <!--<button class="neutral"><i class="icon-pause"></i></button>-->
+                                                                        <button id="{{ listing.id }}" class="change_listing_status" {% if listing.status == "published" %} data-status-type="unpublished">Unpublish{% elif listing.status == 'unpublished'%}data-status-type="published">Publish{% endif %}</button>
+                                                                        <button class="danger change_listing_status" id="{{ listing.id }}" data-status-type="deleted"><i class="icon-trash"></i></button>
+                                                                        <button class="neutral"><i class="icon-share"></i></button>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                            <div id="add-listing" class="addListingWrap singleSlide">
+                                <form method="POST" id="add_listing_form" action="/listings/" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="subTitleWrap hasInput">
+                                    <h2>Add New Listing</h2>
+                                    <a href="#added-listings" class="openSlideBtn btn btnBorder btnSquare">×</a>
+                                </div>
+                                <div class="colRow">
+                                    <div class="col8">
+                                        <div class="colRow">
+                                            <div class="col8">
+                                                <div class="formRow">
+                                                     {{ form.street_address.label_tag}}
+                                                     {{ form.street_address }}
+                                                     {{ form.street_address.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col4">
+                                                <div class="formRow">
+                                                    {{ form.city.label_tag}}
+                                                    {{ form.city }}
+                                                    {{ form.city.errors }}
+                                                  </div>
+                                            </div>
+                                        </div>
+                                        <div class="colRow">
+                                            <div class="col6">
+                                                <div class="formRow">
+                                                    {{ form.state.label_tag}}
+                                                    {{ form.state }}
+                                                    {{ form.state.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col6">
+                                                <div class="formRow">
+                                                    {{ form.postal_code.label_tag}}
+                                                    {{ form.postal_code }}
+                                                    {{ form.postal_code.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="rentShareSale">-->
+                                            <!--<label class="buttonRadio">-->
+                                                <!--<input type="radio" name="blahblah">-->
+                                                <!--<span>Rent</span>-->
+                                            <!--</label>-->
+                                            <!--<label class="buttonRadio">-->
+                                                <!--<input type="radio" name="blahblah">-->
+                                                <!--<span>Share</span>-->
+                                            <!--</label>-->
+                                            <!--<label class="buttonRadio">-->
+                                                <!--<input type="radio" name="blahblah">-->
+                                                <!--<span>Sale</span>-->
+                                            <!--</label>-->
+                                        <!--</div>-->
+                                        <div class="formRow">
+                                            {{ form.name.label_tag}}
+                                            {{ form.name }}
+                                            {{ form.name.errors }}
+                                        </div>
+                                        <div class="colRow">
+                                            <div class="col8">
+                                                <div class="formRow">
+                                                    {{ form.subcategory.label_tag}}
+                                                    {{ form.subcategory }}
+                                                    {{ form.subcategory.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col4">
+                                                <div class="formRow">
+                                                    {{ form.price.label_tag}}
+                                                    {{ form.price }}
+                                                    {{ form.price.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="formRow">
+                                            {{ form.description.label_tag}}
+                                            {{ form.description }}
+                                            {{ form.description.errors }}
+                                        </div>
+                                        <div id="image-uploader" class="inputFile mb15">
+                                            <i class="icon-photo"></i>
+                                            <label>Click here to Upload image</label>
+                                            <input type="file">
+                                        </div>
+                                        <div>
+                                           {{ form.latitude }}
+                                        </div>
+                                        <div>
+                                           {{ form.longitude }}
+                                        </div>
+                                        <div>
+                                           {{ form.image_file }}
+                                           {{ form.image_file.errors }}
+                                        </div>
+                                        <a href="#listing-preview" class="btn btnBorder btnBlock" id="preview_add_listing_form">Save & Preview</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="listing-preview" class="singleSlide">
+                            <div class="subTitleWrap hasInput">
+                                <h2>Preview of <span id="preview_title"></span> listing</h2>
+                                <a href="#add-listing" class="openSlideBtn btn btnBorder">< Back</a>
+                            </div>
+                            <div class="listingPrevWrap">
+                                <!--<div class="rentShareSale">-->
+                                    <!--<label class="buttonRadio">-->
+                                        <!--<input type="radio" name="blahblah">-->
+                                        <!--<span>Rent</span>-->
+                                    <!--</label>-->
+                                    <!--<label class="buttonRadio">-->
+                                        <!--<input type="radio" name="blahblah">-->
+                                        <!--<span>Share</span>-->
+                                    <!--</label>-->
+                                    <!--<label class="buttonRadio">-->
+                                        <!--<input type="radio" name="blahblah">-->
+                                        <!--<span>Sale</span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                                <figure class="listinhMainImg mb20 mt10">
+                                    <img id="preview_image" />
+                                </figure>
+                                <div class="subSect">
+                                    <ul class="labelValueList evenOdd">
+                                        <li>
+                                            <label>Category:</label>
+                                            <span id="preview_category"></span>
+                                        </li>
+                                        <li>
+                                            <label>Price:</label>
+                                            <span id="preview_price"></span>
+                                        </li>
+                                        <li>
+                                            <label>Address:</label>
+                                            <span id="preview_location"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subSect">
+                                    <h4 class="subSectTitle">Description</h4>
+                                    <p id="preview_description"></p>
+                                </div>
+                                <a href="#listing-preview" id="submit_add_listing_form" class="openSlideBtn btn btnBorder btnBlock">Save & Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+
+///////////////add listing form for validation /////////
+
+$(document).ready(function(){
+    var val_error = '{{val_error}}'
+    if(val_error){
+        $("#add_listing_button").trigger('click');
+    }
+})
+
+///////////////////////////  google autocomplete ////////////////////////////
+
+var autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  postal_code: 'short_name'
+};
+
+
+function initialize() {
+    autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('street_address')),
+            {types: ['geocode'],
+    });
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        fillInAddress();
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+function getLatLngFromAddress(address) {
+   var geocoder = new google.maps.Geocoder();
+   geocoder.geocode({'address': address}, function(results, status) {
+       if (status == google.maps.GeocoderStatus.OK) {
+           $('#latitudes').val(results[0].geometry.location.lat())
+           $('#longitudes').val(results[0].geometry.location.lng())
+       } else {
+           console.log("Geocode was not successful for the following reason: " + status);
+       }
+   });
+}
+
+function fillInAddress() {
+    $("#city").val("");
+
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+    for (var component in componentForm) {
+       if (document.getElementById(component)) {
+           document.getElementById(component).value = '';
+           document.getElementById(component).disabled = false;
+       }
+    }
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+    var address = '';
+    for (var i = 0; i < place.address_components.length; i++) {
+       var addressType = place.address_components[i].types[0];
+
+       if (componentForm[addressType]) {
+           var val = place.address_components[i][componentForm[addressType]];
+           if (addressType === "locality") {
+            $("#city").val(val);
+           }
+
+           if (addressType === "postal_code") {
+            $("#postal_code").val(val);
+           }
+
+           address = address + ' ' + val;
+
+           if (document.getElementById(addressType)) {
+               document.getElementById(addressType).value = val;
+           }
+       }
+    }
+    getLatLngFromAddress(address);
+}
+</script>
+
+{% endblock %}

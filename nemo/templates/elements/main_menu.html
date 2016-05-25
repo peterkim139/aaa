@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<nav class="outer-nav top horizontal">
+    <a href="#" class="icon-home">Home</a>
+    {% if user.is_authenticated %}
+        <li><a href="/profile/requests/">Requests</a></li>
+    {% endif %}
+    {% if user.is_anonymous %}
+    <a href="/registration/" class="icon-news">Sign Up</a>
+    <a href="/login/" class="icon-image">Login</a>
+    {% else %}
+    <a href="/logout/">Logout</a>
+    {% endif %}
+    <a href="#" class="icon-upload">List Your Item</a>
+    <a href="#" class="icon-star">Support</a>
+</nav>

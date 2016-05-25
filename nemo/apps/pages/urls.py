@@ -24,8 +24,11 @@ from . import views
 urlpatterns = [
      url(r'^requests/$',views.RequestsView.as_view(),name='requests'),
      url(r'^request/(?P<id>\d+)/$',views.RequestView.as_view(),name='request'),
-     url(r'^add_listing/$',views.AddListingView.as_view(),name='add_listing'),
+     url(r'^listing/(?P<id>\d+)/$',views.ListingView.as_view(),name='listing'),
+     url(r'^change_listing_status/$',views.ChangeListingStatusView.as_view(),name='change_listing_status'),
      url(r'^upload_image/$',csrf_exempt(views.UploadImageView.as_view()),name='upload_image'),
      url(r'^my_requests/$',views.MyRequestsView.as_view(),name='my_requests'),
      url(r'^my_requests/(?P<id>\d+)/$',views.MyRequestsView.as_view(),name='my_requests'),
+     url(r'^in_transactions/$',views.InTransactionsView.as_view(),name='in_transactions'),
+     url(r'^out_transactions/$',views.OutTransactionsView.as_view(),name='out_transactions'),
 ]

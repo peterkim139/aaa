@@ -1,39 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-		<form method="GET" action="/search_results/">
-			<input type="text" name="name" value="{{request.GET.name}}"/><br>
-			<!--{% if cats %}-->
-				<!--{% for cat in cats %}-->
-					<!--<input type="checkbox" name="category" id="option_{{cat.id}}" value={{cat.id}} />-->
-					<!--<label for="option_{{cat.id}}"><b>{{cat.name}}</b></label><br />-->
-				<!--{% endfor %}-->
-			<!--{% endif %}-->
-			<input type="submit" value="Search"/>
-		</form>
-		{% if items and count > 0 %}
-			{% for item in items %}
-				<div class="item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
-						<p class="item_name">{{ item.name }}</p>
-						<p class="item_description">{{ item.description }}</p>
-						<p class="item_price">{{ item.price }}</p>
-						<p class="item_distance">{{ item.distance }} miles away</p>
-                    	<img class="item_image" src="/media/images/items/{{ item.image_name }}"/>
-				</div>
-			{% endfor %}
-		{% else %}
-			<p>No results found.</p>
-		{% endif %}
-
-	<div id="map_canvas" style="width : 500px; height: 500px;"></div>
-    <script>
-    var latitude = '{{ latitude }}';
-    var longitude = '{{ longitude }}'
-    getLocation();
-    initMap(latitude,longitude) ;
-    </script>
-
-
 <!-- POPUPS -->
 	<div id="change-address" class="mfp-hide popupWrap">
 		<div class="popupHead">
@@ -61,254 +28,112 @@
 	</div>
 
 <section class="homeSrch">
-
 					<div class="container">
-						<div class="srchAddress">
-							<p><i class="icon-location"></i> Address: <a href="#change-address" class="popupBtn">Default</a></p>
-						</div>
-						<div class="colRow">
-							<div class="col7 colTab12 colMob12">
-								<div class="formRow">
-									<input type="text" placeholder="Enter item name to search (e.g. drill, tent, etc...)" class="formControl">
+						<form method="GET" action="/search_results/">
+							<div class="srchAddress">
+								<p><i class="icon-location"></i> Address: <a href="#change-address" class="popupBtn">Default</a></p>
+							</div>
+							<div class="colRow">
+								<div class="col7 colTab12 colMob12">
+									<div class="formRow">
+										<input type="text" name="name" placeholder="Enter item name to search (e.g. drill, tent, etc...)" class="formControl" value="{{request.GET.name}}">
+									</div>
+								</div>
+								<div class="col3 colTab10 colMob12">
+									<div class="formRow">
+										<select class="formControl">
+											<option>Rent</option>
+											<option>Buy</option>
+											<option>Share</option>
+										</select>
+									</div>
+								</div>
+								<div class="col2 colMob12">
+									<button type="submit" class="btn btnPrime btnIcon btnBlock">
+										<i class="icon-search"></i>
+									</button>
 								</div>
 							</div>
-							<div class="col3 colTab10 colMob12">
-								<div class="formRow">
-									<select class="formControl">
-										<option>Rent</option>
-										<option>Buy</option>
-										<option>Share</option>
-									</select>
-								</div>
+							<div class="listInline">
+								<!--{% if cats %}-->
+									<!--{% for cat in cats %}-->
+										<!--<label class="checkAndRadio" for="option_{{cat.id}}">{{cat.name}}-->
+											<!--<input type="checkbox" class="" name="category" id="option_{{cat.id}}" value={{cat.id}} />-->
+										<!--</label>-->
+									<!--{% endfor %}-->
+								<!--{% endif %}-->
+								<label class="checkAndRadio">
+									<input type="checkbox" class="">
+									Books & Games
+								</label>
+								<label class="checkAndRadio">
+									<input type="checkbox" class="">
+									Electronics
+								</label>
+								<label class="checkAndRadio">
+									<input type="checkbox" class="">
+									Home Tools & Garden
+								</label>
+								<label class="checkAndRadio">
+									<input type="checkbox" class="">
+									Household Items
+								</label>
+								<label class="checkAndRadio">
+									<input type="checkbox" class="">
+									Sports & Outdoors
+								</label>
+								<label class="checkAndRadio">
+									<input type="checkbox" class="">
+									Others
+								</label>
 							</div>
-							<div class="col2 colMob12">
-								<button type="submit" class="btn btnPrime btnIcon btnBlock">
-									<i class="icon-search"></i>
-								</button>
-							</div>
-						</div>
-						<div class="listInline">
-							<label class="checkAndRadio">
-								<input type="checkbox" class="">
-								Books & Games
-							</label>
-							<label class="checkAndRadio">
-								<input type="checkbox" class="">
-								Electronics
-							</label>
-							<label class="checkAndRadio">
-								<input type="checkbox" class="">
-								Home Tools & Garden
-							</label>
-							<label class="checkAndRadio">
-								<input type="checkbox" class="">
-								Household Items
-							</label>
-							<label class="checkAndRadio">
-								<input type="checkbox" class="">
-								Sports & Outdoors
-							</label>
-							<label class="checkAndRadio">
-								<input type="checkbox" class="">
-								Others
-							</label>
-						</div>
+						</form>
 					</div>
 				</section>
-				<section class="homeMap">
-					<div id="gMap" class="gMap"></div>
-				</section>
-				<section class="gridListing hasPadTB">
+				<section class="homeMapSect">
 					<div class="container">
-						<div class="grid">
-							<div class="grid-sizer"></div>
-							<div class="grid-item">
-								<div class="listingSingle" class="wow fadeInDown">
-									<figure>
-										<img src="media/images/thumbs/thumb-1.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
+						<div class="colRow">
+							<div class="col9" style="height: 636px;">
+								<div class="homeMap">
+									<div id="map_canvas" class="gMap"></div>
 								</div>
 							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-2.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
+							{% if items and count > 0 %}
+								{% for item in items %}
+									<div class="col3 item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
+										<div class="listingSingle">
+											<figure>
+												<img class="imgBlock item_image" src="/media/images/items/{{ item.image_name }}">
+												<figcaption>Rent</figcaption>
+											</figure>
+											<div class="listingDets">
+												<div class="listDetsTop">
+													<div class="listDetsTopL">
+														<span class="listingName item_name">{{ item.name }}</span>
+														<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
+													</div>
+													<div class="listDetsTopR">
+														<div class="listPriceSect">
+															<span class="listPrice item_price">${{ item.price }}</span>
+															<span class="listDuration">per day</span>
+														</div>
+														<em class="listingDist item_distance">{{ item.distance }} miles</em>
+													</div>
 												</div>
+												<a href="#" class="btn btnBorder btnBlock">Details</a>
 											</div>
 										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
 									</div>
-								</div>
-							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-3.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
-								</div>
-							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-4.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
-								</div>
-							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-7.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
-								</div>
-							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-5.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
-								</div>
-							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-6.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
-								</div>
-							</div>
-							<div class="grid-item">
-								<div class="listingSingle">
-									<figure>
-										<img src="media/images/thumbs/thumb-8.jpg" class="imgBlock">
-										<figcaption>Rent</figcaption>
-									</figure>
-									<div class="listingDets">
-										<div class="listDetsTop">
-											<div class="listDetsTopL">
-												<span class="listingName">Heavy duty power drill</span>
-												<div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
-											</div>
-											<div class="listDetsTopR">
-												<div class="listPriceSect">
-													<span class="listPrice">$3</span>
-													<span class="listDuration">per day</span>
-												</div>
-											</div>
-										</div>
-										<a href="#" class="btn btnBorder btnBlock">Details</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="alignC mt20">
-							<a href="#" class="btn btnPrime">See More</a>
+								{% endfor %}
+							{% else %}
+								<p>No results found.</p>
+							{% endif %}
+							<script>
+								var latitude = '{{ latitude }}';
+								var longitude = '{{ longitude }}'
+								getLocation();
+								initMap(latitude,longitude) ;
+							</script>
 						</div>
 					</div>
 				</section>
@@ -442,7 +267,7 @@
 					</div>
 				</section>
 				</section>
-				<section class="hasPadTB sectionTestim">
+				<section class="hasPadTB sectionTestim" parallax-window" data-parallax="scroll" data-image-src="media/images/testim-bg.jpg">
 					<div class="container">
 						<div class="testimWrap">
 							<h2>Check out what your neighbors say!</h2>

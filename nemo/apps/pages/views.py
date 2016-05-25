@@ -25,15 +25,40 @@ from pages.utils import save_file,payment_connection,seller_approved_request,sel
 from payment.utils import show_errors
 from category.models import Params
 from pages.models import Image
+from pprint import pprint
 
+class OutTransactionsView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        out_transactions = Rent.objects.raw('''SELECT *, parametrs.name as item_name, user.first_name as user_first_name, user.last_name as user_last_name FROM rent
+                LEFT JOIN user
+                ON rent.user_id=user.id
+                LEFT JOIN parametrs
+                ON rent.param_id=parametrs.id
+                WHERE rent.user_id = %s''',[request.user.id])
+
+        context = {'out_transactions': out_transactions, }
+        return render(request, 'pages/out_transactions.html', context)
+
+class InTransactionsView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        in_transactions = Rent.objects.filter(owner_id=request.user.id)
+        # in_transactions = Rent.objects.raw('''SELECT *, parametrs.name as item_name, user.first_name as user_first_name, user.last_name as user_last_name FROM rent
+        #         LEFT JOIN user
+        #         ON rent.user_id=user.id
+        #         LEFT JOIN parametrs
+        #         ON rent.param_id=parametrs.id
+        #         WHERE rent.owner_id = %s''',[request.user.id])
+
+        context = {'in_transactions': in_transactions }
+        return render(request, 'pages/in_transactions.html', context)
 
 class RequestsView(LoginRequiredMixin,TemplateView, View):
     template_name = 'pages/requests.html'
 
     def get(self,request):
-        print request.user.id
         requests = Rent.objects.filter(owner_id=request.user.id)
-        print requests
         return self.render_to_response({'requests':requests})
 
 class RequestView(LoginRequiredMixin,TemplateView, View):
@@ -237,52 +262,42 @@ class UploadImageView(LoginRequiredMixin, View):
                 response = save_file(request, upload,filename,'images/items/',True)
             return JsonResponse({'filename':response})
 
-
-class AddListingView(LoginRequiredMixin,TemplateView, View):
-    template_name = 'pages/add_listing.html'
-
-    def get_context_data(self, **kwargs):
-        data = {}
-        context = super(AddListingView, self).get_context_data(**kwargs)
-        context['form'] = AddListingForm()
-        if 'form' in kwargs:
-            context.update({'form': AddListingForm(self.request.POST)})
-        return context
-
-    def get(self, request):
-        return self.render_to_response(self.get_context_data())
+class ChangeListingStatusView(LoginRequiredMixin,View):
 
     def post(self, request):
-
-        form = AddListingForm(request.POST, request.FILES)
-        if form.is_valid():
-
-            parameters = Params()
-            parameters.price = form.cleaned_data['price']
-            parameters.name = form.cleaned_data['name']
-            parameters.item_owner_id = request.user.id
-            parameters.subcategory = form.cleaned_data['subcategory']
-            parameters.description = form.cleaned_data['description']
-            parameters.address = form.cleaned_data['street_address']
-            parameters.city = form.cleaned_data['city']
-            parameters.postal_code = form.cleaned_data['postal_code']
-            parameters.state = form.cleaned_data['state']
-            parameters.latitude = form.cleaned_data['latitude']
-            parameters.longitude = form.cleaned_data['longitude']
-            parameters.save()
-
-            image = Image()
-            if 'image_filename' in request.session:
-                image_filename = request.session['image_filename']
-            image_name = form.cleaned_data['image_file']
-            if image_name == image_filename:
-                image.image_name = image_name
-                image.param_image_id = parameters.id
-                image.save()
-                del request.session['image_filename']
-
-            messages.success(request,"Successfully Added")
-            return HttpResponseRedirect('/')
+        item_id = request.POST['item_id']
+        status = request.POST['status']
+        try:
+            param = Params.objects.get(id=item_id)
+        except Params.DoesNotExist:
+            param = None
+        if param and param.item_owner_id == request.user.id:
+            param.status = status
+            param.save()
+            return JsonResponse({'response':True})
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            return JsonResponse({'response':False})
 
+class ListingView(View):
+
+    def get(self, request, id):
+
+        try:
+            param = Params.objects.raw('''SELECT *, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date, user.first_name as user_firstname, user.last_name as user_lastname, images.image_name as image_filename FROM parametrs
+                LEFT JOIN images
+                ON images.param_image_id=parametrs.id
+                LEFT JOIN user
+                ON user.id=parametrs.item_owner_id
+                LEFT JOIN rent
+                ON rent.param_id=parametrs.id
+                WHERE parametrs.id = %s
+                AND user.is_active=1
+                AND parametrs.status='published'
+                LIMIT 1''',[id])[0]
+        except:
+            return render(request, '404.html')
+
+        this_moment = datetime.datetime.now()
+
+        context = {'param':param,'this_moment':this_moment}
+        return render(request, 'pages/listing.html', context)

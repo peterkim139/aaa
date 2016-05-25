@@ -13,25 +13,22 @@
         {% endblock title %}
     </title>
     {% include "elements/styles.html" %}
-     {% include "elements/javascript.html" %}
+    {% include "elements/javascript.html" %}
 </head>
 <body>
     {% if request.path != "/" %}
         {% include "elements/menu.html" %}
     {% endif %}
-    {% if request.path == "/" %}
+    {% if request.path != "/" %}
         {% include "elements/header.html" %}
+    {% endif %}
+    {% if request.path == "/" %}
+        {% include "elements/home_header.html" %}
     {% endif %}
     {% include "elements/notification.html" %}
     {% block content %}
     <div ></div>
     {% endblock content %}
-    {% if request.path == "/" %}
-        {% include "elements/footer.html" %}
-    {% endif %}
-    <script src="{% static 'js/classie.js' %}"></script>
-    {% if request.path == "/" %}
-	    <script src="{% static 'js/menu.js' %}"></script>
-    {% endif %}
+    {% include "elements/footer.html" %}
 </body>
 </html>

@@ -20,9 +20,7 @@ function validateDateRange() {
             return false;
         }
     }
-
 }
-
 
 $(document).ready(function(){
 
@@ -48,7 +46,6 @@ $(document).ready(function(){
 
     $("#cancel_rent").validate({
         rules: {
-
             'card_number': {
                 required: true,
                 digits: true,
@@ -90,7 +87,6 @@ $(document).ready(function(){
             'year':{
                 required: "Enter your card expired year"
             },
-
         },
         errorClass: "help-inline",
             errorElement: "span",
@@ -220,7 +216,6 @@ $(document).ready(function(){
                 required: "This field is required.",
                 equalTo: "Password and Confirm Password must match"
             }
-
         },
         errorClass: "help-inline",
             errorElement: "span",
@@ -233,7 +228,6 @@ $(document).ready(function(){
                 $(element).parents('.control-group').addClass('success');
             }
     });
-
 
     $("#image-uploader").each(function(){
                var id = $(this).attr('id');
@@ -277,6 +271,55 @@ $(document).ready(function(){
         });
     }
 
+    ///////////////////////////////////////////// Deactivate account ////////////////
+
+    $(".change_account_status_item").on('click',function(){
+        var self = $(this)
+        var status = self.attr("data-account-status");
+        $.ajax({
+            url:'/change_account_status/',
+            type:'post',
+            data:{
+                status: status
+            },
+            success:function(response) {
+                if(response && status == 0){
+                    self.attr("data-account-status",1);
+                    self.text("Activate");
+                }else {
+                    self.attr("data-account-status",0);
+                    self.text("Deactivate");
+                }
+            },
+        });
+    });
+
+    ///////////////////////////////////////////// Change listing status type////////////////
+
+    $(".change_listing_status").on('click',function(){
+        var self = $(this)
+        var item_id = self.attr('id');
+        var status = self.attr("data-status-type");
+        $.ajax({
+            url:'/profile/change_listing_status/',
+            type:'post',
+            data:{
+                item_id: item_id,
+                status: status
+            },
+            success:function(response) {
+                if(response && status == 'deleted') {
+                    self.parents('li.listing_li').remove();
+                }else if(response && status == 'published'){
+                    self.attr("data-status-type",'unpublished');
+                    self.text("Unpublish");
+                }else {
+                    self.attr("data-status-type",'published');
+                    self.text("Publish");
+                }
+            },
+        });
+    });
     //////////////////////////////////////////// Check if address contains at least one digit /////////////////////////////////////
 
     $.validator.addMethod("address_validated",
@@ -307,7 +350,6 @@ $(document).ready(function(){
     ///////////////////////////////////// Add Listing Fօrm Validation //////////////////////////////////////////////
 
     $("#add_listing_form").validate({
-
         ignore:[], // to validate hidden fields
         rules: {
             'street_address': {
@@ -384,29 +426,59 @@ $(document).ready(function(){
 
     ///////////////////////  preview add listing form //////////////////////////
 
-    $('#add_listing_form_preview').hide();
+    $(".openSlideBtn").on('click',function(){
+        var self = $(this);
+        slideAnimation(self);
+    });
+
     $("#preview_add_listing_form").on('click',function(e){
+        var self = $(this);
         if($("#add_listing_form").valid()){
                 e.preventDefault();
-                $("#add_listing_form_preview").show();
+                slideAnimation(self);
                 $("#preview_location").text($("#street_address").val())
                 $("#preview_title").text($("#name").val());
                 $("#preview_category").text($("#id_subcategory option:selected").text());
                 $("#preview_description").text($("#description").val());
-                $("#preview_price").text($("#price").val());
-                $("#add_listing_form").hide();
+                $("#preview_price").text('$' + $("#price").val()+' per day');
         }
     })
-
-    $("#edit_add_listing_form").on('click',function(e){
-        $("#add_listing_form_preview").hide();
-        $("#add_listing_form").show();
-    })
-
     $("#submit_add_listing_form").on('click',function(e){
         $( "#add_listing_form" ).submit();
     })
 })
+
+//////////////// CSRF code ///////////////////////
+
+    function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        crossDomain: false,
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 
 /////////////////////  set data in cookie /////////////////////////////////
 
@@ -493,13 +565,10 @@ function initMap(latitude,longitude) {
                 if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
             });
 
-
             var content = '<div class="singleMapVendor" style="width:100%;" data-id="'+id+'"><p>'+
-            $(this).children('.item_name').text()+'</p><p>'+
-            $(this).children('.item_description').text()+'</p><p>'+
-            $(this).children('.item_price').text()+
-            '</p><img class="item_image" src="'+$(this).children('.item_image').attr('src')+'"/></div>';
-
+            $(this).find('span.item_name').text()+'</p><p>'+
+            $(this).find('span.item_price').text()+
+            '</p><img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/></div>';
             var infowindow = new google.maps.InfoWindow();
 
             google.maps.event.addListener(marker,'click', function(){

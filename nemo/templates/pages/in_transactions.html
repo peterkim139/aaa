@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="in_transactions" style="display:none;">
+    {% if in_transactions %}
+        <p>Items rented from my neighbors</p><br>
+        <table>
+            <tr>
+              <th>#</th>
+              <th>Item name</th>
+              <th>Item owner name</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+              <th>Transaction Date</th>
+              <th>Reserved Dates</th>
+            </tr>
+            {% for in_transaction in in_transactions %}
+                <tr>
+                  </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+
+<div class="topLighLine"></div>
+    <div class="container accountWrapper pb80">
+        {% include "elements/profile.html" %}
+        <div class="accountR">
+            {% include "elements/account_menu.html" %}
+            <div class="wow fadeInDown" data-wow-delay="1s">
+                <div id="transaction">
+                    <div class="subTitleWrap hasTabs">
+                        <h2>Transactions</h2>
+                        <ul class="tabs subTitleTabs">
+                            <li><a href="/profile/in_transactions">Incoming</a></li>
+                            <li><a href="/profile/out_transactions">Outgoing</a></li>
+                        </ul>
+                    </div>
+                    <div class="cancelWrap expandWrap">
+                        <button class="closeExpandWrap"><i class="icon-cancel"></i></button>
+                        <h3 class="cancelItemName">Cancelation for <strong>Lorem Ipsum</strong> item</h3>
+                        <div class="colRow">
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">Blah blah</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">Another blah blah</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">Some lorem ipxum</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">another lorem ipsum</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="incoming">
+                        {% if in_transactions %}
+                            <table class="tableStyle footable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item name</th>
+                                        <th>Requested by</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        <th data-hide="all">Transaction Dates</th>
+                                        <th data-hide="all">Reserved Dates</th>
+                                        <th data-toggle="true">More</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for in_transaction in in_transactions %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ in_transaction.param.name }}</td>
+                                            <td>{{ in_transaction.user.first_name }} {{ in_transaction.user.last_name }}</td>
+                                            <td>Rent</td>
+                                            <td>${{ in_transaction.price }}</td>
+                                            <td>{{ in_transaction.status }}</td>
+                                            <td><button class="success expandBtn">Approve</button></td>
+                                            <td>{{ in_transaction.created|date:"Y-m-d h:i:s" }}</td>
+                                            <td>{{ in_transaction.start_date|date:"Y-m-d" }} - {{ in_transaction.rent_date|date:"Y-m-d" }}</td>
+                                            <td class="alignC"></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

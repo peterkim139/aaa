@@ -27,7 +27,8 @@ urlpatterns = [
      url(r'^change_password/(?P<reset_key>\w+)/',views.ChangePasswordView.as_view(),name='change_password'),
      url(r'^login/$',views.LoginView.as_view(),name='login'),
      url(r'^search_results/$',views.SearchView.as_view(),name='search_results'),
-     url(r'^profile/$',views.ProfileView.as_view(),name='profile'),
      url(r'^edit_profile/$',views.EditProfileView.as_view(),name='edit_profile'),
+     url(r'^change_account_status/$',views.ChangeAccountStatusView.as_view(),name='change_account_status'),
+     url(r'^listings/$',views.ListingsView.as_view(),name='listings'),
      url(r'^logout/$',views.LogoutView.as_view(),name='logout'),
 ]

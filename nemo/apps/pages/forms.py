@@ -68,7 +68,7 @@ class AddListingForm(forms.Form):
                            widget=forms.TextInput(attrs={'id': 'city','class': 'formControl'}), )
 
     state = forms.CharField(max_length=2,
-                widget=forms.Select(choices=CHOICES),required=True)
+                widget=forms.Select(choices=CHOICES, attrs={'class':'formControl'}),required=True)
 
     postal_code = forms.CharField(label="Zip Code", max_length=5,min_length=5, required=True,
                                    validators=[validate_numbersonly],
@@ -76,11 +76,11 @@ class AddListingForm(forms.Form):
 
     name = forms.CharField(label='Title', max_length=255, required=True,
                            widget=forms.TextInput(attrs={'id': 'name','class': 'formControl'}), )
-    subcategory = forms.ModelChoiceField(label='Category',queryset=SubCategory.objects.all())
+    subcategory = forms.ModelChoiceField(label='Category',queryset=SubCategory.objects.all(),widget=forms.Select(attrs={'class':'formControl'}))
     description = forms.CharField(label='Description', required='True', widget=forms.Textarea(attrs={'id':'description', 'class': 'formControl'}))
     price = forms.CharField(label="Price", required=True, max_length=3,
                                    validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'id':'price', 'class': '','autocomplete':'off'}), )
+                                   widget=forms.TextInput(attrs={'id':'price', 'class': 'formControl','autocomplete':'off'}), )
     image_file = forms.CharField(required=True,
                                  widget=forms.TextInput(attrs={'id':'filename', 'class': 'formControl', 'type': 'hidden'}), )
 
