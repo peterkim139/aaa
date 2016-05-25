@@ -36,6 +36,36 @@
                             <li><a href="/profile/out_transactions">Outgoing</a></li>
                         </ul>
                     </div>
+                    <div class="cancelWrap expandWrap">
+                        <button class="closeExpandWrap"><i class="icon-cancel"></i></button>
+                        <h3 class="cancelItemName">Cancelation for <strong>Lorem Ipsum</strong> item</h3>
+                        <div class="colRow">
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">Blah blah</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">Another blah blah</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">Some lorem ipxum</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                            <div class="col6">
+                                <div class="formRow">
+                                    <label class="formLabel">another lorem ipsum</label>
+                                    <input type="text" class="formControl">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="outgoing">
                         {% if out_transactions %}
                             <table class="tableStyle footable">
@@ -51,6 +81,7 @@
                                         <th data-hide="all">Reserved Dates</th>
                                         <th data-hide="all">Action</th>
                                         <th>Payment</th>
+                                        <th>Action</th>
                                         <th data-hide="all">Rate & Review</th>
                                         <th data-hide="all">Share</th>
                                         <th data-toggle="true">More</th>
@@ -69,6 +100,7 @@
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
                                             <td>waiting Approval</td>
                                             <td>Make payment</td>
+                                            <td><button class="success expandBtn">Approve</button></td>
                                             <td><a href="#" class="btn btnBorder sizeS valignM">Add Review</a></td>
                                             <td>
                                                 <div class="tableShares">
