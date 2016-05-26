@@ -349,7 +349,7 @@ class ListingsView(LoginRequiredMixin,View):
                 (
                    SELECT MAX(ren.id)
                    FROM rent ren
-                   WHERE ren.param_id = parametrs.id
+                   WHERE ren.param_id = parametrs.id AND ren.start_date <= CURDATE() AND ren.rent_date >= CURDATE()
                 )
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
