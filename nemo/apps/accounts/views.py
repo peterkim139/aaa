@@ -48,6 +48,7 @@ class HomeView(View):
                 [latitude, latitude, longitude, limit])
 
         count = len(list(items))
+        # recent_items =  TO DO
         context = {'items': items, 'cats': cats, 'count':count, 'latitude':latitude, 'longitude':longitude }
         return render(request, 'accounts/home.html', context)
 
@@ -249,7 +250,6 @@ class ChangePasswordView(TemplateView, View):
 class SearchView(View):
 
     def get(self, request):
-
         cats = SubCategory.objects.all()
         categories = request.GET.getlist('category')
         checked_categories = []
@@ -278,6 +278,12 @@ class SearchView(View):
         latitude = coordinates[0]
         longitude = coordinates[1]
         limit = 1
+        if request.is_ajax():
+            offset = request.session['offset']
+            request.session['offset'] = offset + limit
+        else:
+            offset = 0
+            request.session['offset'] = limit
 
         items = Params.objects.raw('''SELECT *,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
                 LEFT JOIN images
@@ -290,15 +296,17 @@ class SearchView(View):
                 and parametrs.price >= %s and parametrs.price <= %s
                 and parametrs.status = 'published'
                 ORDER BY distance ASC
-                LIMIT %s''',
-                [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range, limit])
+                LIMIT %s
+                OFFSET %s''',
+                [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range, limit, offset])
 
         count = len(list(items))
-        context = {'longitude':longitude,'latitude':latitude,'items': items,'cats': cats, 'count':count, 'checked_categories':checked_categories,'max_price': max_price }
 
         if request.is_ajax():
-            return JsonResponse(context)
+            items = serializers.serialize('json', items)
+            return JsonResponse(items, safe=False)
         else:
+            context = {'longitude':longitude,'latitude':latitude,'items': items,'cats': cats, 'count':count, 'checked_categories':checked_categories,'max_price': max_price }
             return render(request, 'accounts/search_results.html', context)
 
 class EditProfileView(LoginRequiredMixin, View):
@@ -337,11 +345,11 @@ class ListingsView(LoginRequiredMixin,View):
 
         listings = Params.objects.raw('''SELECT DISTINCT *, images.image_name as image_name, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date FROM parametrs
                 LEFT JOIN rent
-                ON rent.param_id=parametrs.id AND rent.param_id =
+                ON rent.param_id=parametrs.id AND rent.id =
                 (
-                   SELECT MAX(rent.id)
+                   SELECT MAX(ren.id)
                    FROM rent ren
-                   WHERE ren.param_id=parametrs.id
+                   WHERE ren.param_id = parametrs.id
                 )
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id

@@ -129,22 +129,7 @@
 
     ////////////////view more search results/////////////
 
-    $(".viewMoreBtn").on('click',function(){
-        $.ajax({
-            url:'/search_results/',
-            type:'get',
-            data:{
-            },
-            success:function(context) {
-                if(context){
-                    $("#search_results_container").append('<p>more results</p>');
-                }else {
-                    $("#search_results_container").append('<p>no results</p>');
-                    $(".viewMoreBtn").hide();
-                }
-            },
-        });
-    });
+
 
     ///////////price range slider jquery ui//////////////
 
@@ -154,6 +139,22 @@
     var longitude = '{{longitude}}';
 
     $(function() {
+
+        $(".viewMoreBtn").on('click',function(){
+        var url = window.location.pathname+window.location.search;
+        $.ajax({
+            url:url,
+            type:'get',
+            data:{
+            },
+            success:function(response) {
+                response = $.parseJSON(response);
+                $.each(response, function(index, element) {
+                    console.log(element.fields.address)
+                });
+            },
+        });
+    });
 
         $( "#slider-range" ).slider({
           range: true,
