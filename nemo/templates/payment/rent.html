@@ -1,40 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-<form method="post" action="" id="">
-    {% csrf_token %}
-    <div>
-        {{ form.card_number.label_tag}}
-        {{ form.card_number }}
-        {{ form.card_number.errors }}
-    </div>
-    <div>
-        {{ form.cvv.label_tag}}
-        {{ form.cvv }}
-        {{ form.cvv.errors }}
-    </div>
-    <div>
-        {{ form.month.label_tag}}
-        {{ form.month }}
-        {{ form.month.errors }}
-    </div>
-    <div>
-        {{ form.year.label_tag}}
-        {{ form.year }}
-        {{ form.year.errors }}
-    </div>
-    <div>
-        {{ form.start_date.label_tag}}
-        {{ form.start_date }}
-        {{ form.start_date.errors }}
-    </div>
-    <div>
-        {{ form.rent_date.label_tag}}
-        {{ form.rent_date }}
-        {{ form.rent_date.errors }}
-    </div>
-    <input type="submit" value="send">
-</form>
 <script>
 $(document).ready(function() {
 
@@ -56,8 +21,11 @@ $(document).ready(function() {
     var dateToday = new Date();
     var lastDate = new Date(dateToday.getFullYear(), dateToday.getMonth()+6, 0);
 
-    $('#id_start_date').on("change", validateDateRange).datepicker({
-
+    $(".datepicker").datepicker({
+		nextText: "",
+		prevText: "",
+		showOtherMonths: true,
+        selectOtherMonths: true,
         dateFormat: "yy-mm-dd",
         minDate: dateToday,
         maxDate: lastDate,
@@ -66,28 +34,188 @@ $(document).ready(function() {
             var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
             return [dateRange.indexOf(dateString) == -1];
         },
-        onClose: function (selectedDate) {
-        }
-
-    });
-
-
-    $('#id_rent_date').on("change", validateDateRange).datepicker({
-
-        dateFormat: "yy-mm-dd",
-        minDate: dateToday,
-        maxDate: lastDate,
-        numberOfMonths: 1,
-        beforeShowDay: function (date) {
-        var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-        return [dateRange.indexOf(dateString) == -1];
+        onSelect: function (date){
+            validateDateRange();
         },
-        onClose: function (selectedDate) {
-            $("#id_start_date").datepicker("option", "maxDate", selectedDate);
-        }
+	});
+    <!--$('#id_start_date').on("change", validateDateRange).datepicker({-->
 
-    });
+        <!--dateFormat: "yy-mm-dd",-->
+        <!--minDate: dateToday,-->
+        <!--maxDate: lastDate,-->
+        <!--numberOfMonths: 1,-->
+        <!--beforeShowDay: function (date) {-->
+            <!--var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);-->
+            <!--return [dateRange.indexOf(dateString) == -1];-->
+        <!--},-->
+        <!--onClose: function (selectedDate) {-->
+        <!--}-->
+
+    <!--});-->
+
+
+    <!--$('#id_rent_date').on("change", validateDateRange).datepicker({-->
+
+        <!--dateFormat: "yy-mm-dd",-->
+        <!--minDate: dateToday,-->
+        <!--maxDate: lastDate,-->
+        <!--numberOfMonths: 1,-->
+        <!--beforeShowDay: function (date) {-->
+        <!--var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);-->
+        <!--return [dateRange.indexOf(dateString) == -1];-->
+        <!--},-->
+        <!--onClose: function (selectedDate) {-->
+            <!--$("#id_start_date").datepicker("option", "maxDate", selectedDate);-->
+        <!--}-->
+
+    <!--});-->
 
 })
+</script>
+
+
+<div class="container small pb40">
+    <div class="sideSlideWrap">
+        <div id="view-initial" class="singleSlide active">
+            <div class="viewListingTop">
+                <div class="clearAfter">
+                    <div class="pullLeft wow fadeIn" data-wow-delay=".5s">
+                        <h3>{{ param.name }}</h3>
+                        <address>
+                            <i class="icon-location-1"></i>
+                            {{ param.address }}
+                        </address>
+                    </div>
+                    <div class="pullRight wow fadeIn" data-wow-delay=".5s">
+                        <strong>${{ param.price }}</strong>
+                        <span>Per day</span>
+                    </div>
+                </div>
+            </div>
+            <div class="clearAfter">
+                <div class="listingViewL">
+                    <figure class="wow fadeInDown listinhMainImg">
+                        <img src="/media/images/items/{{ param.image_filename }}">
+                    </figure>
+                    <div class="listingRatingLine wow fadeInDown" data-wow-delay=".2s">
+                        <div class="pullLeft">
+                            <label class="block mb5">Item Rating</label>
+                            <img src="/media/images/rating-badges.png">
+                        </div>
+                        <div class="pullRight">
+                            <span>Contact<br>with owner</span>
+                            <button class="btn btnPrime btnSquare">
+                                <i class="icon-message"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="subSect wow fadeInDown" data-wow-delay=".4s">
+                        <ul class="labelValueList evenOdd">
+                            <li>
+                                <label>Category:</label>
+                                <span>{{ param.subcategory.name }}</span>
+                            </li>
+                            <li>
+                                <label>Owner:</label>
+                                <span class="success"><a href="#" class="txtBtn">{{ param.user_firstname }} {{ param.user_lastname }}</a></span>
+                            </li>
+                            <li>
+                                <label>Rating Budges:</label>
+                                <span><img src="/media/images/rating-badges.png" alt=""></span>
+                            </li>
+                            <li>
+                                <label>Summary:</label>
+                                <span>${{ param.price }} x 0 days</span>
+                            </li>
+                            <li>
+                                <label>Today’s status:</label>
+                                <span {% if param.rent_status == 'approved' and param.rent_start_date|date:"Y-m-d h:i:s" <= this_moment|date:"Y-m-d h:i:s" and param.rent_end_date|date:"Y-m-d h:i:s" >= this_moment|date:"Y-m-d h:i:s" %}class="danger">Not Available{% else %} class="success">Available{% endif %}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="subSect wow fadeInDown" data-wow-delay=".6s">
+                        <h4 class="subSectTitle">Description</h4>
+                        <p>{{ param.description }}</p>
+                    </div>
+                </div>
+                <div class="listingViewR wow fadeInDown" data-wow-delay="1s">
+                    <div class="subSect wow fadeInDown" data-wow-delay=".8s">
+                        <div class="gMap listingMap" id="gMap"></div>
+                    </div>
+                    <div class="datepicker mb5"></div>
+                    <p class="additionalTxt">Reserve the dates when you need the item</p>
+                    <div class="subSect wow fadeInDown" data-wow-delay=".4s">
+                        <ul class="labelValueList evenOdd">
+                            <li>
+                                <label>Summary:</label>
+                                <span>${{ param.price }} x 0 days</span>
+                            </li>
+                            <li>
+                                <label>Total amount:</label>
+                                <span>$0</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#view-request" class="openSlideBtn btn btnBorder btnBlock">Request</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-request" class="singleSlide mt25">
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="formRow">
+                    {{ form.card_number.label_tag}}
+                    {{ form.card_number }}
+                    {{ form.card_number.errors }}
+                </div>
+                <div class="formRow">
+                    {{ form.cvv.label_tag}}
+                    {{ form.cvv }}
+                    {{ form.cvv.errors }}
+                </div>
+                <div class="formRow">
+                    {{ form.month.label_tag}}
+                    {{ form.month }}
+                    {{ form.month.errors }}
+                </div>
+                <div class="formRow">
+                    {{ form.year.label_tag}}
+                    {{ form.year }}
+                    {{ form.year.errors }}
+                </div>
+                <div class="formRow">
+                    {{ form.start_date }}
+                    {{ form.start_date.errors }}
+                </div>
+                <div class="formRow">
+                    {{ form.rent_date }}
+                    {{ form.rent_date.errors }}
+                </div>
+                <div class="colRow">
+                    <div class="col6">
+                        <a href="#view-initial" class="openSlideBtn btn btnBorder btnBlock">Back</a>
+                    </div>
+                    <div class="col6">
+                        <input type="submit" value="Submit" class="btn btnBorder btnBlock">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+  var myLatLng = {lat: parseFloat('{{param.latitude}}'), lng: parseFloat('{{param.longitude}}')};
+
+  var map = new google.maps.Map(document.getElementById('gMap'), {
+    zoom: 10,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: '{{ param.name }}'
+  });
 </script>
 {% endblock %}

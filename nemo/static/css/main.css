@@ -2081,6 +2081,32 @@ search page
   .viewMoreBtn i {
     font-size: 20px; }
 
+/*== range slider ==*/
+.ui-slider-horizontal {
+  background: #5CBB46;
+  border-radius: 4px;
+  height: 10px; }
+  .ui-slider-horizontal .ui-slider-range {
+    background: #fff;
+    height: 10px;
+    border: solid 1px #C0D5B1; }
+  .ui-slider-horizontal .ui-slider-handle {
+    background: #fff;
+    border: solid 1px #C0D5B1;
+    border-radius: 100%; }
+    .ui-slider-horizontal .ui-slider-handle:after {
+      content: '';
+      position: absolute;
+      background: #5bbc2e;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
+      top: 50%;
+      margin-top: -4px;
+      left: 50%;
+      margin-left: -4px; }
+
+/*== end range slider ==*/
 /*
 end search page
 */
@@ -2155,6 +2181,42 @@ view listing page
   height: 314px; }
 
 /*== calendar styles ==*/
+.ui-datepicker.ui-widget-content {
+  border: none;
+  background: transparent;
+  width: 100%; }
+.ui-datepicker td span,
+.ui-datepicker td a {
+  text-align: center; }
+.ui-datepicker .ui-datepicker-prev span,
+.ui-datepicker .ui-datepicker-next span {
+  position: static;
+  margin-left: 0;
+  margin-top: 0; }
+.ui-datepicker .ui-datepicker-next {
+  width: auto;
+  height: auto;
+  top: 0;
+  right: 0; }
+.ui-datepicker .ui-datepicker-prev {
+  width: auto;
+  height: auto;
+  top: 0;
+  left: 0; }
+.ui-datepicker .ui-datepicker-next-hover {
+  right: 0; }
+.ui-datepicker .ui-datepicker-prev-hover {
+  left: 0; }
+.ui-datepicker .ui-icon {
+  text-indent: 0; }
+.ui-datepicker .ui-datepicker-header {
+  color: #5bbc2e;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: solid 1px #e8e8e8; }
+.ui-datepicker .ui-datepicker-title {
+  line-height: 1em; }
+
 .datepicker {
   border: solid 1px #dbdbdb;
   padding: 14px;
@@ -2186,12 +2248,6 @@ view listing page
         -webkit-border-radius: 100%; }
       .ui-datepicker-calendar tbody a.ui-priority-secondary {
         color: #e8e8e8; }
-
-.ui-datepicker-header {
-  color: #5bbc2e;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  border-bottom: solid 1px #e8e8e8; }
 
 .ui-datepicker-prev {
   float: left; }

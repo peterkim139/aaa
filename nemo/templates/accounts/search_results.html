@@ -92,7 +92,7 @@
                                                 <div class="listDetsTop">
                                                     <div class="listDetsTopL">
                                                         <span href="#" class="listingName item_name">{{ item.name }}</span>
-                                                        <div class="ownerWrap"><span class="listingBy">by L.S.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
+                                                        <div class="ownerWrap"><span class="listingBy">by {{ item.first_name|first }}.{{ item.last_name|first }}.</span><span class="stars"><img src="media/images/rating-badges.png" alt=""></span></div>
                                                     </div>
                                                     <div class="listDetsTopR">
                                                         <div class="listPriceSect">
@@ -113,11 +113,13 @@
                     </div>
                 </section>
             </div>
-            <div class="alignC">
+            <div class="alignC" id="view_more">
+                {% if count = limit %}
                 <button class="viewMoreBtn">
                     <span>View More</span>
                     <i class="icon-angle-down"></i>
                 </button>
+                {% endif %}
             </div>
         </div>
         <div class="searchR">
@@ -126,11 +128,6 @@
     </div>
 </main>
 <script>
-
-    ////////////////view more search results/////////////
-
-
-
     ///////////price range slider jquery ui//////////////
 
     var start_range = '{{request.GET.start_range}}' ? '{{request.GET.start_range}}' : 0;
@@ -139,23 +136,6 @@
     var longitude = '{{longitude}}';
 
     $(function() {
-
-        $(".viewMoreBtn").on('click',function(){
-        var url = window.location.pathname+window.location.search;
-        $.ajax({
-            url:url,
-            type:'get',
-            data:{
-            },
-            success:function(response) {
-                response = $.parseJSON(response);
-                $.each(response, function(index, element) {
-                    console.log(element.fields.address)
-                });
-            },
-        });
-    });
-
         $( "#slider-range" ).slider({
           range: true,
           min: 0,

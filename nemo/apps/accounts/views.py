@@ -48,8 +48,18 @@ class HomeView(View):
                 [latitude, latitude, longitude, limit])
 
         count = len(list(items))
-        # recent_items =  TO DO
-        context = {'items': items, 'cats': cats, 'count':count, 'latitude':latitude, 'longitude':longitude }
+
+        recent_items = Params.objects.raw('''SELECT * FROM parametrs
+                LEFT JOIN images
+                ON images.param_image_id=parametrs.id
+                LEFT JOIN user
+                ON user.id=parametrs.item_owner_id
+                WHERE parametrs.status = 'published'
+                AND user.is_active=1
+                ORDER BY parametrs.created DESC
+                LIMIT 5''')
+
+        context = {'items': items, 'recent_items': recent_items, 'cats': cats, 'count':count, 'latitude':latitude, 'longitude':longitude }
         return render(request, 'accounts/home.html', context)
 
 class LoginView(TemplateView, View):
@@ -277,7 +287,7 @@ class SearchView(View):
         coordinates = get_coordinates(request)
         latitude = coordinates[0]
         longitude = coordinates[1]
-        limit = 1
+        limit = 8
         if request.is_ajax():
             offset = request.session['offset']
             request.session['offset'] = offset + limit
@@ -303,10 +313,15 @@ class SearchView(View):
         count = len(list(items))
 
         if request.is_ajax():
-            items = serializers.serialize('json', items)
-            return JsonResponse(items, safe=False)
+            items = list(items)
+            for item in items:
+                item.address = item.image_name
+                item.status = item.first_name.title()[0] +'.'+item.last_name.title()[0]+'.'
+
+            items = serializers.serialize('json', list(items))
+            return JsonResponse({'items':items,'count': count, 'limit':limit, 'longitude':longitude,'latitude':latitude}, safe=False)
         else:
-            context = {'longitude':longitude,'latitude':latitude,'items': items,'cats': cats, 'count':count, 'checked_categories':checked_categories,'max_price': max_price }
+            context = {'longitude':longitude,'latitude':latitude,'items': items,'cats': cats, 'count':count, 'limit':limit, 'checked_categories':checked_categories,'max_price': max_price }
             return render(request, 'accounts/search_results.html', context)
 
 class EditProfileView(LoginRequiredMixin, View):

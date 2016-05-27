@@ -136,12 +136,7 @@ $(document).ready(function() {
 
 
 	// datepicker 
-	$(".datepicker").datepicker({
-		nextText: "",
-		prevText: "",
-		showOtherMonths: true,
-        selectOtherMonths: true
-	});
+
 
 
 
@@ -219,12 +214,8 @@ $(window).load(function() {
 	// tabActiveEffect();
 	// searchWrapperHeight(768);
 	stickyFooter();
-	
 
 }); /* end of window load */
-
-
-
 
 
 // active tab slide effect
@@ -305,7 +296,7 @@ function slideAnimation(self){
             $(targetID).addClass('active');
         },500);
     }
-    wrap.css('min-height',$(targetID).height());
+    wrap.css('min-height',$(targetID).outerHeight(true));
 }
 
 

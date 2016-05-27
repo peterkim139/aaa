@@ -102,7 +102,7 @@ class RentForm(forms.Form):
                                    widget=forms.TextInput(attrs={'class': '','autocomplete':'off'}), )
 
       start_date = forms.CharField(label='Start Date', max_length=255, required=True,
-                           widget=forms.TextInput(attrs={'class': ''}), )
+                           widget=forms.TextInput(attrs={'class': '','type': 'hidden'}), )
 
       rent_date = forms.CharField(label='Rent Date', max_length=255, required=True,
-                           widget=forms.TextInput(attrs={'class': ''}), )
+                           widget=forms.TextInput(attrs={'class': '','type': 'hidden'}), )

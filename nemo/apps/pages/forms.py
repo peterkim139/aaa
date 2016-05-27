@@ -5,6 +5,7 @@ from category.models import SubCategory
 from django.forms import extras
 from django.core.exceptions import ValidationError
 import datetime
+from .models import Message
 
 def validate_lettersonly(value):
     if not re.match("^[A-Za-z ]*$", value):
@@ -88,3 +89,11 @@ class AddListingForm(forms.Form):
                                widget=forms.TextInput(attrs={'id': 'latitudes', 'class': 'formControl', 'type': 'hidden'}), )
     longitude = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'id': 'longitudes', 'class': 'formControl', 'type': 'hidden'}), )
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = [
+            "message",
+        ]

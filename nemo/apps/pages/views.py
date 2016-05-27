@@ -296,26 +296,4 @@ class ChangeListingStatusView(LoginRequiredMixin,View):
         else:
             return JsonResponse({'response':False})
 
-class ListingView(View):
 
-    def get(self, request, id):
-
-        try:
-            param = Params.objects.raw('''SELECT *, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date, user.first_name as user_firstname, user.last_name as user_lastname, images.image_name as image_filename FROM parametrs
-                LEFT JOIN images
-                ON images.param_image_id=parametrs.id
-                LEFT JOIN user
-                ON user.id=parametrs.item_owner_id
-                LEFT JOIN rent
-                ON rent.param_id=parametrs.id
-                WHERE parametrs.id = %s
-                AND user.is_active=1
-                AND parametrs.status='published'
-                LIMIT 1''',[id])[0]
-        except:
-            return render(request, '404.html')
-
-        this_moment = datetime.datetime.now()
-
-        context = {'param':param,'this_moment':this_moment}
-        return render(request, 'pages/listing.html', context)

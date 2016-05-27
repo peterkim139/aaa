@@ -2,7 +2,7 @@
 //////////////////////  datepicker  range dates  //////////////////////////////
 
 function validateDateRange() {
-
+    alert('sad');
     var txtStartDate = $("#id_start_date");
     var txtEndDate = $("#id_rent_date");
     var startDate;
@@ -315,6 +315,54 @@ $(document).ready(function(){
                     self.closest('td').html('<button class="success expandBtn">Cancel</button>')
                 }else {
                     alert(response.message);
+                }
+            },
+        });
+    });
+
+    ////////////////view more search results/////////////
+
+    $(".viewMoreBtn").on('click',function(){
+        var url = window.location.pathname+window.location.search;
+        $.ajax({
+            url:url,
+            type:'get',
+            data:{
+            },
+            success:function(response) {
+                response_items = $.parseJSON(response.items);
+                item_div = '';
+                $.each(response_items, function(index, element) {
+                        item_div += '<div class="col6">'
+                            +'<div class="item_details" data-id="'+element.fields.id+'" data-lat="'+element.fields.latitude+'" data-lng="'+element.fields.longitude+'">'
+                                +'<div class="listingSingle" class="wow fadeInDown">'
+                                    +'<figure>'
+                                        +'<img class="imgBlock item_image" src="/media/images/items/'+element.fields.address+'">'
+                                        +'<figcaption>Rent</figcaption>'
+                                    +'</figure>'
+                                    +'<div class="listingDets">'
+                                        +'<div class="listDetsTop">'
+                                            +'<div class="listDetsTopL">'
+                                                +'<span href="#" class="listingName item_name">'+element.fields.name+'</span>'
+                                                +'<div class="ownerWrap"><span class="listingBy">by '+element.fields.status+'</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>'
+                                            +'</div>'
+                                            +'<div class="listDetsTopR">'
+                                                +'<div class="listPriceSect">'
+                                                    +'<span class="listPrice item_price">$'+element.fields.price+'</span>'
+                                                    +'<span class="listDuration">per day</span>'
+                                                +'</div>'
+                                            +'</div>'
+                                        +'</div>'
+                                        +'<a href="#" class="btn btnBorder btnBlock">Details</a>'
+                                    +'</div>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>';
+                });
+                $("#search_results_container").append(item_div);
+                initMap(response.latitude,response.longitude);
+                if (response.count < response.limit){
+                    $(".viewMoreBtn").hide();
                 }
             },
         });

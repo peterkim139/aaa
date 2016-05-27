@@ -24,7 +24,6 @@ from . import views
 urlpatterns = [
      # url(r'^requests/$',views.RequestsView.as_view(),name='requests'),
      # url(r'^request/(?P<id>\d+)/$',views.RequestView.as_view(),name='request'),
-     url(r'^listing/(?P<id>\d+)/$',views.ListingView.as_view(),name='listing'),
      url(r'^change_listing_status/$',views.ChangeListingStatusView.as_view(),name='change_listing_status'),
      url(r'^upload_image/$',csrf_exempt(views.UploadImageView.as_view()),name='upload_image'),
      # url(r'^my_requests/$',views.MyRequestsView.as_view(),name='my_requests'),
