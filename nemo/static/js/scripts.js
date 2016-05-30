@@ -533,9 +533,9 @@ $(document).ready(function(){
 
     $(".rentSlideBtn").on('click',function(){
         var self = $(this);
-        if($(".datepicker").hasClass('not_valid') || $(this).hasClass('disableBtn') || $("#id_start_date").val() == '' || $("#id_rent_date").val()== ''){
-            return false;
-	    }
+        //if($(".datepicker").hasClass('not_valid') || $(this).hasClass('disableBtn') || $("#id_start_date").val() == '' || $("#id_rent_date").val()== ''){
+         //   return false;
+	   //}
         slideAnimation(self);
     });
 

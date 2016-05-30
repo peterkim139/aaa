@@ -2,6 +2,12 @@
 {% block content %}
 <script>
 $(document).ready(function() {
+
+    var val_error = '{{val_error}}'
+    if(val_error){
+        $(".rentSlideBtn").trigger('click');
+    }
+
     var price = '{{ param.price }}';
     var dates = new Object()
 
@@ -197,11 +203,9 @@ $(document).ready(function() {
                 </div>
                 <div class="formRow">
                     {{ form.start_date }}
-                    {{ form.start_date.errors }}
                 </div>
                 <div class="formRow">
                     {{ form.rent_date }}
-                    {{ form.rent_date.errors }}
                 </div>
                 <div class="colRow">
                     <div class="col6">
