@@ -98,8 +98,8 @@ def get_coordinates(request):
         latitude = lat_lng[0]
         longitude = lat_lng[1]
     else:
-        latitude = 25.775278
-        longitude = -80.208889
+        latitude = 42.396645
+        longitude = -71.109388
 
     coordinates = [latitude,longitude]
     return coordinates
