@@ -251,7 +251,6 @@ $(document).ready(function(){
                 }
             },
             onProgress: function(id, fileName, responseJSON){
-                $('.qq-upload-file').append(" - ");
                 $('.qq-upload-failed-text').text('');
             },
             onComplete: function(id, fileName, responseJSON){

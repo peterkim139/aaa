@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container pb80 pt40">
+        <!--<div class="msgRelItem">-->
+            <!--<div class="relItemImg">-->
+                <!--<img src="media/images/thumbs/listing-img-1.jpg" alt="">-->
+            <!--</div>-->
+            <!--<h3 class="relItemTitle">Lorem ipsum item</h3>-->
+            <!--<div class="relFromTo">-->
+                <!--<button class="active">From</button>-->
+                <!--<span>/</span>-->
+                <!--<button>To</button>-->
+            <!--</div>-->
+            <!--<span class="relFromToName">Samuel L. Jackson</span>-->
+        <!--</div>-->
+        <div class="messagesWrap">
+            <div class="messagesL tabsWrap">
+                <ul class="tabs">
+                    <!--<li><a href="#new-messages">New <br> Messages</a></li>-->
+                    <li><a href="#recent-messages">Recent Messages</a></li>
+                </ul>
+                <div class="customScroll" style="height: 100%;">
+                    <div id="new-messages">
+                        <ul class="msgConvrsList">
+                            {%if threads %}
+                                {% for thread in threads %}
+                                    <li class="">
+                                        <a href="/profile/conversation/{{thread.user_id}}">
+                                            <div>
+                                                <div class="msgConvrsImg">
+                                                    <img src="/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
+                                                </div>
+                                                <div class="msgConvrsR">
+                                                    <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}</strong>
+                                                    <span class="msgConvrsMsg">{{thread.last_message}}</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!--<div id="recent-messages">-->
+                        <!--<ul class="msgConvrsList">-->
+                            <!--<li class="">-->
+                                <!--<a href="#">-->
+                                    <!--<div>-->
+                                        <!--<div class="msgConvrsImg">-->
+                                            <!--<img src="media/images/thumbs/user-img-2.jpg">-->
+                                        <!--</div>-->
+                                        <!--<div class="msgConvrsR">-->
+                                            <!--<strong class="msgConvrsName">Samuel L. Jackson</strong>-->
+                                            <!--<span class="msgConvrsMsg">Lorem ipsum dolor sit amet message here</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="messagesR">
+                <div class="customScroll wow fadeInDown" data-wow-delay=".2s" style="height: 100%;">
+                    <ul class="msgThread">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <li class="msgReceived">
+                                    <div class="threadImg">
+                                        <img src="/media/images/thumbs/user-img-2.jpg">
+                                    </div>
+                                    <div class="threadCont">
+                                        <div class="clearAfter">
+                                            <div class="threadTxt">
+                                                <p>{{ message.message }}</p>
+                                            </div>
+                                        </div>
+                                        <time>{{message.modified}}</time>
+                                    </div>
+                                </li>
+                                <!--<li class="msgSent">-->
+                                    <!--<div class="threadImg">-->
+                                        <!--<img src="/media/images/thumbs/user-img-2.jpg">-->
+                                    <!--</div>-->
+                                    <!--<div class="threadCont">-->
+                                        <!--<div class="clearAfter">-->
+                                            <!--<div class="threadTxt">-->
+                                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<time>September 9, 11:37</time>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="msgReplyArea wow fadeInDown" data-wow-delay=".4s">
+                    <div class="formRow">
+                        <textarea class="formControl" id="id_message" placeholder="Reply..."></textarea>
+                    </div>
+                    <div class="alignC">
+                        <button type="button" id="send_message" class="btn btnBorder">Send</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+
+    /////////////// get partner_id from url /////////////////
+
+    var url = document.URL;
+    var stuff = url.split('/');
+    var partner_id = stuff[stuff.length-1];
+
+    ////////////// get unread_messages ///////////////////////
+
+    setInterval(function(){checkData()}, 10000);
+    function checkData(){
+        $.ajax({
+            url: '/profile/unread_messages/',
+            type:'post',
+            data:{
+                partner_id:partner_id
+            },
+            success:function(responseJSON) {
+
+                if(responseJSON.messages){
+                    message_div = '';
+                    jQuery.each(responseJSON, function(index, messages) {
+                        message_div += '<li class="msgReceived">'
+                                        +'<div class="threadImg">'
+                                            +'<img src="/media/images/thumbs/user-img-2.jpg">'
+                                        +'</div>'
+                                        +'<div class="threadCont">'
+                                            +'<div class="clearAfter">'
+                                                +'<div class="threadTxt">'
+                                                    +'<p>'+message+'</p>'
+                                                +'</div>'
+                                            +'</div>'
+                                            +'<time>'+responseJSON.modified+'</time>'
+                                        +'</div>'
+                                    +'</li>'
+                    });
+                    $(".msgThread").append(message_div);
+                }
+            },
+            error:function(){
+            }
+        });
+    }
+
+    ////////////////////// post message  ////////////////////////////
+
+    $("#send_message").on('click',function(){
+        var message = $('#id_message').val();
+        if (message.trim()) {
+            $.ajax({
+                    url: '/profile/conversation/'+partner_id,
+                    type:'post',
+                    data:{
+                        message: message
+                    },
+                    success:function(responseJSON) {
+                        if(responseJSON.response){
+
+                            var next_li = '<li class="msgReceived">'
+                                                +'<div class="threadImg">'
+                                                    +'<img src="/media/images/thumbs/user-img-2.jpg">'
+                                                +'</div>'
+                                                +'<div class="threadCont">'
+                                                    +'<div class="clearAfter">'
+                                                        +'<div class="threadTxt">'
+                                                            +'<p>'+message+'</p>'
+                                                        +'</div>'
+                                                    +'</div>'
+                                                    +'<time>'+responseJSON.modified+'</time>'
+                                                +'</div>'
+                                            +'</li>'
+                            $('.msgThread').append(next_li);
+                            $('#id_message').val('');
+                        }
+                    },
+                    error:function(){
+                    }
+            });
+        }
+    })
+</script>
+
+{% endblock %}

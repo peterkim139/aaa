@@ -1,5 +1,7 @@
 import datetime
+import urlparse
 import braintree
+from django.db.models import Q
 from django.http import JsonResponse
 from decimal import Decimal
 from Crypto.Cipher import AES
@@ -24,7 +26,7 @@ from payment.generate import NemoEncrypt
 from pages.utils import save_file,payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
 from payment.utils import show_errors
 from category.models import Params
-from pages.models import Image
+from pages.models import Image, Thread, Message
 from pprint import pprint
 
 class OutTransactionsView(LoginRequiredMixin,TemplateView,View):
@@ -296,4 +298,82 @@ class ChangeListingStatusView(LoginRequiredMixin,View):
         else:
             return JsonResponse({'response':False})
 
+def unread_messages(request):
+    partner_id = request.POST["partner_id"]
+    try:
+        thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+    except Thread.DoesNotExist:
+        thread = None
+    if thread:
+        thread_id = thread.id
+        unread_messages = Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
+        for unread_message in unread_messages:
+            unread_message.unread = 0
+            unread_message.save()
 
+        response_data = {}
+        response_data['result'] = 'Success'
+        response_data['messages'] = serializers.serialize('json', unread_messages)
+        return HttpResponse(JsonResponse(response_data), content_type="application/json")
+    else:
+        return JsonResponse({'response':False})
+
+class ConversationView(LoginRequiredMixin, View):
+
+    def get(self, request, id):
+
+        partner_id=id
+        current_user_id = request.user.id
+        threads = Thread.objects.raw('''
+            SELECT *, user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
+            LEFT JOIN user
+            ON (user.id=thread.user1_id and thread.user1_id!=%s) or (user.id=thread.user2_id and thread.user2_id!=%s)
+            WHERE thread.user1_id=%s or thread.user2_id=%s''',
+                 [current_user_id, current_user_id, current_user_id, current_user_id])
+
+        try:
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+        except Thread.DoesNotExist:
+            thread = None
+        if thread:
+            messages = Message.objects.all().filter(thread_id=thread.id)
+            unread_messages = Message.objects.all().filter(thread_id = thread.id,from_user_id = partner_id,unread = 1)
+            for unread_message in unread_messages:
+                unread_message.unread = 0
+                unread_message.save()
+
+        if messages:
+            context = {'threads': threads, 'messages': messages }
+        else:
+            context = {'threads': threads }
+
+        return render(request, 'pages/conversation.html', context)
+
+    def post(self, request, id):
+
+        partner_id=id
+        last_message = request.POST["message"]
+        try:
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+        except Thread.DoesNotExist:
+            thread = None
+
+        if thread:
+            thread.last_message = last_message
+            thread.save()
+        else:
+            thread=Thread()
+            thread.user1_id = request.user.id
+            thread.user2_id = partner_id
+            thread.last_message = last_message
+            thread.save()
+
+        message = Message()
+        message.thread_id = thread.id
+        message.unread = 1
+        message.message = last_message
+        message.from_user_id = request.user.id
+        message.to_user_id = partner_id
+        message.save()
+
+        return JsonResponse({'response':True,'modified': message.modified})

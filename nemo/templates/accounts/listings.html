@@ -47,7 +47,7 @@
                                                             <ul class="labelValueList labelBlock">
                                                                 <li>
                                                                     <label>Item details:</label>
-                                                                    <span>{{ listing.description }}</span>
+                                                                    <span><abbr title="{{ listing.description }}">{{ listing.description|truncatewords:5 }}</abbr></span>
                                                                 </li>
                                                             </ul>
                                                         </div>

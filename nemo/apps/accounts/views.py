@@ -29,6 +29,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class HomeView(View):
     def get(self, request):
+
         cats = SubCategory.objects.all()
 
         coordinates = get_coordinates(request)

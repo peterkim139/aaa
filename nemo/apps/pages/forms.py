@@ -49,7 +49,7 @@ class RentForm(forms.Form):
 
 class AddListingForm(forms.Form):
 
-    CHOICES = (('', ''),
+    CHOICES = (
         ('AL', 'Alabama'),('AK', 'Alaska'),('AZ', 'Arizona'),('AR', 'Arkansas'),('CA', 'California'),
         ('CO', 'Colorado'),('CT', 'Connecticut'),('DE', 'Delaware'),('DC', 'District Of Columbia'),('FL', 'Florida'),
         ('GA', 'Georgia'),('HI', 'Hawaii'),('ID', 'Idaho'),('IL', 'Illinois'),('IN', 'Indiana'),
