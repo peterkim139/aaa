@@ -2,12 +2,12 @@
 //////////////////////  datepicker  range dates  //////////////////////////////
 
 function validateDateRange() {
-    alert('sad');
     var txtStartDate = $("#id_start_date");
     var txtEndDate = $("#id_rent_date");
     var startDate;
     var endDate;
     var tempDate;
+    var error  = false
     startDate = new Date(txtStartDate.val());
     endDate = new Date(txtEndDate.val());
     for (i = 0; i < dateRange.length; i++) {
@@ -16,10 +16,13 @@ function validateDateRange() {
         if (startDate < tempDate && endDate > tempDate) {
             $("#id_start_date").val('');
             $("#id_rent_date").val('');
-            alert("Invalid Date Range");
             return false;
+        }else{
+            error = true;
         }
     }
+
+    return true;
 }
 
 $(document).ready(function(){
@@ -525,6 +528,14 @@ $(document).ready(function(){
 
     $(".openSlideBtn").on('click',function(){
         var self = $(this);
+        slideAnimation(self);
+    });
+
+    $(".rentSlideBtn").on('click',function(){
+        var self = $(this);
+        if($(".datepicker").hasClass('not_valid') || $(this).hasClass('disableBtn') || $("#id_start_date").val() == '' || $("#id_rent_date").val()== ''){
+            return false;
+	    }
         slideAnimation(self);
     });
 
