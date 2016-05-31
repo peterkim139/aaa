@@ -1,95 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<script>
-$(document).ready(function() {
-
-    var val_error = '{{val_error}}'
-    if(val_error){
-        $(".rentSlideBtn").trigger('click');
-    }
-
-    var price = '{{ param.price }}';
-    var dates = new Object()
-
-    {% for key,blockday in blockdays.items %}
-        dates["{{key}}"] = "{{blockday}}"
-    {% endfor %}
-
-    dateRange = []
-    for (var k in dates){
-        var startDate = dates[k];
-        var endDate  = k;
-        for (var d = new Date(startDate); d <= new Date(endDate); d.setDate(d.getDate() + 1)) {
-            dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
-        }
-    }
-
-    var dateToday = new Date();
-    var lastDate = new Date(dateToday.getFullYear(), dateToday.getMonth()+6, 0);
-
-    $.datepicker.setDefaults({
-        dateFormat: 'yy-mm-dd'
-    });
-    $("#id_start_date,#id_rent_date").val('');
-    $(".datepicker").datepicker({
-		nextText: "",
-		prevText: "",
-		showOtherMonths: true,
-        selectOtherMonths: true,
-        minDate: dateToday,
-        maxDate: lastDate,
-        numberOfMonths: 1,
-        beforeShowDay: function (date) {
-            var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
-            var date2 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_rent_date").val());
-            var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-            return [true, dateRange.indexOf(dateString) == -1 && date1 && ((date.getTime() == date1.getTime()) || (dateRange.indexOf(dateString) == -1 && date2 && date >= date1 && date <= date2)) ? "dp-highlight" : ""];
-        },
-        onSelect: function(dateText, inst) {
-            var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
-            var date2 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_rent_date").val());
-            var selectedDate = $.datepicker.parseDate($.datepicker._defaults.dateFormat, dateText);
-            if (!date1 || date2) {
-                $("#id_start_date").val(dateText);
-                $("#id_rent_date").val("");
-                $(this).datepicker();
-            } else if( selectedDate < date1 ) {
-                $("#id_rent_date").val( $("#id_start_date").val() );
-                $("#id_start_date").val( dateText );
-                $(this).datepicker();
-            } else {
-                $("#id_rent_date").val(dateText);
-                $(this).datepicker();
-            }
-            var result = validateDateRange();
-            var start_date = new Date($("#id_start_date").val());
-            var end_date = new Date($("#id_rent_date").val());
-            var diff = Math.abs(end_date - start_date);
-            var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-            if(result && end_date != ''){
-                if(diffDays == 0){
-                    diffDays = 1;
-                }else{
-                    diffDays += 1;
-                }
-                var amount = price * diffDays ;
-                $('.days_amount').text('$' + price + ' x ' + diffDays + ' day');
-                $('#total_amount').text('$' + amount);
-                $('#request_slide').removeClass('disableBtn');
-                $(".datepicker").removeClass('not_valid');
-            }else if(result && start_date != '' &&  start_date == ''){
-
-            }else{
-                $('#request_slide').addClass('disableBtn');
-                $(".datepicker").addClass('not_valid');
-                alert("Invalid Date Range");
-            }
-        },
-	});
-})
-</script>
-
-
 <div class="container small pb40">
     <div class="sideSlideWrap">
         <div id="view-initial" class="singleSlide active">
@@ -220,17 +130,105 @@ $(document).ready(function() {
     </div>
 </main>
 <script>
-  var myLatLng = {lat: parseFloat('{{param.latitude}}'), lng: parseFloat('{{param.longitude}}')};
+$(document).ready(function() {
 
-  var map = new google.maps.Map(document.getElementById('gMap'), {
+    var val_error = '{{val_error}}'
+    if(val_error){
+        $(".rentSlideBtn").trigger('click');
+    }
+
+    var price = '{{ param.price }}';
+    var dates = new Object()
+
+    {% for key,blockday in blockdays.items %}
+        dates["{{key}}"] = "{{blockday}}"
+    {% endfor %}
+
+    dateRange = []
+    for (var k in dates){
+        var startDate = dates[k];
+        var endDate  = k;
+        for (var d = new Date(startDate); d <= new Date(endDate); d.setDate(d.getDate() + 1)) {
+            dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
+        }
+    }
+
+    var dateToday = new Date();
+    var lastDate = new Date(dateToday.getFullYear(), dateToday.getMonth()+6, 0);
+
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+    $("#id_start_date,#id_rent_date").val('');
+    $(".datepicker").datepicker({
+		nextText: "",
+		prevText: "",
+		showOtherMonths: true,
+        selectOtherMonths: true,
+        minDate: dateToday,
+        maxDate: lastDate,
+        numberOfMonths: 1,
+        beforeShowDay: function (date) {
+            var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
+            var date2 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_rent_date").val());
+            var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [true, dateRange.indexOf(dateString) == -1 && date1 && ((date.getTime() == date1.getTime()) || (dateRange.indexOf(dateString) == -1 && date2 && date >= date1 && date <= date2)) ? "dp-highlight" : ""];
+        },
+        onSelect: function(dateText, inst) {
+            var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
+            var date2 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_rent_date").val());
+            var selectedDate = $.datepicker.parseDate($.datepicker._defaults.dateFormat, dateText);
+            if (!date1 || date2) {
+                $("#id_start_date").val(dateText);
+                $("#id_rent_date").val("");
+                $(this).datepicker();
+            } else if( selectedDate < date1 ) {
+                $("#id_rent_date").val( $("#id_start_date").val() );
+                $("#id_start_date").val( dateText );
+                $(this).datepicker();
+            } else {
+                $("#id_rent_date").val(dateText);
+                $(this).datepicker();
+            }
+            var result = validateDateRange();
+            var start_date = new Date($("#id_start_date").val());
+            var end_date = new Date($("#id_rent_date").val());
+            var diff = Math.abs(end_date - start_date);
+            var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+            if(result && end_date != ''){
+                if(diffDays == 0){
+                    diffDays = 1;
+                }else{
+                    diffDays += 1;
+                }
+                var amount = price * diffDays ;
+                $('.days_amount').text('$' + price + ' x ' + diffDays + ' day');
+                $('#total_amount').text('$' + amount);
+                $('#request_slide').removeClass('disableBtn');
+                $(".datepicker").removeClass('not_valid');
+            }else if(result && start_date != '' &&  start_date == ''){
+
+            }else{
+                $('#request_slide').addClass('disableBtn');
+                $(".datepicker").addClass('not_valid');
+                alert("Invalid Date Range");
+            }
+        },
+	});
+})
+
+var myLatLng = {lat: parseFloat('{{param.latitude}}'), lng: parseFloat('{{param.longitude}}')};
+
+var map = new google.maps.Map(document.getElementById('gMap'), {
     zoom: 10,
     center: myLatLng
-  });
+});
 
-  var marker = new google.maps.Marker({
+var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
     title: '{{ param.name }}'
-  });
+});
+
 </script>
 {% endblock %}

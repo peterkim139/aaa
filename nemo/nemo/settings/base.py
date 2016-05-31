@@ -261,4 +261,4 @@ MAX_UPLOAD_SIZE = "2097152"
 
 #TIME ZONE
 
-TIME_ZONE = 'Europe/Istanbul'
+TIME_ZONE = 'America/New_York'
