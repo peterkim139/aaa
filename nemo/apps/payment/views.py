@@ -1,20 +1,12 @@
 import datetime
 import braintree
-from Crypto.Cipher import AES
-import base64
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from django.http import HttpResponseRedirect, HttpResponse
-from  django.template.context_processors import csrf
+from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.shortcuts import redirect
 from .forms import ConnectForm,RentForm
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from django.core import serializers
-from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 from .models import User,Params,Rent
 from payment.utils import payment_connection,new_rent_mail,show_errors
@@ -187,31 +179,6 @@ class RentView(LoginRequiredMixin,TemplateView, View):
 
         else:
             return self.render_to_response(self.get_context_data(form=form))
-
-class ListingView(View):
-
-    def get(self, request, id):
-
-        try:
-            param = Params.objects.raw('''SELECT *, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date, user.first_name as user_firstname, user.last_name as user_lastname, images.image_name as image_filename FROM parametrs
-                LEFT JOIN images
-                ON images.param_image_id=parametrs.id
-                LEFT JOIN user
-                ON user.id=parametrs.item_owner_id
-                LEFT JOIN rent
-                ON rent.param_id=parametrs.id
-                WHERE parametrs.id = %s
-                AND user.is_active=1
-                AND parametrs.status='published'
-                LIMIT 1''',[id])[0]
-        except:
-            return render(request, '404.html')
-
-        this_moment = datetime.datetime.now()
-
-        context = {'param':param,'this_moment':this_moment}
-        return render(request, 'pages/listing.html', context)
-
 
 class BillingView(LoginRequiredMixin, View):
 

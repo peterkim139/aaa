@@ -78,12 +78,6 @@ body {
   min-height: 100%;
   padding-bottom: 417px; }
 
-.dp-highlight .ui-state-default {
-  background: #484;
-  color: #FFF;
-  border-radius: 100%;
-}
-
 .container {
   width: 1070px;
   margin: 0 auto;
@@ -703,10 +697,22 @@ footer {
   .btn.btnPrime {
     background: #5bbc2e;
     color: #fff; }
+    .btn.btnPrime.btnDisabled {
+      cursor: default;
+      color: #fff;
+      background: #dbdbdb; }
+      .btn.btnPrime.btnDisabled:hover {
+        opacity: 1; }
   .btn.btnBorder {
     background: transparent;
     color: #5bbc2e;
     border-color: #5bbc2e; }
+    .btn.btnBorder.btnDisabled {
+      cursor: default;
+      color: #dbdbdb;
+      border-color: #dbdbdb; }
+      .btn.btnBorder.btnDisabled:hover {
+        opacity: 1; }
   .btn.white {
     color: #fff;
     border-color: rgba(255, 255, 255, 0.4); }
@@ -1740,7 +1746,7 @@ messages page
 .messagesWrap {
   padding-left: 340px;
   position: relative;
-  height: 750px;
+  max-height: 750px;
   border: solid 1px #f3f3f3;
   width: 80%;
   float: left; }
@@ -1835,6 +1841,20 @@ messages page
     -ms-border-radius: 100%;
     -moz-border-radius: 100%;
     -webkit-border-radius: 100%; }
+  .msgConvrsImg .msgCount {
+    position: absolute;
+    z-index: 10;
+    background: #5BBC2E;
+    border-radius: 100%;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    left: -4px;
+    top: -4px; }
 
 .msgConvrsR {
   padding: 6px 0; }
@@ -2168,7 +2188,7 @@ view listing page
     vertical-align: middle;
     text-align: right;
     margin-right: 7px; }
-  .listingRatingLine .pullRight button {
+  .listingRatingLine .pullRight button, .listingRatingLine .pullRight a {
     vertical-align: middle;
     font-size: 24px; }
 
@@ -2271,6 +2291,14 @@ view listing page
 
 .ui-datepicker-title {
   text-align: center; }
+
+.dp-highlight .ui-state-default {
+  border-radius: 100%;
+  -ms-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  background: #5bbc2e;
+  color: #FFF; }
 
 /*== end calendar styles ==*/
 /*== side slider ==*/

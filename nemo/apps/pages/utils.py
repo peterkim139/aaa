@@ -283,3 +283,8 @@ def save_file(request, uploaded,filename,path,raw_data = True):
         return filename
     except IOError:
         return False
+
+#################################  json serialize datetime ###################
+
+def date_handler(obj):
+    return obj.isoformat() if hasattr(obj, 'isoformat') else obj

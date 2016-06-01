@@ -36,8 +36,8 @@ class Message(models.Model):
     message = models.TextField(max_length=500)
     created = models.DateTimeField(auto_now=False,auto_now_add=True)
     modified = models.DateTimeField(auto_now=True,auto_now_add=False)
-    from_user_id = models.IntegerField()
-    to_user_id = models.IntegerField()
+    from_user_id = models.ForeignKey(User, related_name="from_user_id")
+    to_user_id = models.ForeignKey(User, related_name="to_user_id")
 
     class Meta:
         db_table = 'message'

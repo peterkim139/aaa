@@ -74,7 +74,7 @@
         </div>
     </section>
     <div class="container large searchWrap">
-        <h3 class="srchTitle">Search results for <strong>{{request.GET.name}}</strong></h3>
+        <h3 class="srchTitle">Search results {% if request.GET.name %}for <strong>{{request.GET.name}}</strong>{% endif %}</h3>
         <div class="searchL">
             <div class="customScroll" style="max-height: 980px;">
                 <section class="searchList">

@@ -28,13 +28,14 @@
                             <label class="block mb5">Item Rating</label>
                             <img src="/media/images/rating-badges.png">
                         </div>
+                        {% if param.item_owner_id != request.user.id %}
                         <div class="pullRight">
-                            <a href="/profile/conversation/{{ param.item_owner_id }}">Send Message</a>
                             <span>Contact<br>with owner</span>
-                            <button class="btn btnPrime btnSquare">
+                            <a href="/profile/conversation/{{ param.item_owner_id }}" class="btn btnPrime btnSquare">
                                 <i class="icon-message"></i>
-                            </button>
+                            </a>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="subSect wow fadeInDown" data-wow-delay=".4s">
                         <ul class="labelValueList evenOdd">
@@ -83,7 +84,7 @@
                             </li>
                         </ul>
                     </div>
-                    <a href="#view-request" id='request_slide' class="rentSlideBtn btn btnBorder btnBlock disableBtn">Request</a>
+                    {% if param.item_owner_id != request.user.id %}<a href="#view-request" id='request_slide' class="rentSlideBtn btn btnBorder btnBlock disableBtn">Request</a>{% endif %}
                 </div>
             </div>
         </div>

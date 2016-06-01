@@ -24,15 +24,16 @@
                         <ul class="msgConvrsList">
                             {%if threads %}
                                 {% for thread in threads %}
-                                    <li class="">
+                                    <li id="user_{{thread.user_id}}">
                                         <a href="/profile/conversation/{{thread.user_id}}">
                                             <div>
                                                 <div class="msgConvrsImg">
                                                     <img src="/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
+                                                    {% if  thread.message_count > 0 %}<span class="msgCount">{{thread.message_count}}</span>{% endif %}
                                                 </div>
                                                 <div class="msgConvrsR">
                                                     <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}</strong>
-                                                    <span class="msgConvrsMsg">{{thread.last_message}}</span>
+                                                    <span class="msgConvrsMsg" id="last_message_{{thread.id}}">{{thread.last_message}}</span>
                                                 </div>
                                             </div>
                                         </a>
@@ -66,9 +67,9 @@
                     <ul class="msgThread">
                         {% if messages %}
                             {% for message in messages %}
-                                <li class="msgReceived">
+                                <li {% if message.from_user_id.id = request.user.id %} class="msgSent" {% else %} class="msgReceived" {% endif %}>
                                     <div class="threadImg">
-                                        <img src="/media/images/thumbs/user-img-2.jpg">
+                                        <img src="/media/{{ message.from_user_id.photo }}">
                                     </div>
                                     <div class="threadCont">
                                         <div class="clearAfter">
@@ -76,22 +77,9 @@
                                                 <p>{{ message.message }}</p>
                                             </div>
                                         </div>
-                                        <time>{{message.modified}}</time>
+                                        <time>{{message.modified|date:"F d, H:i"}}</time>
                                     </div>
                                 </li>
-                                <!--<li class="msgSent">-->
-                                    <!--<div class="threadImg">-->
-                                        <!--<img src="/media/images/thumbs/user-img-2.jpg">-->
-                                    <!--</div>-->
-                                    <!--<div class="threadCont">-->
-                                        <!--<div class="clearAfter">-->
-                                            <!--<div class="threadTxt">-->
-                                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<time>September 9, 11:37</time>-->
-                                    <!--</div>-->
-                                <!--</li>-->
                             {% endfor %}
                         {% endif %}
                     </ul>
@@ -118,6 +106,7 @@
     var url = document.URL;
     var stuff = url.split('/');
     var partner_id = stuff[stuff.length-1];
+    $('#user_'+partner_id).addClass('newMsg')
 
     ////////////// get unread_messages ///////////////////////
 
@@ -129,24 +118,25 @@
             data:{
                 partner_id:partner_id
             },
-            success:function(responseJSON) {
-
-                if(responseJSON.messages){
+            success:function(response) {
+                if(response){
                     message_div = '';
-                    jQuery.each(responseJSON, function(index, messages) {
+                    jQuery.each(response, function(index, element) {
+                        var user_photo = element.from_user_id__photo;
                         message_div += '<li class="msgReceived">'
                                         +'<div class="threadImg">'
-                                            +'<img src="/media/images/thumbs/user-img-2.jpg">'
+                                            +'<img src="/media/'+ user_photo + '">'
                                         +'</div>'
                                         +'<div class="threadCont">'
                                             +'<div class="clearAfter">'
                                                 +'<div class="threadTxt">'
-                                                    +'<p>'+message+'</p>'
+                                                    +'<p>'+element.message+'</p>'
                                                 +'</div>'
                                             +'</div>'
-                                            +'<time>'+responseJSON.modified+'</time>'
+                                            +'<time>'+element.modified+'</time>'
                                         +'</div>'
                                     +'</li>'
+                        $('#last_message_'+element.thread_id).text(element.message);
                     });
                     $(".msgThread").append(message_div);
                 }
@@ -169,10 +159,11 @@
                     },
                     success:function(responseJSON) {
                         if(responseJSON.response){
+                            var thread_id = responseJSON.thread_id
 
-                            var next_li = '<li class="msgReceived">'
+                            var next_li = '<li class="msgSent">'
                                                 +'<div class="threadImg">'
-                                                    +'<img src="/media/images/thumbs/user-img-2.jpg">'
+                                                    +'<img src="/media/{{ request.user.photo }}">'
                                                 +'</div>'
                                                 +'<div class="threadCont">'
                                                     +'<div class="clearAfter">'
@@ -185,6 +176,7 @@
                                             +'</li>'
                             $('.msgThread').append(next_li);
                             $('#id_message').val('');
+                            $('#last_message_'+thread_id).text(message);
                         }
                     },
                     error:function(){

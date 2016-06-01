@@ -1,33 +1,26 @@
 import datetime
-import urlparse
 import braintree
+import json
 from django.db.models import Q
 from django.http import JsonResponse
 from decimal import Decimal
-from Crypto.Cipher import AES
-import base64
 from django.utils import timezone
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect, HttpResponse
-from  django.template.context_processors import csrf
 from django.contrib import messages
-from django.shortcuts import redirect
 from django.core import serializers
-from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
 from payment.models import Rent
-from .forms import RentForm, AddListingForm
+from .forms import RentForm
 from accounts.models import User
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from pages.utils import save_file,payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
+from pages.utils import date_handler,save_file,payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
 from payment.utils import show_errors
 from category.models import Params
 from pages.models import Image, Thread, Message
-from pprint import pprint
+
 
 class OutTransactionsView(LoginRequiredMixin,TemplateView,View):
 
@@ -298,25 +291,27 @@ class ChangeListingStatusView(LoginRequiredMixin,View):
         else:
             return JsonResponse({'response':False})
 
-def unread_messages(request):
-    partner_id = request.POST["partner_id"]
-    try:
-        thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
-    except Thread.DoesNotExist:
-        thread = None
-    if thread:
-        thread_id = thread.id
-        unread_messages = Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
-        for unread_message in unread_messages:
-            unread_message.unread = 0
-            unread_message.save()
+class UnreadMessagesView(LoginRequiredMixin, View):
+    def post(self, request):
+        partner_id = request.POST["partner_id"]
+        try:
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+        except Thread.DoesNotExist:
+            thread = None
+        if thread:
+            thread_id = thread.id
+            unread_messages = (Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
+                .values('id','message','modified','from_user_id__photo','thread_id'))
+            for unread_message in unread_messages:
+                unread_message['modified'] = unread_message['modified'].strftime("%B %d, %H:%M")
 
-        response_data = {}
-        response_data['result'] = 'Success'
-        response_data['messages'] = serializers.serialize('json', unread_messages)
-        return HttpResponse(JsonResponse(response_data), content_type="application/json")
-    else:
-        return JsonResponse({'response':False})
+            messages = Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
+            for message in messages:
+                message.unread = 0
+                message.save()
+            return HttpResponse(json.dumps(list(unread_messages), date_handler(unread_messages)), content_type="application/json")
+        else:
+            return JsonResponse({'response':False})
 
 class ConversationView(LoginRequiredMixin, View):
 
@@ -325,11 +320,15 @@ class ConversationView(LoginRequiredMixin, View):
         partner_id=id
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
-            SELECT *, user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
+            SELECT *,COUNT(message.id) AS message_count,user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
             LEFT JOIN user
-            ON (user.id=thread.user1_id and thread.user1_id!=%s) or (user.id=thread.user2_id and thread.user2_id!=%s)
-            WHERE thread.user1_id=%s or thread.user2_id=%s''',
-                 [current_user_id, current_user_id, current_user_id, current_user_id])
+            ON (user.id=thread.user1_id AND thread.user1_id!=%s) OR (user.id=thread.user2_id AND thread.user2_id!=%s)
+            LEFT JOIN message
+            ON message.thread_id = thread.id AND message.unread = 1 AND message.to_user_id_id = %s
+            WHERE thread.user1_id=%s OR thread.user2_id=%s
+            GROUP BY thread.id
+            ORDER BY thread.modified DESC''',
+                 [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
@@ -372,8 +371,8 @@ class ConversationView(LoginRequiredMixin, View):
         message.thread_id = thread.id
         message.unread = 1
         message.message = last_message
-        message.from_user_id = request.user.id
-        message.to_user_id = partner_id
+        message.from_user_id = User.objects.get(id=request.user.id)
+        message.to_user_id = User.objects.get(id=partner_id)
         message.save()
 
-        return JsonResponse({'response':True,'modified': message.modified})
+        return JsonResponse({'response':True,'thread_id': thread.id,'modified': message.modified.strftime("%B %d, %H:%M") })
