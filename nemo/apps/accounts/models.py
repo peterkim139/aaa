@@ -18,7 +18,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
     customer_id = models.CharField(max_length=255, blank=True,default='')
     phone_number = models.CharField(max_length=255,blank=False,default='')
     zip_code = models.CharField(max_length=10,blank=False,default='')
-    photo = models.FileField(upload_to='images/users', null=True,blank=True)
+    photo = models.FileField(upload_to='images/users', default=None, blank=True, null=True)
     STATUS_TYPES = (('admin', 'admin'),('client', 'client'))
     role = models.CharField(max_length=10,choices=STATUS_TYPES,default='client')
     reset_key = models.CharField(max_length=255, blank=True,default='')

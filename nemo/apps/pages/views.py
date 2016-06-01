@@ -305,11 +305,12 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             for unread_message in unread_messages:
                 unread_message['modified'] = unread_message['modified'].strftime("%B %d, %H:%M")
 
+            message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
             messages = Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
             for message in messages:
                 message.unread = 0
                 message.save()
-            return HttpResponse(json.dumps(list(unread_messages), date_handler(unread_messages)), content_type="application/json")
+            return HttpResponse(message_data, content_type="application/json")
         else:
             return JsonResponse({'response':False})
 
@@ -335,8 +336,8 @@ class ConversationView(LoginRequiredMixin, View):
         except Thread.DoesNotExist:
             thread = None
         if thread:
-            messages = Message.objects.all().filter(thread_id=thread.id)
-            unread_messages = Message.objects.all().filter(thread_id = thread.id,from_user_id = partner_id,unread = 1)
+            messages = Message.objects.filter(thread_id=thread.id)
+            unread_messages = Message.objects.filter(thread_id = thread.id,from_user_id = partner_id,unread = 1)
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()

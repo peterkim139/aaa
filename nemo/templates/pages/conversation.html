@@ -69,7 +69,7 @@
                             {% for message in messages %}
                                 <li {% if message.from_user_id.id = request.user.id %} class="msgSent" {% else %} class="msgReceived" {% endif %}>
                                     <div class="threadImg">
-                                        <img src="/media/{{ message.from_user_id.photo }}">
+                                        <img src="/media/{% if message.from_user_id.photo %}{{ message.from_user_id.photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
                                     </div>
                                     <div class="threadCont">
                                         <div class="clearAfter">
@@ -122,11 +122,20 @@ $(document).ready(function(){
             success:function(response) {
                 if(response != ''){
                     message_div = '';
+
                     jQuery.each(response, function(index, element) {
-                        var user_photo = element.from_user_id__photo;
+
+                        if (element.from_user_id__photo)
+                            { var photo = element.from_user_id__photo;
+                             }
+                        else {
+                            var photo = 'images/users/default_user_photo.jpg'
+                            }
+
                         message_div += '<li class="msgReceived">'
                                         +'<div class="threadImg">'
-                                            +'<img src="/media/'+ user_photo + '">'
+                                            +'<img src="/media/'+ photo +'">'
+
                                         +'</div>'
                                         +'<div class="threadCont">'
                                             +'<div class="clearAfter">'
@@ -163,9 +172,17 @@ $(document).ready(function(){
                         if(responseJSON.response){
                             var thread_id = responseJSON.thread_id
 
+                            var user_photo = '{{ request.user.photo }}';
+
+                            if (user_photo){
+                                var photo = user_photo
+                            }else {
+                                var photo = 'images/users/default_user_photo.jpg'
+                            }
+
                             var next_li = '<li class="msgSent">'
                                                 +'<div class="threadImg">'
-                                                    +'<img src="/media/{{ request.user.photo }}">'
+                                                    +'<img src="/media/'+photo+'">'
                                                 +'</div>'
                                                 +'<div class="threadCont">'
                                                     +'<div class="clearAfter">'
