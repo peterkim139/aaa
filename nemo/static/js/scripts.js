@@ -695,3 +695,10 @@ $(document).ready(function(){
         });
     }
 
+    /////////////////////////////////  message sound //////////////////////////////////////
+    function playSound(){
+        document.getElementById("sound").innerHTML=
+            '<audio autoplay="autoplay"><source src="/media/sounds/pling.mp3" type="audio/mpeg" />'
+            + '<source src="/media/sounds/pling.ogg" type="audio/ogg" />'
+            + '<embed hidden="true" autostart="true" loop="false" src="/media/sounds/pling.mp3" /></audio>';
+    }

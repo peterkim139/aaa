@@ -97,10 +97,11 @@
             </div>
         </div>
     </div>
+    <div id="sound"></div>
 </main>
 
 <script>
-
+$(document).ready(function(){
     /////////////// get partner_id from url /////////////////
 
     var url = document.URL;
@@ -119,7 +120,7 @@
                 partner_id:partner_id
             },
             success:function(response) {
-                if(response){
+                if(response != ''){
                     message_div = '';
                     jQuery.each(response, function(index, element) {
                         var user_photo = element.from_user_id__photo;
@@ -138,6 +139,7 @@
                                     +'</li>'
                         $('#last_message_'+element.thread_id).text(element.message);
                     });
+                    playSound();
                     $(".msgThread").append(message_div);
                 }
             },
@@ -183,7 +185,8 @@
                     }
             });
         }
-    })
+    });
+});
 </script>
 
 {% endblock %}
