@@ -376,3 +376,25 @@ class ConversationView(LoginRequiredMixin, View):
         message.save()
 
         return JsonResponse({'response':True,'thread_id': thread.id,'modified': message.modified.strftime("%B %d, %H:%M") })
+
+
+class UserStatusView(LoginRequiredMixin, View):
+    def post(self, request):
+
+        current_user_id = request.user.id
+        threads = Thread.objects.raw('''
+            SELECT *,COUNT(message.id) AS message_count,user.email as email,user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
+            LEFT JOIN user
+            ON (user.id=thread.user1_id AND thread.user1_id!=%s) OR (user.id=thread.user2_id AND thread.user2_id!=%s)
+            LEFT JOIN message
+            ON message.thread_id = thread.id AND message.unread = 1 AND message.to_user_id_id = %s
+            WHERE thread.user1_id=%s OR thread.user2_id=%s
+            GROUP BY thread.id
+            ORDER BY thread.modified DESC''',
+                 [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
+
+        d = {}
+        for t in threads:
+            d['id'] = t.user_id
+            d['online'] = t.online(t.email)
+        print d

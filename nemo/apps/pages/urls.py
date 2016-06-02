@@ -32,5 +32,6 @@ urlpatterns = [
      url(r'^out_transactions/$',views.OutTransactionsView.as_view(),name='out_transactions'),
      url(r'^conversation/(?P<id>\d+)$',views.ConversationView.as_view(),name='conversation'),
      url(r'^unread_messages/$',views.UnreadMessagesView.as_view(), name='unread_messages'),
+     url(r'^user_status/$',views.UserStatusView.as_view(), name='user_status'),
 
 ]
