@@ -102,8 +102,8 @@
 								{% for item in items %}
 									<div class="col3 item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
 										<div class="listingSingle">
-											<figure>
-												<img class="imgBlock item_image" src="/media/images/items/{{ item.image_name }}">
+											<figure style="background-image: url('/media/images/items/{{ item.image_name }}');" class="fluidImage">
+												<img class="imgBlock" src="/media/images/sizers/landscape-sizer.png">
 												<figcaption>Rent</figcaption>
 											</figure>
 											<div class="listingDets">
@@ -117,7 +117,7 @@
 															<span class="listPrice item_price">${{ item.price }}</span>
 															<span class="listDuration">per day</span>
 														</div>
-														<em class="listingDist item_distance">{{ item.distance }} miles</em>
+														<em class="listingDist item_distance">{{ item.distance }}<br>miles</em>
 													</div>
 												</div>
 												<a href="#" class="btn btnBorder btnBlock">Details</a>
@@ -148,8 +148,8 @@
 									<div class="item">
 										<div class="listingSingle">
 											<a href="#">
-												<figure style="background-image: url('media/images/thumbs/thumb-1.jpg');" class="fluidImage">
-													<img class="sizer" src="/media/images/items/{{ recent_item.image_name }}" class="imgBlock">
+												<figure style="background-image: url('/media/images/items/{{ recent_item.image_name }}');" class="fluidImage">
+													<img class="imgBlock" src="/media/images/sizers/landscape-sizer.png">
 													<figcaption>Rent</figcaption>
 												</figure>
 												<div class="listingDets">

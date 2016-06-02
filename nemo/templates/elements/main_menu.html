@@ -2,7 +2,7 @@
 <nav class="outer-nav top horizontal">
     <a href="#" class="icon-home">Home</a>
     {% if user.is_authenticated %}
-        <li><a href="/profile/requests/">Requests</a></li>
+        <a href="/profile/requests/">Requests</a>
     {% endif %}
     {% if user.is_anonymous %}
     <a href="/registration/" class="icon-news">Sign Up</a>
