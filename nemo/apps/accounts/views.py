@@ -36,7 +36,6 @@ class HomeView(View):
         latitude = coordinates[0]
         longitude = coordinates[1]
         limit = 10
-
         items = Params.objects.raw('''SELECT *,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id

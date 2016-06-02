@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load user_online %}
 <div class="container pb80 pt40">
         <!--<div class="msgRelItem">-->
             <!--<div class="relItemImg">-->
@@ -33,7 +34,7 @@
                                                 </div>
                                                 <div class="msgConvrsR">
                                                     <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}</strong>
-                                                    <span class="msgConvrsMsg" id="last_message_{{thread.id}}">{{thread.last_message}}</span>
+                                                    <span class="msgConvrsMsg" id="last_message_{{thread.id}}">{{thread.last_message}} - {% if thread|user_online %}Online{% else %}Offline{% endif %}</span>
                                                 </div>
                                             </div>
                                         </a>

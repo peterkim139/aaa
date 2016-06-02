@@ -39,6 +39,8 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
     def __unicode__(self):
         return unicode(self.email) or 'not found'
 
+
+
     class Meta:
         ordering = ["id"]
         db_table = "user"

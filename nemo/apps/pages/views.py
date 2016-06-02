@@ -321,7 +321,7 @@ class ConversationView(LoginRequiredMixin, View):
         partner_id=id
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
-            SELECT *,COUNT(message.id) AS message_count,user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
+            SELECT *,COUNT(message.id) AS message_count,user.email as email,user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
             LEFT JOIN user
             ON (user.id=thread.user1_id AND thread.user1_id!=%s) OR (user.id=thread.user2_id AND thread.user2_id!=%s)
             LEFT JOIN message
@@ -341,7 +341,6 @@ class ConversationView(LoginRequiredMixin, View):
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
-
         if messages:
             context = {'threads': threads, 'messages': messages }
         else:
