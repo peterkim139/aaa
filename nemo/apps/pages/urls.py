@@ -30,6 +30,7 @@ urlpatterns = [
      # url(r'^my_requests/(?P<id>\d+)/$',views.MyRequestsView.as_view(),name='my_requests'),
      url(r'^in_transactions/$',views.InTransactionsView.as_view(),name='in_transactions'),
      url(r'^out_transactions/$',views.OutTransactionsView.as_view(),name='out_transactions'),
+     url(r'^conversation/$',views.NoConversationView.as_view(),name='no_conversation'),
      url(r'^conversation/(?P<id>\d+)$',views.ConversationView.as_view(),name='conversation'),
      url(r'^unread_messages/$',views.UnreadMessagesView.as_view(), name='unread_messages'),
      url(r'^user_status/$',views.UserStatusView.as_view(), name='user_status'),

@@ -314,10 +314,26 @@ class UnreadMessagesView(LoginRequiredMixin, View):
         else:
             return JsonResponse({'response':False})
 
+class NoConversationView(LoginRequiredMixin, View):
+
+    def get(self, request):
+
+        try:
+            user = Thread.objects.filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id)).order_by('-modified')[1]
+        except:
+            user = None
+        if user:
+            if user.user1_id == request.user.id:
+                partner_id = user.user2_id
+            else:
+                partner_id = user.user1_id
+            return HttpResponseRedirect('/profile/conversation/'+ str(partner_id))
+        else:
+            return render(request, '/pages/no_conversation.html')
+
 class ConversationView(LoginRequiredMixin, View):
 
     def get(self, request, id):
-
         partner_id=id
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
@@ -341,6 +357,13 @@ class ConversationView(LoginRequiredMixin, View):
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
+        else:
+            thread=Thread()
+            thread.user1_id = request.user.id
+            thread.user2_id = partner_id
+            thread.last_message = ""
+            thread.save()
+
         if messages:
             context = {'threads': threads, 'messages': messages }
         else:
