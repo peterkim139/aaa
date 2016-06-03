@@ -1907,12 +1907,12 @@ messages page
 	position: absolute;
 	right: 0;
 	top: 0;
-	font-size: 12px;
+	font-size: $fontSize - 4px;
 	&.online {
 		color: $brandColor;
 	}
 	&.offline {
-		color: $borderGrey;
+		color: $textColor;
 	}
 }
 .messagesR {

@@ -1895,7 +1895,7 @@ messages page
   .userStatus.online {
     color: #5bbc2e; }
   .userStatus.offline {
-    color: #e8e8e8; }
+    color: #484848; }
 
 .messagesR {
   position: relative;

@@ -64,7 +64,7 @@
             </div>
 
             <div class="messagesR">
-                <div class="customScroll wow fadeInDown" data-wow-delay=".2s" style="height: 420px;">
+                <div class="customScroll scrollBottom wow fadeInDown" data-wow-delay=".2s" style="max-height: 420px;">
                     <ul class="msgThread">
                         {% if messages %}
                             {% for message in messages %}
@@ -204,6 +204,8 @@ $(document).ready(function(){
             });
         }
     });
+
+    $(".scrollBottom").mCustomScrollbar("scrollTo","bottom");
 });
 </script>
 
