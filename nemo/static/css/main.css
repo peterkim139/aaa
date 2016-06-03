@@ -1892,9 +1892,9 @@ messages page
   right: 0;
   top: 0;
   font-size: 12px; }
-  .userStatus .online {
+  .userStatus.online {
     color: #5bbc2e; }
-  .userStatus .offline {
+  .userStatus.offline {
     color: #e8e8e8; }
 
 .messagesR {

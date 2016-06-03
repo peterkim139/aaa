@@ -1908,10 +1908,10 @@ messages page
 	right: 0;
 	top: 0;
 	font-size: 12px;
-	.online {
+	&.online {
 		color: $brandColor;
 	}
-	.offline {
+	&.offline {
 		color: $borderGrey;
 	}
 }
