@@ -34,7 +34,7 @@
                                                 </div>
                                                 <div class="msgConvrsR">
                                                     <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}
-                                                        <span id="status_{{thread.user_id}}"{% if thread|user_online %}class="userStatus online">Online{% else %}class="userStatus offline">Offline{% endif %}</span>
+                                                        <!--<span id="status_{{thread.user_id}}"{% if thread|user_online %}class="userStatus online">Online{% else %}class="userStatus offline">Offline{% endif %}</span>-->
                                                     </strong>
                                                     <span class="msgConvrsMsg" id="last_message_{{thread.user_id}}">{{thread.last_message}}</span>
                                                 </div>
@@ -162,7 +162,7 @@ $(document).ready(function(){
 
     ////////////// get users' statuses ///////////////////////
 
-    setInterval(function(){checkStatusData()}, 60000);
+    // setInterval(function(){checkStatusData()}, 60000);
     function checkStatusData(){
         $.ajax({
             url: '/profile/user_status/',
