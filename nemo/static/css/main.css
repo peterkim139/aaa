@@ -1871,11 +1871,13 @@ messages page
   padding: 6px 0; }
   .msgConvrsR .msgConvrsName {
     display: block;
+    position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 400;
-    line-height: 1.3em; }
+    line-height: 1.3em;
+    padding-right: 45px; }
   .msgConvrsR .msgConvrsMsg {
     display: block;
     overflow: hidden;
@@ -1884,6 +1886,16 @@ messages page
     font-weight: 300;
     line-height: 1.3em;
     opacity: .6; }
+
+.userStatus {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 12px; }
+  .userStatus .online {
+    color: #5bbc2e; }
+  .userStatus .offline {
+    color: #e8e8e8; }
 
 .messagesR {
   position: relative;

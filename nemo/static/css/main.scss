@@ -1885,11 +1885,13 @@ messages page
 	padding: 6px 0;
 	.msgConvrsName {
 		display: block;
+		position: relative;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		font-weight: 400;
 		line-height: 1.3em;
+		padding-right: 45px;
 	}
 	.msgConvrsMsg {
 		display: block;
@@ -1899,6 +1901,18 @@ messages page
 		font-weight: 300;
 		line-height: 1.3em;
 		opacity: .6;
+	}
+}
+.userStatus {
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 12px;
+	.online {
+		color: $brandColor;
+	}
+	.offline {
+		color: $borderGrey;
 	}
 }
 .messagesR {
