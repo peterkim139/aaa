@@ -366,6 +366,7 @@ $(document).ready(function(){
                 if (response.count < response.limit){
                     $(".viewMoreBtn").hide();
                 }
+                $('.customScroll').mCustomScrollbar("scrollTo",'-=200');
             },
         });
     });
