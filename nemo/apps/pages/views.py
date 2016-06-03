@@ -375,15 +375,16 @@ class ConversationView(LoginRequiredMixin, View):
         message.to_user_id = User.objects.get(id=partner_id)
         message.save()
 
-        return JsonResponse({'response':True,'thread_id': thread.id,'modified': message.modified.strftime("%B %d, %H:%M") })
+        return JsonResponse({'response':True,'modified': message.modified.strftime("%B %d, %H:%M") })
 
 
 class UserStatusView(LoginRequiredMixin, View):
+
     def post(self, request):
 
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
-            SELECT *,COUNT(message.id) AS message_count,user.email as email,user.photo as user_photo, user.id as user_id, user.first_name as user_first_name, user.last_name as user_last_name FROM thread
+            SELECT *,COUNT(message.id) AS message_count, message.message as message_text, user.id as user_id FROM thread
             LEFT JOIN user
             ON (user.id=thread.user1_id AND thread.user1_id!=%s) OR (user.id=thread.user2_id AND thread.user2_id!=%s)
             LEFT JOIN message
@@ -393,8 +394,17 @@ class UserStatusView(LoginRequiredMixin, View):
             ORDER BY thread.modified DESC''',
                  [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
-        d = {}
+        final = []
         for t in threads:
-            d['id'] = t.user_id
-            d['online'] = t.online(t.email)
-        print d
+            status_data = {}
+            status_data['id'] = t.user_id
+            status_data['message_count'] = t.message_count
+            status_data['message_text'] = t.message_text
+            status_data['online'] = t.online(t.email)
+            final.append(status_data)
+
+        status_list = json.dumps(final)
+        return HttpResponse(status_list, content_type="application/json")
+
+
+

@@ -30,11 +30,13 @@
                                             <div>
                                                 <div class="msgConvrsImg">
                                                     <img src="/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
-                                                    {% if  thread.message_count > 0 %}<span class="msgCount">{{thread.message_count}}</span>{% endif %}
+                                                    <span id="count_{{thread.user_id}}" {% if  thread.message_count > 0 %}class="msgCount">{{thread.message_count}}{% else %}>{% endif %}</span>
                                                 </div>
                                                 <div class="msgConvrsR">
-                                                    <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}</strong>
-                                                    <span class="msgConvrsMsg" id="last_message_{{thread.id}}">{{thread.last_message}} - {% if thread|user_online %}Online{% else %}Offline{% endif %}</span>
+                                                    <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}
+                                                        <span id="status_{{thread.user_id}}"{% if thread|user_online %}class="userStatus online">Online{% else %}class="userStatus offline">Offline{% endif %}</span>
+                                                    </strong>
+                                                    <span class="msgConvrsMsg" id="last_message_{{thread.user_id}}">{{thread.last_message}}</span>
                                                 </div>
                                             </div>
                                         </a>
@@ -112,7 +114,7 @@ $(document).ready(function(){
 
     ////////////// get unread_messages ///////////////////////
 
-    setInterval(function(){checkData()}, 10000);
+    setInterval(function(){checkData()}, 5000);
     function checkData(){
         $.ajax({
             url: '/profile/unread_messages/',
@@ -147,10 +149,60 @@ $(document).ready(function(){
                                             +'<time>'+element.modified+'</time>'
                                         +'</div>'
                                     +'</li>'
-                        $('#last_message_'+element.thread_id).text(element.message);
+                        $('#last_message_'+partner_id).text(element.message);
                     });
                     playSound();
                     $(".msgThread").append(message_div);
+                }
+            },
+            error:function(){
+            }
+        });
+    }
+
+    ////////////// get users' statuses ///////////////////////
+
+    setInterval(function(){checkStatusData()}, 60000);
+    function checkStatusData(){
+        $.ajax({
+            url: '/profile/user_status/',
+            type:'post',
+            data:{
+            },
+            success:function(response) {
+                if(response){
+                    jQuery.each(response, function(index, element) {
+
+                        var status_class = $('#status_'+element.id).attr('class');
+
+                        if (element.online == true) {
+                            if (status_class == "Offline") {
+                                $('#status_'+element.id).toggleClass('userStatus online');
+                                $('#status_'+element.id).text("Online");
+                                }
+                            }
+                        else {
+                            if (status_class == "Online") {
+                                $('#status_'+element.id).toggleClass('userStatus offline');
+                                $('#status_'+element.id).text("Offline");
+                                }
+                        }
+
+                        if (partner_id !== element.id) {
+                            if (element.message_count > 0) {
+                                if ($('#count_'+element.id).attr('class') !== 'msgCount'){
+                                    $('#count_'+element.id).addClass('msgCount');
+                                }
+                                $('#count_'+element.id).text(element.message_count);
+                                }
+                            else {
+                                $('#count_'+element.id).removeClass('msgCount');
+                            }
+                            if (element.message_text !== null) {
+                                $('#last_message_'+element.id).text(element.message_text);
+                            }
+                        }
+                    });
                 }
             },
             error:function(){
@@ -171,8 +223,6 @@ $(document).ready(function(){
                     },
                     success:function(responseJSON) {
                         if(responseJSON.response){
-                            var thread_id = responseJSON.thread_id
-
                             var user_photo = '{{ request.user.photo }}';
 
                             if (user_photo){
@@ -196,7 +246,7 @@ $(document).ready(function(){
                                             +'</li>'
                             $('.msgThread').append(next_li);
                             $('#id_message').val('');
-                            $('#last_message_'+thread_id).text(message);
+                            $('#last_message_'+partner_id).text(message);
                         }
                     },
                     error:function(){
