@@ -1,15 +1,18 @@
 {% load staticfiles %}
 <nav class="outer-nav top horizontal">
-    <a href="#" class="icon-home">Home</a>
     {% if user.is_authenticated %}
-        <a href="/profile/requests/">Requests</a>
+    <li><a href="/search_results/?name=">Search For Items</a></li>
+    <li><a href="/listings/">List Your Items</a></li>
+    <li><a href="/profile/conversation/0">Messages</a></li>
+    <li><a href="/payment/billing/">Account</a></li>
+    <li><a href="#">Support</a></li>
+    <li><a href="/logout/">Log Out</a></li>
     {% endif %}
     {% if user.is_anonymous %}
-    <a href="/registration/" class="icon-news">Sign Up</a>
-    <a href="/login/" class="icon-image">Login</a>
-    {% else %}
-    <a href="/logout/">Logout</a>
+    <li><a href="/registration/">Sign up</a></li>
+    <li><a href="/login/">Login</a></li>
+    <li><a href="/search_results/?name=">Search For Items</a></li>
+    <li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
+    <li><a href="#">Support</a></li>
     {% endif %}
-    <a href="#" class="icon-upload">List Your Item</a>
-    <a href="#" class="icon-star">Support</a>
 </nav>

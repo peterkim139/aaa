@@ -13,22 +13,21 @@
 							<div class="pullRight">
 								<nav class="headerNav linkHover">
 									<ul>
-										<li><a href="/">Home</a></li>
 										{% if user.is_authenticated %}
-										<li><a href="/profile/requests/">Requests</a></li>
+										<li><a href="/search_results/?name=">Search For Items</a></li>
+										<li><a href="/listings/">List Your Items</a></li>
+										<li><a href="/profile/conversation/0">Messages</a></li>
+										<li><a href="/payment/billing/">Account</a></li>
+										<li><a href="#">Support</a></li>
+										<li><a href="/logout/">Log Out</a></li>
 										{% endif %}
 										{% if user.is_anonymous %}
 										<li><a href="/registration/">Sign up</a></li>
 										<li><a href="/login/">Login</a></li>
-										{% else %}
-										<li><a href="/logout/">Logout</a></li>
-										{% endif %}
-										{% if user.is_anonymous %}
-										<li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Item</a></li>
-										{% else %}
-										<li><a href="/profile/add_listing">List Your Item</a></li>
-										{% endif %}
+										<li><a href="/search_results/?name=">Search For Items</a></li>
+										<li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
 										<li><a href="#">Support</a></li>
+										{% endif %}
 									</ul>
 								</nav>
 							</div>
@@ -37,7 +36,7 @@
 					</header>
 
 					<div id="login_popup" class="mfp-hide popupWrap">
-						<form method="post" action="login/?next=/profile/add_listing/">
+						<form method="post" action="login/?next=/listings/">
 							  {% csrf_token %}
 							  <div>
                 				<label for="id_username">Email:</label>

@@ -120,7 +120,7 @@
 														<em class="listingDist item_distance">{{ item.distance }}<br>miles</em>
 													</div>
 												</div>
-												<a href="#" class="btn btnBorder btnBlock">Details</a>
+												<a href="/payment/rent/{{ item.id }}" class="btn btnBorder btnBlock">Details</a>
 											</div>
 										</div>
 									</div>
@@ -147,7 +147,7 @@
 								{% for recent_item in recent_items %}
 									<div class="item">
 										<div class="listingSingle">
-											<a href="#">
+											<a href="/payment/rent/{{ recent_item.id }}">
 												<figure style="background-image: url('/media/images/items/{{ recent_item.image_name }}');" class="fluidImage">
 													<img class="imgBlock" src="/media/images/sizers/landscape-sizer.png">
 													<figcaption>Rent</figcaption>
