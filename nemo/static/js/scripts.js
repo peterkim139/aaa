@@ -333,7 +333,6 @@ $(document).ready(function(){
             },
             success:function(response) {
                 response_items = $.parseJSON(response.items);
-                console.log(response_items);
                 item_div = '';
                 $.each(response_items, function(index, element) {
                         item_div += '<div class="col6">'
