@@ -329,7 +329,7 @@ class NoConversationView(LoginRequiredMixin, View):
                 partner_id = user.user1_id
             return HttpResponseRedirect('/profile/conversation/'+ str(partner_id))
         else:
-            return render(request, '/pages/no_conversation.html')
+            return render(request, 'pages/no_conversation.html')
 
 class ConversationView(LoginRequiredMixin, View):
 
