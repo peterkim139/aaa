@@ -302,7 +302,8 @@ class SearchView(View):
             offset = 0
             request.session['offset'] = limit
 
-        items = Params.objects.raw('''SELECT *,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
+        try:
+            items = Params.objects.raw('''SELECT *,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
                 LEFT JOIN user
@@ -316,8 +317,12 @@ class SearchView(View):
                 LIMIT %s
                 OFFSET %s''',
                 [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range, limit, offset])
-
-        count = len(list(items))
+        except:
+            items = None
+        if items:
+            count = len(list(items))
+        else:
+            count = 0
 
         if request.is_ajax():
             items = list(items)
