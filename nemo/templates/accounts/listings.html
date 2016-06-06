@@ -145,7 +145,11 @@
                                             <div class="col4">
                                                 <div class="formRow">
                                                     {{ form.price.label_tag}}
-                                                    {{ form.price }}
+                                                    <div class="hasSufixPrefix">
+                                                        <span class="inputPrefix">$</span>
+                                                        {{ form.price }}
+                                                        <span class="inputSufix">per day</span>
+                                                    </div>
                                                     {{ form.price.errors }}
                                                 </div>
                                             </div>

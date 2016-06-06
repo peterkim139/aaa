@@ -578,6 +578,25 @@ footer {
 .icheckbox_square-green, .iradio_square-green {
 	background: url('../media/images/icheck-green.png') no-repeat;
 }
+.hasSufixPrefix {
+	position: relative;
+	.formControl  {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.inputPrefix {
+		position: absolute;
+		top: 13px;
+		left: 5px;
+		color: darken($borderGrey,2);
+	}
+	.inputSufix {
+		position: absolute;
+		top: 13px;
+		right: 5px;
+		color: $borderGrey;
+	}
+}
 /*== end form styles ==*/
 .listInline>* {
 	display: inline-block;
@@ -2058,6 +2077,12 @@ messages page
 	padding-top: 32px;
 	margin-top: 30px;
 	border-top: solid 1px $borderGrey;
+}
+.noConversation {
+	text-align: center;
+	padding: 100px 0;
+	font-size: $fontSize + 6px;
+	font-weight: 300;
 }
 /*
 end messages page 
