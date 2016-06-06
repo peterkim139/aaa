@@ -333,10 +333,11 @@ $(document).ready(function(){
             },
             success:function(response) {
                 response_items = $.parseJSON(response.items);
+                console.log(response_items);
                 item_div = '';
                 $.each(response_items, function(index, element) {
                         item_div += '<div class="col6">'
-                            +'<div class="item_details" data-id="'+element.fields.id+'" data-lat="'+element.fields.latitude+'" data-lng="'+element.fields.longitude+'">'
+                            +'<div class="item_details" data-id="'+element.pk+'" data-lat="'+element.fields.latitude+'" data-lng="'+element.fields.longitude+'">'
                                 +'<div class="listingSingle" class="wow fadeInDown">'
                                     +'<figure>'
                                         +'<img class="imgBlock item_image" src="/media/images/items/'+element.fields.address+'">'
@@ -355,7 +356,7 @@ $(document).ready(function(){
                                                 +'</div>'
                                             +'</div>'
                                         +'</div>'
-                                        +'<a href="#" class="btn btnBorder btnBlock">Details</a>'
+                                        +'<a href="/payment/rent/'+element.pk+'" class="btn btnBorder btnBlock">Details</a>'
                                     +'</div>'
                                 +'</div>'
                             +'</div>'
