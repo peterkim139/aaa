@@ -1667,6 +1667,8 @@ account listing page
   border: solid 1px #e8e8e8; }
   .listingImg img {
     display: block; }
+  .listingImg a {
+    display: block; }
 
 .listingR {
   padding-left: 20px;
