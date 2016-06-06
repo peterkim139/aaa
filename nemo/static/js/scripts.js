@@ -629,7 +629,7 @@ $(document).ready(function(){
             scrollwheel: false,
             style: "border:0",
             allowfullscreen: true,
-            zoom: 8,
+            zoom: 2,
             center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
         });
 

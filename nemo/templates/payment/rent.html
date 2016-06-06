@@ -84,7 +84,7 @@
                             </li>
                         </ul>
                     </div>
-                    {% if param.item_owner_id != request.user.id %}<a href="#view-request" id='request_slide' class="rentSlideBtn btn btnBorder btnBlock disableBtn">Request</a>{% endif %}
+                    {% if user.is_authenticated and param.item_owner_id != request.user.id %}<a href="#view-request" id='request_slide' class="rentSlideBtn btn btnBorder btnBlock disableBtn">Request</a>{% endif %}
                 </div>
             </div>
         </div>

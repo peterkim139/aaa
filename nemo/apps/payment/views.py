@@ -72,7 +72,7 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
 
 
 
-class RentView(LoginRequiredMixin,TemplateView, View):
+class RentView(TemplateView, View):
     template_name = 'payment/rent.html'
     id = ''
     def get_context_data(self, **kwargs):
