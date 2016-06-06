@@ -23,7 +23,7 @@
 										{% endif %}
 										{% if user.is_anonymous %}
 										<li><a href="/registration/">Sign up</a></li>
-										<li><a href="/login/">Login</a></li>
+										<li><a href="#login_popup" class="popupBtn">Login</a></li>
 										<li><a href="/search_results/?name=">Search For Items</a></li>
 										<li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
 										<li><a href="#">Support</a></li>
@@ -35,18 +35,36 @@
 						<button id="showMenu" class="hamburgerBtn"><i class="icon-bars"></i></button>
 					</header>
 
-					<div id="login_popup" class="mfp-hide popupWrap">
-						<form method="post" action="login/?next=/listings/">
-							  {% csrf_token %}
-							  <div>
-                				<label for="id_username">Email:</label>
-                				<input class="formControl" id="id_username" maxlength="255" name="username" type="text" />
-							  </div>
-							  <div>
-							    <label for="id_password">Password:</label>
-								<input class="formControl" id="id_password" name="password" type="password" />
-							  </div><input type="submit" value="send">
-						</form>
+					<div id="login_popup" class="mfp-hide popupWrap loginPopup">
+						<div class="popupHead">
+							<h3>Log in to NEMO</h3>
+						</div>
+						<div class="popupBody">
+							<form method="post" action="login/?next=/listings/">
+								  {% csrf_token %}
+								  <div class="formRow">
+									<label for="id_username" class="formLabel">Email:</label>
+									<input class="formControl" id="id_username" maxlength="255" name="username" type="text" />
+								  </div>
+								  <div class="formRow">
+									<label for="id_password" class="formLabel">Password:</label>
+									<input class="formControl" id="id_password" name="password" type="password" />
+								  </div>
+								<div class="alignC mb30">
+									<a href="#">Forgot password?</a>
+								</div>
+								<input type="submit" value="Log in" class="btn btnPrime btnBlock">
+								<div class="clearAfter mt5">
+									<span class="pullLeft">Dont have an account?</span>
+									<a href="/registration/" class="pullRight">Sign Up</a>
+								</div>
+							</form>
+						</div>
+						<div class="orSeparator"></div>
+						<div class="popupBody">
+							<button class="btn btnBlock btnFacebook"><img src="/media/images/icons/facebook-icons.png" alt=""> Log in with Facebook</button>
+							<button class="btn btnBlock btnGoogle"><img src="/media/images/icons/new-google-favicon-logo.png" alt=""> Log in with Google +</button>
+						</div>
 					</div>
 					<div class="container">
 						<div class="homeTopCont">
