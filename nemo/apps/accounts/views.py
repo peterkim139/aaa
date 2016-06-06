@@ -270,8 +270,15 @@ class SearchView(View):
             categories = list(cats.values_list('id', flat=True))
             checked_categories = ''
 
-        expensive_item = Params.objects.all().order_by('-price')[:1]
-        max_price = expensive_item[0].price
+        try:
+            expensive_item = Params.objects.all().order_by('-price')[:1]
+        except:
+            expensive_item = None
+        if expensive_item:
+            max_price = expensive_item[0].price
+        else:
+            max_price = 500
+
 
         query = request.GET.get("name")
 
