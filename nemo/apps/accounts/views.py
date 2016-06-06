@@ -85,7 +85,7 @@ class LoginView(TemplateView, View):
             if request.GET and request.GET['next']:
                 return HttpResponseRedirect(request.GET['next'])
             else:
-                return HttpResponseRedirect('/list')
+                return HttpResponseRedirect('/')
 
         else:
             return self.render_to_response(self.get_context_data(form=form))
