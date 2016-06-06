@@ -22,10 +22,12 @@
                                         {% for listing in listings %}
                                             <li class="listing_li">
                                                 <div class="listingImg">
-                                                    <img src="/media/images/items/{{ listing.image_name }}">
+                                                    <a href="#">
+                                                        <img src="/media/images/items/{{ listing.image_name }}">
+                                                    </a>
                                                 </div>
                                                 <div class="listingR">
-                                                    <h3>{{ listing.name }}</h3>
+                                                    <h3><a href="#">{{ listing.name }}</a></h3>
                                                     <div class="colRow">
                                                         <div class="col4">
                                                             <ul class="labelValueList">
@@ -145,7 +147,11 @@
                                             <div class="col4">
                                                 <div class="formRow">
                                                     {{ form.price.label_tag}}
-                                                    {{ form.price }}
+                                                    <div class="hasSufixPrefix">
+                                                        <span class="inputPrefix">$</span>
+                                                        {{ form.price }}
+                                                        <span class="inputSufix">per day</span>
+                                                    </div>
                                                     {{ form.price.errors }}
                                                 </div>
                                             </div>
