@@ -186,6 +186,26 @@ p {
 .neutral {
 	color: #5e5e5e;
 }
+.orSeparator {
+	position: relative;
+	text-align: center;
+	&:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: 100%;
+		height: 1px;
+		background-color: $borderGrey;
+	}
+	&:before {
+		content: 'or';
+		position: relative;
+		z-index: 2;
+		background-color: #fff;
+		padding: 0 5px;
+	}
+}
 /*== margin top and bottom spaces ==*/
 $mtStep: 0;
 @while $mtStep <= 100 {
@@ -752,9 +772,10 @@ i {
 	padding-bottom: 0;
 	h3 {
 	    padding: 0 0 15px 0;
-		color: #5BBC2E;
-		border-bottom: solid 1px #5BBC2E;
+		//color: #5BBC2E;
+		//border-bottom: solid 1px #5BBC2E;
 		font-size: 22px;
+		text-align: center;
 	}
 }
 .popupBody {
@@ -763,30 +784,37 @@ i {
 .mfp-close {
 	top: 7px;
 }
-// .md-modal {
-// 	width: 96%;
-// 	max-width: 480px;
-// }
-// .md-content {
-//     background: #FFF;
-// 	border: none;
-// 	box-shadow: 0 0 3px 1px rgba(0,0,0,.3);
-// 	border-radius: 0;
-// 	h3 {
-// 		background: #383838;
-// 		opacity: 1;
-// 		border-radius: 0;
-// 		text-align: left;
-// 		font-size: $fontSize + 10px;
-// 		padding: 15px 10px;
-// 		.md-close {
-// 		    position: absolute;
-// 		    right: 10px;
-// 		    top: 18px;
-// 		    color: #fff;
-// 		}
-// 	}
-// }
+.loginPopup {
+	width: 560px;
+	.popupBody {
+		padding: 20px 130px;
+	}
+	hr {
+		border: none;
+		height: 1px;
+		background: $borderGrey;
+	}
+}
+.btnFacebook {
+	background: #3b5999;
+	color: #fff;
+	text-transform: none;
+	margin-bottom: 10px;
+	img {
+		width: 14px;
+		vertical-align: middle;
+	}
+}
+.btnGoogle {
+	background: #fff;
+	text-transform: none;
+	border: solid 1px #cacac8;
+	img {
+		width: 14px;
+		vertical-align: middle;
+	}
+}
+
 /*== end popup styles ==*/
 /*== table styles ==*/
 .tableStyle {

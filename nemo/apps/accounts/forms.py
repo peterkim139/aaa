@@ -74,6 +74,10 @@ class SocialForm(forms.Form):
 
 class ProfileForm(forms.Form):
 
+    def __init__(self, *args, **kwargs):
+            super(ProfileForm, self).__init__(*args, **kwargs)
+            self.fields['image_file'].widget.attrs.update({'class': 'formControl'})
+
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True,widget=forms.TextInput(attrs={'class': 'formControl'}))
     phone_number = forms.CharField(label="Phone number", max_length=50, required=True,
                                    validators=[valdiate_numbersonly],
