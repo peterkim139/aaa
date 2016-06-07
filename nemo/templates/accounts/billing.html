@@ -97,14 +97,14 @@
                                         <button class="danger"><i class="icon-trash"></i></button>
                                     </div>
                                 </li>
-                                <li>
-                                    <img class="paymIcon" src="/media/images/icons/paypal-card.png">
-                                    <span class="paymAccount">mail@company.com</span>
-                                    <div class="paymActions">
-                                        <button>Default Method</button>
-                                        <button class="danger"><i class="icon-trash"></i></button>
-                                    </div>
-                                </li>
+                                <!--<li>-->
+                                    <!--<img class="paymIcon" src="/media/images/icons/paypal-card.png">-->
+                                    <!--<span class="paymAccount">mail@company.com</span>-->
+                                    <!--<div class="paymActions">-->
+                                        <!--<button>Default Method</button>-->
+                                        <!--<button class="danger"><i class="icon-trash"></i></button>-->
+                                    <!--</div>-->
+                                <!--</li>-->
                             </ul>
                         </div>
                     </section>
@@ -113,5 +113,11 @@
         </div>
     </div>
 </main>
+
+<script>
+    $('.tabsWrap').tabs({
+        disabled: [1],
+    })
+</script>
 
 {% endblock %}

@@ -384,7 +384,8 @@ class BillingView(LoginRequiredMixin, View):
                 customer_id = encrypt.encrypt_val(customer.customer.id)
                 billing = Billing()
                 billing.customer_id = customer_id
-                billing.customer_name = encrypt.encrypt_val(form.cleaned_data['first_name'])
+                billing.customer_name = form.cleaned_data['first_name']
+                billing.customer_number = encrypt.encrypt_val(form.cleaned_data['card_number'])
                 billing.is_default = 0
                 billing.user_id = request.user.id
                 billing.save()

@@ -27,12 +27,8 @@
                                                     </a>
                                                 </div>
                                                 <div class="listingR">
-                                                    <h3 class="listing_h3>
-                                                    {% if listing.status == 'unpublished' %}
-                                                        <a href="#">{{ listing.name }}</a>
-                                                    {% else %}
-                                                        <a href="/payment/rent/{{ listing.id }}">{{ listing.name }}</a>
-                                                    {% endif %}
+                                                    <h3 class="listing_h3">
+                                                        <a  {% if listing.status == 'unpublished' %} href="#" {% else %} href="/payment/rent/{{listing.id}}" {% endif %}>{{ listing.name }}</a>
                                                     </h3>
                                                     <div class="colRow">
                                                         <div class="col4">
