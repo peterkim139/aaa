@@ -1536,6 +1536,16 @@ account billing page
 		font-size: 24px;
 	}
 }
+.addPayMethod {
+	.tabs {
+		li {
+			width: 100%;
+			a {
+				width: inherit;
+			}
+		}
+	}
+}
 /*
 end account billing page
 */

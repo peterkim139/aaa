@@ -1643,6 +1643,11 @@ account billing page
   .paymActions i {
     font-size: 24px; }
 
+.addPayMethod .tabs li {
+  width: 100%; }
+  .addPayMethod .tabs li a {
+    width: inherit; }
+
 /*
 end account billing page
 */
