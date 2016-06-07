@@ -35,6 +35,38 @@ $(document).ready(function(){
         setCookie('exist','',1);
     }
 
+///////////////////////////////////////////// login form validation ///////////////////////////////////////////
+
+$("#login_form").validate({
+        rules: {
+            'username': {
+                required: true,
+                email: true
+            },
+            'password':{
+                required: true,
+            },
+        },
+        messages: {
+            'username': {
+                required: "This field is required."
+            },
+            'password': {
+                required: "This field is required."
+            },
+        },
+        errorClass: "help-inline",
+            errorElement: "span",
+            highlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').addClass('error');
+                $(element).parents('.control-group').removeClass('success');
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+    });
+
 ////////////////////////////////////////////////  datepicker validation ////////////////////////////////////
 
     $("#id_start_date").blur(function(){
