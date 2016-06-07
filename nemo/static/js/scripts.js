@@ -204,14 +204,22 @@ $("#login_form").validate({
     }, "Please enter only letters");
 
 
+    ////////////////////////////////////////////Validate E-mail/////////////////
 
-    ///////////////////////////////////// Registr form validation //////////////////////////////////////////////
+    $.validator.addMethod("customemail",
+        function(value, element) {
+            return /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value);
+        },
+        "Please enter correct email address");
+
+
+    ///////////////////////////////////// Register form validation //////////////////////////////////////////////
 
     $("#registration").validate({
         rules: {
             'email': {
                 required: true,
-                email: true
+                customemail: true
             },
             'phone_number': {
                 required: true,
@@ -688,7 +696,7 @@ $("#login_form").validate({
             scrollwheel: false,
             style: "border:0",
             allowfullscreen: true,
-            zoom: 2,
+            zoom: 16,
             center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
         });
 

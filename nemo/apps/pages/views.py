@@ -303,7 +303,7 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             unread_messages = (Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
                 .values('id','message','modified','from_user_id__photo','thread_id'))
             for unread_message in unread_messages:
-                unread_message['modified'] = unread_message['modified'].strftime("%B %d, %H:%M")
+                unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
 
             message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
             messages = Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
@@ -398,7 +398,7 @@ class ConversationView(LoginRequiredMixin, View):
         message.to_user_id = User.objects.get(id=partner_id)
         message.save()
 
-        return JsonResponse({'response':True,'modified': message.modified.strftime("%B %d, %H:%M") })
+        return JsonResponse({'response':True,'modified': message.modified.strftime("%B %d, %Y %I:%M%p") })
 
 
 class UserStatusView(LoginRequiredMixin, View):

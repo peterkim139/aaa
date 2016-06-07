@@ -20,7 +20,7 @@ def valdiate_lettersonly(value):
 
 
 def valdiate_numbersonly(value):
-    if not re.match("^[0-9 \+\-\(\)]*$", value):
+    if not re.match("^[0-9]*$", value):
         raise ValidationError('Please enter a valid phone number')
 
 def validate_zipcodeonly(value):
@@ -94,15 +94,15 @@ class ProfileForm(forms.Form):
             self.fields['image_file'].widget.attrs.update({'class': 'formControl'})
 
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True,widget=forms.TextInput(attrs={'class': 'formControl'}))
-    phone_number = forms.CharField(label="Phone number", max_length=50, required=True,
+    phone_number = forms.CharField(label="Phone Number - Numbers only", max_length=50, required=True,
                                    validators=[valdiate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
                                    validators=[validate_zipcodeonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[valdiate_lettersonly],
+    first_name = forms.CharField(label='First Name', min_length=2, max_length=255, required=True, validators=[valdiate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[valdiate_lettersonly],
+    last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[valdiate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
     image_file = forms.FileField(label='Select an Image',required=False,validators=[validate_file])
 
@@ -132,7 +132,7 @@ class RegistrationForm(forms.Form):
 
     password = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput(attrs={'class': 'formControl'}),
+        widget=forms.PasswordInput(attrs={'id': 'id_password', 'class': 'formControl'}),
         required=True
     )
 

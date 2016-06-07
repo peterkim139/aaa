@@ -27,7 +27,13 @@
                                                     </a>
                                                 </div>
                                                 <div class="listingR">
-                                                    <h3 class="listing_h3><a href="{% if listing.status == 'unpublished' %}#{% else %}/payment/rent/{{ listing.id }}{% endif %}">{{ listing.name }}</a></h3>
+                                                    <h3 class="listing_h3>
+                                                    {% if listing.status == 'unpublished' %}
+                                                        <a href="#">{{ listing.name }}</a>
+                                                    {% else %}
+                                                        <a href="/payment/rent/{{ listing.id }}">{{ listing.name }}</a>
+                                                    {% endif %}
+                                                    </h3>
                                                     <div class="colRow">
                                                         <div class="col4">
                                                             <ul class="labelValueList">
@@ -161,20 +167,21 @@
                                             {{ form.description }}
                                             {{ form.description.errors }}
                                         </div>
-                                        <div id="image-uploader" class="inputFile mb15">
-                                            <i class="icon-photo"></i>
-                                            <label>Click here to Upload image</label>
-                                            <input type="file">
-                                        </div>
+                                        <div class="formRow">
+                                            <label>Add a Photo</label>
+                                            <div id="image-uploader" class="inputFile mb5">
+                                                <input type="file">
+                                            </div>
+                                            <div>
+                                               {{ form.image_file.errors }}
+                                               {{ form.image_file }}
+                                            </div>
+                                         </div>
                                         <div>
                                            {{ form.latitude }}
                                         </div>
                                         <div>
                                            {{ form.longitude }}
-                                        </div>
-                                        <div>
-                                           {{ form.image_file }}
-                                           {{ form.image_file.errors }}
                                         </div>
                                         <a href="#listing-preview" class="btn btnBorder btnBlock" id="preview_add_listing_form">Save & Preview</a>
                                     </div>
