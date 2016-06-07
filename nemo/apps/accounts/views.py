@@ -18,13 +18,15 @@ from accounts.utils import get_coordinates,generate_activation_key,reset_mail, c
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
-from accounts.models import User
+from payment.generate import NemoEncrypt
+from accounts.models import User,Billing
 from category.models import Params, SubCategory
 from pages.models import Image
 from payment.models import Rent
 from pages.forms import AddListingForm
 import braintree
 import datetime
+from payment.utils import show_errors, payment_connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class HomeView(View):
@@ -365,7 +367,30 @@ class BillingView(LoginRequiredMixin, View):
     def post(self, request):
         form = BillingForm(request.POST)
         if form.is_valid():
-            messages.success(request,"Successfully Changed")
+            payment_connection()
+            expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
+            customer = braintree.Customer.create({
+                "first_name": request.user.first_name,
+                "last_name": request.user.last_name,
+                "email": request.user.email,
+                "credit_card": {
+                "number": form.cleaned_data['card_number'],
+                "expiration_date": expiration_date,
+                "cvv": form.cleaned_data['cvv']
+                }
+            })
+            if customer.is_success:
+                encrypt= NemoEncrypt()
+                customer_id = encrypt.encrypt_val(customer.customer.id)
+                billing = Billing()
+                billing.customer_id = customer_id
+                billing.customer_name = encrypt.encrypt_val(form.cleaned_data['first_name'])
+                billing.is_default = 0
+                billing.user_id = request.user.id
+                billing.save()
+                messages.success(request,"Successfully Added")
+            else:
+                show_errors(request,customer)
             return HttpResponseRedirect('/billing/')
         else:
             context = {'form':form }

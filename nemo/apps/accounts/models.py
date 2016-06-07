@@ -51,8 +51,10 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
 class Billing(AbstractDateTime,models.Model):
 
     user = models.ForeignKey(User)
-    customer_id = models.CharField(max_length=255, blank=True,default='')
-    is_default = models.BooleanField(default=0)
+    customer_id = models.CharField(max_length=255, blank=False,default='')
+    customer_name = models.CharField(max_length=255, blank=True,default='')
+    customer_number = models.CharField(max_length=100, blank=False,default='')
+    is_default = models.BooleanField()
 
     def get_customer_id(self):
         return self.custome_id
