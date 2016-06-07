@@ -1,6 +1,5 @@
 {% load staticfiles %}
 <div id="perspective" class="perspective effect-movedown">
-{% include "elements/main_menu.html" %}
 <main class="drawerCont">
 		<div class="wrapper">
 			<main class="mainWrap">
@@ -11,25 +10,7 @@
 								<img src="/media/images/header-logo.png">
 							</a>
 							<div class="pullRight">
-								<nav class="headerNav linkHover">
-									<ul>
-										{% if user.is_authenticated %}
-										<li><a href="/search_results/?name=">Search For Items</a></li>
-										<li><a href="/listings/">List Your Items</a></li>
-										<li><a href="/profile/conversation/">Messages</a></li>
-										<li><a href="/billing/">Account</a></li>
-										<li><a href="#">Support</a></li>
-										<li><a href="/logout/">Log Out</a></li>
-										{% endif %}
-										{% if user.is_anonymous %}
-										<li><a href="/registration/">Sign up</a></li>
-										<li><a href="#login_popup" class="popupBtn">Login</a></li>
-										<li><a href="/search_results/?name=">Search For Items</a></li>
-										<li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
-										<li><a href="#">Support</a></li>
-										{% endif %}
-									</ul>
-								</nav>
+								{% include "elements/main_menu.html" %}
 							</div>
 						</div>
 						<button id="showMenu" class="hamburgerBtn"><i class="icon-bars"></i></button>

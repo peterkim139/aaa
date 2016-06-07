@@ -17,9 +17,6 @@
 </head>
 <body>
     {% if request.path != "/" %}
-        {% include "elements/menu.html" %}
-    {% endif %}
-    {% if request.path != "/" %}
         {% include "elements/header.html" %}
     {% endif %}
     {% if request.path == "/" %}
