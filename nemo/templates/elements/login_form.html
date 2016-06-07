@@ -26,7 +26,7 @@
     </div>
     <div class="orSeparator"></div>
     <div class="popupBody">
-        <button class="btn btnBlock btnFacebook"><img src="/media/images/icons/facebook-icons.png" alt=""> Log in with Facebook</button>
-        <button class="btn btnBlock btnGoogle"><img src="/media/images/icons/new-google-favicon-logo.png" alt=""> Log in with Google +</button>
+        <a class="btn btnBlock btnFacebook" href="{% url 'social:begin' 'facebook' %}" ><img src="/media/images/icons/facebook-icons.png" alt=""> Log in with Facebook</a>
+        <a class="btn btnBlock btnGoogle" href="{% url 'social:begin' 'google-oauth2' %}"><img src="/media/images/icons/new-google-favicon-logo.png" alt=""> Log in with Google +</a>
     </div>
 </div>
