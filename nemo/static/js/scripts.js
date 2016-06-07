@@ -443,6 +443,35 @@ $("#login_form").validate({
         });
     });
 
+    ///////////////////////////////////////////// Change Billing status type////////////////
+
+    $(".change_listing_status").on('click',function(){
+        var self = $(this)
+        var item_id = self.attr('id');
+        var status = self.attr("data-status-type");
+        $.ajax({
+            url:'/profile/change_listing_status/',
+            type:'post',
+            data:{
+                item_id: item_id,
+                status: status
+            },
+            success:function(response) {
+                if(response && status == 'deleted') {
+                    self.parents('li.listing_li').remove();
+                }else if(response && status == 'published'){
+                    self.attr("data-status-type",'unpublished');
+                    self.text("Unpublish");
+                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "/payment/rent/'+item_id+'");
+                }else {
+                    self.attr("data-status-type",'published');
+                    self.text("Publish");
+                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "#");
+                }
+            },
+        });
+    });
+
     ///////////////////////////////////////////// Change listing status type////////////////
 
     $(".change_listing_status").on('click',function(){

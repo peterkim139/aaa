@@ -361,7 +361,10 @@ class BillingView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = BillingForm()
-        context = {'form': form }
+
+        methods = Billing.objects.filter(user_id=request.user.id)
+
+        context = {'form': form, 'methods': methods}
         return render(request, 'accounts/billing.html', context)
 
     def post(self, request):
@@ -394,8 +397,25 @@ class BillingView(LoginRequiredMixin, View):
                 show_errors(request,customer)
             return HttpResponseRedirect('/billing/')
         else:
-            context = {'form':form }
+            methods = Billing.objects.filter(user_id=request.user.id)
+            context = {'form': form, 'methods': methods}
             return render(request, 'accounts/billing.html', context)
+
+class ChangeBillingStatusView(LoginRequiredMixin,View):
+
+    def post(self, request):
+        user_id = request.user.id
+        status = int(request.POST['status'])
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            user = None
+        if user:
+            user.is_active = status
+            user.save()
+            return JsonResponse({'response':True})
+        else:
+            return JsonResponse({'response':False})
 
 class ListingsView(LoginRequiredMixin,View):
 

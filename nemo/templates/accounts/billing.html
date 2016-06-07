@@ -87,14 +87,18 @@
                         <div class="subTitleWrap">
                             <h2>Saved Billing Methods</h2>
                         </div>
+                        {% if methods %}
                         <div class="addedPayments">
                             <ul>
+                                {% for method in methods %}
                                 <li>
                                     <img class="paymIcon" src="/media/images/icons/visa-card.png">
-                                    <span class="paymAccount">4355 17** **** 4137</span>
+                                    <span class="paymAccount">{{ method.customer_number }}</span>
                                     <div class="paymActions">
                                         <button>Make Default</button>
                                         <button class="danger"><i class="icon-trash"></i></button>
+                                        <button id="{{ method.id }}" class="change_method_status" {% if listing.is_default == "0" %} data-status-type="notDefault">Make Default{% elif method.is_default == '1'%}data-status-type="isDefault">Default Method{% endif %}</button>
+                                        <button class="danger delete_method" id="{{ method.id }}"><i class="icon-trash"></i></button>
                                     </div>
                                 </li>
                                 <!--<li>-->
@@ -105,8 +109,10 @@
                                         <!--<button class="danger"><i class="icon-trash"></i></button>-->
                                     <!--</div>-->
                                 <!--</li>-->
+                                {% endfor %}
                             </ul>
                         </div>
+                        {% endif %}
                     </section>
                 </div>
             </div>
