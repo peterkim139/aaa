@@ -414,9 +414,11 @@ $(document).ready(function(){
                 }else if(response && status == 'published'){
                     self.attr("data-status-type",'unpublished');
                     self.text("Unpublish");
+                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "/payment/rent/'+item_id+'");
                 }else {
                     self.attr("data-status-type",'published');
                     self.text("Publish");
+                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "#");
                 }
             },
         });

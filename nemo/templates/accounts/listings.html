@@ -27,7 +27,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="listingR">
-                                                    <h3><a href="#">{{ listing.name }}</a></h3>
+                                                    <h3 class="listing_h3><a href="{% if listing.status == 'unpublished' %}#{% else %}/payment/rent/{{ listing.id }}{% endif %}">{{ listing.name }}</a></h3>
                                                     <div class="colRow">
                                                         <div class="col4">
                                                             <ul class="labelValueList">
@@ -49,7 +49,7 @@
                                                             <ul class="labelValueList labelBlock">
                                                                 <li>
                                                                     <label>Item details:</label>
-                                                                    <span><abbr title="{{ listing.description }}">{{ listing.description|truncatewords:5 }}</abbr></span>
+                                                                    <span>{{ listing.description|truncatewords:5 }}</span>
                                                                 </li>
                                                             </ul>
                                                         </div>
