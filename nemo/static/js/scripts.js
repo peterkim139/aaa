@@ -701,7 +701,7 @@ $(document).ready(function(){
                     if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
                 });
 
-                var content = '<div class="singleMapVendor" style="width:100%;" data-id="'+id+'"><p>'+
+                var content = '<div class="singleMapVendor listingSingle" style="width:100%;" data-id="'+id+'"><p>'+
                 $(this).find('span.item_name').text()+'</p><p>'+
                 $(this).find('span.item_price').text()+
                 '</p><img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/></div>';

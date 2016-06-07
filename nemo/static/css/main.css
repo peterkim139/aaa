@@ -88,7 +88,7 @@ body {
   .container.large {
     width: 1450px; }
 
-.clearAfter:after, .container:after, .subTitleWrap.hasTabs:after, .tabsStyle1:after, .labelValueList li:after, .rentShareSale:after, .subTitleTabs:after, .messagesL .ui-tabs-nav:after, .msgThread > li:after, .listingRatingLine:after {
+.clearAfter:after, .container:after, .subTitleWrap.hasTabs:after, .tabsStyle1:after, .labelValueList li:after, .rentShareSale:after, .subTitleTabs:after, .messagesL .ui-tabs-nav:after, .msgThread > li:after, .listingRatingLine:after, .birthDate:after {
   content: '';
   display: block;
   clear: both; }
@@ -699,6 +699,7 @@ footer {
   text-align: center;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   transition: 0.7s opacity;
   -ms-transition: 0.7s opacity;
   -moz-transition: 0.7s opacity;
@@ -1304,13 +1305,14 @@ Home page
   .listPriceSect .listPrice {
     display: block;
     color: #5bbc2e;
-    font-size: 20px; }
+    font-size: 16px; }
   .listPriceSect .listDuration {
     display: block;
     font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
-    margin-bottom: 3px; }
+    margin-bottom: 3px;
+    margin-top: 4px; }
 
 .listingDist {
   font-size: 13px;
@@ -1555,7 +1557,7 @@ account billing page
     -moz-transition: border-color, 0.4s;
     -webkit-transition: border-color, 0.4s;
     float: left;
-    margin-right: 30px;
+    margin-right: 18px;
     margin-bottom: -2px;
     padding-bottom: 1px; }
     .tabsStyle1 li a {
@@ -2410,6 +2412,23 @@ view listing page
 /*== end side slider ==*/
 /*
 end view listing page 
+*/
+/*
+start braintree page
+*/
+.birthDate select {
+  float: left; }
+  .birthDate select:nth-of-type(1) {
+    width: 56%;
+    margin-right: 4%; }
+  .birthDate select:nth-of-type(2) {
+    width: 18%;
+    margin-right: 4%; }
+  .birthDate select:nth-of-type(3) {
+    width: 18%; }
+
+/*
+end braintree page
 */
 /*
 Responsive styles

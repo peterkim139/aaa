@@ -448,6 +448,7 @@ footer {
 	text-align: center;
 	position: relative;
 	overflow: hidden;
+	cursor: pointer;
 	@include transition(.7s opacity); 
 	&.sizeS {
 		padding: 0 16px;
@@ -1139,7 +1140,7 @@ Home page
 	.listPrice {
 		display: block;
 		color: $brandColor;
-		font-size: $fontSize + 4px;
+		font-size: $fontSize;
 	}
 	.listDuration {
 		display: block;
@@ -1147,6 +1148,7 @@ Home page
 		font-size: $fontSize - 5px;
 		text-transform: uppercase;
 		margin-bottom: 3px;
+		margin-top: 4px;
 	}
 }
 .listingDist {
@@ -1431,7 +1433,7 @@ account billing page
 	li {
 		@include transition(border-color, .4s);
 		float: left;
-		margin-right: 30px;
+		margin-right: 18px;
 		// border-bottom: solid 3px transparent;
 		margin-bottom: -2px;
 	    padding-bottom: 1px;
@@ -2492,6 +2494,30 @@ view listing page
 /*== end side slider ==*/
 /*
 end view listing page 
+*/
+
+/*
+start braintree page
+*/
+.birthDate {
+	@extend .clearAfter;
+	select {
+		float: left;
+		&:nth-of-type(1) {
+			width: 56%;
+			margin-right: 4%;
+		}
+		&:nth-of-type(2) {
+			width: 18%;
+			margin-right: 4%;
+		}
+		&:nth-of-type(3) {
+			width: 18%;
+		}
+	}
+}
+/*
+end braintree page
 */
 
 /*

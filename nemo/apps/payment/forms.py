@@ -37,6 +37,11 @@ def validate_length(value):
 
 class ConnectForm(forms.Form):
 
+    def __init__(self, *args, **kwargs):
+            super(ConnectForm, self).__init__(*args, **kwargs)
+            self.fields['region'].widget.attrs.update({'class': 'formControl'})
+            self.fields['birthdate'].widget.attrs.update({'class': 'formControl'})
+
 
     CHOICES = (('', ''),
         ('AL', 'Alabama'),('AK', 'Alaska'),('AZ', 'Arizona'),('AR', 'Arkansas'),('CA', 'California'),
