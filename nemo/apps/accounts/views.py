@@ -62,20 +62,7 @@ class HomeView(View):
         context = {'items': items, 'recent_items': recent_items, 'cats': cats, 'count':count, 'latitude':latitude, 'longitude':longitude }
         return render(request, 'accounts/home.html', context)
 
-class LoginView(TemplateView, View):
-    template_name = 'accounts/login.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(LoginView, self).get_context_data(**kwargs)
-        context['form'] = AuthenticationForm()
-        if 'form' in kwargs:
-            context.update({'form': AuthenticationForm(data=self.request.POST)})
-        return context
-
-    def get(self, request):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect('/')
-        return self.render_to_response(self.get_context_data())
+class LoginView(View):
 
     def post(self, request):
         form = AuthenticationForm(data=request.POST)
@@ -86,9 +73,10 @@ class LoginView(TemplateView, View):
                 return HttpResponseRedirect(request.GET['next'])
             else:
                 return HttpResponseRedirect('/')
-
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            response = HttpResponseRedirect('/')
+            response.set_cookie('exist', 'error')
+            return response
 
 
 class RegisterView(TemplateView, View):

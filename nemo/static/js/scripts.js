@@ -27,6 +27,14 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
+////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
+
+    if(getCookie('exist') != ''){
+        $('#login_password').after('<span>Incorect Username or Password</span>')
+        $('.popupBtn')[0].click();
+        setCookie('exist','',1);
+    }
+
 ////////////////////////////////////////////////  datepicker validation ////////////////////////////////////
 
     $("#id_start_date").blur(function(){
@@ -599,6 +607,23 @@ $(document).ready(function(){
         var expires = "expires="+d.toUTCString();
         document.cookie = cname + "=" + cvalue + "; " + expires;
      }
+
+///////////////////////////// get cookie data ///////////////////////////
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length,c.length);
+            }
+        }
+        return "";
+    }
 
 /////////////////////// get user location ////////////////////////////
 
