@@ -28,6 +28,7 @@ urlpatterns = [
      url(r'^login/$',views.LoginView.as_view(),name='login'),
      url(r'^search_results/$',views.SearchView.as_view(),name='search_results'),
      url(r'^edit_profile/$',views.EditProfileView.as_view(),name='edit_profile'),
+     url(r'^billing/$',views.BillingView.as_view(),name='billing'),
      url(r'^change_account_status/$',views.ChangeAccountStatusView.as_view(),name='change_account_status'),
      url(r'^listings/$',views.ListingsView.as_view(),name='listings'),
      url(r'^logout/$',views.LogoutView.as_view(),name='logout'),

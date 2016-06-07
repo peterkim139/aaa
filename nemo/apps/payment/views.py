@@ -180,7 +180,3 @@ class RentView(TemplateView, View):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
-class BillingView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        return render(request, 'payment/billing.html')

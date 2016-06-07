@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.core import serializers
 from django.contrib.auth.hashers import make_password
-from .forms import ProfileForm,RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm
+from .forms import ProfileForm,RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm,BillingForm
 from accounts.mixins import LoginRequiredMixin
 from accounts.utils import get_coordinates,generate_activation_key,reset_mail, confirm_register_mail
 from django.conf import settings
@@ -353,6 +353,23 @@ class EditProfileView(LoginRequiredMixin, View):
         else:
             context = {'form':form }
             return render(request, 'accounts/edit_profile.html', context)
+
+
+class BillingView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        form = BillingForm()
+        context = {'form': form }
+        return render(request, 'accounts/billing.html', context)
+
+    def post(self, request):
+        form = BillingForm(request.POST)
+        if form.is_valid():
+            messages.success(request,"Successfully Changed")
+            return HttpResponseRedirect('/billing/')
+        else:
+            context = {'form':form }
+            return render(request, 'accounts/billing.html', context)
 
 class ListingsView(LoginRequiredMixin,View):
 

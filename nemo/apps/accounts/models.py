@@ -47,3 +47,17 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
         get_latest_by = "created"
 
 
+
+class Billing(AbstractDateTime,models.Model):
+
+    user = models.ForeignKey(User)
+    customer_id = models.CharField(max_length=255, blank=True,default='')
+    is_default = models.BooleanField(default=0)
+
+    def get_customer_id(self):
+        return self.custome_id
+
+    class Meta:
+        ordering = ["id"]
+        db_table = "billing"
+        get_latest_by = "created"

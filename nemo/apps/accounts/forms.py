@@ -1,4 +1,5 @@
 import re
+import datetime
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm as CoreAuthenticationForm,UserCreationForm
 from django.core.exceptions import ValidationError
@@ -25,6 +26,20 @@ def valdiate_numbersonly(value):
 def validate_zipcodeonly(value):
     if not re.match("^[0-9]*$", value):
         raise ValidationError('Please enter a valid zip code')
+
+def validate_billing_numbersonly(value):
+    if not re.match("^[0-9]*$", value):
+        raise ValidationError('Field should contain only numbers')
+
+def validate_month(value):
+    if not re.match("^[0-9]*$", value) or (int(value) < 1 or int(value) > 12):
+        raise ValidationError('Month value can be from 01 to 12')
+
+def validate_year(value):
+
+    if not re.match("^[0-9]*$", value) or ( int(value) > 2050 or int(value) < datetime.datetime.now().year):
+        raise ValidationError('Please enter a correct year')
+
 
 class LoginFormMixin(object):
     username = forms.CharField(label='User Name', max_length=255, required=True)
@@ -189,3 +204,23 @@ class ChangePasswordForm(forms.Form):
                 code='password_mismatch',
             )
 
+class BillingForm(forms.Form):
+
+    first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[valdiate_lettersonly],
+                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
+    card_number = forms.CharField(label="Card Number", max_length=16,min_length=15, required=True,
+                               validators=[validate_billing_numbersonly],
+                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+
+    cvv = forms.CharField(label="Cvv", max_length=4,min_length=3, required=True,
+                               validators=[validate_billing_numbersonly],
+                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+
+    month = forms.CharField(label="Month", max_length=2,min_length=2,required=True,
+                               validators=[validate_month],
+                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+
+    year = forms.CharField(label="Year", max_length=4,min_length=2, required=True,
+                               validators=[validate_year],
+                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
