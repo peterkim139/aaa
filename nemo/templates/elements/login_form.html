@@ -30,3 +30,8 @@
         <a class="btn btnBlock btnGoogle" href="{% url 'social:begin' 'google-oauth2' %}"><img src="/media/images/icons/new-google-favicon-logo.png" alt=""> Log in with Google +</a>
     </div>
 </div>
+<script>
+    $("#login_tab").on('click', function() {
+        $("#login_form").attr("action", "/login/");
+    });
+</script>
