@@ -742,7 +742,7 @@ $("#login_form").validate({
             scrollwheel: false,
             style: "border:0",
             allowfullscreen: true,
-            zoom: 16,
+            zoom: 15,
             center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
         });
 

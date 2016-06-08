@@ -117,7 +117,7 @@
 															<span class="listPrice item_price">${{ item.price }}</span>
 															<span class="listDuration">per day</span>
 														</div>
-														<em class="listingDist item_distance">{{ item.distance }}<br>miles</em>
+														<em class="listingDist item_distance">{{ item.distance|floatformat:2 }}<br>miles</em>
 													</div>
 												</div>
 												<a href="/payment/rent/{{ item.id }}" class="btn btnBorder btnBlock">Details</a>
