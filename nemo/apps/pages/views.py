@@ -357,17 +357,17 @@ class ConversationView(LoginRequiredMixin, View):
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
+            if messages:
+                context = {'threads': threads, 'messages': messages }
+            else:
+                context = {'threads': threads }
         else:
             thread=Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = ""
             thread.save()
-
-        if messages:
-            context = {'threads': threads, 'messages': messages }
-        else:
-            context = {'threads': threads }
+            context = {'threads': thread }
 
         return render(request, 'pages/conversation.html', context)
 
