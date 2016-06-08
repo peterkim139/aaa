@@ -566,6 +566,10 @@ footer {
 		resize: vertical;
 	}
 }
+input[type="file"].formControl {
+	height: auto;
+	padding: 6px;
+}
 .help-inline {
 	display: inline-block;
 	margin-top: 3px;
