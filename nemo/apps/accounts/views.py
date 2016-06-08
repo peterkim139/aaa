@@ -361,9 +361,11 @@ class BillingView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = BillingForm()
+        encrypt= NemoEncrypt()
 
         methods = Billing.objects.filter(user_id=request.user.id)
-
+        for method in methods:
+            method.customer_number = encrypt.decrypt_val(method.customer_number)
         context = {'form': form, 'methods': methods}
         return render(request, 'accounts/billing.html', context)
 
@@ -397,7 +399,10 @@ class BillingView(LoginRequiredMixin, View):
                 show_errors(request,customer)
             return HttpResponseRedirect('/billing/')
         else:
+            encrypt= NemoEncrypt()
             methods = Billing.objects.filter(user_id=request.user.id)
+            for method in methods:
+                method.customer_number = encrypt.decrypt_val(method.customer_number)
             context = {'form': form, 'methods': methods}
             return render(request, 'accounts/billing.html', context)
 
@@ -405,14 +410,30 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
 
     def post(self, request):
         user_id = request.user.id
+        method_id = int(request.POST['method_id'])
         status = int(request.POST['status'])
         try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            user = None
-        if user:
-            user.is_active = status
-            user.save()
+            method = Billing.objects.get(id=method_id, user_id=user_id )
+        except:
+            method = None
+        if method:
+            method.is_default = status
+            method.save()
+            return JsonResponse({'response':True})
+        else:
+            return JsonResponse({'response':False})
+
+class DeleteBillingView(LoginRequiredMixin,View):
+
+    def post(self, request):
+        user_id = request.user.id
+        method_id = int(request.POST['method_id'])
+        try:
+            method = Billing.objects.get(id=method_id, user_id=user_id )
+        except:
+            method = None
+        if method:
+            method.delete()
             return JsonResponse({'response':True})
         else:
             return JsonResponse({'response':False})

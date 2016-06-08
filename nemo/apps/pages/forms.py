@@ -79,8 +79,7 @@ class AddListingForm(forms.Form):
                            widget=forms.TextInput(attrs={'id': 'name','class': 'formControl'}), )
     subcategory = forms.ModelChoiceField(label='Category',queryset=SubCategory.objects.all(),widget=forms.Select(attrs={'class':'formControl'}))
     description = forms.CharField(label='Description', required='True', widget=forms.Textarea(attrs={'id':'description', 'class': 'formControl'}))
-    price = forms.CharField(label="Price", required=True, max_length=3,
-                                   validators=[validate_numbersonly],
+    price = forms.CharField(label="Price", required=True, max_length=6,
                                    widget=forms.TextInput(attrs={'id':'price', 'class': 'formControl','autocomplete':'off'}), )
     image_file = forms.CharField(required=True,
                                  widget=forms.TextInput(attrs={'id':'filename', 'class': 'formControl', 'type': 'hidden'}), )

@@ -244,7 +244,6 @@ $("#login_form").validate({
                 required: true,
                 equalTo: "#id_password_reg",
             }
-
         },
         messages: {
             'email': {
@@ -443,36 +442,55 @@ $("#login_form").validate({
         });
     });
 
-    ///////////////////////////////////////////// Change Billing status type////////////////
+    ////////////////////////////////////////// Change Billing status type////////////////
 
-    $(".change_listing_status").on('click',function(){
+    $(".change_method_status").on('click',function(){
         var self = $(this)
-        var item_id = self.attr('id');
+        var method_id = self.attr('id');
         var status = self.attr("data-status-type");
         $.ajax({
-            url:'/profile/change_listing_status/',
+            url:'/change_billing_status/',
             type:'post',
             data:{
-                item_id: item_id,
+                method_id: method_id,
                 status: status
             },
             success:function(response) {
-                if(response && status == 'deleted') {
-                    self.parents('li.listing_li').remove();
-                }else if(response && status == 'published'){
-                    self.attr("data-status-type",'unpublished');
-                    self.text("Unpublish");
-                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "/payment/rent/'+item_id+'");
-                }else {
-                    self.attr("data-status-type",'published');
-                    self.text("Publish");
-                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "#");
+                if(response){
+                    if (status == '1'){
+                    self.attr("data-status-type",'0');
+                    self.text("Default Method");
+                    }
+                    else {
+                        self.attr("data-status-type",'1');
+                        self.text("Make Default");
+                    }
+                }
+            },
+
+        });
+    });
+
+    ////////////////////////////////////////// Delete Billing Method type////////////////
+
+    $(".delete_billing_method").on('click',function(){
+        var self = $(this)
+        var method_id = self.attr('id');
+        $.ajax({
+            url:'/delete_billing/',
+            type:'post',
+            data:{
+                method_id: method_id,
+            },
+            success:function(response) {
+                if(response){
+                   self.parents('li').remove();
                 }
             },
         });
     });
 
-    ///////////////////////////////////////////// Change listing status type////////////////
+    //////////////////////////////////////// Change listing status type////////////////
 
     $(".change_listing_status").on('click',function(){
         var self = $(this)
@@ -488,14 +506,14 @@ $("#login_form").validate({
             success:function(response) {
                 if(response && status == 'deleted') {
                     self.parents('li.listing_li').remove();
-                }else if(response && status == 'published'){
-                    self.attr("data-status-type",'unpublished');
-                    self.text("Unpublish");
-                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "/payment/rent/'+item_id+'");
-                }else {
+                }else if(response && status == 'unpublished'){
                     self.attr("data-status-type",'published');
                     self.text("Publish");
-                    self.parents("li.listing_li").children(".listing_h3 a").attr("href", "#");
+                    self.parents(".listingR").children(".listing_h3").find("a").attr("href", "#");
+                }else {
+                    self.attr("data-status-type",'unpublished');
+                    self.text("Unpublish");
+                    self.parents(".listingR").children(".listing_h3").find("a").attr("href", "/payment/rent/"+item_id);
                 }
             },
         });
@@ -559,8 +577,7 @@ $("#login_form").validate({
             },
             'price':{
                 required: true,
-                digits: true,
-                maxlength: 3,
+                range:[0.01,999.99]
             },
             'image_file':{
                 image_uploaded: true,
