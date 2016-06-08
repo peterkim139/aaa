@@ -132,7 +132,7 @@ class RegistrationForm(forms.Form):
 
     password = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput(attrs={'id': 'id_password', 'class': 'formControl'}),
+        widget=forms.PasswordInput(attrs={'id': 'id_password_reg', 'class': 'formControl'}),
         required=True
     )
 

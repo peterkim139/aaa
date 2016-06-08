@@ -242,7 +242,7 @@ $("#login_form").validate({
             },
             'confirmpassword':{
                 required: true,
-                equalTo: "#id_password",
+                equalTo: "#id_password_reg",
             }
 
         },
