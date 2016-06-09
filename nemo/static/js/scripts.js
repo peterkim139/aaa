@@ -57,7 +57,7 @@ $("#login_form").validate({
         rules: {
             'username': {
                 required: true,
-                email: true
+                customemail: true
             },
             'password':{
                 required: true,
@@ -362,6 +362,74 @@ $("#login_form").validate({
             },
         });
     });
+
+
+    ///////////////////////////////////// Edit profile form validation //////////////////////////////////////////////
+
+    $("#edit_profile_form").validate({
+        rules: {
+            'email': {
+                required: true,
+                customemail: true
+            },
+            'phone_number': {
+                required: true,
+                digits: true,
+                minlength:10,
+                maxlength:10,
+            },
+            'zip_code': {
+                required: true,
+                digits: true,
+                minlength:5,
+                maxlength:5,
+            },
+            'first_name': {
+                required: true,
+                only_letters: true,
+                minlength:2,
+            },
+            'last_name':{
+                required: true,
+                only_letters: true,
+                minlength:2,
+            },
+            'image_file':{
+                required: true,
+            },
+        },
+        messages: {
+            'email': {
+                required: "This field is required."
+            },
+            'phone_number': {
+                required: "This field is required."
+            },
+            'zip_code': {
+                required: "This field is required."
+            },
+            'first_name': {
+                required: "This field is required.",
+            },
+            'last_name':{
+                required: "This field is required.",
+            },
+            'image_file':{
+                required: "This field is required.",
+            },
+        },
+        errorClass: "help-inline",
+            errorElement: "span",
+            highlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').addClass('error');
+                $(element).parents('.control-group').removeClass('success');
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+    });
+
 
     ///////////////////////////////////////////// Seller Cancel  or approve request ////////////////
 
