@@ -220,7 +220,7 @@ $("#login_form").validate({
     }, "Please enter only letters");
 
 
-    ////////////////////////////////////////////Validate E-mail/////////////////
+    //////////////////////////////////////////// Validate E-mail /////////////////
 
     $.validator.addMethod("customemail",
         function(value, element) {
