@@ -211,60 +211,6 @@ class InTransactionsView(LoginRequiredMixin,TemplateView, View):
 
 
 
-# class MyRequestsView(LoginRequiredMixin,TemplateView, View):
-#     template_name = 'pages/my_requests.html'
-#     def get(self,request,id=None):
-#         cancel = 0
-#         if id:
-#             self.template_name = 'pages/my_request.html'
-#             requests = Rent.objects.get(id=id)
-#             hour = timezone.now() - datetime.timedelta(hours=2)
-#             if requests.modified < hour:
-#                 cancel = 1
-#         else:
-#             requests = Rent.objects.filter(user_id=request.user.id)
-#
-#         return self.render_to_response({'requests':requests,'cancel':cancel})
-#
-#     def post(self,request,id):
-#
-#         if request.POST['rent']:
-#             payment_connection()
-#             rent = int(request.POST['rent'])
-#             if request.POST['action'] == 'Decline':
-#                 status = 'customer_declined'
-#             else:
-#                 status = 'customer_canceled'
-#             requests = Rent.objects.get(user_id=request.user.id,id=rent)
-#             if requests.status == 'pending' or requests.status == 'approved':
-#                 encrypt= NemoEncrypt()
-#                 current_user = User.objects.get(id=requests.owner_id)
-#                 orderer = User.objects.get(id=requests.user_id)
-#                 item = Params.objects.get(id=requests.param_id)
-#                 if  status == 'customer_declined':
-#                     Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-#                     cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name,item.name)
-#                     messages.success(request, "Request has been declined")
-#                 else:
-#                     today = timezone.now() + datetime.timedelta(days=1)
-#                     customer_id = encrypt.decrypt_val(current_user.customer_id)
-#                     paid = refund_price(requests.price)
-#                     if today < requests.start_date:
-#                         result = cancel_transaction(paid['amount'],orderer)
-#                         if result.is_success:
-#                             Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-#                             credits = Decimal(current_user.credits) + Decimal(paid['credit'])
-#                             User.objects.filter(id=current_user.id).update(credits=credits)
-#                             cancel_after_approving(request, current_user.email, orderer.first_name,item.name,current_user.first_name,paid['credit'])
-#                             messages.success(request, "Request has been canceled")
-#                         else:
-#                             messages.error(request, "There is an error in refund process")
-#             else:
-#                 messages.error(request, "There is no request")
-#         else:
-#             messages.error(request, "There is no request")
-#         return HttpResponseRedirect('/profile/my_requests/'+id)
-#
 
 class UploadImageView(LoginRequiredMixin, View):
     def post(self, request):

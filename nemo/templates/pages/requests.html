@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-
-    {% for request in requests %}
-        <p>{{request.param.name|title}}</p>
-        <a href='/profile/request/{{request.id}}'>See Request</a>
-    {% endfor %}
-{% endblock %}
