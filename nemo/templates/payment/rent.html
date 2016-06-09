@@ -216,8 +216,9 @@ $(document).ready(function() {
                 }else{
                     diffDays += 1;
                 }
+
                 var amount = price * diffDays;
-                var roundedAmount = Math.round(amount*100)/100;
+                var roundedAmount = amount.toFixed(2);
                 $('.days_amount').text('$' + price + ' x ' + diffDays + ' day');
                 $('#total_amount').text('$' + roundedAmount);
                 $('#request_slide').removeClass('disableBtn');
