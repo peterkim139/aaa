@@ -27,6 +27,22 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
+
+//////////////// to open login popup //////////////////////////////////////
+
+$('#contact_owner').on("click",function(){
+    var link = $(this).attr('item');
+    $('#login_form').attr('action','/login/?next='+link);
+})
+
+$('#add_listing_popup').on("click",function(){
+    $('#login_form').attr('action','/login/?next=/listings');
+})
+
+$("#login_tab").on('click', function() {
+        $("#login_form").attr("action", "/login/");
+});
+
 ////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
 
     if(getCookie('exist') != ''){
@@ -224,6 +240,8 @@ $("#login_form").validate({
             'phone_number': {
                 required: true,
                 digits: true,
+                minlength:10,
+                maxlength:10,
             },
             'zip_code': {
                 required: true,

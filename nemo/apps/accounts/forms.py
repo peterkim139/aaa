@@ -119,7 +119,7 @@ class ProfileForm(forms.Form):
 class RegistrationForm(forms.Form):
 
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
-    phone_number = forms.CharField(label="Phone number", max_length=50, required=True,
+    phone_number = forms.CharField(label="Phone number", max_length=10, required=True,
                                    validators=[valdiate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,

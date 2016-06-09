@@ -334,6 +334,7 @@ class NoConversationView(LoginRequiredMixin, View):
 class ConversationView(LoginRequiredMixin, View):
 
     def get(self, request, id):
+        messages = None
         partner_id=id
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
@@ -357,17 +358,17 @@ class ConversationView(LoginRequiredMixin, View):
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
-            if messages:
-                context = {'threads': threads, 'messages': messages }
-            else:
-                context = {'threads': threads }
         else:
             thread=Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = ""
             thread.save()
-            context = {'threads': thread }
+
+        if messages:
+            context = {'threads': threads, 'messages': messages }
+        else:
+            context = {'threads': threads }
 
         return render(request, 'pages/conversation.html', context)
 
