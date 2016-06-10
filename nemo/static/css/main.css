@@ -1282,6 +1282,12 @@ Home page
       text-transform: uppercase;
       font-size: 14px; }
 
+.item_image {
+  position: absolute;
+  z-index: -1;
+  visibility: hidden;
+  opacity: 0; }
+
 .listingDets {
   padding: 10px; }
 
@@ -1679,7 +1685,8 @@ account listing page
   .listingImg img {
     display: block; }
   .listingImg a {
-    display: block; }
+    display: block;
+    background-size: cover; }
 
 .listingR {
   padding-left: 20px;

@@ -20,7 +20,7 @@
                     <!--<li><a href="#new-messages">New <br> Messages</a></li>-->
                     <li><a href="#recent-messages">Recent Messages</a></li>
                 </ul>
-                <div class="customScroll" style="height: 420px;">
+                <div class="customScroll" style="height: 620px;">
                     <div id="new-messages">
                         <ul class="msgConvrsList">
                             {%if threads %}
@@ -28,8 +28,8 @@
                                     <li id="user_{{thread.user_id}}">
                                         <a href="/profile/conversation/{{thread.user_id}}">
                                             <div>
-                                                <div class="msgConvrsImg">
-                                                    <img src="/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
+                                                <div class="msgConvrsImg fluidImage" style="background-image: url(/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %})">
+                                                    <img class="imgBlock" src="/media/images/sizers/square-sizer.png">
                                                     <span id="count_{{thread.user_id}}" {% if  thread.message_count > 0 %}class="msgCount">{{thread.message_count}}{% else %}>{% endif %}</span>
                                                 </div>
                                                 <div class="msgConvrsR">

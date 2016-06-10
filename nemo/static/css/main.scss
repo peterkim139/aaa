@@ -1114,6 +1114,12 @@ Home page
 		}
 	}
 }
+.item_image {
+	position: absolute;
+	z-index: -1;
+	visibility: hidden;
+	opacity: 0;
+}
 .listingDets {
 	padding: 10px;
 }
@@ -1583,6 +1589,7 @@ account listing page
 	}
 	a {
 		display: block;
+		background-size: cover;
 	}
 }
 .listingR {
@@ -1820,6 +1827,7 @@ messages page
 	padding-left: 340px;
 	position: relative;
 	max-height: 750px;
+	min-height: 630px;
 	border: solid 1px #f3f3f3;
 	width: 80%;
 	float: left;

@@ -22,8 +22,8 @@
                                         {% for listing in listings %}
                                             <li class="listing_li">
                                                 <div class="listingImg">
-                                                    <a href="#">
-                                                        <img src="/media/images/items/{{ listing.image_name }}">
+                                                    <a class="fluidImage" style="background-image: url(/media/images/items/{{ listing.image_name }})" {% if listing.status == 'unpublished' %} href="#" {% else %} href="/payment/rent/{{listing.id}}" {% endif %}>
+                                                        <img class="imgBlock" src="/media/images/sizers/square-sizer.png">
                                                     </a>
                                                 </div>
                                                 <div class="listingR">

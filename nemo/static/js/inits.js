@@ -174,8 +174,9 @@ $(document).ready(function() {
 	});
 	$('.closeExpandWrap').on('click', function(){
 		$('.expandWrap').slideUp();
-	})
-	
+	});
+
+
 
 }); /* end of document ready */
 
