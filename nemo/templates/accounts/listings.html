@@ -78,6 +78,10 @@
                             {% endif %}
                         </div>
 
+                            <div id="add-listing-message" class="addListingWrap singleSlide">
+                                <p>Please <a href="/payment/connect" class="txtBtn">connect</a> to Braintree to add a listing.</p>
+                            </div>
+
                             <div id="add-listing" class="addListingWrap singleSlide">
                                 <form method="POST" id="add_listing_form" action="/listings/" enctype="multipart/form-data">
                                 {% csrf_token %}
@@ -237,19 +241,6 @@
         </div>
     </div>
 </main>
-
-<div id="add-listing-message" class="popupWrap mfp-hide">
-    <div class="popupHead">
-        <h3>Please connect to Braintree to add listing.</h3>
-    </div>
-    <div class="popupBody">
-        <div class="alignC">
-            <button class="btn btnBorder popupClose">Okay</button>
-        </div>
-    </div>
-</div>
-
-
 <script>
 
 ///////////////add listing form for validation /////////
