@@ -2298,7 +2298,14 @@ search page
 	}
 }
 /*== end range slider ==*/
-
+.gm-style-iw {
+	.item_image {
+		position: static;
+		z-index: -1;
+		visibility: visible;
+		opacity: 1;
+	}
+}
 /*
 end search page
 */
