@@ -1837,6 +1837,7 @@ messages page
   padding-left: 340px;
   position: relative;
   max-height: 750px;
+  min-height: 630px;
   border: solid 1px #f3f3f3;
   width: 80%;
   float: left; }
@@ -2241,6 +2242,12 @@ search page
       margin-left: -4px; }
 
 /*== end range slider ==*/
+.gm-style-iw .item_image {
+  position: static;
+  z-index: -1;
+  visibility: visible;
+  opacity: 1; }
+
 /*
 end search page
 */
