@@ -76,6 +76,9 @@ $(document).ready(function() {
 		type: 'inline',
 		preloader: false
 	});
+	$('.popupClose').on('click', function(){
+		$.magnificPopup.close();
+	});
 
 
 	// sticky init
