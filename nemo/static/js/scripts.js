@@ -28,7 +28,7 @@ function validateDateRange() {
 $(document).ready(function(){
 
 
-//////////////// to open login popup //////////////////////////////////////
+///////////////////////////////// to open login popup //////////////////////////////////////
 
 $('#contact_owner').on("click",function(){
     var link = $(this).attr('item');
@@ -909,3 +909,5 @@ $("#login_form").validate({
             + '<source src="/media/sounds/pling.ogg" type="audio/ogg" />'
             + '<embed hidden="true" autostart="true" loop="false" src="/media/sounds/pling.mp3" /></audio>';
     }
+
+

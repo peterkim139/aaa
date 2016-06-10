@@ -11,7 +11,8 @@
                         <div id="added-listings" class="addedListingsWrap singleSlide active">
                             <div class="subTitleWrap hasInput">
                                 <h2>Listings</h2>
-                                <a href="#add-listing" class="openSlideBtn btn btnBorder btnSquare" id="add_listing_button">+</a>
+                                <a href="{% if request.user.merchant_id %}#add-listing{% else %}#add-listing-message{% endif %}" class="openSlideBtn btn btnBorder btnSquare" id="add_listing_button">+</a>
+
                                 <div class="formRow">
                                     <input type="text" class="formControl" placeholder="SEARCH LISTING...">
                                 </div>
