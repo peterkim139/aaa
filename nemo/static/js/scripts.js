@@ -46,8 +46,15 @@ $("#login_tab").on('click', function() {
 ////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
 
     if(getCookie('exist') != ''){
-        $('#login_password').after('<span>Incorect Username or Password</span>')
+        $('#login_password').after('<span>Incorect Username or Password</span>');
         $('.popupBtn')[0].click();
+        var next = getCookie('next');
+        if(next != ''){
+        next  = next.replace(/['"]/gi, '');
+        var action = "login/?next="+next;
+            $('#login_form').attr('action',action);
+            setCookie('next','',1);
+        }
         setCookie('exist','',1);
     }
 

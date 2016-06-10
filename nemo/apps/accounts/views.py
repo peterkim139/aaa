@@ -78,6 +78,8 @@ class LoginView(View):
         else:
             response = HttpResponseRedirect('/')
             response.set_cookie('exist', 'error')
+            if request.GET and request.GET['next']:
+                response.set_cookie('next', request.GET['next'])
             return response
 
 
