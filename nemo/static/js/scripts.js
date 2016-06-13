@@ -1,7 +1,7 @@
 
 //////////////////////  datepicker  range dates  //////////////////////////////
 
-function validateDateRange() {
+function valifdateDateRange() {
     var txtStartDate = $("#id_start_date");
     var txtEndDate = $("#id_rent_date");
     var startDate;
@@ -903,6 +903,7 @@ $("#login_form").validate({
     }
 
     /////////////////////////////////  message sound //////////////////////////////////////
+    
     function playSound(){
         document.getElementById("sound").innerHTML=
             '<audio autoplay="autoplay"><source src="/media/sounds/pling.mp3" type="audio/mpeg" />'

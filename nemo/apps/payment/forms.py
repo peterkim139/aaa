@@ -13,10 +13,6 @@ def validate_numbersonly(value):
     if not re.match("^[0-9]*$", value):
         raise ValidationError('Field should contain only numbers')
 
-def validate_phone(value):
-    if not re.match("^[0-9 \+\-\(\)]*$", value):
-        raise ValidationError('Field should contain only numbers')
-
 def validate_month(value):
     if not re.match("^[0-9]*$", value) or (int(value) < 1 or int(value) > 12):
         raise ValidationError('Month value can be from 01 to 12')
@@ -56,8 +52,8 @@ class ConnectForm(forms.Form):
         ('VT', 'Vermont'),('VA', 'Virginia'),('WA', 'Washington'),('WV', 'West Virginia'),('WI', 'Wisconsin'),
         ('WY', 'Wyoming')
     )
-    phone_number = forms.CharField(label="Phone number", max_length=15, required=True,
-                                   validators=[validate_phone],
+    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
+                                   validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     birthdate = forms.DateField(widget = extras.SelectDateWidget(years = range(1998, 1923, -1)),required=True)
