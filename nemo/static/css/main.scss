@@ -2438,6 +2438,10 @@ view listing page
 	.ui-datepicker-title {
 		line-height: 1em;
 	}
+	.ui-state-disabled {
+		opacity: 0.2;
+		cursor: no-drop!important;
+	}
 }
 .datepicker {
 	border: solid 1px #dbdbdb;
