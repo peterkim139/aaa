@@ -86,22 +86,6 @@ class ConnectForm(forms.Form):
 
 class RentForm(forms.Form):
 
-      card_number = forms.CharField(label="Card Number", max_length=16,min_length=15, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
-
-      cvv = forms.CharField(label="Cvv", max_length=4,min_length=3, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
-
-      month = forms.CharField(label="Month", max_length=2,min_length=2,required=True,
-                                   validators=[validate_month],
-                                   widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
-
-      year = forms.CharField(label="Year", max_length=4,min_length=2, required=True,
-                                   validators=[validate_year],
-                                   widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
-
       start_date = forms.CharField(label='Start Date', max_length=255, required=True,
                            widget=forms.TextInput(attrs={'class': '','type': 'hidden'}), )
 

@@ -35,6 +35,11 @@ $('#contact_owner').on("click",function(){
     $('#login_form').attr('action','/login/?next='+link);
 })
 
+$('#request_item').on("click",function(){
+    var link = window.location.pathname;
+    $('#login_form').attr('action','/login/?next='+link);
+})
+
 $('#add_listing_popup').on("click",function(){
     $('#login_form').attr('action','/login/?next=/listings');
 })
