@@ -377,6 +377,24 @@ class BillingView(LoginRequiredMixin, View):
         if form.is_valid():
             payment_connection()
             expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
+
+            result = braintree.Transaction.sale({
+                "amount": 1,
+                "credit_card": {
+                "number": form.cleaned_data['card_number'],
+                "expiration_date": expiration_date,
+                "cvv": form.cleaned_data['cvv']
+                },
+                "options": {
+                    "submit_for_settlement": True
+                }
+            })
+            if result.is_success:
+                transaction = result.transaction
+                refund = braintree.Transaction.void(transaction.id)
+            else:
+                messages.error(request,"Credit card is invalid")
+                return HttpResponseRedirect('/billing/')
             customer = braintree.Customer.create({
                 "first_name": request.user.first_name,
                 "last_name": request.user.last_name,
