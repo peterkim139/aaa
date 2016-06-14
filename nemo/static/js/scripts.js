@@ -1,7 +1,7 @@
 
 //////////////////////  datepicker  range dates  //////////////////////////////
 
-function valifdateDateRange() {
+function validateDateRange() {
     var txtStartDate = $("#id_start_date");
     var txtEndDate = $("#id_rent_date");
     var startDate;
