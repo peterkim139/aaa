@@ -90,7 +90,22 @@
                             </li>
                         </ul>
                     </div>
-                    {% if user.is_authenticated and param.item_owner_id != request.user.id %}<a href="#view-request" id='request_slide' class="rentSlideBtn btn btnBorder btnBlock disableBtn">Request</a>{% endif %}
+                    <!--<a href="#view-request" id='request_slide' class="rentSlideBtn btn btnBorder btnBlock disableBtn">Request</a>-->
+                    {% if param.item_owner_id != request.user.id %}
+                        {% if user.is_authenticated %}
+                            {% if request.user.customer_id %}
+                                <!--submit hidden form-->
+                                <a href="#" class="btn btnBorder btnBlock" id="">Request</a>
+                            {% else %}
+                                <!--open popup and redirect to billing page-->
+                                <a href="#billing_popup" class="btn btnBorder btnBlock popupBtn" id="">Request</a>
+                            {% endif %}
+                        {% else %}
+                            <!--open loginpopup (with next)-->
+                            <a href="#login_popup" class="btn btnBorder btnBlock popupBtn" id="">Request</a>
+                        {% endif %}
+                    {% endif %}
+
                 </div>
             </div>
         </div>

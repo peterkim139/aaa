@@ -439,7 +439,16 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
             method = None
         if method:
             method.is_default = status
+            customer_id = method.customer_id
             method.save()
+
+            user = User.objects.get(id = request.user.id)
+            if status == 1:
+                user.customer_id = customer_id
+            else:
+                user.customer_id = ''
+            user.save()
+
             return JsonResponse({'response':True})
         else:
             return JsonResponse({'response':False})
