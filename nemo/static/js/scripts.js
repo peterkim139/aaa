@@ -275,7 +275,9 @@ $("#login_form").validate({
                 required: "This field is required."
             },
             'phone_number': {
-                required: "This field is required."
+                required: "This field is required.",
+                minlength: jQuery.validator.format("Please enter a valid 10-digit phone number."),
+                maxlength: jQuery.validator.format("Please enter a valid 10-digit phone number."),
             },
             'zip_code': {
                 required: "This field is required."
@@ -410,7 +412,9 @@ $("#login_form").validate({
                 required: "This field is required."
             },
             'phone_number': {
-                required: "This field is required."
+                required: "This field is required.",
+                minlength: jQuery.validator.format("Please enter a valid 10-digit phone number."),
+                maxlength: jQuery.validator.format("Please enter a valid 10-digit phone number."),
             },
             'zip_code': {
                 required: "This field is required."
@@ -494,6 +498,7 @@ $("#login_form").validate({
                                                     +'<span class="listPrice item_price">$'+element.fields.price+'</span>'
                                                     +'<span class="listDuration">per day</span>'
                                                 +'</div>'
+                                                +'<em class="listingDist item_distance">'+element.fields.city.toFixed(2)+'<br>miles</em>'
                                             +'</div>'
                                         +'</div>'
                                         +'<a href="/payment/rent/'+element.pk+'" class="btn btnBorder btnBlock">Details</a>'

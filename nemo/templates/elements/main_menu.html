@@ -10,10 +10,9 @@
         <li><a href="/logout/">Log Out</a></li>
         {% endif %}
         {% if user.is_anonymous %}
+        <li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
         <li><a href="/registration/">Sign up</a></li>
         <li><a href="#login_popup" class="popupBtn" id="login_tab">Login</a></li>
-        <li><a href="/search_results/?name=">Search For Items</a></li>
-        <li><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
         <li><a href="#">Support</a></li>
         {% endif %}
     </ul>

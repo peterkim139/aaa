@@ -55,37 +55,14 @@
 								</div>
 							</div>
 							<div class="listInline">
-								<!--{% if cats %}-->
-									<!--{% for cat in cats %}-->
-										<!--<label class="checkAndRadio" for="option_{{cat.id}}">{{cat.name}}-->
-											<!--<input type="checkbox" class="" name="category" id="option_{{cat.id}}" value={{cat.id}} />-->
-										<!--</label>-->
-									<!--{% endfor %}-->
-								<!--{% endif %}-->
-								<label class="checkAndRadio">
-									<input type="checkbox" class="">
-									Books & Games
-								</label>
-								<label class="checkAndRadio">
-									<input type="checkbox" class="">
-									Electronics
-								</label>
-								<label class="checkAndRadio">
-									<input type="checkbox" class="">
-									Home Tools & Garden
-								</label>
-								<label class="checkAndRadio">
-									<input type="checkbox" class="">
-									Household Items
-								</label>
-								<label class="checkAndRadio">
-									<input type="checkbox" class="">
-									Sports & Outdoors
-								</label>
-								<label class="checkAndRadio">
-									<input type="checkbox" class="">
-									Others
-								</label>
+								{% if cats %}
+									{% for cat in cats %}
+										<label class="checkAndRadio" for="option_{{cat.id}}">
+											<input type="checkbox" class="chboxRadio" name="category" id="option_{{cat.id}}" value={{cat.id}} />
+											{{cat.name}}
+										</label>
+									{% endfor %}
+								{% endif %}
 							</div>
 						</form>
 					</div>

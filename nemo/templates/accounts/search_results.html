@@ -30,41 +30,15 @@
                     </div>
                 </div>
                 <div class="listInline">
-                    <!--{% if cats %}-->
-                        <!--{% for cat in cats %}-->
-                            <!--<label class="checkAndRadio" for="option_{{cat.id}}">{{cat.name}}-->
-                                <!--<input type="checkbox" name="category" class="chboxRadio" id="option_{{cat.id}}" {% if cat.id in checked_categories %} checked="checked" {% endif %} value={{cat.id}} />-->
-                            <!--</label>-->
-                        <!--{% endfor %}-->
-                    <!--{% endif %}-->
-                    <label class="checkAndRadio">
-                        <input type="checkbox" class="chboxRadio">
-                        Books & Games
-                    </label>
-                    <label class="checkAndRadio">
-                        <input type="checkbox" class="chboxRadio">
-                        Electronics
-                    </label>
-                    <label class="checkAndRadio">
-                        <input type="checkbox" class="chboxRadio">
-                        Home Tools & Garden
-                    </label>
-                    <label class="checkAndRadio">
-                        <input type="checkbox" class="chboxRadio">
-                        Household Items
-                    </label>
-                    <label class="checkAndRadio">
-                        <input type="checkbox" class="chboxRadio">
-                        Sports & Outdoors
-                    </label>
-                    <label class="checkAndRadio">
-                        <input type="checkbox" class="chboxRadio">
-                        Others
-                    </label>
+                    {% if cats %}
+                        {% for cat in cats %}
+                            <label class="checkAndRadio" for="option_{{cat.id}}">
+                                <input type="checkbox" name="category" class="chboxRadio" id="option_{{cat.id}}" {% if cat.id in checked_categories %} checked="checked" {% endif %} value={{cat.id}} />
+                                {{cat.name}}
+                            </label>
+                        {% endfor %}
+                    {% endif %}
                 </div>
-                <!--<div class="rangeSliderWrap">-->
-                    <!--<input type="text" class="rangeSlider" value="" />-->
-                <!--</div>-->
                 <p>
                   <label for="amount">Price range:</label>
                   <input type="text" id="amount" readonly style="border:0; color:#000; font-weight:bold;">
@@ -100,6 +74,7 @@
                                                             <span class="listPrice item_price">${{ item.price }}</span>
                                                             <span class="listDuration">per day</span>
                                                         </div>
+                                                        <em class="listingDist item_distance">{{ item.distance|floatformat:2 }}<br>miles</em>
                                                     </div>
                                                 </div>
                                                 <a href="/payment/rent/{{ item.id }}" class="btn btnBorder btnBlock">Details</a>

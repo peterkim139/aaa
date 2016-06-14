@@ -319,6 +319,7 @@ class SearchView(View):
         if request.is_ajax():
             items = list(items)
             for item in items:
+                item.city = item.distance
                 item.address = item.image_name
                 item.status = item.first_name.title()[0] +'.'+item.last_name.title()[0]+'.'
 

@@ -81,7 +81,7 @@ class ConnectForm(forms.Form):
 
     terms = forms.BooleanField(
         error_messages={'required': 'You must accept the terms and conditions'},
-        label="Terms and Conditions"
+        label="By clicking Next Below, I accept the terms and conditions"
     )
 
 class RentForm(forms.Form):
