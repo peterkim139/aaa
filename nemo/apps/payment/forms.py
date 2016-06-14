@@ -52,7 +52,7 @@ class ConnectForm(forms.Form):
         ('VT', 'Vermont'),('VA', 'Virginia'),('WA', 'Washington'),('WV', 'West Virginia'),('WI', 'Wisconsin'),
         ('WY', 'Wyoming')
     )
-    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
+    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=False,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
