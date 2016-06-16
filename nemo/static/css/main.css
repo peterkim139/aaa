@@ -1640,6 +1640,9 @@ account billing page
   font-weight: 300;
   line-height: 1.3em; }
 
+.warrning {
+  color: #D53131; }
+
 .addedPayments li {
   padding: 19px 13px;
   background-color: #fbfbfb;
