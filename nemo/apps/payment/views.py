@@ -150,6 +150,7 @@ class RentView(TemplateView, View):
                 seller = User.objects.get(id=item.item_owner_id)
                 new_rent_mail(request,seller.email,request.user.first_name,item.name,seller.first_name,rent.id)
                 messages.success(request, "Your request has been sent successfully")
+                return HttpResponseRedirect('/payment/rent/'+id)
             else:
                 messages.error(request, "Please add default payment method")
                 return HttpResponseRedirect('/billing')

@@ -90,21 +90,19 @@
                             </li>
                         </ul>
                     </div>
+                    <form method="post" action="" id="rent_form">
+                        {% csrf_token %}
+                        <div class="formRow">
+                            {{ form.start_date }}
+                        </div>
+                        <div class="formRow">
+                            {{ form.rent_date }}
+                        </div>
+                    </form>
                     {% if param.item_owner_id != request.user.id %}
                         {% if user.is_authenticated %}
                             {% if request.user.customer_id %}
-                                <form method="post" action="">
-                                    {% csrf_token %}
-                                    <div class="formRow">
-                                        {{ form.start_date }}
-                                    </div>
-                                    <div class="formRow">
-                                        {{ form.rent_date }}
-                                    </div>
-                                    <div class="col6">
-                                        <input type="submit" value="Request" class="btn btnBorder btnBlock" id="rent_item">
-                                    </div>
-                                </form>
+                                <button class="btn btnBorder btnBlock" id="rent_item">Request</button>
                             {% else %}
                                 <a href="#billing_popup" class="btn btnBorder btnBlock popupBtn" id="">Request</a>
                             {% endif %}
@@ -127,6 +125,14 @@
 <script>
 $(document).ready(function() {
 
+    $("#rent_item").on('click',function(e){
+        if ($('#id_start_date').val() == '' || $('#id_rent_date').val() == '' ) {
+            $('.additionalTxt').addClass('warning');
+            return false;
+        }
+        $("#rent_form").submit();
+    });
+
     var price = '{{ param.price }}';
     var dates = new Object()
 
@@ -142,14 +148,13 @@ $(document).ready(function() {
             dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
         }
     }
-
     var dateToday = new Date();
     var lastDate = new Date(dateToday.getFullYear(), dateToday.getMonth()+6, 0);
 
     $.datepicker.setDefaults({
         dateFormat: 'yy-mm-dd'
     });
-    $("#id_start_date,#id_rent_date").val(dateToday);
+    $("#id_start_date,#id_rent_date").val('');
     $(".datepicker").datepicker({
 		nextText: "",
 		prevText: "",
@@ -162,7 +167,7 @@ $(document).ready(function() {
             var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
             var date2 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_rent_date").val());
             var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-            return [true, dateRange.indexOf(dateString) == -1 && date1 && ((date.getTime() == date1.getTime()) || (dateRange.indexOf(dateString) == -1 && date2 && date >= date1 && date <= date2)) ? "dp-highlight" : ""];
+            return [true, dateRange.indexOf(dateString) == -1  ? "" : "ui-state-disabled"];
         },
         onSelect: function(dateText, inst) {
             var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
