@@ -118,7 +118,7 @@
 
         <div id="billing_popup" class="popupWrap mfp-hide">
             <div class="popupBody">
-                <p>Please add a <a href="/billing/" class="txtBtn">payment method</a> in order to rent this item.</p>
+                <p>Please add <a href="/billing/" class="txtBtn">default payment method</a> in order to rent this item.</p>
             </div>
         </div>
 
@@ -149,7 +149,7 @@ $(document).ready(function() {
     $.datepicker.setDefaults({
         dateFormat: 'yy-mm-dd'
     });
-    $("#id_start_date,#id_rent_date").val('');
+    $("#id_start_date,#id_rent_date").val(dateToday);
     $(".datepicker").datepicker({
 		nextText: "",
 		prevText: "",
