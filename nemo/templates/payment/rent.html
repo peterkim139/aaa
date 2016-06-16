@@ -125,6 +125,11 @@
 <script>
 $(document).ready(function() {
 
+    var val_error = '{{val_error}}'
+    if(val_error){
+        $('.additionalTxt').addClass('warning');
+    }
+
     $("#rent_item").on('click',function(e){
         if ($('#id_start_date').val() == '' || $('#id_rent_date').val() == '' ) {
             $('.additionalTxt').addClass('warning');
