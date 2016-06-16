@@ -1,5 +1,5 @@
 
-//////////////////////  datepicker  range dates  //////////////////////////////
+//////////////////////  datepicker range dates  //////////////////////////////
 
 function validateDateRange() {
     var txtStartDate = $("#id_start_date");
@@ -21,7 +21,6 @@ function validateDateRange() {
             error = true;
         }
     }
-
     return true;
 }
 
@@ -408,9 +407,6 @@ $("#login_form").validate({
                 only_letters: true,
                 minlength:2,
             },
-            'image_file':{
-                required: true,
-            },
         },
         messages: {
             'email': {
@@ -428,9 +424,6 @@ $("#login_form").validate({
                 required: "This field is required.",
             },
             'last_name':{
-                required: "This field is required.",
-            },
-            'image_file':{
                 required: "This field is required.",
             },
         },
@@ -640,7 +633,7 @@ $("#login_form").validate({
         },
     "This field should contain at least one digit");
 
-    //////////////////////////////////////////// Validate if image is uploaded /////////////////////////////////////
+    ///////////////////////////////////// Validate if image is uploaded /////////////////////////////////////
 
     $.validator.addMethod("image_uploaded",
         function(value, element) {
@@ -757,7 +750,7 @@ $("#login_form").validate({
     })
 })
 
-//////////////// CSRF code ///////////////////////
+/////////////////////////// CSRF code ///////////////////////
 
     function getCookie(name) {
         var cookieValue = null;
@@ -830,7 +823,7 @@ $("#login_form").validate({
         setCookie('lat_lng',cvalue,30)
     }
 
- /////////////////////////     init map ,show items on map /////////////////////////
+ /////////////////////////  init map ,show items on map /////////////////////////
 
     function initMap(latitude,longitude) {
 
