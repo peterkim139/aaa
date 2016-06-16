@@ -148,6 +148,7 @@ $(document).ready(function() {
             dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
         }
     }
+
     var dateToday = new Date();
     var lastDate = new Date(dateToday.getFullYear(), dateToday.getMonth()+6, 0);
 
@@ -167,7 +168,17 @@ $(document).ready(function() {
             var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
             var date2 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_rent_date").val());
             var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-            return [true, dateRange.indexOf(dateString) == -1  ? "" : "ui-state-disabled"];
+            if(date1 && date2 && date >= date1 && date <= date2){
+                if(dateRange.indexOf(dateString) == -1){
+                    return [true,'dp-highlight']
+                }else{
+                    return [true,"ui-datepicker-unselectable ui-state-disabled"]
+                }
+            }else if(dateRange.indexOf(dateString) == -1){
+                return [true,'']
+            }else{
+                 return [true,"ui-datepicker-unselectable ui-state-disabled"]
+            }
         },
         onSelect: function(dateText, inst) {
             var date1 = $.datepicker.parseDate($.datepicker._defaults.dateFormat, $("#id_start_date").val());
