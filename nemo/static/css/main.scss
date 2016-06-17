@@ -455,7 +455,8 @@ footer {
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
-	@include transition(.7s opacity); 
+	display: inline-block;
+	@include transition(.7s opacity);
 	&.sizeS {
 		padding: 0 16px;
 		line-height: 28px;
@@ -1042,7 +1043,7 @@ Home page
 	}
 }
 .howWrkBtn {
-	cursor: pointer;
+	//cursor: pointer;
 	i {
 		color: #fff;
 		font-size: $fontSize + 10px;
@@ -1531,7 +1532,7 @@ account billing page
 	font-weight: 300;
 	line-height: 1.3em;
 }
-.warrning {
+.warning {
 	color: #D53131;
 }
 .addedPayments {

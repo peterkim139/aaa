@@ -704,6 +704,7 @@ footer {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  display: inline-block;
   transition: 0.7s opacity;
   -ms-transition: 0.7s opacity;
   -moz-transition: 0.7s opacity;
@@ -1224,14 +1225,12 @@ Home page
     .profileDrDn .drDnCont li i {
       color: #bbb; }
 
-.howWrkBtn {
+.howWrkBtn i {
+  color: #fff;
+  font-size: 26px;
+  display: inline-block;
+  margin-top: 5px;
   cursor: pointer; }
-  .howWrkBtn i {
-    color: #fff;
-    font-size: 26px;
-    display: inline-block;
-    margin-top: 5px;
-    cursor: pointer; }
 
 .homeSrch {
   background: #f9fbf9;
@@ -1640,7 +1639,7 @@ account billing page
   font-weight: 300;
   line-height: 1.3em; }
 
-.warrning {
+.warning {
   color: #D53131; }
 
 .addedPayments li {
