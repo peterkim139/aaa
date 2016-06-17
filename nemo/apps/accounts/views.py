@@ -438,17 +438,23 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
         except:
             method = None
         if method:
-            method.is_default = status
-            customer_id = method.customer_id
-            method.save()
+            user = User.objects.get(id=user_id)
 
-            user = User.objects.get(id = request.user.id)
             if status == 1:
-                user.customer_id = customer_id
+                try:
+                    def_method = Billing.objects.get(is_default=1, user_id=user_id )
+                except:
+                    def_method = None
+                if def_method:
+                    return JsonResponse({'response':'stop'})
+                else:
+                    user.customer_id = method.customer_id
             else:
                 user.customer_id = ''
-            user.save()
 
+            method.is_default = status
+            method.save()
+            user.save()
             return JsonResponse({'response':True})
         else:
             return JsonResponse({'response':False})
@@ -463,7 +469,12 @@ class DeleteBillingView(LoginRequiredMixin,View):
         except:
             method = None
         if method:
+            is_default = method.is_default
             method.delete()
+            if is_default == 1:
+                user = User.objects.get(id = user_id)
+                user.customer_id = ''
+                user.save()
             return JsonResponse({'response':True})
         else:
             return JsonResponse({'response':False})

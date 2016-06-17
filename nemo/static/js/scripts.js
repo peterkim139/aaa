@@ -553,10 +553,10 @@ $("#login_form").validate({
                 status: status
             },
             success:function(response) {
-                if(response){
+                if(response && response.response != 'stop'){
                     if (status == '1'){
-                    self.attr("data-status-type",'0');
-                    self.text("Default Method");
+                        self.attr("data-status-type",'0');
+                        self.text("Default Method");
                     }
                     else {
                         self.attr("data-status-type",'1');
