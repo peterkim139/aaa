@@ -1,139 +1,140 @@
 {% extends "base.html" %}
 {% block content %}
-    <section class="homeSrch">
-        <div class="container">
-            <form method="GET" action="">
-                <div class="srchAddress">
-                    <p><i class="icon-location"></i> Address: <a href="#change-address" class="popupBtn">Default</a></p>
-                </div>
-                <div class="colRow">
-                    <div class="col7 colTab12 colMob12">
-                        <div class="formRow">
-                            <input type="text" name="name" value="{{request.GET.name}}" placeholder="Enter item name to search (e.g. drill, tent, etc...)" class="formControl">
-                            <input type="hidden" name="start_range" id="start_range" value="{{request.GET.start_range}}">
-                            <input type="hidden" name="end_range" id="end_range" value="{{request.GET.end_range}}">
-                        </div>
-                    </div>
-                    <div class="col3 colTab10 colMob12">
-                        <div class="formRow">
-                            <select class="formControl">
-                                <option>Rent</option>
-                                <option>Buy</option>
-                                <option>Share</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col2 colMob12">
-                        <button type="submit" id="search" class="btn btnPrime btnIcon btnBlock">
-                            <i class="icon-search"></i>
-                        </button>
+<section class="homeSrch">
+    <div class="container">
+        <form method="GET" action="">
+            <div class="srchAddress">
+                <p><i class="icon-location"></i> Address: <a href="#change-address" class="popupBtn">Default</a></p>
+            </div>
+            <div class="colRow">
+                <div class="col7 colTab12 colMob12">
+                    <div class="formRow">
+                        <input type="text" name="name" value="{{request.GET.name}}" placeholder="Enter item name to search (e.g. drill, tent, etc...)" class="formControl">
+                        <input type="hidden" name="start_range" id="start_range" value="{{request.GET.start_range}}">
+                        <input type="hidden" name="end_range" id="end_range" value="{{request.GET.end_range}}">
                     </div>
                 </div>
-                <div class="listInline">
-                    {% if cats %}
-                        {% for cat in cats %}
-                            <label class="checkAndRadio" for="option_{{cat.id}}">
-                                <input type="checkbox" name="category" class="chboxRadio" id="option_{{cat.id}}" {% if cat.id in checked_categories %} checked="checked" {% endif %} value={{cat.id}} />
-                                {{cat.name}}
-                            </label>
-                        {% endfor %}
-                    {% endif %}
+                <div class="col3 colTab10 colMob12">
+                    <div class="formRow">
+                        <select class="formControl">
+                            <option>Rent</option>
+                            <option>Buy</option>
+                            <option>Share</option>
+                        </select>
+                    </div>
                 </div>
-                <p>
-                  <label for="amount">Price range:</label>
-                  <input type="text" id="amount" readonly style="border:0; color:#000; font-weight:bold;">
-                </p>
-                <div id="slider-range"></div>
-            </form>
-        </div>
-    </section>
-    <div class="container large searchWrap">
-        <h3 class="srchTitle">Search results {% if request.GET.name %}for <strong>{{request.GET.name}}</strong>{% endif %}</h3>
-        <div class="searchL">
-            <div class="customScroll" style="max-height: 980px;">
-                <section class="searchList">
-                    <div class="colRow" id="search_results_container">
-                        {% if items and count > 0 %}
-                            {% for item in items %}
-                                <div class="col6">
-                                    <div class="item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
-                                        <div class="listingSingle" class="wow fadeInDown">
-                                            <figure class="fluidImage" style="background-image: url(/media/images/items/{{ item.image_name }});">
-                                                <img class="imgBlock" src="/media/images/sizers/landscape-sizer.png">
-                                                <img class="item_image" src="/media/images/items/{{ item.image_name }}">
-                                                <figcaption>Rent</figcaption>
-                                            </figure>
-                                            <div class="listingDets">
-                                                <div class="listDetsTop">
-                                                    <div class="listDetsTopL">
-                                                        <span href="#" class="listingName item_name">{{ item.name }}</span>
-                                                        <div class="ownerWrap"><span class="listingBy">by {{ item.first_name|first }}.{{ item.last_name|first }}.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
-                                                    </div>
-                                                    <div class="listDetsTopR">
-                                                        <div class="listPriceSect">
-                                                            <span class="listPrice item_price">${{ item.price }}</span>
-                                                            <span class="listDuration">per day</span>
-                                                        </div>
-                                                        <em class="listingDist item_distance">{{ item.distance|floatformat:2 }}<br>miles</em>
-                                                    </div>
+                <div class="col2 colMob12">
+                    <button type="submit" id="search" class="btn btnPrime btnIcon btnBlock">
+                        <i class="icon-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="listInline">
+                {% if cats %}
+                    {% for cat in cats %}
+                        <label class="checkAndRadio" for="option_{{cat.id}}">
+                            <input type="checkbox" name="category" class="chboxRadio" id="option_{{cat.id}}" {% if cat.id in checked_categories %} checked="checked" {% endif %} value={{cat.id}} />
+                            {{cat.name}}
+                        </label>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <p>
+              <label for="amount">Price range:</label>
+              <input type="text" id="amount" readonly style="border:0; color:#000; font-weight:bold;">
+            </p>
+            <div id="slider-range"></div>
+        </form>
+    </div>
+</section>
+<div class="container large searchWrap">
+    <h3 class="srchTitle">Search results {% if request.GET.name %}for <strong>{{request.GET.name}}</strong>{% endif %}</h3>
+    <div class="searchL">
+        <div class="customScroll" style="max-height: 980px;">
+            <section class="searchList">
+                <div class="colRow" id="search_results_container">
+                    {% if items and count > 0 %}
+                        {% for item in items %}
+                            <div class="col6">
+                                <div class="item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
+                                    <div class="listingSingle" class="wow fadeInDown">
+                                        <figure class="fluidImage" style="background-image: url(/media/images/items/{{ item.image_name }});">
+                                            <img class="imgBlock" src="/media/images/sizers/landscape-sizer.png">
+                                            <img class="item_image" src="/media/images/items/{{ item.image_name }}">
+                                            <figcaption>Rent</figcaption>
+                                        </figure>
+                                        <div class="listingDets">
+                                            <div class="listDetsTop">
+                                                <div class="listDetsTopL">
+                                                    <span href="#" class="listingName item_name">{{ item.name }}</span>
+                                                    <div class="ownerWrap"><span class="listingBy">by {{ item.first_name|first }}.{{ item.last_name|first }}.</span><span class="stars"><img src="/media/images/rating-badges.png" alt=""></span></div>
                                                 </div>
-                                                <a href="/payment/rent/{{ item.id }}" class="btn btnBorder btnBlock">Details</a>
+                                                <div class="listDetsTopR">
+                                                    <div class="listPriceSect">
+                                                        <span class="listPrice item_price">${{ item.price }}</span>
+                                                        <span class="listDuration">per day</span>
+                                                    </div>
+                                                    <em class="listingDist item_distance">{{ item.distance|floatformat:2 }}<br>miles</em>
+                                                </div>
                                             </div>
+                                            <a href="/payment/rent/{{ item.id }}" class="btn btnBorder btnBlock">Details</a>
                                         </div>
                                     </div>
                                 </div>
-                            {% endfor %}
-                        {% else %}
-                        <div class="col12">
-                            <p>No results found.</p>
-                        </div>
-                        {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="col12">
+                        <p>No results found.</p>
                     </div>
-                </section>
-            </div>
-            <div class="alignC" id="view_more">
-                {% if count = limit %}
-                <button class="viewMoreBtn">
-                    <span>View More</span>
-                    <i class="icon-angle-down"></i>
-                </button>
-                {% endif %}
-            </div>
+                    {% endif %}
+                </div>
+            </section>
         </div>
-        <div class="searchR">
-            <div id="map_canvas" class="gMap"></div>
+        <div class="alignC" id="view_more">
+            {% if count = limit %}
+            <button class="viewMoreBtn">
+                <span>View More</span>
+                <i class="icon-angle-down"></i>
+            </button>
+            {% endif %}
         </div>
     </div>
+    <div class="searchR">
+        <div id="map_canvas" class="gMap"></div>
+    </div>
+</div>
 </main>
 <script>
-    ///////////price range slider jquery ui//////////////
 
-    var start_range = '{{request.GET.start_range}}' ? '{{request.GET.start_range}}' : 0;
-    var end_range = '{{request.GET.end_range}}' ? '{{request.GET.end_range}}' : {{ max_price }};
-    var latitude = '{{latitude}}';
-    var longitude = '{{longitude}}';
+////////////////////price range slider jquery ui//////////////
 
-    $(function() {
-        $( "#slider-range" ).slider({
-          range: true,
-          min: 0,
-          max: {{max_price}},
-          values: [ start_range, end_range ],
-          slide: function( event, ui ) {
-            $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-            $('#start_range').val(ui.values[ 0 ]);
-            $('#end_range').val(ui.values[ 1 ]);
-          }
-        });
+var start_range = '{{request.GET.start_range}}' ? '{{request.GET.start_range}}' : 0;
+var end_range = '{{request.GET.end_range}}' ? '{{request.GET.end_range}}' : {{ max_price }};
+var latitude = '{{latitude}}';
+var longitude = '{{longitude}}';
 
-        $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-          " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+$(function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: {{max_price}},
+      values: [ start_range, end_range ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        $('#start_range').val(ui.values[ 0 ]);
+        $('#end_range').val(ui.values[ 1 ]);
+      }
     });
 
-    ///////////////////////   get location and init map //////////////////
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+});
 
-    getLocation();
-    initMap(latitude,longitude);
+///////////////////////   get location and init map //////////////////
+
+getLocation();
+initMap(latitude,longitude);
 
 </script>
 {% endblock %}

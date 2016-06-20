@@ -67,7 +67,7 @@
                                 </thead>
                                 <tbody>
                                     {% for out_transaction in out_transactions %}
-                                        <tr  rent='{{out_transaction.id}}' >
+                                        <tr rent='{{out_transaction.id}}' >
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ out_transaction.param.name }}</td>
                                             <td><span class="success">Rent</span></td>

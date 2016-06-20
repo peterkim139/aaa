@@ -9,59 +9,57 @@
              <form method="post" action="">
                  {% csrf_token %}
                  <div class="formRow">
-                        {{ form.street_address.label_tag}}
-                        {{ form.street_address }}
-                        {{ form.street_address.errors }}
+                    {{ form.street_address.label_tag}}
+                    {{ form.street_address }}
+                    {{ form.street_address.errors }}
                  </div>
                  <div class="formRow">
-                        {{ form.locality.label_tag}}
-                        {{ form.locality }}
-                        {{ form.locality.errors }}
+                    {{ form.locality.label_tag}}
+                    {{ form.locality }}
+                    {{ form.locality.errors }}
                  </div>
                  <div class="formRow">
-                        {{ form.region.label_tag}}
-                        {{ form.region }}
-                        {{ form.region.errors }}
+                    {{ form.region.label_tag}}
+                    {{ form.region }}
+                    {{ form.region.errors }}
                  </div>
                  <div class="colRow">
                      <div class="formRow col6">
-                            {{ form.postal_code.label_tag}}
-                            {{ form.postal_code }}
-                            {{ form.postal_code.errors }}
+                        {{ form.postal_code.label_tag}}
+                        {{ form.postal_code }}
+                        {{ form.postal_code.errors }}
                      </div>
                      <div class="formRow col6">
-                            {{ form.phone_number.label_tag}}
-                            {{ form.phone_number }}
-                            {{ form.phone_number.errors }}
+                        {{ form.phone_number.label_tag}}
+                        {{ form.phone_number }}
+                        {{ form.phone_number.errors }}
                      </div>
                  </div>
                  <div class="formRow birthDate">
-                        {{ form.birthdate.label_tag}}
-                        {{ form.birthdate }}
-                        {{ form.birthdate.errors }}
+                    {{ form.birthdate.label_tag}}
+                    {{ form.birthdate }}
+                    {{ form.birthdate.errors }}
                  </div>
                  <div class="formRow">
-                        {{ form.routing_number.label_tag}}
-                        {{ form.routing_number }}
-                        {{ form.routing_number.errors }}
+                    {{ form.routing_number.label_tag}}
+                    {{ form.routing_number }}
+                    {{ form.routing_number.errors }}
                  </div>
                  <div class="formRow">
-                        {{ form.account_number.label_tag}}
-                        {{ form.account_number }}
-                        {{ form.account_number.errors }}
+                    {{ form.account_number.label_tag}}
+                    {{ form.account_number }}
+                    {{ form.account_number.errors }}
                  </div>
                  <div class="formRow">
-                        {{ form.terms.label_tag}}
-                        {{ form.terms }}
-                        {{ form.terms.errors }}
+                    {{ form.terms.label_tag}}
+                    {{ form.terms }}
+                    {{ form.terms.errors }}
                  </div>
                  <input type="submit" value="next" class="btn btnPrime">
              </form>
-
         </div>
     </div>
 </div>
 </main>
-
 
 {% endblock %}
