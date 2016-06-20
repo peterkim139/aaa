@@ -1,10 +1,4 @@
 from django.db import models
-from django.core.validators import MaxLengthValidator
-from django.utils import timezone
-from django.core.mail import send_mail
-from django.utils.http import urlquote
-from decimal import Decimal
-from accounts.managers import  AbstractDateTime
 import datetime
 from django.core.cache import cache
 from django.conf import settings

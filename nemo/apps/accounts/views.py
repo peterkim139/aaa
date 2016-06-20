@@ -1,33 +1,21 @@
-import json
-import os
-import logging
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.contrib.auth import login,logout
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
-from  django.template.context_processors import csrf
+from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.shortcuts import redirect
 from django.core import serializers
-from django.contrib.auth.hashers import make_password
 from .forms import ProfileForm,RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm,BillingForm
 from accounts.mixins import LoginRequiredMixin
 from accounts.utils import get_coordinates,generate_activation_key,reset_mail, confirm_register_mail
-from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
 from payment.generate import NemoEncrypt
 from accounts.models import User,Billing
 from category.models import Params, SubCategory
 from pages.models import Image
-from payment.models import Rent
 from pages.forms import AddListingForm
 import braintree
 import datetime
 from payment.utils import show_errors, payment_connection
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class HomeView(View):
     def get(self, request):

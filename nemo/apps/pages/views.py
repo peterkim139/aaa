@@ -9,7 +9,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
-from django.core import serializers
 from payment.models import Rent
 from .forms import RentForm
 from accounts.models import User

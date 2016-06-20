@@ -1,6 +1,5 @@
 import datetime
 import braintree
-from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages

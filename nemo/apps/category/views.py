@@ -1,14 +1,4 @@
-import datetime
-from django.shortcuts import render
-from django.views.generic import TemplateView, View
-from django.http import HttpResponseRedirect, HttpResponse
-from  django.template.context_processors import csrf
-from django.contrib import messages
-from django.shortcuts import redirect
-from django.core import serializers
-from django.conf import settings
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
+from django.views.generic import TemplateView
 from category.models import Category,SubCategory,Params
 
 

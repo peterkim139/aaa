@@ -5,9 +5,6 @@ from django.template import Context
 from django.template import loader
 from django.conf import settings
 import uuid
-from pages.models import Image
-import os
-
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 

@@ -2,7 +2,6 @@ import re
 
 from django import forms
 from category.models import SubCategory
-from django.forms import extras
 from django.core.exceptions import ValidationError
 import datetime
 from .models import Message
