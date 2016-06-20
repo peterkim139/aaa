@@ -7,7 +7,8 @@ from django.contrib import messages
 from django.core import serializers
 from .forms import ProfileForm,RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm,BillingForm
 from accounts.mixins import LoginRequiredMixin
-from accounts.utils import get_coordinates,generate_activation_key,reset_mail, confirm_register_mail
+from accounts.utils import get_coordinates,generate_activation_key
+from accounts.emails import reset_mail, confirm_register_mail
 from payment.generate import NemoEncrypt
 from accounts.models import User,Billing
 from category.models import Params, SubCategory
@@ -71,7 +72,7 @@ class LoginView(View):
             return response
 
 
-class RegisterView(TemplateView, View):
+class RegisterView(TemplateView):
     template_name = 'accounts/registr.html'
 
     def get_context_data(self, **kwargs):
@@ -170,7 +171,7 @@ def save_profile(backend, user, response, *args, **kwargs):
 
                 return HttpResponseRedirect('/registration/')
 
-class ResetView(TemplateView, View):
+class ResetView(TemplateView):
     template_name = 'accounts/reset.html'
 
     def get_context_data(self, **kwargs):
@@ -200,7 +201,7 @@ class ResetView(TemplateView, View):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class ChangePasswordView(TemplateView, View):
+class ChangePasswordView(TemplateView):
     template_name = 'accounts/change_password.html'
 
     def get_context_data(self, **kwargs):
@@ -215,7 +216,7 @@ class ChangePasswordView(TemplateView, View):
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
         try:
-            user = User.objects.get(reset_key=reset_key)
+            User.objects.get(reset_key=reset_key)
             return self.render_to_response(self.get_context_data(reset_key=reset_key))
         except:
             messages.error(request, "Sorry, key is invalid")

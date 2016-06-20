@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils import timezone
-from accounts.managers import  AbstractDateTime
+from accounts.mixins  import  AbstractDateTime
 from category.models import Params
 from accounts.models import User
 
 
-class Rent(AbstractDateTime,models.Model):
+class Rent(AbstractDateTime):
 
     param = models.ForeignKey(Params)
     user = models.ForeignKey(User,related_name='order')

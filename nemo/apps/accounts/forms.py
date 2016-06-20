@@ -1,44 +1,7 @@
-import re
-import datetime
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm as CoreAuthenticationForm,UserCreationForm
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm as CoreAuthenticationForm
 from accounts.models import User
-from django.conf import settings
-
-def validate_file(value):
-    content_type = value.content_type.split('/')[0]
-    if content_type in settings.CONTENT_TYPES:
-        if value._size > int(settings.MAX_UPLOAD_SIZE):
-            raise forms.ValidationError('Please keep file size under 2 Mb')
-    else:
-        raise forms.ValidationError('Only .jpg/jpeg/png/gif files allowed.')
-
-def valdiate_lettersonly(value):
-    if not re.match("^[A-Za-z ]*$", value):
-        raise ValidationError('Name field should contain only letters')
-
-
-def valdiate_numbersonly(value):
-    if not re.match("^[0-9]*$", value):
-        raise ValidationError('Please enter a valid phone number')
-
-def validate_zipcodeonly(value):
-    if not re.match("^[0-9]*$", value):
-        raise ValidationError('Please enter a valid zip code')
-
-def validate_billing_numbersonly(value):
-    if not re.match("^[0-9]*$", value):
-        raise ValidationError('Field should contain only numbers')
-
-def validate_month(value):
-    if not re.match("^[0-9]*$", value) or (int(value) < 1 or int(value) > 12):
-        raise ValidationError('Month value can be from 01 to 12')
-
-def validate_year(value):
-
-    if not re.match("^[0-9]*$", value) or ( int(value) > 2050 or int(value) < datetime.datetime.now().year):
-        raise ValidationError('Please enter a correct year')
+from django import forms
+from accounts.validations import *
 
 
 class LoginFormMixin(object):
@@ -82,9 +45,9 @@ class AuthenticationForm(LoginFormMixin, CoreAuthenticationForm):
 class SocialForm(forms.Form):
 
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
-    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[valdiate_lettersonly],
+    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[valdiate_lettersonly],
+    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
 class ProfileForm(forms.Form):
@@ -95,14 +58,14 @@ class ProfileForm(forms.Form):
 
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True,widget=forms.TextInput(attrs={'class': 'formControl'}))
     phone_number = forms.CharField(label="Phone Number - Numbers only", min_length=10, max_length=10, required=True,
-                                   validators=[valdiate_numbersonly],
+                                   validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                                   validators=[validate_zipcodeonly],
+                                   validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    first_name = forms.CharField(label='First Name', min_length=2, max_length=255, required=True, validators=[valdiate_lettersonly],
+    first_name = forms.CharField(label='First Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[valdiate_lettersonly],
+    last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
     image_file = forms.FileField(label='Select an Image',required=False,validators=[validate_file])
 
@@ -120,14 +83,14 @@ class RegistrationForm(forms.Form):
 
     email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
     phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
-                                   validators=[valdiate_numbersonly],
+                                   validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                                   validators=[validate_zipcodeonly],
+                                   validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[valdiate_lettersonly],
+    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[valdiate_lettersonly],
+    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     password = forms.CharField(
@@ -206,15 +169,15 @@ class ChangePasswordForm(forms.Form):
 
 class BillingForm(forms.Form):
 
-    first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[valdiate_lettersonly],
+    first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     card_number = forms.CharField(label="Card Number", max_length=16,min_length=15, required=True,
-                               validators=[validate_billing_numbersonly],
+                               validators=[validate_numbersonly],
                                widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
 
     cvv = forms.CharField(label="Cvv", max_length=4,min_length=3, required=True,
-                               validators=[validate_billing_numbersonly],
+                               validators=[validate_numbersonly],
                                widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
 
     month = forms.CharField(label="Month", max_length=2,min_length=2,required=True,

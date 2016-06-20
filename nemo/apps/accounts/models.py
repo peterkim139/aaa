@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from accounts.managers import AuthUserManager, AbstractDateTime
+from accounts.mixins import AuthUserManager, AbstractDateTime
 
 
 
-class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
+class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=255, unique=True,blank=False,default='')
     first_name = models.CharField(max_length=255, blank=False,default='')
@@ -43,7 +43,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin, models.Model):
 
 
 
-class Billing(AbstractDateTime,models.Model):
+class Billing(AbstractDateTime):
 
     user = models.ForeignKey(User)
     customer_id = models.CharField(max_length=255, blank=False,default='')

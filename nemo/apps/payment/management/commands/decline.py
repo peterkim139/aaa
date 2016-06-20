@@ -3,8 +3,7 @@ import datetime
 import braintree
 from django.utils import timezone
 from payment.models import Rent
-from accounts.models import User
-from payment.utils import payment_connection,error_logging,expired_rent_seller,expired_rent_client
+from payment.emails import expired_rent_seller,expired_rent_client
 from django.db.models import Q
 
 class Command(BaseCommand):

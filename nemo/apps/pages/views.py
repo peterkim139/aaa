@@ -15,13 +15,15 @@ from accounts.models import User
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from pages.utils import date_handler,save_file,payment_connection,seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,refund_price,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
+from pages.utils import date_handler,save_file,refund_price
+from payment.utils import payment_connection
+from pages.emails import seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,cancel_transaction,seller_approve,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
 from payment.utils import show_errors
 from category.models import Params
 from pages.models import Image, Thread, Message
 
 
-class OutTransactionsView(LoginRequiredMixin,TemplateView,View):
+class OutTransactionsView(LoginRequiredMixin,TemplateView):
 
     template_name = 'pages/out_transactions.html'
     def get_context_data(self, data,**kwargs):
@@ -79,7 +81,7 @@ class OutTransactionsView(LoginRequiredMixin,TemplateView,View):
             messages.error(request, "There is no request")
         return HttpResponseRedirect('/profile/out_transactions/')
 
-class InTransactionsView(LoginRequiredMixin,TemplateView, View):
+class InTransactionsView(LoginRequiredMixin,TemplateView):
 
     template_name = 'pages/in_transactions.html'
     def get_context_data(self, data,**kwargs):

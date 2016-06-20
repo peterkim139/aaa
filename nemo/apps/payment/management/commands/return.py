@@ -4,7 +4,7 @@ import braintree
 from django.utils import timezone
 from payment.models import Rent
 from accounts.models import User
-from payment.utils import return_rent_client
+from payment.emails import return_rent_client
 from django.db.models import Q
 
 class Command(BaseCommand):

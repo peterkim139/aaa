@@ -1,15 +1,16 @@
 import datetime
 import braintree
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .forms import ConnectForm,RentForm
 from accounts.mixins import LoginRequiredMixin
 from django.db.models import Q
 from .models import User,Params,Rent
-from payment.utils import payment_connection,new_rent_mail,show_errors
+from payment.utils import payment_connection,show_errors
+from payment.emails import new_rent_mail
 
-class ConnectView(LoginRequiredMixin,TemplateView, View):
+class ConnectView(LoginRequiredMixin,TemplateView):
     template_name = 'payment/connect.html'
 
     def get_context_data(self, **kwargs):
@@ -74,7 +75,7 @@ class ConnectView(LoginRequiredMixin,TemplateView, View):
 
 
 
-class RentView(TemplateView, View):
+class RentView(TemplateView):
     template_name = 'payment/rent.html'
     id = ''
     def get_context_data(self, **kwargs):

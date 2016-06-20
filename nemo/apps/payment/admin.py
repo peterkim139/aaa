@@ -1,8 +1,8 @@
 import braintree
 from django.contrib import admin
 from .models import Rent,User
-from pages.utils import payment_connection
-from payment.utils import admin_cancel_rent_to_client,admin_cancel_rent_to_seller
+from payment.utils import payment_connection
+from payment.emails import admin_cancel_rent_to_client,admin_cancel_rent_to_seller
 
 def refund_transaction(modeladmin, request, queryset):
     for item in queryset:
