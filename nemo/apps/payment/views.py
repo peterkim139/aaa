@@ -2,7 +2,6 @@ import datetime
 import braintree
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
-from django.utils import timezone
 from django.contrib import messages
 from .forms import ConnectForm,RentForm
 from accounts.mixins import LoginRequiredMixin
