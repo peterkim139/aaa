@@ -2,6 +2,7 @@ import datetime
 import braintree
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 from django.contrib import messages
 from .forms import ConnectForm,RentForm
 from accounts.mixins import LoginRequiredMixin
@@ -86,21 +87,15 @@ class RentView(TemplateView):
         for blockday in blockdays:
             dates[ blockday.rent_date.strftime('%Y-%m-%d')] = blockday.start_date.strftime('%Y-%m-%d')
         context['blockdays'] = dates
-        param = Params.objects.raw('''SELECT *, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date, user.first_name as user_firstname, user.last_name as user_lastname, images.image_name as image_filename FROM parametrs
-            LEFT JOIN images
-            ON images.param_image_id=parametrs.id
-            LEFT JOIN user
-            ON user.id=parametrs.item_owner_id
-            LEFT JOIN rent
-            ON rent.param_id=parametrs.id
-            WHERE parametrs.id = %s
-            AND user.is_active=1
-            AND parametrs.status='published'
-            LIMIT 1''',[self.id])[0]
+        param = Params.objects.get(id=self.id,status='published',item_owner__is_active=1)
+        today = datetime.datetime.now().date()
+        try:
+            rent = Rent.objects.get(status='approved',param_id = self.id,start_date__lte = today,rent_date__gte = today)
+        except:
+            rent = None
 
-        this_moment = datetime.datetime.now()
-        context['this_moment'] = this_moment
         context['param'] = param
+        context['rent'] = rent
         if 'form' in kwargs:
             context.update({'form': RentForm(data=self.request.POST),'val_error':'true'})
         return context

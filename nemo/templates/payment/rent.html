@@ -51,7 +51,7 @@
                             </li>
                             <li>
                                 <label>Owner:</label>
-                                <span class="success">{{ param.user_firstname }} {{ param.user_lastname }}</span>
+                                <span class="success">{{ param.item_owner.first_name }} {{ param.item_owner.last_name }}</span>
                             </li>
                             <li>
                                 <label>Rating Budges:</label>
@@ -63,7 +63,7 @@
                             </li>
                             <li>
                                 <label>Today’s status:</label>
-                                <span {% if param.rent_status == 'approved' and param.rent_start_date|date:"Y-m-d h:i:s" <= this_moment|date:"Y-m-d h:i:s" and param.rent_end_date|date:"Y-m-d h:i:s" >= this_moment|date:"Y-m-d h:i:s" %}class="danger">Not Available{% else %} class="success">Available{% endif %}</span>
+                                <span {% if rent %}class="danger">Not Available{% else %} class="success">Available{% endif %}</span>
                             </li>
                         </ul>
                     </div>
