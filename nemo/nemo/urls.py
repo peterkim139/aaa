@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 urlpatterns = [
-     url(r'^', include('accounts.urls', namespace='account')),
+     url(r'^', include('accounts.urls', namespace='accounts')),
      url(r'^list/', include('category.urls', namespace='category')),
      url(r'^payment/', include('payment.urls', namespace='payment')),
      url(r'^profile/', include('pages.urls', namespace='profile')),

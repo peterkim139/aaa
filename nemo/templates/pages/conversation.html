@@ -26,7 +26,7 @@
                         {%if threads %}
                             {% for thread in threads %}
                                 <li id="user_{{thread.user_id}}">
-                                    <a href="/profile/conversation/{{thread.user_id}}">
+                                    <a href="{% url 'profile:conversation' thread.user_id %}">
                                         <div>
                                             <div class="msgConvrsImg fluidImage" style="background-image: url(/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %})">
                                                 <img class="imgBlock" src="/media/images/sizers/square-sizer.png">

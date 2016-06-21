@@ -23,13 +23,13 @@
                                     {% for listing in listings %}
                                         <li class="listing_li">
                                             <div class="listingImg">
-                                                <a class="fluidImage" style="background-image: url(/media/images/items/{{ listing.image_name }})" {% if listing.status == 'unpublished' %} href="#" {% else %} href="/payment/rent/{{listing.id}}" {% endif %}>
+                                                <a class="fluidImage" style="background-image: url(/media/images/items/{{ listing.image_name }})" {% if listing.status == 'unpublished' %} href="#" {% else %} href="{% url 'payment:rent' listing.id %}" {% endif %}>
                                                     <img class="imgBlock" src="/media/images/sizers/square-sizer.png">
                                                 </a>
                                             </div>
                                             <div class="listingR">
                                                 <h3 class="listing_h3">
-                                                    <a  {% if listing.status == 'unpublished' %} href="#" {% else %} href="/payment/rent/{{listing.id}}" {% endif %}>{{ listing.name }}</a>
+                                                    <a  {% if listing.status == 'unpublished' %} href="#" {% else %} href="{% url 'payment:rent' listing.id %}" {% endif %}>{{ listing.name }}</a>
                                                 </h3>
                                                 <div class="colRow">
                                                     <div class="col4">
@@ -79,7 +79,7 @@
                         {% endif %}
                     </div>
                     <div id="add-listing-message" class="addListingWrap singleSlide">
-                        <p>Please <a href="/payment/connect" class="txtBtn">add</a> a bank account in order for you to receive payment.</p>
+                        <p>Please <a href="{% url 'payment:connect' %}" class="txtBtn">add</a> a bank account in order for you to receive payment.</p>
                     </div>
                     <div id="add-listing" class="addListingWrap singleSlide">
                         <form method="POST" id="add_listing_form" action="/listings/" enctype="multipart/form-data">

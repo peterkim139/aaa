@@ -77,7 +77,7 @@
                                                     <em class="listingDist item_distance">{{ item.distance|floatformat:2 }}<br>miles</em>
                                                 </div>
                                             </div>
-                                            <a href="/payment/rent/{{ item.id }}" class="btn btnBorder btnBlock">Details</a>
+                                            <a href="{% url 'payment:rent' item.id %}" class="btn btnBorder btnBlock">Details</a>
                                         </div>
                                     </div>
                                 </div>
