@@ -64,7 +64,7 @@ $("#login_tab").on('click', function() {
 
 ///////////////////////////////////////////// login form validation ///////////////////////////////////////////
 
-$("#login_form").validate({
+    $("#login_form").validate({
         rules: {
             'username': {
                 required: true,
