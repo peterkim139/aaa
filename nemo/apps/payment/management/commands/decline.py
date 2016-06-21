@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 import datetime
-import braintree
 from django.utils import timezone
 from payment.models import Rent
 from payment.emails import expired_rent_seller,expired_rent_client
