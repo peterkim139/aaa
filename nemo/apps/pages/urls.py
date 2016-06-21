@@ -14,24 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 
-
-
 from django.conf.urls import url
 from django.views.decorators.csrf import csrf_exempt
 from . import views
 
 urlpatterns = [
-     # url(r'^requests/$',views.RequestsView.as_view(),name='requests'),
-     # url(r'^request/(?P<id>\d+)/$',views.RequestView.as_view(),name='request'),
      url(r'^change_listing_status/$',views.ChangeListingStatusView.as_view(),name='change_listing_status'),
      url(r'^upload_image/$',csrf_exempt(views.UploadImageView.as_view()),name='upload_image'),
-     # url(r'^my_requests/$',views.MyRequestsView.as_view(),name='my_requests'),
-     # url(r'^my_requests/(?P<id>\d+)/$',views.MyRequestsView.as_view(),name='my_requests'),
      url(r'^in_transactions/$',views.InTransactionsView.as_view(),name='in_transactions'),
      url(r'^out_transactions/$',views.OutTransactionsView.as_view(),name='out_transactions'),
      url(r'^conversation/$',views.NoConversationView.as_view(),name='no_conversation'),
      url(r'^conversation/(?P<id>\d+)$',views.ConversationView.as_view(),name='conversation'),
      url(r'^unread_messages/$',views.UnreadMessagesView.as_view(), name='unread_messages'),
      url(r'^user_status/$',views.UserStatusView.as_view(), name='user_status'),
-
 ]

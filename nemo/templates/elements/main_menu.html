@@ -2,7 +2,7 @@
 <nav class="headerNav linkHover">
     <ul>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'accounts:search_results' %}">Search For Items</a></li>
+        <li><a href="/search_results/?name=">Search For Items</a></li>
         <li><a href="{% url 'accounts:listings' %}">List Your Items</a></li>
         <li><a href="{% url 'profile:no_conversation' %}">Messages</a></li>
         <li><a href="{% url 'accounts:billing' %}">Account</a></li>
