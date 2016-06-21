@@ -1,11 +1,8 @@
 from django.core.management.base import BaseCommand
 import datetime
-import braintree
 from django.utils import timezone
 from payment.models import Rent
-from accounts.models import User
 from payment.emails import return_rent_client
-from django.db.models import Q
 
 class Command(BaseCommand):
 
