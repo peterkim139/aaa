@@ -62,7 +62,6 @@ class OutTransactionsView(LoginRequiredMixin,TemplateView):
                     return JsonResponse({'success':True,'message':'Request has been declined'})
                 else:
                     today = timezone.now() + datetime.timedelta(days=1)
-                    customer_id = encrypt.decrypt_val(current_user.customer_id)
                     paid = refund_price(requests.price)
                     if today < requests.start_date:
                         result = cancel_transaction(paid['amount'],orderer)
