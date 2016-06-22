@@ -1,10 +1,10 @@
 import hashlib
-import random
+import os
 from django.contrib.gis.geoip import GeoIP
 
 
 def generate_activation_key(email):
-    salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
+    salt = hashlib.sha1(str(os.urandom(10))).hexdigest()
     if isinstance(email, unicode):
         email = email.encode('utf-8')
     activation_key = hashlib.sha1(salt + email).hexdigest()
