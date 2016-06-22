@@ -102,13 +102,13 @@ class RentView(TemplateView):
             context.update({'form': RentForm(data=self.request.POST),'val_error':'true'})
         return context
 
-    def get(self, request,id):
-        self.item_id = id
+    def get(self, request,item_id):
+        self.item_id = item_id
         return self.render_to_response(self.get_context_data())
 
-    def post(self, request,id):
+    def post(self, request,item_id):
 
-        self.item_id = id
+        self.item_id = item_id
         form = RentForm(data=request.POST)
         if form.is_valid():
 

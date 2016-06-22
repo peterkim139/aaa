@@ -21,5 +21,5 @@ from . import views
 
 urlpatterns = [
         url(r'^connect/$',views.ConnectView.as_view(),name='connect'),
-        url(r'^rent/(?P<id>\d+)/$',views.RentView.as_view(),name='rent'),
+        url(r'^rent/(?P<item_id>\d+)/$',views.RentView.as_view(),name='rent'),
 ]
