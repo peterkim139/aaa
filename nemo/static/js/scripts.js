@@ -679,7 +679,7 @@ $("#login_tab").on('click', function() {
             },
             'price':{
                 required: true,
-                range:[0.01,999.99]
+                range:[1,999.99]
             },
             'image_file':{
                 image_uploaded: true,

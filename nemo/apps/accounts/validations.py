@@ -28,6 +28,11 @@ def validate_year(value):
     if not re.match("^[0-9]*$", value) or ( int(value) > 2050 or int(value) < datetime.datetime.now().year):
         raise ValidationError('Please enter a correct year')
 
+def validate_price(value):
+
+    if not ( int(value) >= 1 or int(value) <= 999.99):
+        raise ValidationError('Price field can accept values from 1 to 999.99 only.')
+
 def has_numbers(value):
     if not any(char.isdigit() for char in value):
         raise ValidationError('Field should contain at least 1 digit')
