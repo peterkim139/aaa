@@ -45,7 +45,7 @@ class Properties(AbstractDateTime):
         get_latest_by = "created"
 
 
-class PorpertyValues(AbstractDateTime):
+class Porperty_values(AbstractDateTime):
 
     property = models.ForeignKey(Properties, related_name='property')
     value_name = models.CharField(max_length=255, unique=True)
