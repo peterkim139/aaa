@@ -18,7 +18,6 @@ from payment.generate import NemoEncrypt
 from pages.utils import date_handler,save_file,refund_price
 from payment.utils import payment_connection,cancel_transaction,seller_approve,show_errors
 from pages.emails import seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
-from category.models import Params
 from pages.models import Image, Thread, Message
 
 
