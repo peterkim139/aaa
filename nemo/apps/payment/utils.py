@@ -19,7 +19,8 @@ def error_logging(e):
 
 
 def show_errors(request,result):
-    if type(result) is str:
+    
+    if isinstance(result, str):
         messages.error(request, result)
     else:
         for error in result.errors.deep_errors:
