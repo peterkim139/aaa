@@ -7,6 +7,7 @@ from .forms import ConnectForm,RentForm
 from accounts.mixins import LoginRequiredMixin
 from django.db.models import Q
 from .models import User,Params,Rent
+from pages.models import Image
 from payment.utils import payment_connection,show_errors
 from payment.emails import new_rent_mail
 
@@ -77,39 +78,41 @@ class ConnectView(LoginRequiredMixin,TemplateView):
 
 class RentView(TemplateView):
     template_name = 'payment/rent.html'
-    id = ''
+    item_id = ''
     def get_context_data(self, **kwargs):
         context = super(RentView, self).get_context_data(**kwargs)
         context['form'] = RentForm()
-        blockdays = Rent.objects.filter(Q(status='pending',param_id=self.id) | Q(status='approved',param_id=self.id))
+        blockdays = Rent.objects.filter(Q(status='pending',param_id=self.item_id) | Q(status='approved',param_id=self.item_id))
         dates = {}
         for blockday in blockdays:
             dates[ blockday.rent_date.strftime('%Y-%m-%d')] = blockday.start_date.strftime('%Y-%m-%d')
         context['blockdays'] = dates
-        param = Params.objects.get(id=self.id,status='published',item_owner__is_active=1)
+        param = Params.objects.get(id=self.item_id,status='published',item_owner__is_active=1)
+        image = Image.objects.get(param_image=self.item_id)
         today = datetime.datetime.now().date()
         try:
-            rent = Rent.objects.get(status='approved',param_id = self.id,start_date__lte = today,rent_date__gte = today)
+            rent = Rent.objects.get(status='approved',param_id = self.item_id,start_date__lte = today,rent_date__gte = today)
         except:
             rent = None
 
         context['param'] = param
         context['rent'] = rent
+        context['image'] = image
         if 'form' in kwargs:
             context.update({'form': RentForm(data=self.request.POST),'val_error':'true'})
         return context
 
-    def get(self, request,id):
-        self.id = id
+    def get(self, request,item):
+        self.item_id = item
         return self.render_to_response(self.get_context_data())
 
-    def post(self, request,id):
+    def post(self, request,item):
 
-        self.id = id
+        self.item_id = item
         form = RentForm(data=request.POST)
         if form.is_valid():
 
-            blockdays = Rent.objects.filter(Q(status='pending',param_id=self.id) | Q(status='approved',param_id=self.id))
+            blockdays = Rent.objects.filter(Q(status='pending',param_id=self.item_id) | Q(status='approved',param_id=self.item_id))
             dates = []
             for blockday in blockdays:
                 while blockday.start_date <= blockday.rent_date:

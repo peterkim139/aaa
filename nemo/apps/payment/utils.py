@@ -20,7 +20,7 @@ def error_logging(e):
 
 def show_errors(request,result):
 
-    if isinstance(result, str):
+    if type(result) is str:
         messages.error(request, result)
     else:
         for error in result.errors.deep_errors:
