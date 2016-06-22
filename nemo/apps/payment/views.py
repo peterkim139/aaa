@@ -78,21 +78,21 @@ class ConnectView(LoginRequiredMixin, TemplateView):
 
 class RentView(TemplateView):
     template_name = 'payment/rent.html'
-    item_id = ''
+    id = ''
 
     def get_context_data(self, **kwargs):
         context = super(RentView, self).get_context_data(**kwargs)
         context['form'] = RentForm()
-        blockdays = Rent.objects.filter(Q(status='pending', param_id=self.item_id) | Q(status='approved', param_id=self.item_id))
+        blockdays = Rent.objects.filter(Q(status='pending', param_id=self.id) | Q(status='approved', param_id=self.id))
         dates = {}
         for blockday in blockdays:
             dates[blockday.rent_date.strftime('%Y-%m-%d')] = blockday.start_date.strftime('%Y-%m-%d')
         context['blockdays'] = dates
-        param = Params.objects.get(id=self.item_id, status='published', item_owner__is_active=1)
-        image = Image.objects.get(param_image=self.item_id)
+        param = Params.objects.get(id=self.id, status='published', item_owner__is_active=1)
+        image = Image.objects.get(param_image=self.id)
         today = datetime.datetime.now().date()
         try:
-            rent = Rent.objects.get(status='approved', param_id=self.item_id, start_date__lte=today, rent_date__gte=today)
+            rent = Rent.objects.get(status='approved', param_id=self.id, start_date__lte=today, rent_date__gte=today)
         except Rent.DoesNotExist:
             rent = None
 
@@ -103,17 +103,17 @@ class RentView(TemplateView):
             context.update({'form': RentForm(data=self.request.POST), 'val_error': 'true'})
         return context
 
-    def get(self, request, item_id):
-        self.item_id = item_id
+    def get(self, request, id):
+        self.id = id
         return self.render_to_response(self.get_context_data())
 
-    def post(self, request, item_id):
+    def post(self, request, id):
 
-        self.item_id = item_id
+        self.id = id
         form = RentForm(data=request.POST)
         if form.is_valid():
 
-            blockdays = Rent.objects.filter(Q(status='pending', param_id=self.item_id) | Q(status='approved', param_id=self.item_id))
+            blockdays = Rent.objects.filter(Q(status='pending', param_id=self.id) | Q(status='approved', param_id=self.id))
             dates = []
             for blockday in blockdays:
                 while blockday.start_date <= blockday.rent_date:

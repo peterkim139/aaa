@@ -285,8 +285,9 @@ class NoConversationView(LoginRequiredMixin, View):
 
 class ConversationView(LoginRequiredMixin, View):
 
-    def get(self, request, partner_id):
+    def get(self, request, id):
 
+        partner_id = id
         messages = None
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
@@ -324,8 +325,9 @@ class ConversationView(LoginRequiredMixin, View):
 
         return render(request, 'pages/conversation.html', context)
 
-    def post(self, request, partner_id):
+    def post(self, request, id):
 
+        partner_id = id
         last_message = request.POST["message"]
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
