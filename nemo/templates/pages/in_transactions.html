@@ -82,7 +82,7 @@
                                             <td>{{ in_transaction.status }}</td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
-                                                    <button class="success seller_actions" action="Approve">Approve</button> | <button class="success  seller_actions" action="Approve">Cancel</button>
+                                                    <button class="success seller_actions" action="Approve">Approve</button> | <button class="success  seller_actions" action="Cancel">Cancel</button>
                                                 {% elif in_transaction.status == 'approved' %}
                                                     <button class="success expandBtn">Cancel</button>
                                                 {% endif %}

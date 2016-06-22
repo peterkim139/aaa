@@ -91,8 +91,8 @@ class RentView(TemplateView):
         image = Image.objects.get(param_image=self.item_id)
         today = datetime.datetime.now().date()
         try:
-            rent = Rent.objects.get(status='approved',param_id = self.item_id,start_date__lte = today,rent_date__gte = today)
-        except:
+            rent = Rent.objects.get(status='approved',param_id = self.id,start_date__lte = today,rent_date__gte = today)
+        except Rent.DoesNotExist:
             rent = None
 
         context['param'] = param

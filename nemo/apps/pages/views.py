@@ -131,8 +131,8 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
 
                 elif status == 'seller_declined':
                     Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
-                    seller_declined_request(request,orderer.first_name,orderer.email,requests.param.name)
-                    messages.success(request, "Request has been declined")
+                    result = seller_declined_request(request,orderer.first_name,orderer.email,requests.param.name)
+                    return JsonResponse({'success':True,'message':'The request has been declined'})
 
                 elif status == 'seller_canceled':
                     form = RentForm(data=request.POST)
@@ -203,7 +203,7 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
             else:
                 messages.error(request, "There is no request")
         else:
-            messages.error(request, "There is no request")
+            messages.error(request, "There is no request 20")
 
         return HttpResponseRedirect('/profile/in_transactions/')
 
@@ -263,8 +263,8 @@ class NoConversationView(LoginRequiredMixin, View):
     def get(self, request):
 
         try:
-            user = Thread.objects.filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id)).order_by('-modified')[1]
-        except:
+            user = Thread.objects.filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id)).order_by('-modified').first()
+        except Thread.DoesNotExist:
             user = None
         if user:
             if user.user1_id == request.user.id:

@@ -218,7 +218,7 @@ class ChangePasswordView(TemplateView):
         try:
             User.objects.get(reset_key=reset_key)
             return self.render_to_response(self.get_context_data(reset_key=reset_key))
-        except:
+        except User.DoesNotExist:
             messages.error(request, "Sorry, key is invalid")
             return HttpResponseRedirect('/')
 
@@ -232,7 +232,7 @@ class ChangePasswordView(TemplateView):
                 user.set_password(form.cleaned_data['password'])
                 user.save()
                 messages.success(request, "Your password has been successfully changed")
-            except:
+            except User.DoesNotExist:
                 messages.success(request, "Sorry, there are some problems")
             return HttpResponseRedirect('/')
         else:
@@ -253,7 +253,7 @@ class SearchView(View):
 
         try:
             expensive_item = Params.objects.all().order_by('-price')[:1]
-        except:
+        except Params.DoesNotExist:
             expensive_item = None
         if expensive_item:
             max_price = expensive_item[0].price
@@ -298,7 +298,7 @@ class SearchView(View):
                 LIMIT %s
                 OFFSET %s''',
                 [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range, limit, offset])
-        except:
+        except Params.DoesNotExist:
             items = None
         if items:
             count = len(list(items))
@@ -424,7 +424,7 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
         status = int(request.POST['status'])
         try:
             method = Billing.objects.get(id=method_id, user_id=user_id )
-        except:
+        except Billing.DoesNotExist:
             method = None
         if method:
             user = User.objects.get(id=user_id)
@@ -432,7 +432,7 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
             if status == 1:
                 try:
                     def_method = Billing.objects.get(is_default=1, user_id=user_id )
-                except:
+                except Billing.DoesNotExist:
                     def_method = None
                 if def_method:
                     return JsonResponse({'response':'stop'})
@@ -455,7 +455,7 @@ class DeleteBillingView(LoginRequiredMixin,View):
         method_id = int(request.POST['method_id'])
         try:
             method = Billing.objects.get(id=method_id, user_id=user_id )
-        except:
+        except Billing.DoesNotExist:
             method = None
         if method:
             is_default = method.is_default

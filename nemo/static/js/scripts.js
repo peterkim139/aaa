@@ -1,5 +1,5 @@
 
-//////////////////////  datepicker range dates  //////////////////////////////
+////////////////////////  datepicker range dates  //////////////////////////////
 
 function validateDateRange() {
     var txtStartDate = $("#id_start_date");
@@ -14,8 +14,8 @@ function validateDateRange() {
         var temp = dateRange[i].split("-");
         tempDate = new Date(temp[0], temp[1]-1, temp[2]);
         if (startDate < tempDate && endDate > tempDate) {
-            $("#id_start_date").val('');
-            $("#id_rent_date").val('');
+            txtStartDate.val('');
+            txtEndDate.val('');
             return false;
         }else{
             error = true;
@@ -29,22 +29,24 @@ $(document).ready(function(){
 
 ///////////////////////////////// to open login popup //////////////////////////////////////
 
+var N_login_form = $('#login_form');
+
 $('#contact_owner').on("click",function(){
-    var link = $(this).attr('item');
-    $('#login_form').attr('action','/login/?next='+link);
+    var link = window.location.pathname;
+    N_login_form.attr('action','/login/?next='+link);
 })
 
 $('#request_item').on("click",function(){
     var link = window.location.pathname;
-    $('#login_form').attr('action','/login/?next='+link);
+    N_login_form.attr('action','/login/?next='+link);
 })
 
 $('#add_listing_popup').on("click",function(){
-    $('#login_form').attr('action','/login/?next=/listings');
+    N_login_form.attr('action','/login/?next=/listings');
 })
 
 $("#login_tab").on('click', function() {
-        $("#login_form").attr("action", "/login/");
+    N_login_form.attr("action", "/login/");
 });
 
 ////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
@@ -56,7 +58,7 @@ $("#login_tab").on('click', function() {
         if(next != ''){
         next  = next.replace(/['"]/gi, '');
         var action = "login/?next="+next;
-            $('#login_form').attr('action',action);
+            N_login_form.attr('action',action);
             setCookie('next','',1);
         }
         setCookie('exist','',1);
@@ -64,7 +66,7 @@ $("#login_tab").on('click', function() {
 
 ///////////////////////////////////////////// login form validation ///////////////////////////////////////////
 
-    $("#login_form").validate({
+    N_login_form.validate({
         rules: {
             'username': {
                 required: true,
@@ -114,7 +116,9 @@ $("#login_tab").on('click', function() {
 
 ///////////////////////////////////////////// seller cancel transaction after approving ///////////////////////////////
 
-    $("#cancel_rent").validate({
+    var N_cancel_rent = $("#cancel_rent");
+
+    N_cancel_rent.validate({
         rules: {
             'card_number': {
                 required: true,
@@ -192,7 +196,7 @@ $("#login_tab").on('click', function() {
     }, "Month field can accept values from 01 to 12");
 
     $("#cancel_request").on('click',function (e) {
-        if($("#cancel_rent").valid()){
+        if(N_cancel_rent.valid()){
             var tax = $("input[name='rent']").val();
             var amount = $('tr[rent='+tax+']').attr('amount');
             var src = '';
@@ -208,7 +212,7 @@ $("#login_tab").on('click', function() {
     })
 
     $(".cancel_request_yes").on('click',function(){
-         $( "#cancel_rent" ).submit();
+         N_cancel_rent.submit();
          $.magnificPopup.close();
     })
 
@@ -454,7 +458,6 @@ $("#login_tab").on('click', function() {
                 rent: rent
             },
             success:function(response) {
-                alert(response.success);
                 if(response.success){
                     self.closest('td').html('<button class="success expandBtn">Cancel</button>')
                 }else {
@@ -465,8 +468,9 @@ $("#login_tab").on('click', function() {
     });
 
     ////////////////view more search results/////////////
+    var N_viewMoreBtn = $(".viewMoreBtn");
 
-    $(".viewMoreBtn").on('click',function(){
+    N_viewMoreBtn.on('click',function(){
         var url = window.location.pathname+window.location.search;
         $.ajax({
             url:url,
@@ -508,7 +512,7 @@ $("#login_tab").on('click', function() {
                 $("#search_results_container").append(item_div);
                 initMap(response.latitude,response.longitude);
                 if (response.count < response.limit){
-                    $(".viewMoreBtn").hide();
+                    N_viewMoreBtn.hide();
                 }
                 $('.customScroll').mCustomScrollbar("scrollTo",'-=200');
             },
@@ -644,7 +648,8 @@ $("#login_tab").on('click', function() {
 
     ///////////////////////////////////// Add Listing Fօrm Validation //////////////////////////////////////////////
 
-    $("#add_listing_form").validate({
+    var N_add_listing_form = $("#add_listing_form");
+    N_add_listing_form.validate({
         ignore:[], // to validate hidden fields
         rules: {
             'street_address': {
@@ -735,7 +740,7 @@ $("#login_tab").on('click', function() {
 
     $("#preview_add_listing_form").on('click',function(e){
         var self = $(this);
-        if($("#add_listing_form").valid()){
+        if(N_add_listing_form.valid()){
                 e.preventDefault();
                 slideAnimation(self);
                 $("#preview_location").text($("#street_address").val())
@@ -746,7 +751,7 @@ $("#login_tab").on('click', function() {
         }
     })
     $("#submit_add_listing_form").on('click',function(e){
-        $( "#add_listing_form" ).submit();
+        N_add_listing_form.submit();
     })
 })
 
