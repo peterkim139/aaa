@@ -23,19 +23,20 @@ def new_rent_mail(request, email, client, item, seler, rent_id):
     })
     content = loader.render_to_string('payment/emails/new_rent.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
-             'name': seler,
-             'type': 'to'}],
+                'name': seler,
+                'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
         'signing_domain': 'nemo.codebnb.me',
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 
 def expired_rent_client(info):
 
@@ -49,18 +50,18 @@ def expired_rent_client(info):
         'item': info.param.name,
         'seller': info.owner.first_name,
         'site_name': settings.ADMIN_EMAIL,
-        'description':info.param.description,
-        'price':str(info.price),
-        'start_date':str(start_date),
-        'rent_date':str(rent_date),
+        'description': info.param.description,
+        'price': str(info.price),
+        'start_date': str(start_date),
+        'rent_date': str(rent_date),
     })
     content = loader.render_to_string('payment/emails/expired_rent_client.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': info.user.email,
              'name': info.user.first_name,
              'type': 'to'}],
@@ -69,6 +70,7 @@ def expired_rent_client(info):
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 
 def expired_rent_seller(info):
 
@@ -83,21 +85,21 @@ def expired_rent_seller(info):
         'item': info.param.name,
         'seller': info.owner.first_name,
         'site_name': settings.ADMIN_EMAIL,
-        'description':info.param.description,
-        'price':str(info.price),
-        'start_date':str(start_date),
-        'rent_date':str(rent_date),
+        'description': info.param.description,
+        'price': str(info.price),
+        'start_date': str(start_date),
+        'rent_date': str(rent_date),
     })
     content = loader.render_to_string('payment/emails/expired_rent_seller.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': info.owner.email,
-             'name':  info.owner.first_name,
-             'type': 'to'}],
+                'name':  info.owner.first_name,
+                'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
         'signing_domain': 'nemo.codebnb.me',
         'tracking_domain': 'nemo.codebnb.me',
@@ -118,18 +120,18 @@ def admin_cancel_rent_to_seller(info):
         'item': info.param.name,
         'seller': info.owner.first_name,
         'site_name': settings.ADMIN_EMAIL,
-        'description':info.param.description,
-        'price':str(info.price),
-        'start_date':str(start_date),
-        'rent_date':str(rent_date),
+        'description': info.param.description,
+        'price': str(info.price),
+        'start_date': str(start_date),
+        'rent_date': str(rent_date),
     })
     content = loader.render_to_string('payment/emails/admin_cancel_rent_to_seller.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
              'type': 'to'}],
@@ -138,6 +140,7 @@ def admin_cancel_rent_to_seller(info):
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 
 def admin_cancel_rent_to_client(info):
 
@@ -152,18 +155,18 @@ def admin_cancel_rent_to_client(info):
         'item': info.param.name,
         'seller': info.owner.first_name,
         'site_name': settings.ADMIN_EMAIL,
-        'description':info.param.description,
-        'price':str(info.price),
-        'start_date':str(start_date),
-        'rent_date':str(rent_date),
+        'description': info.param.description,
+        'price': str(info.price),
+        'start_date': str(start_date),
+        'rent_date': str(rent_date),
     })
     content = loader.render_to_string('payment/emails/admin_cancel_rent_to_client.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
              'type': 'to'}],
@@ -172,6 +175,7 @@ def admin_cancel_rent_to_client(info):
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 
 def reminder_rent_client(info):
 
@@ -182,17 +186,17 @@ def reminder_rent_client(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'seller_fullName':info.owner.first_name + ' ' + info.owner.last_name,
+        'seller_fullName': info.owner.first_name + ' ' + info.owner.last_name,
         'site_name': settings.ADMIN_EMAIL,
     })
     content = loader.render_to_string('payment/emails/reminder_rent_client.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
-        'to': [{'email':info.user.email,
+        'html': content,
+        'to': [{'email': info.user.email,
              'name': info.user.first_name,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
@@ -200,6 +204,7 @@ def reminder_rent_client(info):
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 
 def reminder_rent_seller(info):
 
@@ -209,18 +214,18 @@ def reminder_rent_seller(info):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': info.user.first_name,
-        'client_fullname':info.user.first_name + ' ' + info.user.last_name,
+        'client_fullname': info.user.first_name+' '+info.user.last_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
         'site_name': settings.ADMIN_EMAIL,
     })
     content = loader.render_to_string('payment/emails/reminder_rent_seller.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
              'type': 'to'}],
@@ -246,20 +251,20 @@ def seller_transaction_email(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'fee' : str(fee),
-        'total':str(total),
+        'fee': str(fee),
+        'total': str(total),
         'site_name': settings.ADMIN_EMAIL,
-        'price':str(info.price),
-        'start_date':str(start_date),
-        'rent_date':str(rent_date),
+        'price': str(info.price),
+        'start_date': str(start_date),
+        'rent_date': str(rent_date),
     })
     content = loader.render_to_string('payment/emails/seller_transaction_email.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': info.owner.email,
              'name':  info.owner.first_name,
              'type': 'to'}],
@@ -269,11 +274,12 @@ def seller_transaction_email(info):
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
+
 def return_rent_client(info):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Your rental of the ' + info.param.name + ' ends tomorrow, please remember to return the item to the owner'
+    subject = 'Your rental of the '+info.param.name+' ends tomorrow, please remember to return the item to the owner'
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': info.user.first_name,
@@ -283,12 +289,12 @@ def return_rent_client(info):
     })
     content = loader.render_to_string('payment/emails/return_rent_client.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
-        'to': [{'email':info.user.email,
+        'html': content,
+        'to': [{'email': info.user.email,
              'name': info.user.first_name,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',

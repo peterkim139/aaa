@@ -11,15 +11,15 @@ def save_file(request, uploaded, filename, path, raw_data=True):
     try:
         fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)), 'wb')
         if raw_data:
-            foo = uploaded.read( 1024 )
+            foo = uploaded.read(1024)
             while foo:
-                fd.write( foo )
-                foo = uploaded.read( 1024 )
+                fd.write(foo)
+                foo = uploaded.read(1024)
         return filename
     except IOError:
         return False
 
-#################################  json serialize datetime ###################
+#  json serialize datetime ###################
 
 
 def date_handler(obj):

@@ -20,7 +20,7 @@ def refund_transaction(modeladmin, request, queryset):
 
 class RentAdmin(admin.ModelAdmin):
     model = Rent
-    list_display = ['id','client','seller','item','price','status','rent_date']
+    list_display = ['id', 'client', 'seller', 'item', 'price', 'status', 'rent_date']
 
     @classmethod
     def client(self, obj):
@@ -42,7 +42,7 @@ class RentAdmin(admin.ModelAdmin):
     def rent_date(self, obj):
         return obj.rent_date
 
-    readonly_fields = ['created','modified']
+    readonly_fields = ['created', 'modified']
     search_fields = ['id']
     actions = [refund_transaction]
 

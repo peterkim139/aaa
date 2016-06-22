@@ -15,17 +15,18 @@ from accounts.models import User
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from pages.utils import date_handler,save_file,refund_price
-from payment.utils import payment_connection,cancel_transaction,seller_approve,show_errors
-from pages.emails import seller_approved_request,seller_declined_request,cancel_before_approving,cancel_after_approving,seller_penalize_email,seller_canceled_request_before,seller_canceled_request_after
+from pages.utils import date_handler, save_file, refund_price
+from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors
+from pages.emails import seller_approved_request, seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after
 from pages.models import Image, Thread, Message
 
 
-class OutTransactionsView(LoginRequiredMixin,TemplateView):
+class OutTransactionsView(LoginRequiredMixin, TemplateView):
 
     template_name = 'pages/out_transactions.html'
-    def get_context_data(self, data,**kwargs):
-            context = super(OutTransactionsView, self).get_context_data(out_transactions=data,**kwargs)
+
+    def get_context_data(self, data, **kwargs):
+            context = super(OutTransactionsView, self).get_context_data(out_transactions=data, **kwargs)
             context['form'] = RentForm()
             return context
 
@@ -40,7 +41,7 @@ class OutTransactionsView(LoginRequiredMixin,TemplateView):
 
         return self.render_to_response(self.get_context_data(out_transactions))
 
-    def post(self,request):
+    def post(self, request):
 
         if request.POST['rent']:
             payment_connection()
@@ -49,40 +50,42 @@ class OutTransactionsView(LoginRequiredMixin,TemplateView):
                 status = 'customer_declined'
             else:
                 status = 'customer_canceled'
-            requests = Rent.objects.get(user_id=request.user.id,id=rent)
+            requests = Rent.objects.get(user_id=request.user.id, id=rent)
             if requests.status == 'pending' or requests.status == 'approved':
-                encrypt= NemoEncrypt()
+                encrypt = NemoEncrypt()
                 current_user = User.objects.get(id=requests.owner_id)
                 orderer = User.objects.get(id=requests.user_id)
                 item = Params.objects.get(id=requests.param_id)
-                if  status == 'customer_declined':
-                    Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
-                    cancel_before_approving(request,current_user.email,orderer.first_name,current_user.first_name,item.name)
-                    return JsonResponse({'success':True,'message':'Request has been declined'})
+                if status == 'customer_declined':
+                    Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
+                    cancel_before_approving(request, current_user.email, orderer.first_name, current_user.first_name, item.name)
+                    return JsonResponse({'success': True, 'message': 'Request has been declined'})
                 else:
                     today = timezone.now() + datetime.timedelta(days=1)
                     paid = refund_price(requests.price)
                     if today < requests.start_date:
-                        result = cancel_transaction(paid['amount'],orderer)
+                        result = cancel_transaction(paid['amount'], orderer)
                         if result.is_success:
-                            Rent.objects.filter(user_id=request.user.id,id=rent).update(status=status)
+                            Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
                             credits = Decimal(current_user.credits) + Decimal(paid['credit'])
                             User.objects.filter(id=current_user.id).update(credits=credits)
-                            cancel_after_approving(request, current_user.email, orderer.first_name,item.name,current_user.first_name,paid['credit'])
-                            return JsonResponse({'success':True,'message':'Request has been canceled'})
+                            cancel_after_approving(request, current_user.email, orderer.first_name, item.name, current_user.first_name, paid['credit'])
+                            return JsonResponse({'success': True, 'message': 'Request has been canceled'})
                         else:
-                            return JsonResponse({'success':False,'message':'There is an error in refund process'})
+                            return JsonResponse({'success': False, 'message': 'There is an error in refund process'})
             else:
                 messages.error(request, "There is no request")
         else:
             messages.error(request, "There is no request")
         return HttpResponseRedirect('/profile/out_transactions/')
 
-class InTransactionsView(LoginRequiredMixin,TemplateView):
+
+class InTransactionsView(LoginRequiredMixin, TemplateView):
 
     template_name = 'pages/in_transactions.html'
-    def get_context_data(self, data,**kwargs):
-            context = super(InTransactionsView, self).get_context_data(in_transactions=data,**kwargs)
+
+    def get_context_data(self, data, **kwargs):
+            context = super(InTransactionsView, self).get_context_data(in_transactions=data, **kwargs)
             context['form'] = RentForm()
             return context
 
@@ -97,16 +100,15 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
                 in_transaction.param.amount = '5'
         return self.render_to_response(self.get_context_data(in_transactions))
 
-
-    def post(self,request):
+    def post(self, request):
 
         if request.POST['rent']:
             payment_connection()
             rent = int(request.POST['rent'])
-            requests = Rent.objects.get(owner_id=request.user.id,id=rent)
+            requests = Rent.objects.get(owner_id=request.user.id, id=rent)
             if request.POST['action'] == 'Approve':
                 status = 'approved'
-            elif request.POST['action'] == 'Cancel' and requests.status == 'pending' :
+            elif request.POST['action'] == 'Cancel' and requests.status == 'pending':
                 status = 'seller_declined'
             else:
                 status = 'seller_canceled'
@@ -120,19 +122,19 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
                     twoplaces = Decimal(10) ** -2
                     fee = Decimal(requests.price)*Decimal(12.9/100)+Decimal('0.30')
                     fee = fee.quantize(twoplaces)
-                    result = seller_approve(requests,current_user,customer_id,fee)
+                    result = seller_approve(requests, current_user, customer_id, fee)
                     if result.is_success:
                         transaction = result.transaction
-                        Rent.objects.filter(owner_id=request.user.id,id=rent).update(transaction=transaction.id,status=status,modified=timezone.now())
-                        seller_approved_request(request,orderer.first_name,current_user.first_name,orderer.email,requests.param.name,requests.price)
-                        return JsonResponse({'success':True,'message':'The request has been approved'})
+                        Rent.objects.filter(owner_id=request.user.id, id=rent).update(transaction=transaction.id, status=status, modified=timezone.now())
+                        seller_approved_request(request, orderer.first_name, current_user.first_name, orderer.email, requests.param.name, requests.price)
+                        return JsonResponse({'success': True, 'message': 'The request has been approved'})
                     else:
-                        return JsonResponse({'success':False,'message':'There are some errors in transaction process'})
+                        return JsonResponse({'success': False, 'message': 'There are some errors in transaction process'})
 
                 elif status == 'seller_declined':
-                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
-                    result = seller_declined_request(request,orderer.first_name,orderer.email,requests.param.name)
-                    return JsonResponse({'success':True,'message':'The request has been declined'})
+                    Rent.objects.filter(owner_id=request.user.id, id=rent).update(status=status)
+                    result = seller_declined_request(request, orderer.first_name, orderer.email, requests.param.name)
+                    return JsonResponse({'success': True, 'message': 'The request has been declined'})
 
                 elif status == 'seller_canceled':
                     form = RentForm(data=request.POST)
@@ -183,15 +185,15 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
                                 })
                                 if result.is_success:
                                     item = Params.objects.get(id=requests.param_id)
-                                    seller_penalize_email(request,current_user.first_name, item.name, amount,current_user.email)
+                                    seller_penalize_email(request, current_user.first_name, item.name, amount, current_user.email)
                                     if amount == '2.00':
-                                        seller_canceled_request_before(request,orderer.first_name,orderer.email,requests.param.name)
+                                        seller_canceled_request_before(request, orderer.first_name, orderer.email, requests.param.name)
                                     else:
                                         credits = Decimal(orderer.credits) + Decimal('2.00')
                                         User.objects.filter(id=orderer.id).update(credits=credits)
-                                        seller_canceled_request_after(request,orderer.first_name,orderer.email,requests.param.name)
+                                        seller_canceled_request_after(request, orderer.first_name, orderer.email, requests.param.name)
                                     messages.success(request, "Request has been canceled")
-                                    Rent.objects.filter(owner_id=request.user.id,id=rent).update(status=status)
+                                    Rent.objects.filter(owner_id=request.user.id, id=rent).update(status=status)
                                 else:
                                     messages.error(request, "There is an error in refund process")
                             else:
@@ -208,18 +210,17 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
         return HttpResponseRedirect('/profile/in_transactions/')
 
 
-
-
 class UploadImageView(LoginRequiredMixin, View):
     def post(self, request):
         if request.method == "POST":
-            if request.is_ajax( ):
+            if request.is_ajax():
                 upload = request
-                filename = request.GET[ 'qqfile' ]
-                response = save_file(request, upload,filename,'images/items/',True)
-            return JsonResponse({'filename':response})
+                filename = request.GET['qqfile']
+                response = save_file(request, upload, filename, 'images/items/', True)
+            return JsonResponse({'filename': response})
 
-class ChangeListingStatusView(LoginRequiredMixin,View):
+
+class ChangeListingStatusView(LoginRequiredMixin, View):
 
     def post(self, request):
         item_id = request.POST['item_id']
@@ -231,32 +232,34 @@ class ChangeListingStatusView(LoginRequiredMixin,View):
         if param and param.item_owner_id == request.user.id:
             param.status = status
             param.save()
-            return JsonResponse({'response':True})
+            return JsonResponse({'response': True})
         else:
-            return JsonResponse({'response':False})
+            return JsonResponse({'response': False})
+
 
 class UnreadMessagesView(LoginRequiredMixin, View):
     def post(self, request):
         partner_id = request.POST["partner_id"]
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
         except Thread.DoesNotExist:
             thread = None
         if thread:
             thread_id = thread.id
-            unread_messages = (Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
-                .values('id','message','modified','from_user_id__photo','thread_id'))
+            unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread = 1)
+                .values('id', 'message', 'modified', 'from_user_id__photo', 'thread_id'))
             for unread_message in unread_messages:
                 unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
 
             message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
-            messages = Message.objects.filter(thread_id = thread_id,from_user_id = partner_id,unread = 1)
+            messages = Message.objects.filter(thread_id=thread_id, from_user_id=partner_id,unread=1)
             for message in messages:
                 message.unread = 0
                 message.save()
             return HttpResponse(message_data, content_type="application/json")
         else:
-            return JsonResponse({'response':False})
+            return JsonResponse({'response': False})
+
 
 class NoConversationView(LoginRequiredMixin, View):
 
@@ -271,9 +274,10 @@ class NoConversationView(LoginRequiredMixin, View):
                 partner_id = user.user2_id
             else:
                 partner_id = user.user1_id
-            return HttpResponseRedirect('/profile/conversation/'+ str(partner_id))
+            return HttpResponseRedirect('/profile/conversation/'+str(partner_id))
         else:
             return render(request, 'pages/no_conversation.html')
+
 
 class ConversationView(LoginRequiredMixin, View):
 
@@ -293,12 +297,12 @@ class ConversationView(LoginRequiredMixin, View):
                  [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
         except Thread.DoesNotExist:
             thread = None
         if thread:
             messages = Message.objects.filter(thread_id=thread.id)
-            unread_messages = Message.objects.filter(thread_id = thread.id,from_user_id = partner_id,unread = 1)
+            unread_messages = Message.objects.filter(thread_id=thread.id, from_user_id=partner_id, unread=1)
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
@@ -310,14 +314,13 @@ class ConversationView(LoginRequiredMixin, View):
             thread.save()
 
         if messages:
-            context = {'threads': threads, 'messages': messages }
+            context = {'threads': threads, 'messages': messages}
         else:
-            context = {'threads': threads }
+            context = {'threads': threads}
 
         return render(request, 'pages/conversation.html', context)
 
     def post(self, request, partner_id):
-
 
         last_message = request.POST["message"]
         try:
@@ -343,7 +346,7 @@ class ConversationView(LoginRequiredMixin, View):
         message.to_user_id = User.objects.get(id=partner_id)
         message.save()
 
-        return JsonResponse({'response':True,'modified': message.modified.strftime("%B %d, %Y %I:%M%p") })
+        return JsonResponse({'response': True, 'modified': message.modified.strftime("%B %d, %Y %I:%M%p")})
 
 
 class UserStatusView(LoginRequiredMixin, View):

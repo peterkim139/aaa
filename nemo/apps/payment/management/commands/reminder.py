@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         today = timezone.now() + datetime.timedelta(days=1)
-        rents = Rent.objects.filter(start_date__lte=today,status='approved')
+        rents = Rent.objects.filter(start_date__lte=today, status='approved')
         if rents:
             for rent in rents:
                 info = Rent.objects.get(id=rent.id)

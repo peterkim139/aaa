@@ -19,6 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='role',
-            field=models.CharField(default=b'client', max_length=10, choices=[(b'admin', b'admin'), (b'client', b'client')]),
+            field=models.CharField(default=b'client', max_length=10,
+                                   choices=[(b'admin', b'admin'), (b'client', b'client')]),
         ),
     ]

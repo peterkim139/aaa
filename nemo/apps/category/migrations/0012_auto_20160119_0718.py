@@ -29,7 +29,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='properties',
             name='property_type',
-            field=models.CharField(default=b'select', max_length=10, choices=[(b'checkbox', b'checkbox'), (b'select', b'select'), (b'input', b'input')]),
+            field=models.CharField(default=b'select', max_length=10,
+                                   choices=[(b'checkbox', b'checkbox'), (b'select', b'select'), (b'input', b'input')]),
         ),
         migrations.AddField(
             model_name='porperty_values',

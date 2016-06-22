@@ -21,19 +21,20 @@ def reset_mail(request, email, first_name, reset_key):
     })
     content = loader.render_to_string('accounts/emails/password_reset_email.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
-             'name': first_name,
-             'type': 'to'}],
+                'name': first_name,
+                'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
         'signing_domain': 'nemo.codebnb.me',
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 
 def confirm_register_mail(request, email, first_name, last_name, zip_code):
 
@@ -51,14 +52,14 @@ def confirm_register_mail(request, email, first_name, last_name, zip_code):
     })
     content = loader.render_to_string('accounts/emails/confirm_register_email.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
-             'name': first_name,
-             'type': 'to'}],
+                 'name': first_name,
+                 'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
         'signing_domain': 'nemo.codebnb.me',
         'tracking_domain': 'nemo.codebnb.me',

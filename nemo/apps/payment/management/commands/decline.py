@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         today = timezone.now() - datetime.timedelta(days=2)
-        rents = Rent.objects.filter(Q(status='pending',created__lte=today) | Q(status='pending',rent_date__lte=today))
+        rents = Rent.objects.filter(Q(status='pending', created__lte=today) | Q(status='pending', rent_date__lte=today))
         if rents:
             for rent in rents:
                 Rent.objects.filter(id=rent.id).update(status='expired')

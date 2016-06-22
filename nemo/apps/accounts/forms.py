@@ -29,6 +29,7 @@ class LoginFormMixin(object):
                 raise forms.ValidationError('Invalid username or password', code='invalid')
         return self.cleaned_data
 
+
 class AuthenticationForm(LoginFormMixin, CoreAuthenticationForm):
     username = forms.CharField(
         label='Email',
@@ -42,13 +43,15 @@ class AuthenticationForm(LoginFormMixin, CoreAuthenticationForm):
         required=True
     )
 
+
 class SocialForm(forms.Form):
 
-    email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True)
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
 
 class ProfileForm(forms.Form):
 
@@ -56,7 +59,7 @@ class ProfileForm(forms.Form):
             super(ProfileForm, self).__init__(*args, **kwargs)
             self.fields['image_file'].widget.attrs.update({'class': 'formControl'})
 
-    email = forms.CharField(label='Email',max_length=60,min_length=5,required=True,widget=forms.TextInput(attrs={'class': 'formControl'}))
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}))
     phone_number = forms.CharField(label="Phone Number - Numbers only", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
@@ -67,7 +70,7 @@ class ProfileForm(forms.Form):
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    image_file = forms.FileField(label='Select an Image',required=False,validators=[validate_file])
+    image_file = forms.FileField(label='Select an Image', required=False, validators=[validate_file])
 
     user = forms.CharField(required=True,
                                widget=forms.TextInput(attrs={'id': 'user', 'class': 'formControl', 'type': 'hidden'}), )
@@ -75,23 +78,24 @@ class ProfileForm(forms.Form):
     def clean(self):
         email = self.cleaned_data['email']
         user = self.cleaned_data['user']
-        if User.objects.filter(email=email).exclude(id = user).exists():
+        if User.objects.filter(email=email).exclude(id=user).exists():
              raise forms.ValidationError("This email is already taken")
         return self.cleaned_data
 
+
 class RegistrationForm(forms.Form):
 
-    email = forms.CharField(label='Email',max_length=60,min_length=5,required=True)
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True)
     phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                               validators=[validate_numbersonly],
+                               widget=forms.TextInput(attrs={'class': 'formControl'}), )
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     password = forms.CharField(
         label="Password",
@@ -120,11 +124,12 @@ class RegistrationForm(forms.Form):
         return email
 
     def clean_confirmpassword(self):
-        password = self.cleaned_data.get('password','')
-        confirmpassword = self.cleaned_data.get('confirmpassword','')
+        password = self.cleaned_data.get('password', '')
+        confirmpassword = self.cleaned_data.get('confirmpassword', '')
         if password != confirmpassword:
             raise forms.ValidationError("Passwords don't match")
         return self.cleaned_data
+
 
 class ResetForm(forms.Form):
     email = forms.CharField(label='Email', max_length=255, required=True,
@@ -167,23 +172,24 @@ class ChangePasswordForm(forms.Form):
                 code='password_mismatch',
             )
 
+
 class BillingForm(forms.Form):
 
     first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
-    card_number = forms.CharField(label="Card Number", max_length=16,min_length=15, required=True,
+    card_number = forms.CharField(label="Card Number", max_length=16, min_length=15, required=True,
                                validators=[validate_numbersonly],
-                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+                               widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
-    cvv = forms.CharField(label="Cvv", max_length=4,min_length=3, required=True,
+    cvv = forms.CharField(label="Cvv", max_length=4, min_length=3, required=True,
                                validators=[validate_numbersonly],
-                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+                               widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
-    month = forms.CharField(label="Month", max_length=2,min_length=2,required=True,
+    month = forms.CharField(label="Month", max_length=2, min_length=2, required=True,
                                validators=[validate_month],
-                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+                               widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off'}), )
 
-    year = forms.CharField(label="Year", max_length=4,min_length=2, required=True,
+    year = forms.CharField(label="Year", max_length=4, min_length=2, required=True,
                                validators=[validate_year],
-                               widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
+                               widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )

@@ -36,6 +36,6 @@ def get_coordinates(request):
         latitude = 42.396645
         longitude = -71.109388
 
-    coordinates = [latitude,longitude]
+    coordinates = [latitude, longitude]
     return coordinates
 

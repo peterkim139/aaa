@@ -19,12 +19,12 @@ from django.views.decorators.csrf import csrf_exempt
 from . import views
 
 urlpatterns = [
-     url(r'^change_listing_status/$',views.ChangeListingStatusView.as_view(),name='change_listing_status'),
-     url(r'^upload_image/$',csrf_exempt(views.UploadImageView.as_view()),name='upload_image'),
-     url(r'^in_transactions/$',views.InTransactionsView.as_view(),name='in_transactions'),
-     url(r'^out_transactions/$',views.OutTransactionsView.as_view(),name='out_transactions'),
-     url(r'^conversation/$',views.NoConversationView.as_view(),name='no_conversation'),
-     url(r'^conversation/(?P<partner_id>\d+)$',views.ConversationView.as_view(),name='conversation'),
-     url(r'^unread_messages/$',views.UnreadMessagesView.as_view(), name='unread_messages'),
-     url(r'^user_status/$',views.UserStatusView.as_view(), name='user_status'),
+     url(r'^change_listing_status/$', views.ChangeListingStatusView.as_view(), name='change_listing_status'),
+     url(r'^upload_image/$', csrf_exempt(views.UploadImageView.as_view()), name='upload_image'),
+     url(r'^in_transactions/$', views.InTransactionsView.as_view(), name='in_transactions'),
+     url(r'^out_transactions/$', views.OutTransactionsView.as_view(), name='out_transactions'),
+     url(r'^conversation/$', views.NoConversationView.as_view(), name='no_conversation'),
+     url(r'^conversation/(?P<partner_id>\d+)$', views.ConversationView.as_view(), name='conversation'),
+     url(r'^unread_messages/$', views.UnreadMessagesView.as_view(), name='unread_messages'),
+     url(r'^user_status/$', views.UserStatusView.as_view(), name='user_status'),
 ]

@@ -18,7 +18,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-     url(r'^$',views.CategoryView.as_view(),name='category'),
-     url(r'^item/(?P<id>\d+)/$',views.ItemView.as_view(),name='item'),
-     url(r'^(?P<id>\d+)/$',views.SubCategoryView.as_view(),name='sub'),
+     url(r'^$', views.CategoryView.as_view(), name='category'),
+     url(r'^item/(?P<id>\d+)/$', views.ItemView.as_view(), name='item'),
+     url(r'^(?P<id>\d+)/$', views.SubCategoryView.as_view(), name='sub'),
 ]

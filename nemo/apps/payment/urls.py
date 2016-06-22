@@ -14,12 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 
-
-
 from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-        url(r'^connect/$',views.ConnectView.as_view(),name='connect'),
-        url(r'^rent/(?P<item_id>\d+)/$',views.RentView.as_view(),name='rent'),
+        url(r'^connect/$', views.ConnectView.as_view(), name='connect'),
+        url(r'^rent/(?P<item_id>\d+)/$', views.RentView.as_view(), name='rent'),
 ]

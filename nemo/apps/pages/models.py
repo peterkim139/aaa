@@ -6,6 +6,7 @@ from accounts.models import User
 from category.models import Params
 from accounts.mixins import AbstractDateTime
 
+
 class Image(AbstractDateTime):
 
     param_image = models.ForeignKey(Params)
@@ -16,16 +17,17 @@ class Image(AbstractDateTime):
         db_table = "images"
         get_latest_by = "created"
 
+
 class Thread(AbstractDateTime):
     last_message = models.TextField(max_length=500)
     user1_id = models.IntegerField()
     user2_id = models.IntegerField()
 
     @classmethod
-    def last_seen(self,email):
+    def last_seen(self, email):
         return cache.get('seen_%s' % email)
 
-    def online(self,email):
+    def online(self, email):
         if self.last_seen(email):
             now = datetime.datetime.now()
             if now > self.last_seen(email) + datetime.timedelta(
@@ -38,6 +40,7 @@ class Thread(AbstractDateTime):
 
     class Meta:
         db_table = 'thread'
+
 
 class Message(AbstractDateTime):
     thread = models.ForeignKey(Thread)

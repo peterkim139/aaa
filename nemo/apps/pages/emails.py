@@ -6,7 +6,8 @@ from django.conf import settings
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-def cancel_before_approving(request,email,client,seller,item):
+
+def cancel_before_approving(request, email, client, seller, item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -14,20 +15,20 @@ def cancel_before_approving(request,email,client,seller,item):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': client,
-        'seller':seller,
-        'item':item,
+        'seller': seller,
+        'item': item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/cancel_before_approving.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
-             'type': 'to'}],
+                'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
         'signing_domain': 'nemo.codebnb.me',
         'tracking_domain': 'nemo.codebnb.me',
@@ -35,7 +36,7 @@ def cancel_before_approving(request,email,client,seller,item):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
-def cancel_after_approving(request, email, client,item,seller,amount):
+def cancel_after_approving(request, email, client, item, seller, amount):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -43,19 +44,19 @@ def cancel_after_approving(request, email, client,item,seller,amount):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': client,
-        'seller':seller,
-        'amount' :amount,
-        'item' : item,
+        'seller': seller,
+        'amount': amount,
+        'item': item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/cancel_after_approving.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
@@ -65,8 +66,7 @@ def cancel_after_approving(request, email, client,item,seller,amount):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
-
-def seller_penalize_email(request,seller,item,amount,email):
+def seller_penalize_email(request, seller, item, amount, email):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -75,18 +75,18 @@ def seller_penalize_email(request,seller,item,amount,email):
 
     context = Context({
         'seller': seller,
-        'amount':amount,
-        'item':item,
+        'amount': amount,
+        'item': item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_penalize_email.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
@@ -95,7 +95,8 @@ def seller_penalize_email(request,seller,item,amount,email):
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
-def seller_canceled_request_before(request,client,email,item):
+
+def seller_canceled_request_before(request, client, email, item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -103,17 +104,17 @@ def seller_canceled_request_before(request,client,email,item):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': client,
-        'item':item,
+        'item': item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_canceled_request_before.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
@@ -123,7 +124,7 @@ def seller_canceled_request_before(request,client,email,item):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
-def seller_canceled_request_after(request,client,email,item):
+def seller_canceled_request_after(request, client, email, item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -131,17 +132,17 @@ def seller_canceled_request_after(request,client,email,item):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': client,
-        'item':item,
+        'item': item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_canceled_request_after.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
@@ -151,7 +152,7 @@ def seller_canceled_request_after(request,client,email,item):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
-def seller_declined_request(request,client,email,item):
+def seller_declined_request(request, client, email, item):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -159,17 +160,17 @@ def seller_declined_request(request,client,email,item):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': client,
-        'item':item,
+        'item': item,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_declined_request.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',
@@ -178,7 +179,8 @@ def seller_declined_request(request,client,email,item):
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
-def seller_approved_request(request,client,seller,email,item,price):
+
+def seller_approved_request(request, client, seller, email, item, price):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -186,19 +188,19 @@ def seller_approved_request(request,client,seller,email,item,price):
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': client,
-        'item':item,
-        'price':price,
-        'seller':seller,
+        'item': item,
+        'price': price,
+        'seller': seller,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_approved_request.html', context)
     message = {
-        'subject' : subject,
+        'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
         'from_email': from_email,
         'from_name': 'NEMO',
-        'html':content,
+        'html': content,
         'to': [{'email': email,
              'type': 'to'}],
         'return_path_domain': 'nemo.codebnb.me',

@@ -21,7 +21,7 @@ class AuthUserManager(BaseUserManager):
         user = self.model(
                           email=email,
                           is_staff=is_staff, is_active=is_active,
-                          is_superuser=is_superuser, last_login=now,**extra_fields)
+                          is_superuser=is_superuser, last_login=now, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user

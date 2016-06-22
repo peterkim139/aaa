@@ -16,7 +16,7 @@ class NemoEncrypt:
 
         return cipher_text
 
-    def decrypt_val(self,cipher_text):
+    def decrypt_val(self, cipher_text):
 
         dec_secret = AES.new(self.MASTER_KEY[:32])
         raw_decrypted = dec_secret.decrypt(base64.b64decode(cipher_text))

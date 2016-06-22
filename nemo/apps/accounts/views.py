@@ -18,6 +18,7 @@ import braintree
 import datetime
 from payment.utils import show_errors, payment_connection
 
+
 class HomeView(View):
     def get(self, request):
 
@@ -27,7 +28,8 @@ class HomeView(View):
         latitude = coordinates[0]
         longitude = coordinates[1]
         limit = 10
-        items = Params.objects.raw('''SELECT *,images.image_name as image_name, (((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
+        items = Params.objects.raw('''SELECT *,images.image_name as image_name, (((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance
+                FROM parametrs
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
                 LEFT JOIN user
@@ -50,8 +52,9 @@ class HomeView(View):
                 ORDER BY parametrs.created DESC
                 LIMIT 5''')
 
-        context = {'items': items, 'recent_items': recent_items, 'cats': cats, 'count':count, 'latitude':latitude, 'longitude':longitude }
+        context = {'items': items, 'recent_items': recent_items, 'cats': cats, 'count': count, 'latitude': latitude, 'longitude': longitude}
         return render(request, 'accounts/home.html', context)
+
 
 class LoginView(View):
 
@@ -83,7 +86,7 @@ class RegisterView(TemplateView):
             context.update({'form': RegistrationForm(self.request.POST)})
         return context
 
-    def get(self, request,*args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
         return self.render_to_response(self.get_context_data())
@@ -113,6 +116,7 @@ class LogoutView(TemplateView):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect('/')
+
 
 def save_profile(backend, user, response, *args, **kwargs):
     data = {}
@@ -171,6 +175,7 @@ def save_profile(backend, user, response, *args, **kwargs):
 
                 return HttpResponseRedirect('/registration/')
 
+
 class ResetView(TemplateView):
     template_name = 'accounts/reset.html'
 
@@ -194,7 +199,7 @@ class ResetView(TemplateView):
             user.reset_key = reset_key
             user.save()
             first_name = user.first_name
-            reset_mail(request, email,first_name, reset_key)
+            reset_mail(request, email, first_name, reset_key)
             messages.success(request, "Please check your email address for change your account password")
             return HttpResponseRedirect('/')
         else:
@@ -238,6 +243,7 @@ class ChangePasswordView(TemplateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
+
 class SearchView(View):
 
     def get(self, request):
@@ -259,7 +265,6 @@ class SearchView(View):
             max_price = expensive_item[0].price
         else:
             max_price = 500
-
 
         query = request.GET.get("name")
 
@@ -297,7 +302,7 @@ class SearchView(View):
                 ORDER BY distance ASC
                 LIMIT %s
                 OFFSET %s''',
-                [latitude, latitude, longitude, '%' + query + '%','%' + query + '%', categories, start_range, end_range, limit, offset])
+                [latitude, latitude, longitude, '%' + query + '%', '%' + query + '%', categories, start_range, end_range, limit, offset])
         except Params.DoesNotExist:
             items = None
         if items:
@@ -313,10 +318,11 @@ class SearchView(View):
                 item.status = item.first_name.title()[0] +'.'+item.last_name.title()[0]+'.'
 
             items = serializers.serialize('json', list(items))
-            return JsonResponse({'items':items,'count': count, 'limit':limit, 'longitude':longitude,'latitude':latitude}, safe=False)
+            return JsonResponse({'items': items, 'count': count, 'limit': limit, 'longitude': longitude, 'latitude': latitude}, safe=False)
         else:
-            context = {'longitude':longitude,'latitude':latitude,'items': items,'cats': cats, 'count':count, 'limit':limit, 'checked_categories':checked_categories,'max_price': max_price }
+            context = {'longitude': longitude, 'latitude': latitude, 'items': items, 'cats': cats, 'count': count, 'limit': limit, 'checked_categories': checked_categories, 'max_price': max_price}
             return render(request, 'accounts/search_results.html', context)
+
 
 class EditProfileView(LoginRequiredMixin, View):
 
@@ -326,12 +332,12 @@ class EditProfileView(LoginRequiredMixin, View):
                                     'email': request.user.email,
                                     'phone_number': request.user.phone_number,
                                     'zip_code': request.user.zip_code})
-        context = {'form': form }
+        context = {'form': form}
         return render(request, 'accounts/edit_profile.html', context)
 
     def post(self, request):
         request.POST['user'] = request.user.id
-        form = ProfileForm(request.POST,request.FILES)
+        form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             user = User.objects.get(id=request.user.id)
             user.first_name = form.cleaned_data['first_name']
@@ -342,10 +348,10 @@ class EditProfileView(LoginRequiredMixin, View):
             if 'image_file' in request.FILES:
                 user.photo = request.FILES['image_file']
             user.save()
-            messages.success(request,"Successfully Edited")
+            messages.success(request, "Successfully Edited")
             return HttpResponseRedirect('/edit_profile/')
         else:
-            context = {'form':form }
+            context = {'form': form}
             return render(request, 'accounts/edit_profile.html', context)
 
 
@@ -353,7 +359,7 @@ class BillingView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = BillingForm()
-        encrypt= NemoEncrypt()
+        encrypt = NemoEncrypt()
 
         methods = Billing.objects.filter(user_id=request.user.id)
         for method in methods:
@@ -365,7 +371,7 @@ class BillingView(LoginRequiredMixin, View):
         form = BillingForm(request.POST)
         if form.is_valid():
             payment_connection()
-            expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
+            expiration_date = form.cleaned_data['month'] + '/' + form.cleaned_data['year']
 
             result = braintree.Transaction.sale({
                 "amount": 1,
@@ -382,7 +388,7 @@ class BillingView(LoginRequiredMixin, View):
                 transaction = result.transaction
                 refund = braintree.Transaction.void(transaction.id)
             else:
-                messages.error(request,"Credit card is invalid")
+                messages.error(request, "Credit card is invalid")
                 return HttpResponseRedirect('/billing/')
             customer = braintree.Customer.create({
                 "first_name": request.user.first_name,
@@ -395,7 +401,7 @@ class BillingView(LoginRequiredMixin, View):
                 }
             })
             if customer.is_success:
-                encrypt= NemoEncrypt()
+                encrypt = NemoEncrypt()
                 customer_id = encrypt.encrypt_val(customer.customer.id)
                 billing = Billing()
                 billing.customer_id = customer_id
@@ -404,26 +410,27 @@ class BillingView(LoginRequiredMixin, View):
                 billing.is_default = 0
                 billing.user_id = request.user.id
                 billing.save()
-                messages.success(request,"Successfully Added")
+                messages.success(request, "Successfully Added")
             else:
-                show_errors(request,customer)
+                show_errors(request, customer)
             return HttpResponseRedirect('/billing/')
         else:
-            encrypt= NemoEncrypt()
+            encrypt = NemoEncrypt()
             methods = Billing.objects.filter(user_id=request.user.id)
             for method in methods:
                 method.customer_number = encrypt.decrypt_val(method.customer_number)
             context = {'form': form, 'methods': methods}
             return render(request, 'accounts/billing.html', context)
 
-class ChangeBillingStatusView(LoginRequiredMixin,View):
+
+class ChangeBillingStatusView(LoginRequiredMixin, View):
 
     def post(self, request):
         user_id = request.user.id
         method_id = int(request.POST['method_id'])
         status = int(request.POST['status'])
         try:
-            method = Billing.objects.get(id=method_id, user_id=user_id )
+            method = Billing.objects.get(id=method_id, user_id=user_id)
         except Billing.DoesNotExist:
             method = None
         if method:
@@ -431,11 +438,11 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
 
             if status == 1:
                 try:
-                    def_method = Billing.objects.get(is_default=1, user_id=user_id )
+                    def_method = Billing.objects.get(is_default=1, user_id=user_id)
                 except Billing.DoesNotExist:
                     def_method = None
                 if def_method:
-                    return JsonResponse({'response':'stop'})
+                    return JsonResponse({'response': 'stop'})
                 else:
                     user.customer_id = method.customer_id
             else:
@@ -444,35 +451,38 @@ class ChangeBillingStatusView(LoginRequiredMixin,View):
             method.is_default = status
             method.save()
             user.save()
-            return JsonResponse({'response':True})
+            return JsonResponse({'response': True})
         else:
-            return JsonResponse({'response':False})
+            return JsonResponse({'response': False})
 
-class DeleteBillingView(LoginRequiredMixin,View):
+
+class DeleteBillingView(LoginRequiredMixin, View):
 
     def post(self, request):
         user_id = request.user.id
         method_id = int(request.POST['method_id'])
         try:
-            method = Billing.objects.get(id=method_id, user_id=user_id )
+            method = Billing.objects.get(id=method_id, user_id=user_id)
         except Billing.DoesNotExist:
             method = None
         if method:
             is_default = method.is_default
             method.delete()
             if is_default == 1:
-                user = User.objects.get(id = user_id)
+                user = User.objects.get(id=user_id)
                 user.customer_id = ''
                 user.save()
-            return JsonResponse({'response':True})
+            return JsonResponse({'response': True})
         else:
-            return JsonResponse({'response':False})
+            return JsonResponse({'response': False})
 
-class ListingsView(LoginRequiredMixin,View):
+
+class ListingsView(LoginRequiredMixin, View):
 
     def get(self, request):
 
-        listings = Params.objects.raw('''SELECT DISTINCT *, images.image_name as image_name, rent.status as rent_status, rent.start_date as rent_start_date, rent.rent_date as rent_end_date FROM parametrs
+        listings = Params.objects.raw('''SELECT DISTINCT *, images.image_name as image_name, rent.status as rent_status,
+                rent.start_date as rent_start_date, rent.rent_date as rent_end_date FROM parametrs
                 LEFT JOIN rent
                 ON rent.param_id=parametrs.id AND rent.id =
                 (
@@ -483,13 +493,12 @@ class ListingsView(LoginRequiredMixin,View):
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
                 WHERE parametrs.item_owner_id = %s
-                AND parametrs.status!=%s''',[request.user.id, 'deleted'])
+                AND parametrs.status!=%s''', [request.user.id, 'deleted'])
 
         form = AddListingForm()
         this_moment = datetime.datetime.now()
-        context = {'listings': listings, 'this_moment':this_moment,'form':form}
+        context = {'listings': listings, 'this_moment': this_moment, 'form': form}
         return render(request, 'accounts/listings.html', context)
-
 
     def post(self, request):
 
@@ -519,13 +528,14 @@ class ListingsView(LoginRequiredMixin,View):
                 image.save()
                 del request.session['image_filename']
 
-            messages.success(request,"Successfully Added")
+            messages.success(request, "Successfully Added")
             return HttpResponseRedirect('/listings/')
         else:
-            context = {'form': form, 'val_error':'true' }
+            context = {'form': form, 'val_error': 'true'}
             return render(request, 'accounts/listings.html', context)
 
-class ChangeAccountStatusView(LoginRequiredMixin,View):
+
+class ChangeAccountStatusView(LoginRequiredMixin, View):
 
     def post(self, request):
         user_id = request.user.id
@@ -537,9 +547,9 @@ class ChangeAccountStatusView(LoginRequiredMixin,View):
         if user:
             user.is_active = status
             user.save()
-            return JsonResponse({'response':True})
+            return JsonResponse({'response': True})
         else:
-            return JsonResponse({'response':False})
+            return JsonResponse({'response': False})
 
 
 def error404(request):
