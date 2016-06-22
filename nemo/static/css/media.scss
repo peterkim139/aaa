@@ -93,9 +93,6 @@
 		height: auto;
 		padding-bottom: 20px;
 	}
-	.homeTopTxt {
-		// margin: 120px 0; 
-	}
 	.sectTitle:after {
 		width: 96%;
 	}
@@ -117,7 +114,7 @@
 				width: (100% / $colCount) * $i;
 			}
 		}
-		@for $i from $colCount through 0 {
+		@for $i from $colCount through 1 {
 			.#{offsetMob}#{$i} {
 				margin-left: (100% / $colCount) * $i;
 			}
@@ -133,7 +130,7 @@
 		font-size: $fontSize + 45px;
 	}
 	.testimWrap {
-		text-align: 100%;
+		text-align: center;
 		.singleTestim {
 			padding-right: 0;
 			text-align: center;
