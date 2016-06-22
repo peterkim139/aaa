@@ -6,7 +6,8 @@ from django.conf import settings
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-def new_rent_mail(request, email, client,item,seler,rent_id):
+
+def new_rent_mail(request, email, client, item, seler, rent_id):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -15,7 +16,7 @@ def new_rent_mail(request, email, client,item,seler,rent_id):
     context = Context({
         'client': client,
         'item': item,
-        'id':rent_id,
+        'id': rent_id,
         'seler': seler,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
@@ -235,9 +236,9 @@ def seller_transaction_email(info):
     rent_date = info.rent_date.strftime('%Y-%m-%d')
     start_date = info.start_date.strftime('%Y-%m-%d')
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
-    TWOPLACES = Decimal(10) ** -2
+    twoplaces = Decimal(10) ** -2
     fee = Decimal(info.price)*Decimal(12.9/100)+Decimal('0.30')
-    fee = fee.quantize(TWOPLACES)
+    fee = fee.quantize(twoplaces)
     total = Decimal(info.price)-Decimal(fee)
     subject = 'A new payment has been credited to your account!'
     from_email = settings.AUTO_REPLY

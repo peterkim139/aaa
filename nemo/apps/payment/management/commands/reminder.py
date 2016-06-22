@@ -2,7 +2,8 @@ from django.core.management.base import BaseCommand
 import datetime
 from django.utils import timezone
 from payment.models import Rent
-from payment.emails import reminder_rent_seller,reminder_rent_client
+from payment.emails import reminder_rent_seller, reminder_rent_client
+
 
 class Command(BaseCommand):
 

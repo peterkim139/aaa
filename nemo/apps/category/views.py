@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView
-from category.models import Category,SubCategory,Params
-
+from category.models import Category, SubCategory, Params
 
 
 class CategoryView(TemplateView):
@@ -11,6 +10,7 @@ class CategoryView(TemplateView):
         category = SubCategory.objects.all()
         return self.render_to_response({'categories':category})
 
+
 class ItemView(TemplateView):
 
     template_name = 'category/item.html'
@@ -18,6 +18,7 @@ class ItemView(TemplateView):
     def get(self, request,id):
         item = Params.objects.get(pk=id)
         return self.render_to_response({'item':item})
+
 
 class SubCategoryView(TemplateView):
 

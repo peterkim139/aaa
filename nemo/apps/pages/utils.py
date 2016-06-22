@@ -2,7 +2,8 @@ from decimal import Decimal
 from django.conf import settings
 import uuid
 
-def save_file(request, uploaded,filename,path,raw_data = True):
+
+def save_file(request, uploaded, filename, path, raw_data=True):
 
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
@@ -20,22 +21,22 @@ def save_file(request, uploaded,filename,path,raw_data = True):
 
 #################################  json serialize datetime ###################
 
+
 def date_handler(obj):
     return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
 
-
 def refund_price(price):
 
-    TWOPLACES = Decimal(10) ** -2
+    twoplaces = Decimal(10) ** -2
     list = {}
     if price > 20:
         amount = Decimal(price*100-970)/Decimal(97.1)
-        list['amount'] = amount.quantize(TWOPLACES)
-        list['credit'] = Decimal(price*50/100).quantize(TWOPLACES)
+        list['amount'] = amount.quantize(twoplaces)
+        list['credit'] = Decimal(price*50/100).quantize(twoplaces)
     else:
         amount = Decimal(price*50+30)/Decimal(97.1)
-        list['amount'] = amount.quantize(TWOPLACES)
-        list['credit'] = Decimal(price*25/100).quantize(TWOPLACES)
+        list['amount'] = amount.quantize(twoplaces)
+        list['credit'] = Decimal(price*25/100).quantize(twoplaces)
 
     return list

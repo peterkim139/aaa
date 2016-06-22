@@ -3,9 +3,10 @@ from .models import Message
 from django import forms
 from accounts.validations import *
 
+
 class RentForm(forms.Form):
 
-      card_number = forms.CharField(label="Card Number", max_length=16,min_length=15, required=True,
+      card_number = forms.CharField(label="Card Number", max_length=16, min_length=15, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl','autocomplete':'off'}), )
 

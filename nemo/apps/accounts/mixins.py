@@ -4,6 +4,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
 from django.db import models
 
+
 class LoginRequiredMixin(object):
 
     @method_decorator(login_required)

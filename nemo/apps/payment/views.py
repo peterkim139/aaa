@@ -3,10 +3,10 @@ import braintree
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from .forms import ConnectForm,RentForm
+from .forms import ConnectForm, RentForm
 from accounts.mixins import LoginRequiredMixin
 from django.db.models import Q
-from .models import User,Params,Rent
+from .models import User, Params, Rent
 from pages.models import Image
 from payment.utils import payment_connection,show_errors
 from payment.emails import new_rent_mail

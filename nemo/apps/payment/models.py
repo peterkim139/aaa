@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from accounts.mixins  import  AbstractDateTime
+from accounts.mixins import AbstractDateTime
 from category.models import Params
 from accounts.models import User
 

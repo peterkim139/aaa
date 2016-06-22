@@ -16,6 +16,7 @@ import sys
 from django.core.exceptions import ImproperlyConfigured
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
+
 def get_env_variable(var_name):
     try:
         return os.environ[var_name]
@@ -133,15 +134,12 @@ LOGGING = {
     },
     'loggers': {
         'nemo': {
-            'handlers': ['file','mail_admins'],
+            'handlers': ['file', 'mail_admins'],
             'propagate': True,
             'level': 'DEBUG',
         },
     },
 }
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -189,7 +187,7 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), 'static'),
 )
 
-GEOIP_PATH =os.path.join(os.path.dirname(BASE_DIR), 'geoip')
+GEOIP_PATH = os.path.join(os.path.dirname(BASE_DIR), 'geoip')
 
 # Email settings
 DEFAULT_FROM_EMAIL = 'local@email.com'
@@ -217,7 +215,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '494326582186-4kii2iirbo8ra17lg24k4fnlqtlq5b33.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'DviMdQS87GpR3E4cozuU-LZe'
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id,name,email', # needed starting from protocol v2.4
+    'fields': 'id,name,email'  # needed starting from protocol v2.4
 }
 
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
@@ -241,30 +239,26 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details',
 )
 
-
-
-#BRAINTREE
+# BRAINTREE
 
 BRAINTREE_MERCHANT_ID = '5d5xq56qq88nnnv3'
 BRAINTREE_PUBLIC_KEY = 'xsp7n87828mv5j9f'
 BRAINTREE_PRIVATE_KEY = '407840324125e98f5efc1d4666101ed5'
 
-#Mandrill
+# Mandrill
 
 MANDRILL_KEY = 'A2Bh8H6M1FWKHTa8KOpMhw'
 
 CUSTOMER_ID = '30179242'
 
-#Image validation
+# Image validation
 
 CONTENT_TYPES = ['image']
 MAX_UPLOAD_SIZE = "2097152"
 
-#TIME ZONE
+# TIME ZONE
 
 TIME_ZONE = 'America/New_York'
-
-
 
 
 CACHES = {

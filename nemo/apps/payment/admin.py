@@ -1,13 +1,15 @@
 import braintree
 from django.contrib import admin
-from .models import Rent,User
+from .models import Rent, User
 from payment.utils import payment_connection
-from payment.emails import admin_cancel_rent_to_client,admin_cancel_rent_to_seller
+from payment.emails import admin_cancel_rent_to_client, admin_cancel_rent_to_seller
+
 
 def refund_transaction(modeladmin, request, queryset):
+
     for item in queryset:
         item = Rent.objects.get(id=item.id)
-        if item.transaction and item.status=='approved':
+        if item.transaction and item.status == 'approved':
             payment_connection()
             refund = braintree.Transaction.refund(item.transaction)
             if refund.is_success:

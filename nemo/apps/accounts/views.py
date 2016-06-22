@@ -1,16 +1,16 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from django.contrib.auth import login,logout
+from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core import serializers
-from .forms import ProfileForm,RegistrationForm,AuthenticationForm,ResetForm,ChangePasswordForm,SocialForm,BillingForm
+from .forms import ProfileForm, RegistrationForm, AuthenticationForm, ResetForm, ChangePasswordForm, SocialForm, BillingForm
 from accounts.mixins import LoginRequiredMixin
-from accounts.utils import get_coordinates,generate_activation_key
+from accounts.utils import get_coordinates, generate_activation_key
 from accounts.emails import reset_mail, confirm_register_mail
 from payment.generate import NemoEncrypt
-from accounts.models import User,Billing
+from accounts.models import User, Billing
 from category.models import Params, SubCategory
 from pages.models import Image
 from pages.forms import AddListingForm

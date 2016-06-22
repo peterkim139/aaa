@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Category,SubCategory,Params,Properties,Porperty_values
+from .models import Category, SubCategory, Params, Properties, Porperty_values
+
 
 class CategoryAdmin(admin.ModelAdmin):
 
-    readonly_fields = ['created','modified']
+    readonly_fields = ['created', 'modified']
     search_fields = ['name']
 
 
@@ -12,15 +13,18 @@ class SubCategoryAdmin(admin.ModelAdmin):
     readonly_fields = ['created','modified']
     search_fields = ['name']
 
+
 class ParamsAdmin(admin.ModelAdmin):
 
     readonly_fields = ['created','modified']
     search_fields = ['name','price','description']
 
+
 class PropertiesAdmin(admin.ModelAdmin):
 
     readonly_fields = ['created','modified']
     search_fields = ['property_name','property_type']
+
 
 class ValuesAdmin(admin.ModelAdmin):
     readonly_fields = ['created','modified']

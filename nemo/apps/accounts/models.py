@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from accounts.mixins import AuthUserManager, AbstractDateTime
 
 
-
 class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=255, unique=True,blank=False,default='')
@@ -40,7 +39,6 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
         ordering = ["id"]
         db_table = "user"
         get_latest_by = "created"
-
 
 
 class Billing(AbstractDateTime):

@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.conf import settings
 from accounts.models import User
 from category.models import Params
-from accounts.mixins  import  AbstractDateTime
+from accounts.mixins import AbstractDateTime
 
 class Image(AbstractDateTime):
 

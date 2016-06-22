@@ -117,9 +117,9 @@ class InTransactionsView(LoginRequiredMixin,TemplateView):
                 orderer = User.objects.get(id=requests.user_id)
                 if status == 'approved':
                     customer_id = encrypt.decrypt_val(orderer.customer_id)
-                    TWOPLACES = Decimal(10) ** -2
+                    twoplaces = Decimal(10) ** -2
                     fee = Decimal(requests.price)*Decimal(12.9/100)+Decimal('0.30')
-                    fee = fee.quantize(TWOPLACES)
+                    fee = fee.quantize(twoplaces)
                     result = seller_approve(requests,current_user,customer_id,fee)
                     if result.is_success:
                         transaction = result.transaction

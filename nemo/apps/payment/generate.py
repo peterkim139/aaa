@@ -2,11 +2,11 @@ from Crypto.Cipher import AES
 import base64
 
 
-class NemoEncrypt():
+class NemoEncrypt:
 
-    MASTER_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+,#"
+    MASTER_KEY = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+,#"
 
-    def encrypt_val(self,clear_text):
+    def encrypt_val(self, clear_text):
 
         enc_secret = AES.new(self.MASTER_KEY[:32])
         tag_string = (str(clear_text) +
