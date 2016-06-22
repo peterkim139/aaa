@@ -753,7 +753,7 @@ $("#login_tab").on('click', function() {
 /////////////////////////// CSRF code ///////////////////////
 
     function getCookie(name) {
-        var cookieValue = null;
+        var cookieValue = '';
         var i = 0;
         if (document.cookie && document.cookie !== '') {
             var cookies = document.cookie.split(';');
@@ -790,23 +790,6 @@ $("#login_tab").on('click', function() {
         var expires = "expires="+d.toUTCString();
         document.cookie = cname + "=" + cvalue + "; " + expires;
      }
-
-///////////////////////////// get cookie data ///////////////////////////
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i <ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length,c.length);
-            }
-        }
-        return "";
-    }
 
 /////////////////////// get user location ////////////////////////////
 

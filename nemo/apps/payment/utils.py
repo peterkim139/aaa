@@ -19,7 +19,7 @@ def error_logging(e):
 
 
 def show_errors(request,result):
-    
+
     if isinstance(result, str):
         messages.error(request, result)
     else:

@@ -20,18 +20,23 @@ class RentAdmin(admin.ModelAdmin):
     model = Rent
     list_display = ['id','client','seller','item','price','status','rent_date']
 
+    @classmethod
     def client(self, obj):
         return obj.user.first_name + ' ' + obj.user.last_name
 
+    @classmethod
     def seller(self, obj):
         return obj.owner.first_name + ' ' + obj.owner.last_name
 
+    @classmethod
     def item(self, obj):
         return obj.param.name
 
+    @classmethod
     def price(self, obj):
         return obj.price
 
+    @classmethod
     def rent_date(self, obj):
         return obj.rent_date
 

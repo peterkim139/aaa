@@ -6,7 +6,7 @@ from django.conf import settings
 
 mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-def new_rent_mail(request, email, client,item,seler,id):
+def new_rent_mail(request, email, client,item,seler,rent_id):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -15,7 +15,7 @@ def new_rent_mail(request, email, client,item,seler,id):
     context = Context({
         'client': client,
         'item': item,
-        'id':id,
+        'id':rent_id,
         'seler': seler,
         'site_name': settings.ADMIN_EMAIL,
         'absolute_url': request.META['HTTP_HOST']
