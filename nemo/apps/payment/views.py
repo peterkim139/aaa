@@ -52,13 +52,13 @@ class ConnectView(LoginRequiredMixin, TemplateView):
                         'postal_code': form.cleaned_data['postal_code']
                     }
                 },
-            'funding': {
-                'destination': braintree.MerchantAccount.FundingDestination.Bank,
-                'account_number': form.cleaned_data['account_number'],
-                'routing_number': form.cleaned_data['routing_number'],
-            },
-            "tos_accepted": True,
-            "master_merchant_account_id": "sipan",
+                'funding': {
+                    'destination': braintree.MerchantAccount.FundingDestination.Bank,
+                    'account_number': form.cleaned_data['account_number'],
+                    'routing_number': form.cleaned_data['routing_number'],
+                },
+                "tos_accepted": True,
+                "master_merchant_account_id": "sipan",
             }
             result = braintree.MerchantAccount.create(merchant_account_params)
             if result.is_success:
