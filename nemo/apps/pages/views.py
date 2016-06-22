@@ -26,11 +26,13 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
     template_name = 'pages/out_transactions.html'
 
     def get_context_data(self, data, **kwargs):
+        
             context = super(OutTransactionsView, self).get_context_data(out_transactions=data, **kwargs)
             context['form'] = RentForm()
             return context
 
     def get(self, request):
+
         out_transactions = Rent.objects.filter(user_id=request.user.id)
         hour = timezone.now() - datetime.timedelta(hours=2)
         for out_transaction in out_transactions:
@@ -211,6 +213,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
 
 class UploadImageView(LoginRequiredMixin, View):
+
     def post(self, request):
         if request.method == "POST":
             if request.is_ajax():
@@ -238,6 +241,7 @@ class ChangeListingStatusView(LoginRequiredMixin, View):
 
 
 class UnreadMessagesView(LoginRequiredMixin, View):
+
     def post(self, request):
         partner_id = request.POST["partner_id"]
         try:
@@ -282,7 +286,7 @@ class NoConversationView(LoginRequiredMixin, View):
 class ConversationView(LoginRequiredMixin, View):
 
     def get(self, request, partner_id):
-        
+
         messages = None
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
