@@ -22,24 +22,24 @@ class RentAdmin(admin.ModelAdmin):
     model = Rent
     list_display = ['id', 'client', 'seller', 'item', 'price', 'status', 'rent_date']
 
-    @classmethod
-    def client(self, obj):
+    @staticmethod
+    def client(obj):
         return obj.user.first_name + ' ' + obj.user.last_name
 
-    @classmethod
-    def seller(self, obj):
+    @staticmethod
+    def seller(obj):
         return obj.owner.first_name + ' ' + obj.owner.last_name
 
-    @classmethod
-    def item(self, obj):
+    @staticmethod
+    def item(obj):
         return obj.param.name
 
-    @classmethod
-    def price(self, obj):
+    @staticmethod
+    def price(obj):
         return obj.price
 
-    @classmethod
-    def rent_date(self, obj):
+    @staticmethod
+    def rent_date(obj):
         return obj.rent_date
 
     readonly_fields = ['created', 'modified']

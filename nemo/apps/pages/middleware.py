@@ -5,8 +5,8 @@ from django.conf import settings
 
 class ActiveUserMiddleware:
 
-    @classmethod
-    def process_request(self, request):
+    @staticmethod
+    def process_request(request):
         current_user = request.user
         if request.user.is_authenticated():
             now = datetime.datetime.now()
