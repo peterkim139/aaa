@@ -557,8 +557,9 @@ $("#login_tab").on('click', function() {
                 status: status
             },
             success:function(response) {
-                if(response && response.response != 'stop'){
+                if(response){
                     if (status == '1'){
+                        $(".change_method_status").attr("data-status-type",'1').text("Make Default");
                         self.attr("data-status-type",'0');
                         self.text("Default Method");
                     }

@@ -62,13 +62,9 @@ class ConnectView(LoginRequiredMixin, TemplateView):
             }
             result = braintree.MerchantAccount.create(merchant_account_params)
             if result.is_success:
-                try:
-                    User.objects.filter(id=request.user.id).update(merchant_id=result.merchant_account.id)
-                    messages.success(request, "Your account has been created successfully")
-                    return HttpResponseRedirect('/list')
-                except Exception as e:
-                    messages.error(request, "Error")
-                    return HttpResponseRedirect('/list')
+                User.objects.filter(id=request.user.id).update(merchant_id=result.merchant_account.id)
+                messages.success(request, "Your have been connected to Braintree successfully")
+                return HttpResponseRedirect('/payment/connect')
             else:
                 show_errors(request, result)
                 return self.render_to_response(self.get_context_data(form=form))

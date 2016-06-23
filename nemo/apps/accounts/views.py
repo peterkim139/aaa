@@ -442,9 +442,10 @@ class ChangeBillingStatusView(LoginRequiredMixin, View):
                 except Billing.DoesNotExist:
                     def_method = None
                 if def_method:
-                    return JsonResponse({'response': 'stop'})
-                else:
-                    user.customer_id = method.customer_id
+                    def_method.is_default = 0
+                    def_method.save()
+
+                user.customer_id = method.customer_id
             else:
                 user.customer_id = ''
 
