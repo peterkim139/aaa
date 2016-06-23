@@ -372,7 +372,7 @@ class BillingView(LoginRequiredMixin, View):
             result = check_user_card(form, expiration_date)
             if result.is_success:
                 transaction = result.transaction
-                refund = braintree.Transaction.void(transaction.id)
+                braintree.Transaction.void(transaction.id)
             else:
                 messages.error(request, "Credit card is invalid")
                 return HttpResponseRedirect('/billing/')

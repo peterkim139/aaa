@@ -16,7 +16,7 @@ from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
 from pages.utils import date_handler, save_file, refund_price
-from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors
+from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer
 from pages.emails import seller_approved_request, seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after
 from pages.models import Image, Thread, Message
 
@@ -32,9 +32,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
             return context
 
     def get(self, request):
-        """
-        Return users out transactions.
-        """
+
         out_transactions = Rent.objects.filter(user_id=request.user.id)
         hour = timezone.now() - datetime.timedelta(hours=2)
         for out_transaction in out_transactions:
@@ -137,37 +135,17 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
                 elif status == 'seller_declined':
                     Rent.objects.filter(owner_id=request.user.id, id=rent).update(status=status)
-                    result = seller_declined_request(request, orderer.first_name, orderer.email, requests.param.name)
+                    seller_declined_request(request, orderer.first_name, orderer.email, requests.param.name)
                     return JsonResponse({'success': True, 'message': 'The request has been declined'})
 
                 elif status == 'seller_canceled':
                     form = RentForm(data=request.POST)
                     if form.is_valid():
                         expiration_date = form.cleaned_data['month'] + '/' + form.cleaned_data['year']
-                        if current_user.customer_id:
-                            customer = braintree.Customer.update(encrypt.decrypt_val(current_user.customer_id), {
-                                "credit_card": {
-                                    "number": form.cleaned_data['card_number'],
-                                    "expiration_date": expiration_date,
-                                    "cvv": form.cleaned_data['cvv']
-                                }
-                            })
-                        else:
-                            customer = braintree.Customer.create({
-                                "first_name": request.user.first_name,
-                                "last_name": request.user.last_name,
-                                "email": request.user.email,
-                                "credit_card": {
-                                    "number": form.cleaned_data['card_number'],
-                                    "expiration_date": expiration_date,
-                                    "cvv": form.cleaned_data['cvv']
-                                }
-                            })
+                        customer = create_customer(request,form,expiration_date)
                         if customer.is_success:
-                            User.objects.filter(id=request.user.id).update(customer_id=encrypt.encrypt_val(customer.customer.id))
-                            current_user = User.objects.get(id=requests.owner_id)
                             today = timezone.now() + datetime.timedelta(days=1)
-                            customer_id = encrypt.decrypt_val(current_user.customer_id)
+                            customer_id = customer.customer.id
                             if today < requests.start_date:
                                 amount = '2.00'
                             else:
