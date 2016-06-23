@@ -1,7 +1,9 @@
 /.idea/
+/.vagrant/
 *.pyc
 /bin/
 /include/
 /lib/
 /local/
 pip-selfcheck.json
+Vagrantfile
