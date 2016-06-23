@@ -23,8 +23,8 @@ class Thread(AbstractDateTime):
     user1_id = models.IntegerField()
     user2_id = models.IntegerField()
 
-    @classmethod
-    def last_seen(self, email):
+    @staticmethod
+    def last_seen(email):
         return cache.get('seen_%s' % email)
 
     def online(self, email):
