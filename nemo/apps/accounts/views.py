@@ -16,7 +16,7 @@ from pages.models import Image
 from pages.forms import AddListingForm
 import braintree
 import datetime
-from payment.utils import show_errors, payment_connection
+from payment.utils import show_errors, payment_connection, create_customer, check_user_card
 
 
 class HomeView(View):
@@ -303,11 +303,8 @@ class SearchView(View):
                 LIMIT %s
                 OFFSET %s''',
                 [latitude, latitude, longitude, '%' + query + '%', '%' + query + '%', categories, start_range, end_range, limit, offset])
-        except Params.DoesNotExist:
-            items = None
-        if items:
             count = len(list(items))
-        else:
+        except Params.DoesNotExist:
             count = 0
 
         if request.is_ajax():
@@ -372,34 +369,14 @@ class BillingView(LoginRequiredMixin, View):
         if form.is_valid():
             payment_connection()
             expiration_date = form.cleaned_data['month'] + '/' + form.cleaned_data['year']
-
-            result = braintree.Transaction.sale({
-                "amount": 1,
-                "credit_card": {
-                    "number": form.cleaned_data['card_number'],
-                    "expiration_date": expiration_date,
-                    "cvv": form.cleaned_data['cvv']
-                },
-                "options": {
-                    "submit_for_settlement": True
-                }
-            })
+            result = check_user_card(form, expiration_date)
             if result.is_success:
                 transaction = result.transaction
                 refund = braintree.Transaction.void(transaction.id)
             else:
                 messages.error(request, "Credit card is invalid")
                 return HttpResponseRedirect('/billing/')
-            customer = braintree.Customer.create({
-                "first_name": request.user.first_name,
-                "last_name": request.user.last_name,
-                "email": request.user.email,
-                "credit_card": {
-                    "number": form.cleaned_data['card_number'],
-                    "expiration_date": expiration_date,
-                    "cvv": form.cleaned_data['cvv']
-                }
-            })
+            customer = create_customer(request,form,expiration_date)
             if customer.is_success:
                 encrypt = NemoEncrypt()
                 customer_id = encrypt.encrypt_val(customer.customer.id)

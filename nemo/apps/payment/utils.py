@@ -57,3 +57,36 @@ def seller_approve(requests, current_user, customer_id, fee):
     })
 
     return result
+
+
+def create_customer(request, form, expiration_date):
+
+    customer = braintree.Customer.create({
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+        "email": request.user.email,
+        "credit_card": {
+            "number": form.cleaned_data['card_number'],
+            "expiration_date": expiration_date,
+            "cvv": form.cleaned_data['cvv']
+        }
+    })
+
+    return customer
+
+
+def check_user_card(form, expiration_date):
+
+    result = braintree.Transaction.sale({
+        "amount": 1,
+        "credit_card": {
+            "number": form.cleaned_data['card_number'],
+            "expiration_date": expiration_date,
+            "cvv": form.cleaned_data['cvv']
+        },
+        "options": {
+            "submit_for_settlement": True
+        }
+    })
+
+    return result

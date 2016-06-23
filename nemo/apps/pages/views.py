@@ -26,13 +26,15 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
     template_name = 'pages/out_transactions.html'
 
     def get_context_data(self, data, **kwargs):
-        
+
             context = super(OutTransactionsView, self).get_context_data(out_transactions=data, **kwargs)
             context['form'] = RentForm()
             return context
 
     def get(self, request):
-
+        """
+        Return users out transactions.
+        """
         out_transactions = Rent.objects.filter(user_id=request.user.id)
         hour = timezone.now() - datetime.timedelta(hours=2)
         for out_transaction in out_transactions:
@@ -207,7 +209,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
             else:
                 messages.error(request, "There is no request")
         else:
-            messages.error(request, "There is no request 20")
+            messages.error(request, "There is no request")
 
         return HttpResponseRedirect('/profile/in_transactions/')
 
@@ -246,9 +248,6 @@ class UnreadMessagesView(LoginRequiredMixin, View):
         partner_id = request.POST["partner_id"]
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
-        except Thread.DoesNotExist:
-            thread = None
-        if thread:
             thread_id = thread.id
             unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
                                .values('id', 'message', 'modified', 'from_user_id__photo', 'thread_id'))
@@ -261,7 +260,7 @@ class UnreadMessagesView(LoginRequiredMixin, View):
                 message.unread = 0
                 message.save()
             return HttpResponse(message_data, content_type="application/json")
-        else:
+        except Thread.DoesNotExist:
             return JsonResponse({'response': False})
 
 
@@ -300,28 +299,20 @@ class ConversationView(LoginRequiredMixin, View):
             GROUP BY thread.id
             ORDER BY thread.modified DESC''',
             [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
-
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
-        except Thread.DoesNotExist:
-            thread = None
-        if thread:
             messages = Message.objects.filter(thread_id=thread.id)
             unread_messages = Message.objects.filter(thread_id=thread.id, from_user_id=partner_id, unread=1)
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
-        else:
+        except Thread.DoesNotExist:
             thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = ""
             thread.save()
-
-        if messages:
-            context = {'threads': threads, 'messages': messages}
-        else:
-            context = {'threads': threads}
+        context = {'threads': threads, 'messages': messages}
 
         return render(request, 'pages/conversation.html', context)
 
@@ -331,13 +322,9 @@ class ConversationView(LoginRequiredMixin, View):
         last_message = request.POST["message"]
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
-        except Thread.DoesNotExist:
-            thread = None
-
-        if thread:
             thread.last_message = last_message
             thread.save()
-        else:
+        except Thread.DoesNotExist:
             thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
