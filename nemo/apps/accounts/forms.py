@@ -48,9 +48,9 @@ class SocialForm(forms.Form):
 
     email = forms.CharField(label='Email', max_length=60, min_length=5, required=True)
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
-                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
-                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
 
 class ProfileForm(forms.Form):
@@ -64,22 +64,22 @@ class ProfileForm(forms.Form):
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                               validators=[validate_numbersonly],
+                               widget=forms.TextInput(attrs={'class': 'formControl'}), )
     first_name = forms.CharField(label='First Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
     image_file = forms.FileField(label='Select an Image', required=False, validators=[validate_file])
 
     user = forms.CharField(required=True,
-                               widget=forms.TextInput(attrs={'id': 'user', 'class': 'formControl', 'type': 'hidden'}), )
+                           widget=forms.TextInput(attrs={'id': 'user', 'class': 'formControl', 'type': 'hidden'}), )
 
     def clean(self):
         email = self.cleaned_data['email']
         user = self.cleaned_data['user']
         if User.objects.filter(email=email).exclude(id=user).exists():
-             raise forms.ValidationError("This email is already taken")
+            raise forms.ValidationError("This email is already taken")
         return self.cleaned_data
 
 
@@ -176,20 +176,20 @@ class ChangePasswordForm(forms.Form):
 class BillingForm(forms.Form):
 
     first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[validate_lettersonly],
-                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     card_number = forms.CharField(label="Card Number", max_length=16, min_length=15, required=True,
-                               validators=[validate_numbersonly],
-                               widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+                                  validators=[validate_numbersonly],
+                                  widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
     cvv = forms.CharField(label="Cvv", max_length=4, min_length=3, required=True,
-                               validators=[validate_numbersonly],
-                               widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+                          validators=[validate_numbersonly],
+                          widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
     month = forms.CharField(label="Month", max_length=2, min_length=2, required=True,
-                               validators=[validate_month],
-                               widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off'}), )
+                            validators=[validate_month],
+                            widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off'}), )
 
     year = forms.CharField(label="Year", max_length=4, min_length=2, required=True,
-                               validators=[validate_year],
-                               widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+                           validators=[validate_year],
+                           widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )

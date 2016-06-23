@@ -116,7 +116,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                 status = 'seller_canceled'
 
             if requests.status == 'pending' or requests.status == 'approved':
-                encrypt= NemoEncrypt()
+                encrypt = NemoEncrypt()
                 current_user = User.objects.get(id=requests.owner_id)
                 orderer = User.objects.get(id=requests.user_id)
                 if status == 'approved':
@@ -141,7 +141,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                 elif status == 'seller_canceled':
                     form = RentForm(data=request.POST)
                     if form.is_valid():
-                        expiration_date = form.cleaned_data['month'] +'/' + form.cleaned_data['year']
+                        expiration_date = form.cleaned_data['month'] + '/' + form.cleaned_data['year']
                         if current_user.customer_id:
                             customer = braintree.Customer.update(encrypt.decrypt_val(current_user.customer_id), {
                                 "credit_card": {
@@ -156,9 +156,9 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                                 "last_name": request.user.last_name,
                                 "email": request.user.email,
                                 "credit_card": {
-                                "number": form.cleaned_data['card_number'],
-                                "expiration_date": expiration_date,
-                                "cvv": form.cleaned_data['cvv']
+                                    "number": form.cleaned_data['card_number'],
+                                    "expiration_date": expiration_date,
+                                    "cvv": form.cleaned_data['cvv']
                                 }
                             })
                         if customer.is_success:
@@ -250,13 +250,13 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             thread = None
         if thread:
             thread_id = thread.id
-            unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread = 1)
-                .values('id', 'message', 'modified', 'from_user_id__photo', 'thread_id'))
+            unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
+                               .values('id', 'message', 'modified', 'from_user_id__photo', 'thread_id'))
             for unread_message in unread_messages:
                 unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
 
             message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
-            messages = Message.objects.filter(thread_id=thread_id, from_user_id=partner_id,unread=1)
+            messages = Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
             for message in messages:
                 message.unread = 0
                 message.save()
@@ -299,7 +299,7 @@ class ConversationView(LoginRequiredMixin, View):
             WHERE thread.user1_id=%s OR thread.user2_id=%s
             GROUP BY thread.id
             ORDER BY thread.modified DESC''',
-                 [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
+            [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
@@ -312,7 +312,7 @@ class ConversationView(LoginRequiredMixin, View):
                 unread_message.unread = 0
                 unread_message.save()
         else:
-            thread=Thread()
+            thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = ""
@@ -330,7 +330,7 @@ class ConversationView(LoginRequiredMixin, View):
         partner_id = id
         last_message = request.POST["message"]
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
         except Thread.DoesNotExist:
             thread = None
 
@@ -338,7 +338,7 @@ class ConversationView(LoginRequiredMixin, View):
             thread.last_message = last_message
             thread.save()
         else:
-            thread=Thread()
+            thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = last_message
@@ -369,7 +369,7 @@ class UserStatusView(LoginRequiredMixin, View):
             WHERE thread.user1_id=%s OR thread.user2_id=%s
             GROUP BY thread.id
             ORDER BY thread.modified DESC''',
-                 [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
+            [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
         final = []
         for t in threads:

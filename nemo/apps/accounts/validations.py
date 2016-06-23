@@ -30,7 +30,7 @@ def validate_month(value):
 
 def validate_year(value):
 
-    if not re.match("^[0-9]*$", value) or ( int(value) > 2050 or int(value) < datetime.datetime.now().year):
+    if not re.match("^[0-9]*$", value) or (int(value) > 2050 or int(value) < datetime.datetime.now().year):
         raise ValidationError('Please enter a correct year')
 
 

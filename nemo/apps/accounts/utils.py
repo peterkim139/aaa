@@ -4,7 +4,7 @@ from django.contrib.gis.geoip import GeoIP
 
 
 def generate_activation_key(email):
-    salt = hashlib.sha1(str(os.urandom(10))).hexdigest()
+    salt = os.urandom(10).encode('hex')
     if isinstance(email, unicode):
         email = email.encode('utf-8')
     activation_key = hashlib.sha1(salt + email).hexdigest()

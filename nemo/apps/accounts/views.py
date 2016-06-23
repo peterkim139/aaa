@@ -315,7 +315,7 @@ class SearchView(View):
             for item in items:
                 item.city = item.distance
                 item.address = item.image_name
-                item.status = item.first_name.title()[0] +'.'+item.last_name.title()[0]+'.'
+                item.status = item.first_name.title()[0] + '.' + item.last_name.title()[0]+'.'
 
             items = serializers.serialize('json', list(items))
             return JsonResponse({'items': items, 'count': count, 'limit': limit, 'longitude': longitude, 'latitude': latitude}, safe=False)
@@ -376,9 +376,9 @@ class BillingView(LoginRequiredMixin, View):
             result = braintree.Transaction.sale({
                 "amount": 1,
                 "credit_card": {
-                "number": form.cleaned_data['card_number'],
-                "expiration_date": expiration_date,
-                "cvv": form.cleaned_data['cvv']
+                    "number": form.cleaned_data['card_number'],
+                    "expiration_date": expiration_date,
+                    "cvv": form.cleaned_data['cvv']
                 },
                 "options": {
                     "submit_for_settlement": True
@@ -395,9 +395,9 @@ class BillingView(LoginRequiredMixin, View):
                 "last_name": request.user.last_name,
                 "email": request.user.email,
                 "credit_card": {
-                "number": form.cleaned_data['card_number'],
-                "expiration_date": expiration_date,
-                "cvv": form.cleaned_data['cvv']
+                    "number": form.cleaned_data['card_number'],
+                    "expiration_date": expiration_date,
+                    "cvv": form.cleaned_data['cvv']
                 }
             })
             if customer.is_success:

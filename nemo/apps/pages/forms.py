@@ -40,16 +40,16 @@ class AddListingForm(forms.Form):
     )
 
     street_address = forms.CharField(label='Address', max_length=255, required=True, validators=[has_numbers],
-                           widget=forms.TextInput(attrs={'id': 'street_address', 'class': 'formControl'}), )
+                                     widget=forms.TextInput(attrs={'id': 'street_address', 'class': 'formControl'}), )
     city = forms.CharField(label='City', max_length=255, required=True, validators=[validate_lettersonly],
                            widget=forms.TextInput(attrs={'id': 'city', 'class': 'formControl'}), )
 
     state = forms.CharField(max_length=2,
-                widget=forms.Select(choices=CHOICES, attrs={'class': 'formControl'}), required=True)
+                            widget=forms.Select(choices=CHOICES, attrs={'class': 'formControl'}), required=True)
 
     postal_code = forms.CharField(label="Zip Code", max_length=5, min_length=5, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'id': 'postal_code', 'class': 'formControl'}), )
+                                  validators=[validate_numbersonly],
+                                  widget=forms.TextInput(attrs={'id': 'postal_code', 'class': 'formControl'}), )
 
     name = forms.CharField(label='Title', max_length=255, required=True,
                            widget=forms.TextInput(attrs={'id': 'name', 'class': 'formControl'}), )
