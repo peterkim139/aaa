@@ -4,6 +4,7 @@ from django import forms
 from accounts.validations import *
 
 
+
 class RentForm(forms.Form):
 
     card_number = forms.CharField(label="Card Number", max_length=16, min_length=15, required=True,
@@ -60,12 +61,12 @@ class AddListingForm(forms.Form):
                             widget=forms.TextInput(attrs={'id': 'price', 'class': 'formControl', 'autocomplete': 'off'}),)
     image_file = forms.CharField(required=True,
                                  widget=forms.TextInput(attrs={'id': 'filename', 'class': 'formControl', 'type': 'hidden'}), )
-
     latitude = forms.CharField(required=True,
                                widget=forms.TextInput(attrs={'id': 'latitudes', 'class': 'formControl', 'type': 'hidden'}), )
     longitude = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'id': 'longitudes', 'class': 'formControl', 'type': 'hidden'}), )
-
+    item_id = forms.CharField(required=False,
+                                widget=forms.TextInput(attrs={'id': 'item_id', 'class': 'formControl', 'type': 'hidden'}), )
 
 class MessageForm(forms.ModelForm):
     class Meta:
@@ -73,3 +74,12 @@ class MessageForm(forms.ModelForm):
         fields = [
             "message",
         ]
+
+class SupportForm(forms.Form):
+
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}), validators=[validate_email])
+    name = forms.CharField(label='Name', min_length=2, max_length=255, required=True,
+                           validators=[validate_lettersonly],
+                           widget=forms.TextInput(attrs={'class': 'formControl'}), )
+    comments = forms.CharField(label='Message', required='True', widget=forms.Textarea(attrs={'id': 'comments', 'class': 'formControl'}))
+

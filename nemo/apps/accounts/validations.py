@@ -22,6 +22,9 @@ def validate_numbersonly(value):
     if not re.match("^[0-9]*$", value):
         raise ValidationError('Field should contain only numbers')
 
+def validate_email(value):
+    if not re.match("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", value):
+        raise ValidationError('Please enter correct email')
 
 def validate_month(value):
     if not re.match("^[0-9]*$", value) or (int(value) < 1 or int(value) > 12):
@@ -36,7 +39,7 @@ def validate_year(value):
 
 def validate_price(value):
 
-    if not (int(value) >= 1 or int(value) <= 999.99):
+    if not (float(value) >= 1 or float(value) <= 999.99):
         raise ValidationError('Price field can accept values from 1 to 999.99 only.')
 
 

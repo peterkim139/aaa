@@ -379,6 +379,46 @@ $("#login_tab").on('click', function() {
         });
     }
 
+    ///////////////////////////////////// Support form validation //////////////////////////////////////////////
+
+    $("#support_form").validate({
+        rules: {
+            'email': {
+                required: true,
+                customemail: true
+            },
+            'name': {
+                required: true,
+                only_letters: true,
+                minlength: 2,
+            },
+            'comments':{
+                required: true,
+            },
+        },
+        messages: {
+            'email': {
+                required: "This field is required."
+            },
+            'name': {
+                required: "This field is required.",
+            },
+            'comments':{
+                required: "This field is required.",
+            },
+        },
+        errorClass: "help-inline",
+            errorElement: "span",
+            highlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').addClass('error');
+                $(element).parents('.control-group').removeClass('success');
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+    });
+
     ///////////////////////////////////////////// Deactivate account ////////////////
 
     $(".change_account_status_item").on('click',function(){
@@ -486,6 +526,45 @@ $("#login_tab").on('click', function() {
                     alert(response.message);
                 }
             },
+        });
+    });
+
+    ///////////////////////////empty add listing form ///////////////////////
+
+    $("#add_listing_button").on('click',function(){
+       $("#add_listing_form").trigger('reset');
+       $("#filename").val('');
+       $('#add_listing_title').text('Add New Listing');
+    });
+
+    //////////////// edit listing /////////////
+
+    $(".edit_listing_icon").on('click',function(){
+        var item_id = $(this).attr('id');
+        $('#item_id').val(item_id);
+        $.ajax({
+            url:'/edit_listing/',
+            type:'post',
+            async:false,
+        data:{
+            item_id: item_id
+        },
+        success:function(response) {
+            response = $.parseJSON(response);
+            $('#add_listing_title').text('Edit Listing')
+            $('#street_address').val(response[0].fields.address)
+            $('#city').val(response[0].fields.city)
+            $('#postal_code').val(response[0].fields.postal_code)
+            $('#name').val(response[0].fields.name)
+            $('#description').val(response[0].fields.description)
+            $('#price').val(response[0].fields.price)
+            $('#latitudes').val(response[0].fields.latitude)
+            $('#longitudes').val(response[0].fields.longitude)
+            $('#filename').val(response[1].fields.image_name)
+            $("#id_subcategory option[value="+response[0].fields.subcategory+"]").attr('selected','selected');
+            $("#id_state option[value="+response[0].fields.state+"]").attr('selected','selected');
+            $('#preview_image').attr('src','/media/images/items/'+response[1].fields.image_name)
+        },
         });
     });
 

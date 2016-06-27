@@ -46,7 +46,7 @@ class AuthenticationForm(LoginFormMixin, CoreAuthenticationForm):
 
 class SocialForm(forms.Form):
 
-    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True)
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, validators=[validate_email])
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
@@ -59,7 +59,7 @@ class ProfileForm(forms.Form):
             super(ProfileForm, self).__init__(*args, **kwargs)
             self.fields['image_file'].widget.attrs.update({'class': 'formControl'})
 
-    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}))
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}), validators=[validate_email])
     phone_number = forms.CharField(label="Phone Number - Numbers only", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
@@ -85,8 +85,7 @@ class ProfileForm(forms.Form):
 
 class RegistrationForm(forms.Form):
 
-    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True,
-                            widget=forms.TextInput(attrs={'class': 'formControl'}))
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, validators=[validate_email])
     phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
@@ -133,7 +132,7 @@ class RegistrationForm(forms.Form):
 
 
 class ResetForm(forms.Form):
-    email = forms.CharField(label='Email', max_length=255, required=True,
+    email = forms.CharField(label='Email', max_length=255, required=True, validators=[validate_email],
                             widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     def clean_email(self):

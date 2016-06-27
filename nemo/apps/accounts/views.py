@@ -18,21 +18,10 @@ from pages.forms import AddListingForm
 import braintree
 import datetime
 from payment.utils import show_errors, payment_connection, create_customer, check_user_card
-import time
+from django.http import HttpResponse
+
 
 class HomeView(View):
-
-    def timer(f):
-        def tmp(*args, **kwargs):
-            t = time.time()
-            res = f(*args, **kwargs)
-            print "time: %f" % (time.time()-t)
-            return res
-
-        return tmp
-
-
-    @timer
     def get(self, request):
 
         cats = SubCategory.objects.all()
@@ -508,7 +497,16 @@ class ListingsView(LoginRequiredMixin, View):
 
         form = AddListingForm(request.POST, request.FILES)
         if form.is_valid():
-            parameters = Params()
+            item_id = form.cleaned_data['item_id']
+            if item_id and 'item_id' in request.session and item_id == request.session['item_id']:
+                parameters = Params.objects.get(item_owner_id=request.user.id, id=item_id)
+                image = Image.objects.get(param_image_id=item_id)
+                message_text = "Successfully Edited"
+                del request.session['item_id']
+            else:
+                message_text = "Successfully Added"
+                parameters = Params()
+                image = Image()
             parameters.price = form.cleaned_data['price']
             parameters.name = form.cleaned_data['name']
             parameters.item_owner_id = request.user.id
@@ -522,7 +520,7 @@ class ListingsView(LoginRequiredMixin, View):
             parameters.longitude = form.cleaned_data['longitude']
             parameters.save()
 
-            image = Image()
+            image_filename = ''
             if 'image_filename' in request.session:
                 image_filename = request.session['image_filename']
             image_name = form.cleaned_data['image_file']
@@ -532,11 +530,21 @@ class ListingsView(LoginRequiredMixin, View):
                 image.save()
                 del request.session['image_filename']
 
-            messages.success(request, "Successfully Added")
+            messages.success(request, message_text)
             return HttpResponseRedirect('/listings/')
         else:
             context = {'form': form, 'val_error': 'true'}
             return render(request, 'accounts/listings.html', context)
+
+class EditListingView(LoginRequiredMixin, View):
+
+    def post(self, request):
+
+        item_id = request.POST['item_id']
+        param = Params.objects.get(item_owner_id=request.user.id, id=item_id)
+        image = Image.objects.get(param_image_id=item_id)
+        request.session['item_id'] = item_id
+        return HttpResponse(serializers.serialize("json", [param,image]))
 
 
 class ChangeAccountStatusView(LoginRequiredMixin, View):

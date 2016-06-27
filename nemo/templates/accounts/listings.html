@@ -61,8 +61,7 @@
                                                             <li>
                                                                 <label>Actions:</label>
                                                                 <span class="listingActions">
-                                                                    <button class="success"><i class="icon-edit"></i></button>
-                                                                    <!--<button class="neutral"><i class="icon-pause"></i></button>-->
+                                                                    <a href="#add-listing" id="{{ listing.id }}" class="openSlideBtn success edit_listing_icon"><i class="icon-edit"></i></a>
                                                                     <button id="{{ listing.id }}" class="change_listing_status" {% if listing.status == "published" %} data-status-type="unpublished">Unpublish{% elif listing.status == 'unpublished'%}data-status-type="published">Publish{% endif %}</button>
                                                                     <button class="danger change_listing_status" id="{{ listing.id }}" data-status-type="deleted"><i class="icon-trash"></i></button>
                                                                     <button class="neutral"><i class="icon-share"></i></button>
@@ -85,7 +84,7 @@
                         <form method="POST" id="add_listing_form" action="/listings/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="subTitleWrap hasInput">
-                            <h2>Add New Listing</h2>
+                            <h2 id="add_listing_title">Add New Listing</h2>
                             <a href="#added-listings" class="openSlideBtn btn btnBorder btnSquare">×</a>
                         </div>
                         <div class="colRow">
@@ -180,6 +179,9 @@
                                 </div>
                                 <div>
                                    {{ form.longitude }}
+                                </div>
+                                <div>
+                                   {{ form.item_id }}
                                 </div>
                                 <a href="#listing-preview" class="btn btnBorder btnBlock" id="preview_add_listing_form">Save & Preview</a>
                             </div>

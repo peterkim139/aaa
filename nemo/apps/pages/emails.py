@@ -208,3 +208,27 @@ def seller_approved_request(request, client, seller, email, item, price):
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
+
+def send_support_email(email, name, comments):
+
+    mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
+
+    subject = 'New Message from Support form'
+    context = Context({
+        'comments': comments
+    })
+    context = loader.render_to_string('pages/emails/send_support_email.html', context)
+    message = {
+        'subject': subject,
+        'bcc_address': 'message.bcc_address@example.com',
+        'from_email': email,
+        'from_name': name,
+        'html': context,
+        'to': [{'email': settings.ADMIN_EMAIL,
+                'type': 'to'}],
+        'return_path_domain': 'nemo.codebnb.me',
+        'signing_domain': 'nemo.codebnb.me',
+        'tracking_domain': 'nemo.codebnb.me',
+    }
+    mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')

@@ -30,5 +30,6 @@ urlpatterns = [
      url(r'^delete_billing/$', views.DeleteBillingView.as_view(), name='delete_billing'),
      url(r'^change_account_status/$', views.ChangeAccountStatusView.as_view(), name='change_account_status'),
      url(r'^listings/$', views.ListingsView.as_view(), name='listings'),
+     url(r'^edit_listing/$', views.EditListingView.as_view(), name='edit_listing'),
      url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
 ]

@@ -10,14 +10,14 @@ from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from payment.models import Rent
-from .forms import RentForm
+from .forms import RentForm, SupportForm
 from accounts.models import User
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
 from pages.utils import date_handler, save_file, refund_price
 from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer
-from pages.emails import seller_approved_request, seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after
+from pages.emails import seller_approved_request, seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
 from pages.models import Image, Thread, Message
 
 
@@ -301,12 +301,14 @@ class ConversationView(LoginRequiredMixin, View):
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
             thread.last_message = last_message
+            thread.modified = timezone.now()
             thread.save()
         except Thread.DoesNotExist:
             thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = last_message
+            thread.modified = timezone.now()
             thread.save()
 
         message = Message()
@@ -347,6 +349,29 @@ class UserStatusView(LoginRequiredMixin, View):
 
         status_list = json.dumps(final)
         return HttpResponse(status_list, content_type="application/json")
+
+class SupportView(View):
+
+    def get(self, request):
+        form = SupportForm()
+        context = {'form': form}
+        return render(request, 'pages/support.html', context)
+
+    def post(self, request):
+        form = SupportForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            name = form.cleaned_data['name']
+            comments = form.cleaned_data['comments']
+            if send_support_email(email, name, comments):
+                messages.success(request, "Your message has been sent successfully")
+            else:
+                messages.error(request, "Your message could not be sent")
+            return HttpResponseRedirect('/profile/support/')
+        else:
+            context = {'form': form}
+            return render(request, 'pages/support.html', context)
+
 
 
 
