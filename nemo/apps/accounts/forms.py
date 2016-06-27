@@ -85,7 +85,8 @@ class ProfileForm(forms.Form):
 
 class RegistrationForm(forms.Form):
 
-    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, validators=[validate_email])
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True,
+                            validators=[validate_email], widget=forms.TextInput(attrs={'class': 'formControl'}))
     phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )

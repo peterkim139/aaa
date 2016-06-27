@@ -1,24 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form method="post" id="support_form" action="">
-    {% csrf_token %}
-    <div>
-        {{ form.email.label_tag}}
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
-    <div>
-        {{ form.name.label_tag}}
-        {{ form.name }}
-        {{ form.name.errors }}
-     </div>
-    <div>
-        {{ form.comments.label_tag}}
-        {{ form.comments }}
-        {{ form.comments.errors }}
-     </div>
-     <input type="submit" value="send">
- </form>
+	<!-- Start Support Block -->
+
+	<section class="supportBlock">
+		<div class="container">
+			<div class="fixBlock">
+				<h3 class="blockTitle">Got Questions?</h3>
+				<p class="text">We are here to help! Simply send us a message below and we'll contact you within 24 hrs. Don't forget to <a href="#login_popup" class="popupBtn">login</a> first!</p>
+
+				<form method="post" action="" id="support_form">
+                        {% csrf_token %}
+			            <div class="formRow alignL">
+                            {{ form.name.label_tag}}
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
+			            <div class="formRow alignL">
+                            {{ form.email.label_tag}}
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+			            <div class="formRow alignL">
+                            {{ form.comments.label_tag}}
+                            {{ form.comments }}
+                            {{ form.comments.errors }}
+                        </div>
+						<button type="submit" class="btn btnPrime">Send</button>
+				</form>
+			</div>
+		</div>
+	</section>
+
+	<!-- End Support Block -->
+
+</main>
 
 {% endblock %}
