@@ -1,42 +1,13 @@
 {% load staticfiles %}
+{% load registration_form %}
 <div id="reg_popup" class="mfp-hide popupWrap loginPopup">
     <div class="popupHead">
         <h3>Register in NEMO</h3>
     </div>
     <div class="popupBody">
-        <form method="post" action="">
-            <div class="formRow">
-                <label for="reg_username" class="formLabel">Email:</label>
-                <input class="formControl" id="reg_username" maxlength="255" name="username" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_phone" class="formLabel">Phone number:</label>
-                <input class="formControl" id="reg_phone" name="phone" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_zip" class="formLabel">Zip Code:</label>
-                <input class="formControl" id="reg_zip" name="zip" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_name" class="formLabel">Name:</label>
-                <input class="formControl" id="reg_name" name="name" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_name" class="formLabel">Name:</label>
-                <input class="formControl" id="reg_name" name="name" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_surname" class="formLabel">Surname:</label>
-                <input class="formControl" id="reg_surname" name="surname" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_password" class="formLabel">Password:</label>
-                <input class="formControl" id="reg_password" name="password" type="password" />
-            </div>
-            <div class="formRow">
-                <label for="reg_confirm_password" class="formLabel">Confirm Password:</label>
-                <input class="formControl" id="reg_confirm_password" name="confirm_password" type="password" />
-            </div>
+        <form method="post" action="{% url 'accounts:register' %}" id="registration">
+            {% csrf_token %}
+            {% registration_form %}
             <input type="submit" value="Send" class="btn btnPrime btnBlock">
         </form>
     </div>

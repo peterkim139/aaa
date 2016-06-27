@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
+from django.core.cache import cache
 from django.contrib import messages
 from django.core import serializers
 from .forms import ProfileForm, RegistrationForm, AuthenticationForm, ResetForm, ChangePasswordForm, SocialForm, BillingForm
@@ -11,19 +12,31 @@ from accounts.utils import get_coordinates, generate_activation_key
 from accounts.emails import reset_mail, confirm_register_mail
 from payment.generate import NemoEncrypt
 from accounts.models import User, Billing
-from category.models import Params, SubCategory
+from category.models import Params, SubCategory, Category
 from pages.models import Image
 from pages.forms import AddListingForm
 import braintree
 import datetime
 from payment.utils import show_errors, payment_connection, create_customer, check_user_card
-
+import time
 
 class HomeView(View):
+
+    def timer(f):
+        def tmp(*args, **kwargs):
+            t = time.time()
+            res = f(*args, **kwargs)
+            print "time: %f" % (time.time()-t)
+            return res
+
+        return tmp
+
+
+    @timer
     def get(self, request):
 
         cats = SubCategory.objects.all()
-
+        categories = Category.objects.all()
         coordinates = get_coordinates(request)
         latitude = coordinates[0]
         longitude = coordinates[1]
@@ -52,7 +65,7 @@ class HomeView(View):
                 ORDER BY parametrs.created DESC
                 LIMIT 5''')
 
-        context = {'items': items, 'recent_items': recent_items, 'cats': cats, 'count': count, 'latitude': latitude, 'longitude': longitude}
+        context = {'items': items, 'recent_items': recent_items, 'categories':categories, 'cats': cats, 'count': count, 'latitude': latitude, 'longitude': longitude}
         return render(request, 'accounts/home.html', context)
 
 
@@ -75,21 +88,20 @@ class LoginView(View):
             return response
 
 
-class RegisterView(TemplateView):
-    template_name = 'accounts/registr.html'
+class RegisterView(View):
 
-    def get_context_data(self, **kwargs):
-        data = {}
-        context = super(RegisterView, self).get_context_data(**kwargs)
-        context['form'] = RegistrationForm()
-        if 'form' in kwargs:
-            context.update({'form': RegistrationForm(self.request.POST)})
-        return context
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect('/')
-        return self.render_to_response(self.get_context_data())
+    # def get_context_data(self, **kwargs):
+    #     context = super(RegisterView, self).get_context_data(**kwargs)
+    #     print context
+    #     context['form'] = RegistrationForm()
+    #     if 'form' in kwargs:
+    #         context.update({'form': RegistrationForm(self.request.POST)})
+    #     return context
+    #
+    # def get(self, request):
+    #     if request.user.is_authenticated():
+    #         return HttpResponseRedirect('/')
+    #     return self.render_to_response(self.get_context_data())
 
     def post(self, request):
         form = RegistrationForm(data=request.POST)
@@ -105,12 +117,17 @@ class RegisterView(TemplateView):
             user.save()
             confirm_register_mail(request, user.email, user.first_name, user.last_name, user.zip_code)
             messages.success(request, "Your request has been sent successfully")
-            return HttpResponseRedirect('/')
+            HttpResponseRedirect('/')
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            response = HttpResponseRedirect('/')
+            response.set_cookie('registr_error', 'error')
+            cache.set('registartion_error', RegistrationForm(request.POST))
+
+        return response
 
 
 class LogoutView(TemplateView):
+
     template_name = 'accounts/home.html'
 
     def get(self, request):
@@ -249,6 +266,7 @@ class SearchView(View):
     def get(self, request):
         cats = SubCategory.objects.all()
         categories = request.GET.getlist('category')
+        category_types = Category.objects.all()
         checked_categories = []
         for checked_category in categories:
             checked_categories.append(long(checked_category))
@@ -277,6 +295,11 @@ class SearchView(View):
         else:
             end_range = max_price
 
+        if request.GET.get("type"):
+            cat_type = request.GET.get("type")
+        else:
+            cat_type = 1
+
         coordinates = get_coordinates(request)
         latitude = coordinates[0]
         longitude = coordinates[1]
@@ -292,6 +315,8 @@ class SearchView(View):
             items = Params.objects.raw('''SELECT *,images.image_name as image_name,(((ACOS(SIN(%s * PI() / 180) * SIN(parametrs.latitude * PI() / 180) + COS(%s * PI() / 180) * COS(parametrs.latitude * PI() / 180) * COS((%s - parametrs.longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)) AS distance FROM parametrs
                 LEFT JOIN images
                 ON images.param_image_id=parametrs.id
+                LEFT JOIN sub_category
+                ON sub_category.id=parametrs.subcategory_id
                 LEFT JOIN user
                 ON user.id=parametrs.item_owner_id
                 WHERE (parametrs.name LIKE %s or parametrs.description LIKE %s)
@@ -299,10 +324,11 @@ class SearchView(View):
                 and user.is_active = 1
                 and parametrs.price >= %s and parametrs.price <= %s
                 and parametrs.status = 'published'
+                and sub_category.category_id = %s
                 ORDER BY distance ASC
                 LIMIT %s
                 OFFSET %s''',
-                [latitude, latitude, longitude, '%' + query + '%', '%' + query + '%', categories, start_range, end_range, limit, offset])
+                [latitude, latitude, longitude, '%' + query + '%', '%' + query + '%', categories, start_range, end_range, cat_type, limit, offset])
             count = len(list(items))
         except Params.DoesNotExist:
             count = 0
@@ -317,7 +343,7 @@ class SearchView(View):
             items = serializers.serialize('json', list(items))
             return JsonResponse({'items': items, 'count': count, 'limit': limit, 'longitude': longitude, 'latitude': latitude}, safe=False)
         else:
-            context = {'longitude': longitude, 'latitude': latitude, 'items': items, 'cats': cats, 'count': count, 'limit': limit, 'checked_categories': checked_categories, 'max_price': max_price}
+            context = {'category_types': category_types,'longitude': longitude, 'latitude': latitude, 'items': items, 'cats': cats, 'count': count, 'limit': limit, 'checked_categories': checked_categories, 'max_price': max_price}
             return render(request, 'accounts/search_results.html', context)
 
 

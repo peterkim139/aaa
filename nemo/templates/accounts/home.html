@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
 <!-- POPUPS -->
 <div id="change-address" class="mfp-hide popupWrap">
 	<div class="popupHead">
@@ -41,10 +40,10 @@
 				</div>
 				<div class="col3 colTab10 colMob12">
 					<div class="formRow">
-						<select class="formControl">
-							<option>Rent</option>
-							<option>Buy</option>
-							<option>Share</option>
+						<select class="formControl" name="type">
+							{% for category in categories %}
+								<option value='{{category.id}}'>{{category.name|capfirst}}</option>
+							{% endfor %}
 						</select>
 					</div>
 				</div>

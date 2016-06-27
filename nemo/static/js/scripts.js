@@ -244,6 +244,28 @@ $("#login_tab").on('click', function() {
         "Please enter correct email address");
 
 
+    ///////////////////////////////////// Register popup //////////////////////////////////////////////
+
+    if(getCookie('registr_error') != ''){
+        $("form#registration label").each(function() {
+            $(this).addClass('formLabel');
+            var attr_name = $(this).next().next().attr('id');
+            if(typeof attr_name !== "undefined"){
+                $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
+                $(this).next().next().after($(this).next());
+            }else{
+                $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+            }
+        });
+        $('#registr_tab').click();
+        setCookie('registr_error','',1);
+    }else{
+        $("form#registration label").each(function() {
+           $(this).addClass('formLabel');
+           $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+        });
+    }
+
     ///////////////////////////////////// Register form validation //////////////////////////////////////////////
 
     $("#registration").validate({

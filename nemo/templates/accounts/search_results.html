@@ -16,10 +16,10 @@
                 </div>
                 <div class="col3 colTab10 colMob12">
                     <div class="formRow">
-                        <select class="formControl">
-                            <option>Rent</option>
-                            <option>Buy</option>
-                            <option>Share</option>
+                        <select class="formControl"  name="type" id="cat_types">
+                            {% for category_type in category_types %}
+								<option value='{{category_type.id}}'>{{category_type.name|capfirst}}</option>
+							{% endfor %}
                         </select>
                     </div>
                 </div>
@@ -110,11 +110,16 @@
 ////////////////////price range slider jquery ui//////////////
 
 var start_range = '{{request.GET.start_range}}' ? '{{request.GET.start_range}}' : 0;
+var cat_type = '{{request.GET.type}}' ? '{{request.GET.type}}' : '';
 var end_range = '{{request.GET.end_range}}' ? '{{request.GET.end_range}}' : {{ max_price }};
 var latitude = '{{latitude}}';
 var longitude = '{{longitude}}';
 
 $(function() {
+    if(cat_type != ''){
+        $("#cat_types option[value="+cat_type+"]").attr('selected','selected');
+    }
+
     $( "#slider-range" ).slider({
       range: true,
       min: 0,

@@ -18,8 +18,10 @@
 					</div>
 					<button id="showMenu" class="hamburgerBtn"><i class="icon-bars"></i></button>
 				</header>
+				{% if user.is_anonymous %}
 				{% include "elements/login_form.html" %}
 				{% include "elements/reg_form.html" %}
+				{% endif %}
 				<div class="container">
 					<div class="homeTopCont">
 						<div class="container">
