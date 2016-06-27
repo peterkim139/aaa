@@ -81,6 +81,9 @@ body {
   .container.large {
     width: 1450px; }
 
+.clear {
+  clear: both; }
+
 .clearAfter:after, .container:after, .subTitleWrap.hasTabs:after, .tabsStyle1:after, .labelValueList li:after, .rentShareSale:after, .subTitleTabs:after, .messagesL .ui-tabs-nav:after, .msgThread > li:after, .listingRatingLine:after, .birthDate:after {
   content: '';
   display: block;
@@ -1147,6 +1150,9 @@ Home page
     .homeTop .headerNav ul li a {
       color: #fff; }
 
+.showMobile {
+  display: none; }
+
 .homeTopCont {
   position: absolute;
   width: 100%;
@@ -1213,13 +1219,13 @@ Home page
   margin-top: 5px;
   cursor: pointer; }
 
-.homeSrch {
+.homeSrch, .supportBlock {
   background: #f9fbf9;
   padding: 34px 0;
   border-bottom: solid 1px #f0f0f0; }
-  .homeSrch .formControl {
+  .homeSrch .formControl, .supportBlock .formControl {
     height: 50px; }
-  .homeSrch .btnIcon {
+  .homeSrch .btnIcon, .supportBlock .btnIcon {
     height: 50px;
     background: #5bbc2e;
     font-size: 20px; }
@@ -2472,6 +2478,39 @@ start braintree page
 /*
 end braintree page
 */
+/* Start Support Page Styles */
+.fixBlock {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2em;
+  border: 1px solid #f0f0f0;
+  background-color: #fff;
+  box-shadow: 0px 0px 94px 0px #f0f0f0; }
+
+.blockTitle {
+  font-size: 21px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0; }
+
+.text {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  line-height: 1.5; }
+  .text a {
+    color: #5bbc2e;
+    font-weight: 400; }
+    .text a:hover {
+      color: #76d34a; }
+
+/* End Support Page Styles */
 /*
 Responsive styles
 */
@@ -2480,14 +2519,32 @@ Responsive styles
   .searchWrap .grid-item {
     width: 50%; } }
 /* end of (max-width: 1366px) */
-@media (max-width: 1070px) {
+@media (max-width: 1090px) {
   body {
     min-width: 100%;
     width: 100%; }
 
   .container,
   .container.small {
-    width: 100%; } }
+    width: 100%; }
+
+  .accountWrapper {
+    padding-left: 0px; }
+
+  .accountL {
+    width: 100%;
+    position: relative; }
+    .accountL .accountImg {
+      float: left;
+      width: 250px;
+      position: absolute; }
+    .accountL .accountDetail {
+      float: left;
+      width: 100%;
+      padding: 0px 15px 0px 265px; }
+
+  .tabsStyle1 li.active a {
+    border-width: 2px; } }
 /* end of (max-width: 1070px) */
 @media (max-width: 980px) {
   .grid-sizer, .grid-item {
@@ -2560,6 +2617,14 @@ Responsive styles
 
   .headerNav {
     display: none; }
+
+  .hideMobile {
+    display: none; }
+
+  .showMobile {
+    display: block; }
+    .showMobile .headerNav {
+      display: block; }
 
   .hamburgerBtn {
     display: block; }
@@ -2673,7 +2738,10 @@ Responsive styles
     .testimWrap h2 {
       text-align: center; }
     .testimWrap h4 {
-      border-left: none; } }
+      border-left: none; }
+
+  .addPayMethod .colRow .col4 {
+    width: 100%; } }
 /* end of (max-width: 520px) */
 @media (max-width: 360px) {
   .homeTopTxt h1 {

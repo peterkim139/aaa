@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<nav class="headerNav linkHover">
+<nav class="headerNav linkHover" id="topMenu">
     <ul>
         {% if user.is_authenticated %}
         <li><a href="/search_results/?name=">Search For Items</a></li>
@@ -11,10 +11,10 @@
         {% endif %}
         {% if user.is_anonymous %}
         <li class="bordered"><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
-        <!-- <li><a href="{% url 'accounts:register' %}">Sign up</a></li> -->
+        <li><a href="{% url 'accounts:register' %}">Sign up</a></li>
         <li><a href="#reg_popup" class="popupBtn">Sign up</a></li>
         <li><a href="#login_popup" class="popupBtn" id="login_tab">Login</a></li>
-        <li><a href="#">Support</a></li>
+        <li><a href="{% url 'accounts:support' %}">Support</a></li>
         {% endif %}
     </ul>
 </nav>

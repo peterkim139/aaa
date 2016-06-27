@@ -8,8 +8,9 @@
  * Copyright 2013, Codrops
  * http://www.codrops.com
  */
-(function() {
-	
+
+$(function(){
+
 	function scrollY() {
 		return window.pageYOffset || docElem.scrollTop;
 	}
@@ -39,8 +40,8 @@
 
 	function init() {
 		var showMenu = document.getElementById( 'showMenu' ),
-			perspectiveWrapper = document.getElementById( 'perspective' ),
-			container = perspectiveWrapper.querySelector( '.drawerCont' ),
+			perspectiveWrapper = document.querySelector( '#perspective' );
+		var container = perspectiveWrapper.querySelector( '.drawerCont' ),
 			contentWrapper = container.querySelector( '.wrapper' );
 
 		showMenu.addEventListener( clickevent, function( ev ) {
@@ -83,4 +84,26 @@
 
 	init();
 
-})();
+	/* Start  */
+
+	function checkWidth() {
+        var windowSize = $(window).width();
+
+        if (windowSize <= 768) {
+            $("#topMenu").addClass("outer-nav top horizontal");
+            $("#topMenu").removeClass("headerNav linkHover");
+        }
+        else{
+            $("#topMenu").removeClass("outer-nav top horizontal");
+            $("#topMenu").addClass("headerNav linkHover");
+            $("#perspective").removeClass("animate");
+        }
+    }
+    checkWidth();
+    $(window).resize(function(){
+        checkWidth();
+    });
+
+	/* End  */
+
+});

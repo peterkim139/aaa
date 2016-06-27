@@ -1,3 +1,16 @@
+// Variables
+$fontFamily: 'Roboto', sans-serif;
+$fontSize: 16px;
+$brandColor: #5bbc2e;
+$bodyBg: #fff;
+$borderGrey: #e8e8e8;
+$lightGrey: #f0f0f0;
+$textColor: #484848;
+$darkColor: #2b2a2c;
+$containerWith: 1070px;
+$colCount: 12;
+$inputBorderRadius: 0;
+
 @media (max-width: 1366px) {
 	.searchWrap {
 		.grid-sizer,
@@ -7,7 +20,7 @@
 	}
 }/* end of (max-width: 1366px) */
 
-@media (max-width: 1070px) {
+@media (max-width: 1090px) {
 	body {
 		 min-width: 100%;
 		 width: 100%;
@@ -15,6 +28,27 @@
 	.container,
 	.container.small {
 		 width: 100%;
+	}
+	.accountWrapper {
+		padding-left: 0px;
+	}
+	.accountL {
+		width: 100%;
+		position: relative;
+
+		.accountImg {
+			float: left;
+			width: 250px;
+			position: absolute;
+		}
+		.accountDetail {
+			float: left;
+			width: 100%;
+			padding: 0px 15px 0px 265px;
+		}
+	}
+	.tabsStyle1 li.active a {
+		border-width: 2px;
 	}
 } /* end of (max-width: 1070px) */
 
@@ -55,6 +89,15 @@
 	}
 	.headerNav  {
 		display: none;
+	}
+	.hideMobile {
+		display: none;
+	}
+	.showMobile {
+		display: block;
+		.headerNav {
+			display: block;
+		}
 	}
 	.hamburgerBtn {
 		display: block;
@@ -149,6 +192,14 @@
 			border-left: none;
 		}
 	}
+	.addPayMethod {
+		.colRow {
+			.col4 {
+				width: 100%;
+			}
+		}
+	}
+		
 } /* end of (max-width: 520px) */
 
 @media (max-width: 360px) {
