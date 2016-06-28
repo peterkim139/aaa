@@ -129,10 +129,15 @@ $(document).ready(function() {
     }
 
     $("#rent_item").on('click',function(e){
-        if ($('#id_start_date').val() == '' || $('#id_rent_date').val() == '' ) {
+        var start_date_val = $('#id_start_date').val()
+        var end_date_val = $('#id_rent_date').val()
+        if ((start_date_val == '' && end_date_val == '') || (end_date_val != '' && start_date_val == '') ) {
             $('.additionalTxt').addClass('warning');
             return false;
+        }else if(start_date_val != '' && end_date_val == ''){
+            $('#id_rent_date').val(start_date_val)
         }
+        
         $("#rent_form").submit();
     });
 

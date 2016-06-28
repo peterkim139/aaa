@@ -41,6 +41,11 @@ $('#request_item').on("click",function(){
     N_login_form.attr('action','/login/?next='+link);
 })
 
+$('#support_redirect').on("click",function(){
+    var link = window.location.pathname;
+    N_login_form.attr('action','/login/?next='+link);
+})
+
 $('#add_listing_popup').on("click",function(){
     N_login_form.attr('action','/login/?next=/listings');
 })
