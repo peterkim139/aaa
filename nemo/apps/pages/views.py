@@ -276,21 +276,29 @@ class ConversationView(LoginRequiredMixin, View):
             WHERE thread.user1_id=%s OR thread.user2_id=%s
             GROUP BY thread.id
             ORDER BY thread.modified DESC''',
-            [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
+                 [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
+
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+        except Thread.DoesNotExist:
+            thread = None
+        if thread:
             messages = Message.objects.filter(thread_id=thread.id)
-            unread_messages = Message.objects.filter(thread_id=thread.id, from_user_id=partner_id, unread=1)
+            unread_messages = Message.objects.filter(thread_id=thread.id,from_user_id=partner_id,unread = 1)
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
-        except Thread.DoesNotExist:
+        else:
             thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
             thread.last_message = ""
             thread.save()
-        context = {'threads': threads, 'messages': messages}
+
+        if messages:
+            context = {'threads': threads, 'messages': messages }
+        else:
+            context = {'threads': threads}
 
         return render(request, 'pages/conversation.html', context)
 

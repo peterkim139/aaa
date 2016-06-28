@@ -79,20 +79,8 @@ class LoginView(View):
 
 class RegisterView(View):
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(RegisterView, self).get_context_data(**kwargs)
-    #     print context
-    #     context['form'] = RegistrationForm()
-    #     if 'form' in kwargs:
-    #         context.update({'form': RegistrationForm(self.request.POST)})
-    #     return context
-    #
-    # def get(self, request):
-    #     if request.user.is_authenticated():
-    #         return HttpResponseRedirect('/')
-    #     return self.render_to_response(self.get_context_data())
-
     def post(self, request):
+        
         form = RegistrationForm(data=request.POST)
         response = HttpResponseRedirect('/')
         if form.is_valid():
