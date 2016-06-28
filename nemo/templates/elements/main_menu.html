@@ -8,9 +8,9 @@
         <li><a href="{% url 'accounts:billing' %}">Account</a></li>
         <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
         {% else %}
-        <li class="bordered"><a href="#login_popup" id="add_listing_popup" class="popupBtn">List Your Items</a></li>
-        <li><a href="#reg_popup" class="popupBtn" id="registr_tab">Sign up</a></li>
-        <li><a href="#login_popup" class="popupBtn" id="login_tab">Login</a></li>
+        <li class="bordered"><a href="#login_popup" class="popupBtn add_listing_popup">List Your Items</a></li>
+        <li><a href="#reg_popup" class="popupBtn registr_tab">Sign up</a></li>
+        <li><a href="#login_popup" class="popupBtn login_tab">Login</a></li>
         {% endif %}
         <li><a href="{% url 'profile:support' %}">Support</a></li>
     </ul>

@@ -46,11 +46,11 @@ $('#support_redirect').on("click",function(){
     N_login_form.attr('action','/login/?next='+link);
 })
 
-$('#add_listing_popup').on("click",function(){
+$('.add_listing_popup').on("click",function(){
     N_login_form.attr('action','/login/?next=/listings');
 })
 
-$("#login_tab").on('click', function() {
+$(".login_tab").on('click', function() {
     N_login_form.attr("action", "/login/");
 });
 
@@ -262,7 +262,7 @@ $("#login_tab").on('click', function() {
                 $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
             }
         });
-        $('#registr_tab').click();
+        $('.registr_tab').click();
         setCookie('registr_error','',1);
     }else{
         $("form#registration label").each(function() {
@@ -288,6 +288,8 @@ $("#login_tab").on('click', function() {
             'zip_code': {
                 required: true,
                 digits: true,
+                minlength:5,
+                maxlength:5,
             },
             'first_name': {
                 required: true,

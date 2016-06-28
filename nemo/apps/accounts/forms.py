@@ -124,6 +124,12 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError("This email is already taken")
         return email
 
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        if User.objects.filter(phone_number=phone_number).exists():
+            raise forms.ValidationError("This phone number is already taken")
+        return phone_number
+
     def clean_confirmpassword(self):
         password = self.cleaned_data.get('password', '')
         confirmpassword = self.cleaned_data.get('confirmpassword', '')

@@ -94,6 +94,7 @@ class RegisterView(View):
 
     def post(self, request):
         form = RegistrationForm(data=request.POST)
+        response = HttpResponseRedirect('/')
         if form.is_valid():
             user = User()
             user.email = form.cleaned_data['email']
@@ -105,10 +106,8 @@ class RegisterView(View):
             user.set_password(form.cleaned_data['password'])
             user.save()
             confirm_register_mail(request, user.email, user.first_name, user.last_name, user.zip_code)
-            messages.success(request, "Your request has been sent successfully")
-            HttpResponseRedirect('/')
+            messages.success(request, "You have registered successfully.")
         else:
-            response = HttpResponseRedirect('/')
             response.set_cookie('registr_error', 'error')
             cache.set('registartion_error', RegistrationForm(request.POST))
 
