@@ -933,7 +933,6 @@ $(document).ready(function(){
         $(this).addClass('formLabel');
         var reset = getCookie('reset_error');
         if(reset != ''){
-            if($(this).attr('for') == 'id_password2')
             $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
             $(this).next().next().after($(this).next());
             openResetForm()
@@ -949,7 +948,6 @@ $(document).ready(function(){
         }
         delCookie('reset_error')
         delCookie('reset_key')
-    });
 
     ///////////////////////  preview add listing form //////////////////////////
 
