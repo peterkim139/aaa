@@ -283,6 +283,22 @@ header {
 			}
 			&.active a {
 				color: $brandColor;
+				&:after {
+					position: absolute;
+				    top: 100%;
+					left: 0;
+					width: 100%;
+					height: 2px;
+					background: $brandColor;
+					content: '';
+					opacity: 1;
+					margin-top: 15px;
+				}
+				&:hover:after {
+						-webkit-transform: translateY(-10px);
+    					-moz-transform: translateY(-10px);
+    					transform: translateY(-10px);
+				}
 			}
 		}
 	}
@@ -547,6 +563,13 @@ footer {
 		font-weight: 400;
 		color: #808080;
 		text-transform: uppercase;
+
+		.labelDesc {
+			font-size: $fontSize - 4px;
+			position: relative;
+			top: -2px;
+			text-transform: none;
+		}
 	}
 	.formControl {
 		display: block;
@@ -800,9 +823,18 @@ i {
 		font-size: 22px;
 		text-align: center;
 	}
+	.text {
+		text-align: center;
+	}
 }
 .popupBody {
 	padding: 20px;
+}
+.successMessage {
+	border-top: 1px solid $brandColor;
+	padding-top: 15px;
+	margin-top: 15px;
+	text-align: center;
 }
 .mfp-close {
 	top: 7px;

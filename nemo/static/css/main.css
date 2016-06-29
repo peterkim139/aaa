@@ -529,6 +529,20 @@ header {
       color: #333; }
     .headerNav ul li.active a {
       color: #5bbc2e; }
+      .headerNav ul li.active a:after {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #5bbc2e;
+        content: '';
+        opacity: 1;
+        margin-top: 15px; }
+      .headerNav ul li.active a:hover:after {
+        -webkit-transform: translateY(-10px);
+        -moz-transform: translateY(-10px);
+        transform: translateY(-10px); }
   .headerNav .bordered {
     border: solid 2px #fff; }
     .headerNav .bordered a:after {
@@ -771,6 +785,11 @@ footer {
     font-weight: 400;
     color: #808080;
     text-transform: uppercase; }
+    .formRow .formLabel .labelDesc {
+      font-size: 12px;
+      position: relative;
+      top: -2px;
+      text-transform: none; }
   .formRow .formControl {
     display: block;
     width: 100%;
@@ -1010,9 +1029,17 @@ i {
     padding: 0 0 15px 0;
     font-size: 22px;
     text-align: center; }
+  .popupHead .text {
+    text-align: center; }
 
 .popupBody {
   padding: 20px; }
+
+.successMessage {
+  border-top: 1px solid #5bbc2e;
+  padding-top: 15px;
+  margin-top: 15px;
+  text-align: center; }
 
 .mfp-close {
   top: 7px; }

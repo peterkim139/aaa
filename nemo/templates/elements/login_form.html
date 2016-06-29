@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <div id="login_popup" class="mfp-hide popupWrap loginPopup">
-    <div class="popupHead">
+    <!-- <div class="popupHead">
         <h3>Log in to NEMO</h3>
     </div>
     <div class="popupBody">
@@ -28,5 +28,42 @@
     <div class="popupBody">
         <a class="btn btnBlock btnFacebook" href="{% url 'social:begin' 'facebook' %}" ><img src="/media/images/icons/facebook-icons.png" alt=""> Log in with Facebook</a>
         <a class="btn btnBlock btnGoogle" href="{% url 'social:begin' 'google-oauth2' %}"><img src="/media/images/icons/new-google-favicon-logo.png" alt=""> Log in with Google +</a>
+    </div> -->
+    <!-- <div class="popupHead">
+        <h3>Reset Password</h3>
+        <p class="text">Forgot your password? No problem! Just enter your email address associated with your account and wee'll send you a link to reset your password.</p>
+    </div>
+    <div class="popupBody">
+        <form method="post" action="/login/?next=/" id="login_form">
+            {% csrf_token %}
+            <div class="formRow">
+                <label for="forgotEmail" class="formLabel">Email:</label>
+                <input class="formControl" id="forgotEmail" maxlength="255" name="forgotEmail" type="text" />
+            </div>
+            <input type="submit" value="Send Email" class="btn btnPrime btnBlock" id="sendEmail">
+            <div class="clearAfter mt20 alignC">
+                <span>Dont have an account?</span>
+                <a href="#reg_popup" class="txtBtn popupBtn">Sign Up</a>
+            </div>
+        </form>
+    </div>
+    <p class="text successMessage">The email has been sent! Please check your inbox for link to reset password.</p> -->
+
+    <div class="popupHead">
+        <h3>Reset Password</h3>
+    </div>
+    <div class="popupBody">
+        <form method="post" action="/login/?next=/" id="login_form">
+            {% csrf_token %}
+            <div class="formRow">
+                <label for="resetPassword" class="formLabel">Password:</label>
+                <input class="formControl" id="resetPassword" maxlength="255" name="ressetPass" type="password" />
+            </div>
+            <div class="formRow">
+                <label for="repeatPass" class="formLabel">Repeat Password:</label>
+                <input class="formControl" id="repeatPass" maxlength="255" name="repeatPass" type="password" />
+            </div>
+            <input type="submit" value="Reset" class="btn btnPrime btnBlock" id="sendEmail">
+        </form>
     </div>
 </div>

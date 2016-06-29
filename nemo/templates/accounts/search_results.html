@@ -47,15 +47,15 @@
         </form>
     </div>
 </section>
-<div class="container large searchWrap">
+<div class="container searchWrap">
     <h3 class="srchTitle">Search results {% if request.GET.name %}for <strong>{{request.GET.name}}</strong>{% endif %}</h3>
     <div class="searchL">
-        <div class="customScroll" style="max-height: 980px;">
+        <div class="customScroll" style="max-height: 930px;">
             <section class="searchList">
                 <div class="colRow" id="search_results_container">
                     {% if items and count > 0 %}
                         {% for item in items %}
-                            <div class="col6">
+                            <div class="col12">
                                 <div class="item_details" data-id="{{ item.id }}" data-lat="{{ item.latitude }}" data-lng="{{ item.longitude }}">
                                     <div class="listingSingle" class="wow fadeInDown">
                                         <figure class="fluidImage" style="background-image: url(/media/images/items/{{ item.image_name }});">
