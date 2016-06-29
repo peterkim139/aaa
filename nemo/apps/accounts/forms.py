@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm as CoreAuthenticationForm
 from accounts.models import User
 from django import forms
+import datetime
 from accounts.validations import *
 
 
@@ -185,6 +186,9 @@ class ChangePasswordForm(forms.Form):
 
 class BillingForm(forms.Form):
 
+    def __init__(self, *args, **kwargs):
+            super(BillingForm, self).__init__(*args, **kwargs)
+
     first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
@@ -196,10 +200,23 @@ class BillingForm(forms.Form):
                           validators=[validate_numbersonly],
                           widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
-    month = forms.CharField(label="Month", max_length=2, min_length=2, required=True,
-                            validators=[validate_month],
-                            widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off'}), )
+
 
     year = forms.CharField(label="Year", max_length=4, min_length=2, required=True,
                            validators=[validate_year],
                            widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+
+    month = forms.CharField(label="Month", max_length=2, min_length=2, required=True,
+                            validators=[validate_month],
+                            widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off'}), )
+
+
+    def clean_month(self):
+
+        month = self.cleaned_data.get('month')
+        year = self.cleaned_data.get('year')
+        now = datetime.datetime.now()
+        if year is not None:
+            if now.year == int(year) and int(month) < now.month:
+                raise forms.ValidationError("Invalid Month")
+            return month
