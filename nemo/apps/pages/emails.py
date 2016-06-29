@@ -232,3 +232,4 @@ def send_support_email(email, name, comments):
         'tracking_domain': 'nemo.codebnb.me',
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+    return  True

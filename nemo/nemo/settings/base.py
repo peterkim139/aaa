@@ -92,7 +92,7 @@ MEDIA_URL = '/media/'
 
 
 AUTO_REPLY = 'sipanm24@gmail.com'
-ADMIN_EMAIL = 'NEMO'
+ADMIN_EMAIL = 'sipanm19@gmail.com'
 
 WSGI_APPLICATION = 'nemo.wsgi.application'
 
