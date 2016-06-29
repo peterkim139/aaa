@@ -449,6 +449,23 @@ $(".login_tab").on('click', function() {
         });
     });
 
+    ///////////////////////////////////// Activating menu links /////////////
+
+    var site_pathname = window.location.pathname;
+    var menu_link = $('a[href="'+site_pathname+'"]').parent('li');
+    site_pathname = site_pathname.substring(0, site_pathname.lastIndexOf('/')) + '/';
+    var list = ['/profile/out_transactions/', '/profile/in_transactions/', '/edit_profile/', '/payment/connect/'];
+
+    if(list.lastIndexOf(site_pathname) !== -1){
+       $('.account').parent('li').addClass("active");
+    }else{
+        menu_link.addClass("active");
+    }
+
+    menu_link.addClass("active");
+    if(site_pathname == '/profile/out_transactions/'){
+        $('a[href="/profile/in_transactions/"]').parent('li').addClass("active");
+    }
 
     ///////////////////////////////////// Edit profile form validation //////////////////////////////////////////////
 

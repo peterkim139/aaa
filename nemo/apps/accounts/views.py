@@ -260,7 +260,10 @@ class SearchView(View):
         else:
             max_price = 500
 
-        query = request.GET.get("name")
+        if request.GET.get("name"):
+            query = request.GET.get("name")
+        else:
+            query = ''
 
         if request.GET.get("start_range"):
             start_range = request.GET.get("start_range")

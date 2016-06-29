@@ -7,11 +7,3 @@
     <li><a href="{% url 'payment:connect' %}"><i class="icon-braintree"></i> <span>Connect to Braintree</span></a></li>
     <li><a href="#" class="change_account_status_item" {% if request.user.is_active == 1 %} data-account-status="0"><span>Deactivate {% else %}data-account-status="1"><span>Activate {% endif %} </span></a></li>
 </ul>
-
-<script>
-    var pathname = window.location.pathname;
-    $('a[href="'+pathname+'"]').parent('li').addClass("active");
-    if(pathname == '/profile/out_transactions/'){
-        $('a[href="/profile/in_transactions/"]').parent('li').addClass("active");
-    }
-</script>

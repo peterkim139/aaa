@@ -2,10 +2,10 @@
 <nav class="headerNav linkHover" id="topMenu">
     <ul>
         {% if user.is_authenticated %}
-        <li><a href="/search_results/?name=">Search For Items</a></li>
+        <li><a href="{% url 'accounts:search_results' %}">Search For Items</a></li>
         <li><a href="{% url 'accounts:listings' %}">List Your Items</a></li>
         <li><a href="{% url 'profile:no_conversation' %}">Messages</a></li>
-        <li><a href="{% url 'accounts:billing' %}">Account</a></li>
+        <li><a href="{% url 'accounts:billing' %}" class="account">Account</a></li>
         <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
         {% else %}
         <li class="bordered"><a href="#login_popup" class="popupBtn add_listing_popup">List Your Items</a></li>
