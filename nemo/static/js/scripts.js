@@ -26,7 +26,9 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
-
+    if(window.location.pathname != '/billing/'){
+        setCookie('to_billing','',1);
+    }
 ///////////////////////////////// to open login popup //////////////////////////////////////
 
 var N_login_form = $('#login_form');
@@ -780,8 +782,9 @@ if(window.location.pathname == '/login_req/'){
 
     ///////////////////////////////////// Price validator for cents /////////////////////////////////////
 
-    $.validator.addMethod("customprice", function (value, element) {
-        return (@"^\d+.\d{0,2}$").test(value);
+    $.validator.addMethod("customprice", function(value, element) {
+        var isValidMoney = /^\d{0,3}(\.\d{0,2})?$/.test(value);
+        return this.optional(element) || isValidMoney;
     }, "Please specify a valid amount");
 
     ///////////////////////////////////// Validate if image is uploaded /////////////////////////////////////
@@ -959,14 +962,7 @@ if(window.location.pathname == '/login_req/'){
         setCookie('lat_lng',cvalue,30)
     }
 
- ///////////////////////////////
 
-    $('.to_billing_page').on('click',function(e){
-         e.preventDefault();
-         setCookie('to_billing',3,1)
-    })
-
-    alert(getCookie('to_billing'));
  /////////////////////////  init map ,show items on map /////////////////////////
 
     function initMap(latitude,longitude) {
