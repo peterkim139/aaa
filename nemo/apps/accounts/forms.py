@@ -166,14 +166,6 @@ class ChangePasswordForm(forms.Form):
     password2 = forms.CharField(label="Repeat Password:",
                                 widget=forms.PasswordInput(attrs={'class': 'formControl'}), required=True)
 
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        if len(password) < 2:  # must be changed
-            raise forms.ValidationError(
-                self.error_messages['password_length'],
-                code='password_length',
-            )
-        return password
 
     def clean_password2(self):
         password = self.cleaned_data.get("password")
@@ -184,6 +176,11 @@ class ChangePasswordForm(forms.Form):
                 code='password_mismatch',
             )
 
+        if len(password) < 2:  # must be changed
+            raise forms.ValidationError(
+                self.error_messages['password_length'],
+                code='password_length',
+            )
 
 class BillingForm(forms.Form):
 

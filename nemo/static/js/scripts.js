@@ -928,17 +928,20 @@ $(document).ready(function(){
             showCloseBtn: true,
         });
     }
-
+    var reset = getCookie('reset_error');
     $("form#reset_form label").each(function() {
         $(this).addClass('formLabel');
         var reset = getCookie('reset_error');
         if(reset != ''){
+            if($(this).attr('for') == 'id_password2')
             $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
             $(this).next().next().after($(this).next());
             openResetForm()
         }else{
             $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
         }
+    });
+
         var reset_key = getCookie('reset_key');
         if(reset_key != ''){
             $('#reset_form').attr('action','/change_password/'+reset_key+'/')
