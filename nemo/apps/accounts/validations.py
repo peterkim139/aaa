@@ -2,6 +2,7 @@ import re
 import datetime
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from django import forms
 
 
 def validate_file(value):
