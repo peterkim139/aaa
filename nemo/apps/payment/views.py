@@ -64,7 +64,8 @@ class ConnectView(LoginRequiredMixin, TemplateView):
             if result.is_success:
                 User.objects.filter(id=request.user.id).update(merchant_id=result.merchant_account.id)
                 messages.success(request, "Your have been connected to Braintree successfully")
-                return HttpResponseRedirect('/payment/connect')
+                #return HttpResponseRedirect('/payment/connect')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 show_errors(request, result)
                 return self.render_to_response(self.get_context_data(form=form))

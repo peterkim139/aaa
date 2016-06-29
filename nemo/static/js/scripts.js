@@ -303,10 +303,12 @@ if(window.location.pathname == '/login_req/'){
             'first_name': {
                 required: true,
                 only_letters: true,
+                minlength:2,
             },
             'last_name':{
                 required: true,
-                only_letters: true
+                only_letters: true,
+                minlength:2,
             },
             'password':{
                 required: true,

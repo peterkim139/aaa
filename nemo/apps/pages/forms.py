@@ -65,6 +65,8 @@ class AddListingForm(forms.Form):
                                widget=forms.TextInput(attrs={'id': 'latitudes', 'class': 'formControl', 'type': 'hidden'}), )
     longitude = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'id': 'longitudes', 'class': 'formControl', 'type': 'hidden'}), )
+    street = forms.CharField(required=True,
+                               widget=forms.TextInput(attrs={'id': 'street', 'class': 'formControl', 'type': 'hidden'}), )
     item_id = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'id': 'item_id', 'class': 'formControl', 'type': 'hidden'}), )
 

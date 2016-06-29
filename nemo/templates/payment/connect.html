@@ -6,6 +6,8 @@
     <div class="accountR">
         {% include "elements/account_menu.html" %}
         <div class="wow fadeInDown" data-wow-delay="1s">
+             <p>Please add a bank account in order to receive payment.</p>
+             <br>
              <form method="post" action="">
                  {% csrf_token %}
                  <div class="formRow">

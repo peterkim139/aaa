@@ -503,6 +503,7 @@ class ListingsView(LoginRequiredMixin, View):
             parameters.subcategory = form.cleaned_data['subcategory']
             parameters.description = form.cleaned_data['description']
             parameters.address = form.cleaned_data['street_address']
+            parameters.street = form.cleaned_data['street']
             parameters.city = form.cleaned_data['city']
             parameters.postal_code = form.cleaned_data['postal_code']
             parameters.state = form.cleaned_data['state']

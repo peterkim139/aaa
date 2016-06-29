@@ -181,6 +181,9 @@
                                    {{ form.longitude }}
                                 </div>
                                 <div>
+                                   {{ form.street }}
+                                </div>
+                                <div>
                                    {{ form.item_id }}
                                 </div>
                                 <a href="#listing-preview" class="btn btnBorder btnBlock" id="preview_add_listing_form">Save & Preview</a>
@@ -306,6 +309,11 @@ function fillInAddress() {
 
        if (componentForm[addressType]) {
            var val = place.address_components[i][componentForm[addressType]];
+
+           if (addressType === "route") {
+            $("#street").val(val);
+           }
+
            if (addressType === "locality") {
             $("#city").val(val);
            }

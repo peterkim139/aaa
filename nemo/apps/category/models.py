@@ -68,6 +68,7 @@ class Params(AbstractDateTime):
     price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     description = models.TextField(blank=False, null=False, validators=[MaxLengthValidator(200)], default='')
     address = models.CharField(max_length=255, blank=False, default='')
+    street = models.CharField(max_length=255, blank=False, default='')
     state = models.CharField(max_length=255, blank=False, default='')
     city = models.CharField(max_length=255, blank=False, default='')
     postal_code = models.CharField(max_length=255, blank=False, default='')

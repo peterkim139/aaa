@@ -9,7 +9,11 @@
                         <h3>{{ param.name }}</h3>
                         <address>
                             <i class="icon-location-1"></i>
-                            {{ param.address }}
+                            {% if user.is_authenticated %}
+                                {{ param.address }}
+                            {% else %}
+                                {{ param.street }}
+                            {% endif %}
                         </address>
                     </div>
                     <div class="pullRight wow fadeIn" data-wow-delay=".5s">
@@ -51,7 +55,10 @@
                             </li>
                             <li>
                                 <label>Owner:</label>
-                                <span class="success">{{ param.item_owner.first_name }} {{ param.item_owner.last_name }}</span>
+                                <span class="success">
+                                    {% if user.is_authenticated %}{{ param.item_owner.first_name }} {% else %} {{ param.item_owner.first_name|first }}. {% endif %}
+                                    {{ param.item_owner.last_name|first }}.
+                                </span>
                             </li>
                             <li>
                                 <label>Rating Budges:</label>
@@ -115,7 +122,7 @@
         </div>
         <div id="billing_popup" class="popupWrap mfp-hide">
             <div class="popupBody">
-                <p>Please add <a href="{% url 'accounts:billing' %}" class="txtBtn">default payment method</a> in order to rent this item.</p>
+                <p>It seems that you do not have a payment method on file. Please add one <a href="{% url 'accounts:billing' %}" class="txtBtn">here</a>.</p>
             </div>
         </div>
     </div>
