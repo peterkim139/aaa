@@ -952,6 +952,13 @@ if(window.location.pathname == '/login_req/'){
         setCookie('lat_lng',cvalue,30)
     }
 
+ ///////////////////////////////
+
+//    $('.to_billing_page').on('click',function(){
+//         setCookie('to_billing',3,1)
+//    })
+//
+//    alert(getCookie('to_billing'));
  /////////////////////////  init map ,show items on map /////////////////////////
 
     function initMap(latitude,longitude) {
