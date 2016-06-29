@@ -556,7 +556,11 @@ if(window.location.pathname == '/login_req/'){
             },
             success:function(response) {
                 if(response.success){
-                    self.closest('td').html('<button class="success expandBtn">Cancel</button>')
+                    if(action == 'Approve'){
+                        self.closest('td').html('<button class="success expandBtn">Cancel</button>')
+                    }else{
+                        location.reload()
+                    }
                 }else {
                     alert(response.message);
                 }
