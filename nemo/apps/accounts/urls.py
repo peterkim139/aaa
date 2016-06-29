@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
      url(r'^$', views.HomeView.as_view(), name='account'),
-     url(r'^login/$', views.HomeView.as_view(), name='account'),
+     url(r'^login_req/$', views.HomeView.as_view(), name='account'),
      url(r'^registration/$', views.RegisterView.as_view(), name='register'),
      url(r'^reset/$', views.ResetView.as_view(), name='reset'),
      url(r'^change_password/(?P<reset_key>\w+)/', views.ChangePasswordView.as_view(), name='change_password'),
