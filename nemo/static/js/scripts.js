@@ -26,9 +26,12 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
+
     if(window.location.pathname != '/billing/'){
-        setCookie('to_billing','',1);
+        delCookie('to_billing');
     }
+
+
 ///////////////////////////////// to open login popup //////////////////////////////////////
 
     var N_login_form = $('#login_form');
@@ -75,9 +78,9 @@ $(document).ready(function(){
         next  = next.replace(/['"]/gi, '');
         var action = "login/?next="+next;
             N_login_form.attr('action',action);
-            setCookie('next','',1);
+            delCookie('next')
         }
-        setCookie('exist','',1);
+        delCookie('exist')
     }
 
 ///////////////////////////////////////////// login form validation ///////////////////////////////////////////
@@ -274,13 +277,56 @@ $(document).ready(function(){
             }
         });
         $('.registr_tab').click();
-        setCookie('registr_error','',1);
+        delCookie('registr_error')
     }else{
         $("form#registration label").each(function() {
            $(this).addClass('formLabel');
            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
         });
     }
+
+
+    ///////////////////////////////////  forgot password ///////////////////////////////////////////////////
+
+    $("form#forgot_form label").each(function() {
+        $(this).addClass('formLabel');
+        var forgot = getCookie('forgot_error');
+        if(forgot != '' && forgot != 'invalid_key'){
+            $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
+            $(this).next().next().after($(this).next());
+            $('.forgot_tub').click();
+        }else{
+            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+            if(forgot == 'invalid_key'){
+                $('.forgot_tub').click();
+            }
+        }
+        delCookie('forgot_error')
+    });
+
+    $('#forgot_form').validate({
+        rules: {
+            'email': {
+                required: true,
+                customemail: true
+            },
+        },
+        messages: {
+            'email': {
+                required: "This field is required."
+            },
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight: function(element, errorClass, validClass){
+            $(element).parents('.control-group').addClass('error');
+            $(element).parents('.control-group').removeClass('success');
+        },
+        unhighlight: function(element, errorClass, validClass){
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
+    })
 
     ///////////////////////////////////// Register form validation //////////////////////////////////////////////
 
@@ -347,15 +393,15 @@ $(document).ready(function(){
             }
         },
         errorClass: "help-inline",
-            errorElement: "span",
-            highlight: function(element, errorClass, validClass){
-                $(element).parents('.control-group').addClass('error');
-                $(element).parents('.control-group').removeClass('success');
-            },
-            unhighlight: function(element, errorClass, validClass){
-                $(element).parents('.control-group').removeClass('error');
-                $(element).parents('.control-group').addClass('success');
-            }
+        errorElement: "span",
+        highlight: function(element, errorClass, validClass){
+            $(element).parents('.control-group').addClass('error');
+            $(element).parents('.control-group').removeClass('success');
+        },
+        unhighlight: function(element, errorClass, validClass){
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
     });
 
     $("#image-uploader").each(function(){
@@ -873,6 +919,35 @@ $(document).ready(function(){
             }
     });
 
+////////////////////////////////////////// reset popup /////////////////////////////////////////////////////////////
+    function openResetForm(){
+        $.magnificPopup.open({
+            items: {
+                src: '#reset_popup',
+            },
+            showCloseBtn: true,
+        });
+    }
+
+    $("form#reset_form label").each(function() {
+        $(this).addClass('formLabel');
+        var reset = getCookie('reset_error');
+        if(reset != ''){
+            $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
+            $(this).next().next().after($(this).next());
+            openResetForm()
+        }else{
+            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+        }
+        var reset_key = getCookie('reset_key');
+        if(reset_key != ''){
+            $('#reset_form').attr('action','/change_password/'+reset_key+'/')
+            openResetForm()
+        }
+        delCookie('reset_error')
+        delCookie('reset_key')
+    });
+
     ///////////////////////  preview add listing form //////////////////////////
 
     $(".openSlideBtn").on('click',function(){
@@ -944,6 +1019,10 @@ $(document).ready(function(){
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+d.toUTCString();
         document.cookie = cname + "=" + cvalue + "; " + expires;
+     }
+
+     function delCookie(name) {
+        document.cookie = name + "=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT";
      }
 
 /////////////////////// get user location ////////////////////////////

@@ -1,19 +1,13 @@
 {% load staticfiles %}
-<div id="login_popup" class="mfp-hide popupWrap loginPopup">
+{% load reset_form %}
+<div id="reset_popup" class="mfp-hide popupWrap loginPopup">
     <div class="popupHead">
         <h3>Reset Password</h3>
     </div>
     <div class="popupBody">
-        <form method="post" action="/login/?next=/" id="login_form">
+        <form method="post" action="/change_password/" id="reset_form">
             {% csrf_token %}
-            <div class="formRow">
-                <label for="resetPassword" class="formLabel">Password:</label>
-                <input class="formControl" id="resetPassword" maxlength="255" name="ressetPass" type="password" />
-            </div>
-            <div class="formRow">
-                <label for="repeatPass" class="formLabel">Repeat Password:</label>
-                <input class="formControl" id="repeatPass" maxlength="255" name="repeatPass" type="password" />
-            </div>
+            {% reset_form %}
             <input type="submit" value="Reset" class="btn btnPrime btnBlock" id="resetpass">
         </form>
     </div>

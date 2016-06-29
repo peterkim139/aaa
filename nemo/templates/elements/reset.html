@@ -1,17 +1,15 @@
 {% load staticfiles %}
-<div id="login_popup" class="mfp-hide popupWrap loginPopup">
+{% load forgot_form %}
+<div id="forgot_popup" class="mfp-hide popupWrap loginPopup">
 
     <div class="popupHead">
         <h3>Reset Password</h3>
         <p class="text">Forgot your password? No problem! Just enter your email address associated with your account and wee'll send you a link to reset your password.</p>
     </div>
     <div class="popupBody">
-        <form method="post" action="/login/?next=/" id="login_form">
+        <form method="post" action="{% url 'accounts:reset' %}" id="forgot_form">
             {% csrf_token %}
-            <div class="formRow">
-                <label for="forgotEmail" class="formLabel">Email:</label>
-                <input class="formControl" id="forgotEmail" maxlength="255" name="forgotEmail" type="text" />
-            </div>
+            {% forgot_form %}
             <input type="submit" value="Send Email" class="btn btnPrime btnBlock" id="sendEmail">
             <div class="clearAfter mt20 alignC">
                 <span>Dont have an account?</span>
@@ -19,6 +17,5 @@
             </div>
         </form>
     </div>
-    <p class="text successMessage">The email has been sent! Please check your inbox for link to reset password.</p>
-
+    <!--<p class="text successMessage">The email has been sent! Please check your inbox for link to reset password.</p>-->
 </div>

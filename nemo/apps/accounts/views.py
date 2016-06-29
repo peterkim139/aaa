@@ -170,21 +170,10 @@ def save_profile(backend, user, response, *args, **kwargs):
 
 
 class ResetView(TemplateView):
-    template_name = 'accounts/reset.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ResetView, self).get_context_data(**kwargs)
-        if 'form' not in kwargs:
-            context.update({'form': ResetForm()})
-        return context
-
-    def get(self, request):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect('/')
-        return self.render_to_response(self.get_context_data())
 
     def post(self, request):
         form = ResetForm(data=request.POST)
+        response = HttpResponseRedirect('/')
         if form.is_valid():
             email = form.cleaned_data['email']
             reset_key = generate_activation_key(email)
@@ -193,35 +182,33 @@ class ResetView(TemplateView):
             user.save()
             first_name = user.first_name
             reset_mail(request, email, first_name, reset_key)
-            messages.success(request, "Please check your email address for change your account password")
-            return HttpResponseRedirect('/')
+            messages.success(request, "The email has been sent! Please check your inbox for link to reset password.")
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            response.set_cookie('forgot_error', 'error')
+            cache.set('forgot_error', ResetForm(request.POST))
+
+        return response
 
 
 class ChangePasswordView(TemplateView):
-    template_name = 'accounts/change_password.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ChangePasswordView, self).get_context_data(**kwargs)
-        if 'form' not in kwargs:
-            context.update({'form': ChangePasswordForm()})
-        if 'reset_key' in kwargs:
-            context['reset_key'] = kwargs['reset_key']
-        return context
 
     def get(self, request, reset_key):
+
+        response = HttpResponseRedirect('/')
         if request.user.is_authenticated():
-            return HttpResponseRedirect('/')
+            return response
         try:
             User.objects.get(reset_key=reset_key)
-            return self.render_to_response(self.get_context_data(reset_key=reset_key))
+            response.set_cookie('reset_key', reset_key)
         except User.DoesNotExist:
+            response = HttpResponseRedirect('/')
+            response.set_cookie('forgot_error', 'invalid_key')
             messages.error(request, "Sorry, key is invalid")
-            return HttpResponseRedirect('/')
+        return response
 
     def post(self, request, reset_key):
         form = ChangePasswordForm(data=request.POST)
+        response = HttpResponseRedirect('/')
         if form.is_valid():
             try:
                 reset_key = reset_key
@@ -232,9 +219,11 @@ class ChangePasswordView(TemplateView):
                 messages.success(request, "Your password has been successfully changed")
             except User.DoesNotExist:
                 messages.success(request, "Sorry, there are some problems")
-            return HttpResponseRedirect('/')
+            return response
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            response.set_cookie('reset_error', 'error')
+            cache.set('reset_error', ChangePasswordForm(request.POST))
+            return response
 
 
 class SearchView(View):

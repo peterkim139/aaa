@@ -155,6 +155,7 @@ class ResetForm(forms.Form):
 
 
 class ChangePasswordForm(forms.Form):
+
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
         'password_length': "Password too short.",
@@ -162,7 +163,7 @@ class ChangePasswordForm(forms.Form):
 
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'formControl'}),
                                required=True)
-    password2 = forms.CharField(label="Password confirmation",
+    password2 = forms.CharField(label="Repeat Password:",
                                 widget=forms.PasswordInput(attrs={'class': 'formControl'}), required=True)
 
     def clean_password(self):
