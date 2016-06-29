@@ -122,21 +122,13 @@
         </div>
         <div id="billing_popup" class="popupWrap mfp-hide">
             <div class="popupBody">
-                <p>It seems that you do not have a payment method on file. Please add one <a href="{% url 'accounts:billing' %}" class="txtBtn to_billing_page">here</a>.</p>
+                <p>It seems that you do not have a payment method on file. Please add one <a href="{% url 'accounts:billing' %}" class="txtBtn to_billing_page" item_id="{{param.id}}">here</a>.</p>
             </div>
         </div>
     </div>
 </main>
 <script>
 $(document).ready(function() {
-
-    ///////////////////////////////
-
-    $('.to_billing_page').on('click',function(e){
-         e.preventDefault();
-         setCookie('to_billing','{{param.id}}',30)
-         window.location.href = $(this).attr('href')
-    })
 
     var val_error = '{{val_error}}'
     if(val_error){

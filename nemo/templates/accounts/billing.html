@@ -119,6 +119,10 @@
 </main>
 
 <script>
+    if (document.referrer.indexOf("payment/rent/") >= 0){
+        item = document.referrer.slice(-2);
+        setCookie('to_billing',item,30)
+    }
     $('.tabsWrap').tabs({
         disabled: [1],
     })
