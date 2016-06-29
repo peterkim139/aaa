@@ -54,6 +54,13 @@ $(".login_tab").on('click', function() {
     N_login_form.attr("action", "/login/");
 });
 
+var login_req =  window.location.href;
+next = '/login/?'+login_req.split('?')[1]
+if(window.location.pathname == '/login_req/'){
+    $('.login_tab').click()
+    $('#login_form').attr('action',next);
+}
+
 ////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
 
     if(getCookie('exist') != ''){
