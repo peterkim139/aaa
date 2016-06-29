@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+f{% extends "base.html" %}
 {% block content %}
 <div class="topLighLine"></div>
     <div class="container accountWrapper pb80">
@@ -76,7 +76,11 @@
                                             <td>${{ out_transaction.price }}</td>
                                             <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
-                                            <td>waiting Approval</td>
+                                            {% if out_transaction.status == 'pending' %}
+                                                <td>waiting Approval</td>
+                                            {% else %}
+                                                    <td>{{out_transaction.status}}</td>
+                                            {% endif %}
                                             <td>Make payment</td>
                                             <td>
                                                 {% if out_transaction.status == 'pending' %}
