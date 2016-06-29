@@ -64,7 +64,7 @@ class ProfileForm(forms.Form):
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                               validators=[validate_numbersonly],
+                               validators=[validate_zipcode],
                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
     first_name = forms.CharField(label='First Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
@@ -78,8 +78,11 @@ class ProfileForm(forms.Form):
     def clean(self):
         email = self.cleaned_data['email']
         user = self.cleaned_data['user']
+        phone_number = self.cleaned_data['phone_number']
         if User.objects.filter(email=email).exclude(id=user).exists():
             raise forms.ValidationError("This email is already taken")
+        if User.objects.filter(phone_number=phone_number).exclude(id=user).exists():
+            raise forms.ValidationError("This phone number is already taken")
         return self.cleaned_data
 
 
@@ -91,7 +94,7 @@ class RegistrationForm(forms.Form):
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                               validators=[validate_numbersonly],
+                               validators=[validate_zipcode],
                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )

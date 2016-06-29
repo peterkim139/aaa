@@ -23,7 +23,14 @@ def validate_numbersonly(value):
     if not re.match("^[0-9]*$", value):
         raise ValidationError('Field should contain only numbers')
 
+def validate_zipcode(value):
+
+     if not re.match("^[0-9]*$", value) or len(value) != 5:
+        raise ValidationError('Field should contain only 5 numbers')
+
+
 def validate_email(value):
+
     if not re.match("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", value):
         raise ValidationError('Please enter correct email')
 
