@@ -778,6 +778,12 @@ if(window.location.pathname == '/login_req/'){
         },
     "This field should contain at least one digit");
 
+    ///////////////////////////////////// Price validator for cents /////////////////////////////////////
+
+    $.validator.addMethod("customprice", function (value, element) {
+        return (@"^\d+.\d{0,2}$").test(value);
+    }, "Please specify a valid amount");
+
     ///////////////////////////////////// Validate if image is uploaded /////////////////////////////////////
 
     $.validator.addMethod("image_uploaded",
@@ -820,6 +826,7 @@ if(window.location.pathname == '/login_req/'){
             },
             'price':{
                 required: true,
+                customprice: true,
                 range:[1,999.99]
             },
             'image_file':{

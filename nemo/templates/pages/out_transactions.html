@@ -70,7 +70,7 @@ f{% extends "base.html" %}
                                         <tr rent='{{out_transaction.id}}' >
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ out_transaction.param.name }}</td>
-                                            <td><span class="success">Rent</span></td>
+                                            <td>Rent</td>
                                             <td>{{ out_transaction.status }}</td>
                                             <td>{{ out_transaction.user_first_name }} {{ out_transaction.user_last_name }}</td>
                                             <td>${{ out_transaction.price }}</td>
