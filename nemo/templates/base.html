@@ -16,11 +16,10 @@
     {% include "elements/javascript.html" %}
 </head>
 <body>
-    {% if request.path != "/" %}
-        {% include "elements/header.html" %}
-    {% endif %}
-    {% if request.path == "/" %}
+    {% if request.path == "/" or  request.path != "/login" %}
         {% include "elements/home_header.html" %}
+    {% else %}
+        {% include "elements/header.html" %}
     {% endif %}
     {% include "elements/notification.html" %}
     {% block content %}
