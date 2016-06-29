@@ -954,11 +954,12 @@ if(window.location.pathname == '/login_req/'){
 
  ///////////////////////////////
 
-//    $('.to_billing_page').on('click',function(){
-//         setCookie('to_billing',3,1)
-//    })
-//
-//    alert(getCookie('to_billing'));
+    $('.to_billing_page').on('click',function(e){
+         e.preventDefault();
+         setCookie('to_billing',3,1)
+    })
+
+    alert(getCookie('to_billing'));
  /////////////////////////  init map ,show items on map /////////////////////////
 
     function initMap(latitude,longitude) {
