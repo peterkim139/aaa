@@ -64,7 +64,9 @@ if(window.location.pathname == '/login_req/'){
 ////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
 
     if(getCookie('exist') != ''){
-        $('#login_password').after('<span class="incorectUP">Incorect Username or Password</span>');
+        if(getCookie('exist') == 'error'){
+            $('#login_password').after('<span class="incorectUP">Incorect Username or Password</span>');
+        }
         $('.popupBtn')[0].click();
         var next = getCookie('next');
         if(next != ''){
