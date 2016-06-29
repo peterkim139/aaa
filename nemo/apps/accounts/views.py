@@ -389,7 +389,16 @@ class BillingView(LoginRequiredMixin, View):
                 billing.customer_id = customer_id
                 billing.customer_name = form.cleaned_data['first_name']
                 billing.customer_number = encrypt.encrypt_val(form.cleaned_data['card_number'])
-                billing.is_default = 0
+
+                try:
+                    def_method = Billing.objects.filter(user_id=request.user.id)
+                except:
+                    def_method = None
+                if def_method:
+                    billing.is_default = 0
+                else:
+                    billing.is_default = 1
+
                 billing.user_id = request.user.id
                 billing.save()
                 messages.success(request, "Successfully Added")
