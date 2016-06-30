@@ -361,10 +361,6 @@ $(document).ready(function(){
             'password':{
                 required: true,
             },
-            'confirmpassword':{
-                required: true,
-                equalTo: "#id_password_reg",
-            }
         },
         messages: {
             'email': {
@@ -387,10 +383,6 @@ $(document).ready(function(){
             'password':{
                 required: "This field is required."
             },
-            'confirmpassword':{
-                required: "This field is required.",
-                equalTo: "Password and Confirm Password must match"
-            }
         },
         errorClass: "help-inline",
         errorElement: "span",

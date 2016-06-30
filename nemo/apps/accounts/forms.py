@@ -108,12 +108,6 @@ class RegistrationForm(forms.Form):
         required=True
     )
 
-    confirmpassword = forms.CharField(
-        label="Confirm Password",
-        widget=forms.PasswordInput(attrs={'class': 'formControl'}),
-        required=True
-    )
-
     # def __init__(self, *args, **kwargs):
     #     super(RegistrationForm, self).__init__(*args, **kwargs)
     #     if 'form' in kwargs:
@@ -134,13 +128,6 @@ class RegistrationForm(forms.Form):
         if User.objects.filter(phone_number=phone_number).exists():
             raise forms.ValidationError("This phone number is already taken")
         return phone_number
-
-    def clean_confirmpassword(self):
-        password = self.cleaned_data.get('password')
-        confirmpassword = self.cleaned_data.get('confirmpassword')
-        if password != confirmpassword:
-            raise forms.ValidationError("Passwords don't match")
-        return self.cleaned_data
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
