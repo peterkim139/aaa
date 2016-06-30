@@ -28,24 +28,11 @@
                         <img src="/media/images/items/{{ image.image_name }}">
                     </figure>
                     <div class="listingRatingLine wow fadeInDown" data-wow-delay=".2s">
-                        <div class="pullLeft">
+                        <!-- <div class="pullLeft">
                             <label class="block mb5">Item Rating</label>
                             <img src="/media/images/rating-badges.png">
-                        </div>
-                        {% if param.item_owner_id != request.user.id %}
-                        <div class="pullRight">
-                            <span>Contact<br> owner</span>
-                            {% if user.is_authenticated %}
-                                <a href="{% url 'profile:conversation' param.item_owner_id %}" class="btn btnPrime btnSquare">
-                                    <i class="icon-message"></i>
-                                </a>
-                            {% else %}
-                                <a href="#login_popup" class="btn btnPrime btnSquare popupBtn" item="/profile/conversation/{{ param.item_owner_id }}" id="contact_owner">
-                                    <i class="icon-message"></i>
-                                </a>
-                            {% endif %}
-                        </div>
-                        {% endif %}
+                        </div> -->
+                        
                     </div>
                     <div class="subSect wow fadeInDown" data-wow-delay=".4s">
                         <ul class="labelValueList evenOdd">
@@ -59,6 +46,19 @@
                                     {% if user.is_authenticated %}{{ param.item_owner.first_name }} {% else %} {{ param.item_owner.first_name|first }}. {% endif %}
                                     {{ param.item_owner.last_name|first }}.
                                 </span>
+                                {% if param.item_owner_id != request.user.id %}
+                                <div class="pullRight ownerMessage">
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url 'profile:conversation' param.item_owner_id %}" class="btn btnPrime btnSquare">
+                                            <i class="icon-message"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="#login_popup" class="btn btnPrime btnSquare popupBtn" item="/profile/conversation/{{ param.item_owner_id }}" id="contact_owner">
+                                            <i class="icon-message"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
                             </li>
                             <li>
                                 <label>Rating Budges:</label>

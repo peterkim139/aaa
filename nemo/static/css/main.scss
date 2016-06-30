@@ -272,6 +272,18 @@ header {
 		max-width: 130px;
 	}
 }
+.sticky {
+	position: fixed;
+}
+.navWhite {
+	background-color: #fff !important;
+}
+.over-hide {
+	overflow: hidden;
+}
+.verticalMiddle {
+	display: table;
+}
 .headerNav {
 	margin-top: 10px;
 	ul {
@@ -339,11 +351,8 @@ header {
     z-index: 999;
     right: 10px;
     top: 24px;
-    color: #fff;
+    color: $brandColor;
 	font-size: 32px;
-}
-.effect-movedown.animate .drawerCont {
-	@include transform(translateY(40%) translateZ(-300px));
 }
 .drawerCont {
 	height: 100%;
@@ -973,9 +982,9 @@ Home page
 	background-attachment: fixed;
 	position: relative;
 	@include bgCover('/media/images/home-banner.jpg');
+}
+.trHeader {
 	header {
-		padding: 20px 14px;
-		position: relative;
 		z-index: 10;
 	    background: transparent;
 	    border-bottom: none;
@@ -1637,15 +1646,25 @@ account listing page
 	li {
 		@extend .clearAfter;
 		padding: 5px 0;
+		position: relative;
 		label {
 			float: left;
 			width: 40%;
 			font-size: $fontSize - 2px;
 		}
 		span {
-			float: right;
-			width: 60%;
+			float: left;
 			font-weight: 300;
+		}
+		.ownerMessage {
+			a {
+				height: 36px;
+				line-height: 36px;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				@include borderRadius(0);
+			}
 		}
 	}
 	&.labelBlock {
@@ -2455,9 +2474,8 @@ view listing page
 			height: 25px;
 		    padding: 5px 0;
 		    &.ui-state-active {
-		    	background: $brandColor;
-		    	color: #fff;
-		    	@include borderRadius(100%);
+		    	border: 1px solid $brandColor;
+		    	color: $brandColor;
 		    }
 		    &.ui-priority-secondary {
 		    	color: $borderGrey;
@@ -2485,9 +2503,8 @@ view listing page
 	text-align: center;
 }
 .dp-highlight .ui-state-default {
-	@include borderRadius(100%);
-	background: $brandColor;
-	color: #FFF;
+	border: 1px solid $brandColor;
+	color: $brandColor;
 }
 /*== end calendar styles ==*/
 /*== side slider ==*/

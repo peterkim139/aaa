@@ -520,6 +520,18 @@ header {
   header .headerLogo {
     max-width: 130px; }
 
+.sticky {
+  position: fixed; }
+
+.navWhite {
+  background-color: #fff !important; }
+
+.over-hide {
+  overflow: hidden; }
+
+.verticalMiddle {
+  display: table; }
+
 .headerNav {
   margin-top: 10px; }
   .headerNav ul li {
@@ -584,14 +596,8 @@ header {
   z-index: 999;
   right: 10px;
   top: 24px;
-  color: #fff;
+  color: #5bbc2e;
   font-size: 32px; }
-
-.effect-movedown.animate .drawerCont {
-  transform: translateY(40%) translateZ(-300px);
-  -o-transform: translateY(40%) translateZ(-300px);
-  -moz-transform: translateY(40%) translateZ(-300px);
-  -webkit-transform: translateY(40%) translateZ(-300px); }
 
 .drawerCont {
   height: 100%; }
@@ -1162,20 +1168,19 @@ Home page
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center; }
-  .homeTop header {
-    padding: 20px 14px;
-    position: relative;
-    z-index: 10;
-    background: transparent;
-    border-bottom: none; }
-    .homeTop header .headerLogo {
-      max-width: initial; }
-    .homeTop header .linkHover a:after {
-      background: #fff; }
-  .homeTop .headerNav ul li {
-    padding: 14px; }
-    .homeTop .headerNav ul li a {
-      color: #fff; }
+
+.trHeader header {
+  z-index: 10;
+  background: transparent;
+  border-bottom: none; }
+  .trHeader header .headerLogo {
+    max-width: initial; }
+  .trHeader header .linkHover a:after {
+    background: #fff; }
+.trHeader .headerNav ul li {
+  padding: 14px; }
+  .trHeader .headerNav ul li a {
+    color: #fff; }
 
 .showMobile {
   display: none; }
@@ -1729,15 +1734,25 @@ account listing page
     margin-bottom: 15px; }
 
 .labelValueList li {
-  padding: 5px 0; }
+  padding: 5px 0;
+  position: relative; }
   .labelValueList li label {
     float: left;
     width: 40%;
     font-size: 14px; }
   .labelValueList li span {
-    float: right;
-    width: 60%;
+    float: left;
     font-weight: 300; }
+  .labelValueList li .ownerMessage a {
+    height: 36px;
+    line-height: 36px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 0;
+    -ms-border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0; }
 .labelValueList.labelBlock label {
   float: none;
   width: 100%;
@@ -2436,12 +2451,8 @@ view listing page
       height: 25px;
       padding: 5px 0; }
       .ui-datepicker-calendar tbody a.ui-state-active {
-        background: #5bbc2e;
-        color: #fff;
-        border-radius: 100%;
-        -ms-border-radius: 100%;
-        -moz-border-radius: 100%;
-        -webkit-border-radius: 100%; }
+        border: 1px solid #5bbc2e;
+        color: #5bbc2e; }
       .ui-datepicker-calendar tbody a.ui-priority-secondary {
         color: #e8e8e8; }
 
@@ -2463,12 +2474,8 @@ view listing page
   text-align: center; }
 
 .dp-highlight .ui-state-default {
-  border-radius: 100%;
-  -ms-border-radius: 100%;
-  -moz-border-radius: 100%;
-  -webkit-border-radius: 100%;
-  background: #5bbc2e;
-  color: #FFF; }
+  border: 1px solid #5bbc2e;
+  color: #5bbc2e; }
 
 /*== end calendar styles ==*/
 /*== side slider ==*/
@@ -2653,9 +2660,6 @@ Responsive styles
     .showMobile .headerNav {
       display: block; }
 
-  .hamburgerBtn {
-    display: block; }
-
   .howWorkOr {
     display: block; }
 
@@ -2694,6 +2698,40 @@ Responsive styles
   .searchR {
     display: none; } }
 /* end of (max-width: 768px) */
+@media (max-width: 880px) {
+  .hamburgerBtn {
+    display: block; }
+
+  .headerNav {
+    margin-top: 0px;
+    position: fixed;
+    display: none;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    z-index: 3; }
+    .headerNav ul {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle; }
+      .headerNav ul li {
+        display: block; }
+        .headerNav ul li a {
+          color: #fff;
+          font-weight: 300;
+          font-size: 18px;
+          display: block; }
+          .headerNav ul li a:hover {
+            color: #5bbc2e; }
+          .headerNav ul li a:after {
+            display: none; }
+    .headerNav .verticalMiddle {
+      width: 100%;
+      height: 100%; }
+
+  /* end of (max-width: 768px) */ }
 @media (max-width: 520px) {
   .colRow .colMob12 {
     width: 100%; }
@@ -2777,5 +2815,8 @@ Responsive styles
   .homeTopTxt h4 {
     font-size: 22px; } }
 /* end of (max-width: 360px) */
+@media (min-width: 880px) {
+  .headerNav {
+    display: block; } }
 
 /*# sourceMappingURL=main.css.map */

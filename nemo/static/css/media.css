@@ -110,9 +110,6 @@
     .showMobile .headerNav {
       display: block; }
 
-  .hamburgerBtn {
-    display: block; }
-
   .howWorkOr {
     display: block; }
 
@@ -151,6 +148,40 @@
   .searchR {
     display: none; } }
 /* end of (max-width: 768px) */
+@media (max-width: 880px) {
+  .hamburgerBtn {
+    display: block; }
+
+  .headerNav {
+    margin-top: 0px;
+    position: fixed;
+    display: none;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    z-index: 3; }
+    .headerNav ul {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle; }
+      .headerNav ul li {
+        display: block; }
+        .headerNav ul li a {
+          color: #fff;
+          font-weight: 300;
+          font-size: 18px;
+          display: block; }
+          .headerNav ul li a:hover {
+            color: #5bbc2e; }
+          .headerNav ul li a:after {
+            display: none; }
+    .headerNav .verticalMiddle {
+      width: 100%;
+      height: 100%; }
+
+  /* end of (max-width: 768px) */ }
 @media (max-width: 520px) {
   .colRow .colMob12 {
     width: 100%; }
@@ -234,5 +265,8 @@
   .homeTopTxt h4 {
     font-size: 22px; } }
 /* end of (max-width: 360px) */
+@media (min-width: 880px) {
+  .headerNav {
+    display: block; } }
 
 /*# sourceMappingURL=media.css.map */

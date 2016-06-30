@@ -99,9 +99,6 @@ $inputBorderRadius: 0;
 			display: block;
 		}
 	}
-	.hamburgerBtn {
-		display: block;
-	}
 	.howWorkOr {
 		display: block;
 	}
@@ -151,6 +148,51 @@ $inputBorderRadius: 0;
 	}
 } /* end of (max-width: 768px) */
 
+@media (max-width: 880px) {
+	
+	.hamburgerBtn {
+		display: block;
+	}
+	.headerNav {
+		margin-top: 0px;
+		position: fixed;
+		display: none;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		background: rgba(0,0,0, 0.8);
+		width: 100%;
+		z-index: 3;
+
+		ul {
+    		text-align: center;
+    		display: table-cell;
+    		vertical-align: middle;
+
+			li {
+				display: block;
+
+				a {
+					color: #fff;
+					font-weight: 300;
+					font-size: $fontSize + 2px;
+					display: block;
+
+					&:hover {
+						color: $brandColor;
+					}
+					&:after {
+						display: none;
+					}
+				}
+			}
+		}
+		.verticalMiddle {
+			width: 100%;
+			height: 100%;
+		}
+	} /* end of (max-width: 768px) */
+}
 @media (max-width: 520px) {
 	.colRow {
 		@for $i from $colCount through 1 {
@@ -210,3 +252,9 @@ $inputBorderRadius: 0;
 		font-size: $fontSize + 6px;
 	}
 } /* end of (max-width: 360px) */
+
+@media (min-width: 880px) {
+	.headerNav {
+		display: block;
+	}
+}

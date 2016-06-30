@@ -1,17 +1,19 @@
 {% load staticfiles %}
 <nav class="headerNav linkHover" id="topMenu">
-    <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'accounts:search_results' %}">Search For Items</a></li>
-        <li><a href="{% url 'accounts:listings' %}">List Your Items</a></li>
-        <li><a href="{% url 'profile:no_conversation' %}">Messages</a></li>
-        <li><a href="{% url 'accounts:billing' %}" class="account">Account</a></li>
-        <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
-        {% else %}
-        <li class="bordered"><a href="#login_popup" class="popupBtn add_listing_popup">List Your Items</a></li>
-        <li><a href="#reg_popup" class="popupBtn registr_tab">Sign up</a></li>
-        <li><a href="#login_popup" class="popupBtn login_tab">Login</a></li>
-        {% endif %}
-        <li><a href="{% url 'profile:support' %}">Support</a></li>
-    </ul>
+    <div class="verticalMiddle">
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'accounts:search_results' %}">Search For Items</a></li>
+            <li><a href="{% url 'accounts:listings' %}">List Your Items</a></li>
+            <li><a href="{% url 'profile:no_conversation' %}">Messages</a></li>
+            <li><a href="{% url 'accounts:billing' %}" class="account">Account</a></li>
+            <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
+            {% else %}
+            <li class="bordered"><a href="#login_popup" class="popupBtn add_listing_popup">List Your Items</a></li>
+            <li><a href="#reg_popup" class="popupBtn registr_tab">Sign up</a></li>
+            <li><a href="#login_popup" class="popupBtn login_tab">Login</a></li>
+            {% endif %}
+            <li><a href="{% url 'profile:support' %}">Support</a></li>
+        </ul>
+    </div>
 </nav>
