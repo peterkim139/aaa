@@ -48,14 +48,14 @@ class ConnectForm(forms.Form):
     street_address = forms.CharField(label='Street Adress', max_length=255, required=True, validators=[has_numbers],
                                      widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
-    locality = forms.CharField(label='Locality', max_length=255, required=True, validators=[validate_lettersonly],
+    locality = forms.CharField(label='City', max_length=255, required=True, validators=[validate_lettersonly],
                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     postal_code = forms.CharField(label="Postal Code", max_length=5, min_length=5, required=True,
                                   validators=[validate_zipcode],
                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
-    region = forms.CharField(max_length=2,
+    region = forms.CharField(label='State', max_length=2,
                              widget=forms.Select(choices=CHOICES), required=True)
 
     terms = forms.BooleanField(

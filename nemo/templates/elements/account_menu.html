@@ -2,7 +2,7 @@
 <ul class="tabsStyle1 wow fadeInDown" data-wow-delay=".8s">
     <li><a href="{% url 'accounts:billing' %}"><i class="icon-wallet"></i> <span>Billing</span></a></li>
     <li><a href="{% url 'accounts:listings' %}"><i class="icon-reorder-square-line"></i> <span>My Listings</span></a></li>
-    <li><a href="{% url 'profile:in_transactions' %}"><i class="icon-list"></i> <span>Transactions</span></a></li>
+    <li><a href="{% url 'profile:in_transactions' %}" id="in_trans"><i class="icon-list"></i> <span>Transactions</span></a></li>
     <li><a href="{% url 'accounts:edit_profile' %}"><i class="icon-edit"></i> <span>Edit Profile</span></a></li>
     <li><a href="{% url 'payment:connect' %}"><i class="icon-braintree"></i> <span>Receiving Payment</span></a></li>
     <li><a href="#" class="change_account_status_item" {% if request.user.is_active == 1 %} data-account-status="0"><span>Deactivate {% else %}data-account-status="1"><span>Activate {% endif %} </span></a></li>

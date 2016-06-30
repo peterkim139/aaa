@@ -508,7 +508,7 @@ $(document).ready(function(){
         });
     });
 
-    ///////////////////////////////////// Activating menu links /////////////
+    ///////////////////////////////////// Highlight menu links /////////////
 
     var site_pathname = window.location.pathname;
     site_pathname = site_pathname.substring(0, site_pathname.lastIndexOf('/')) + '/';
@@ -522,7 +522,7 @@ $(document).ready(function(){
 
     menu_link.addClass("active");
     if(site_pathname == '/profile/out_transactions/'){
-        $('a[href="/profile/in_transactions/"]').parent('li').addClass("active");
+        $('a[id="in_trans').parent('li').addClass("active");
     }
 
     ///////////////////////////////////// Edit profile form validation //////////////////////////////////////////////
