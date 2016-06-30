@@ -26,8 +26,7 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
-
-    if(window.location.pathname != '/billing/'){
+    if(document.referrer.indexOf("payment/rent/") === -1){
         delCookie('to_billing');
     }
 
@@ -80,9 +79,8 @@ $(document).ready(function(){
             N_login_form.attr('action',action);
             delCookie('next')
         }
-        delCookie('exist')
     }
-
+    delCookie('exist')
 ///////////////////////////////////////////// login form validation ///////////////////////////////////////////
 
     N_login_form.validate({
