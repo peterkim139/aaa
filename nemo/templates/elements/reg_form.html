@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{#% load registration_form %#}
+{% load registration_form %}
 <div id="reg_popup" class="mfp-hide popupWrap loginPopup">
     <div class="popupHead">
         <h3>Sign up with Email</h3>
@@ -7,29 +7,8 @@
     <div class="popupBody">
         <form method="post" action="{% url 'accounts:register' %}" id="registration">
             {% csrf_token %}
-            {#% registration_form %#}
-            <div class="colRow">
-                <div class="formRow col6">
-                    <label for="reg_name" class="formLabel">First Name:</label>
-                    <input class="formControl" id="reg_name" name="name" type="text" />
-                </div>
-                <div class="formRow col6">
-                    <label for="reg_name" class="formLabel">Last Name:</label>
-                    <input class="formControl" id="reg_name" name="name" type="text" />
-                </div>
-            </div>
-            <div class="formRow">
-                <label for="reg_username" class="formLabel">Email:</label>
-                <input class="formControl" id="reg_username" maxlength="255" name="username" type="text" />
-            </div>
-            <div class="formRow">
-                <label for="reg_password" class="formLabel">Password:</label>
-                <input class="formControl" id="reg_password" name="password" type="password" />
-            </div>
-            <div class="formRow">
-                <label for="reg_zip" class="formLabel">Zip Code: <span class="labelDesc">(To locate your neighborhood)</span></label>
-                <input class="formControl" id="reg_zip" name="zip" type="text" />
-            </div>
+            {% registration_form %}
+
             <input type="submit" value="Sign up" class="btn btnPrime btnBlock">
         </form>
     </div>

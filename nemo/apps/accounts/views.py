@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, authenticate,logout
 from django.http import HttpResponseRedirect
 from django.core.cache import cache
 from django.contrib import messages
@@ -94,6 +94,10 @@ class RegisterView(View):
             user.set_password(form.cleaned_data['password'])
             user.save()
             confirm_register_mail(request, user.email, user.first_name, user.last_name, user.zip_code)
+            new_user = authenticate(email=form.cleaned_data['email'],
+                                    password=form.cleaned_data['password'],
+                                    )
+            login(request, new_user)
             messages.success(request, "You have registered successfully.")
         else:
             response.set_cookie('registr_error', 'error')
@@ -182,6 +186,10 @@ class ResetView(TemplateView):
             user.save()
             first_name = user.first_name
             reset_mail(request, email, first_name, reset_key)
+            new_user = authenticate(username=email,
+                                    password=form.cleaned_data['password'],
+                                    )
+            login(request, new_user)
             messages.success(request, "The email has been sent! Please check your inbox for link to reset password.")
         else:
             response.set_cookie('forgot_error', 'error')
@@ -218,6 +226,7 @@ class ChangePasswordView(TemplateView):
                 user.save()
                 messages.success(request, "Your password has been successfully changed")
             except User.DoesNotExist:
+                response.set_cookie('reset_key_error', 'clear')
                 messages.success(request, "Sorry, there are some problems")
             return response
         else:

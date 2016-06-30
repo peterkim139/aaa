@@ -265,25 +265,25 @@ $(document).ready(function(){
 
     ///////////////////////////////////// Register popup //////////////////////////////////////////////
 
+
+
+    $("form#registration label").each(function() {
+
+        $(this).addClass('formLabel');
+        if($(this).next('ul').length > 0){
+            $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
+            $(this).next().next().after($(this).next());
+        }else{
+            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+        }
+
+    });
+
     if(getCookie('registr_error') != ''){
-        $("form#registration label").each(function() {
-            $(this).addClass('formLabel');
-            var attr_name = $(this).next().next().attr('id');
-            if(typeof attr_name !== "undefined"){
-                $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
-                $(this).next().next().after($(this).next());
-            }else{
-                $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
-            }
-        });
         $('.registr_tab').click();
-        delCookie('registr_error')
-    }else{
-        $("form#registration label").each(function() {
-           $(this).addClass('formLabel');
-           $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
-        });
     }
+
+    delCookie('registr_error')
 
 
     ///////////////////////////////////  forgot password ///////////////////////////////////////////////////
@@ -920,6 +920,39 @@ $(document).ready(function(){
     });
 
 ////////////////////////////////////////// reset popup /////////////////////////////////////////////////////////////
+
+    $('#reset_form').validate({
+        rules: {
+            'password':{
+                required: true,
+                minlength: 6,
+            },
+            'password2':{
+                required: true,
+                equalTo: "#id_password_change",
+            }
+        },
+        messages: {
+            'password':{
+                required: "This field is required."
+            },
+            'password2':{
+                required: "This field is required.",
+                equalTo: "Password and Repeat Password must match"
+            }
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight: function(element, errorClass, validClass){
+            $(element).parents('.control-group').addClass('error');
+            $(element).parents('.control-group').removeClass('success');
+        },
+        unhighlight: function(element, errorClass, validClass){
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
+    })
+
     function openResetForm(){
         $.magnificPopup.open({
             items: {
@@ -928,26 +961,33 @@ $(document).ready(function(){
             showCloseBtn: true,
         });
     }
-    var reset = getCookie('reset_error');
+
     $("form#reset_form label").each(function() {
         $(this).addClass('formLabel');
-        var reset = getCookie('reset_error');
-        if(reset != ''){
+        if($(this).next('ul').length > 0){
             $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
             $(this).next().next().after($(this).next());
-            openResetForm()
         }else{
             $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
         }
+
     });
 
-        var reset_key = getCookie('reset_key');
-        if(reset_key != ''){
-            $('#reset_form').attr('action','/change_password/'+reset_key+'/')
-            openResetForm()
-        }
-        delCookie('reset_error')
-        delCookie('reset_key')
+    if(getCookie('reset_error') != ''){
+        openResetForm()
+    }
+
+    delCookie('reset_error')
+    if(getCookie('reset_key_error') != ''){
+
+        delCookie('reset_key_error')
+    }
+    delCookie('reset_key')
+    var reset_key = getCookie('reset_key')
+    if(reset_key != ''){
+        $('#reset_form').attr('action','/change_password/'+reset_key+'/')
+        openResetForm()
+    }
 
     ///////////////////////  preview add listing form //////////////////////////
 

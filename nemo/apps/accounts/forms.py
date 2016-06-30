@@ -128,6 +128,7 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError("This email is already taken")
         return email
 
+
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number']
         if User.objects.filter(phone_number=phone_number).exists():
@@ -135,11 +136,18 @@ class RegistrationForm(forms.Form):
         return phone_number
 
     def clean_confirmpassword(self):
-        password = self.cleaned_data.get('password', '')
-        confirmpassword = self.cleaned_data.get('confirmpassword', '')
+        password = self.cleaned_data.get('password')
+        confirmpassword = self.cleaned_data.get('confirmpassword')
         if password != confirmpassword:
             raise forms.ValidationError("Passwords don't match")
         return self.cleaned_data
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 5:  # must be changed
+            raise forms.ValidationError("Password too short.")
+        return password
+
 
 
 class ResetForm(forms.Form):
@@ -161,11 +169,19 @@ class ChangePasswordForm(forms.Form):
         'password_length': "Password too short.",
     }
 
-    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'formControl'}),
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'id': 'id_password_change','class': 'formControl'}),
                                required=True)
     password2 = forms.CharField(label="Repeat Password:",
                                 widget=forms.PasswordInput(attrs={'class': 'formControl'}), required=True)
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 5:  # must be changed
+            raise forms.ValidationError(
+                self.error_messages['password_length'],
+                code='password_length',
+            )
+        return password
 
     def clean_password2(self):
         password = self.cleaned_data.get("password")
@@ -175,12 +191,7 @@ class ChangePasswordForm(forms.Form):
                 self.error_messages['password_mismatch'],
                 code='password_mismatch',
             )
-
-        if len(password) < 2:  # must be changed
-            raise forms.ValidationError(
-                self.error_messages['password_length'],
-                code='password_length',
-            )
+        return password
 
 class BillingForm(forms.Form):
 
