@@ -186,10 +186,6 @@ class ResetView(TemplateView):
             user.save()
             first_name = user.first_name
             reset_mail(request, email, first_name, reset_key)
-            new_user = authenticate(username=email,
-                                    password=form.cleaned_data['password'],
-                                    )
-            login(request, new_user)
             messages.success(request, "The email has been sent! Please check your inbox for link to reset password.")
         else:
             response.set_cookie('forgot_error', 'error')
@@ -224,10 +220,14 @@ class ChangePasswordView(TemplateView):
                 user.reset_key = None
                 user.set_password(form.cleaned_data['password'])
                 user.save()
+                new_user = authenticate(email=user.email,
+                        password=form.cleaned_data['password'],
+                        )
+                login(request, new_user)
                 messages.success(request, "Your password has been successfully changed")
             except User.DoesNotExist:
-                response.set_cookie('reset_key_error', 'clear')
                 messages.success(request, "Sorry, there are some problems")
+            response.set_cookie('reset_key_error', 'clear')
             return response
         else:
             response.set_cookie('reset_error', 'error')

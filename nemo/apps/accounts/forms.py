@@ -131,7 +131,7 @@ class RegistrationForm(forms.Form):
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
-        if len(password) < 5:  # must be changed
+        if len(password) < 6:  # must be changed
             raise forms.ValidationError("Password too short.")
         return password
 
@@ -163,7 +163,7 @@ class ChangePasswordForm(forms.Form):
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
-        if len(password) < 5:  # must be changed
+        if len(password) < 6:  # must be changed
             raise forms.ValidationError(
                 self.error_messages['password_length'],
                 code='password_length',

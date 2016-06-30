@@ -971,16 +971,15 @@ $(document).ready(function(){
 
     delCookie('reset_error')
     if(getCookie('reset_key_error') != ''){
-
         delCookie('reset_key_error')
     }
-    delCookie('reset_key')
+
     var reset_key = getCookie('reset_key')
     if(reset_key != ''){
         $('#reset_form').attr('action','/change_password/'+reset_key+'/')
         openResetForm()
     }
-
+    delCookie('reset_key')
     ///////////////////////  preview add listing form //////////////////////////
 
     $(".openSlideBtn").on('click',function(){
