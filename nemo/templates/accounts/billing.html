@@ -84,32 +84,32 @@
                     </div>
                 </section>
                 <section>
-                    <div class="subTitleWrap">
-                        <h2>Saved Billing Methods</h2>
-                    </div>
                     {% if methods %}
-                    <div class="addedPayments">
-                        <ul>
-                            {% for method in methods %}
-                            <li>
-                                <img class="paymIcon" src="/media/images/icons/visa-card.png">
-                                <span class="paymAccount">************{{ method.customer_number|slice:"12:16" }}</span>
-                                <div class="paymActions">
-                                    <button id="{{ method.id }}" class="change_method_status" {% if method.is_default == 0 %} data-status-type="1">Make Default{% else %}data-status-type="0">Default Method{% endif %}</button>
-                                    <button class="danger delete_billing_method" id="{{ method.id }}"><i class="icon-trash"></i></button>
-                                </div>
-                            </li>
-                            <!--<li>-->
-                                <!--<img class="paymIcon" src="/media/images/icons/paypal-card.png">-->
-                                <!--<span class="paymAccount">mail@company.com</span>-->
-                                <!--<div class="paymActions">-->
-                                    <!--<button>Default Method</button>-->
-                                    <!--<button class="danger"><i class="icon-trash"></i></button>-->
-                                <!--</div>-->
-                            <!--</li>-->
-                            {% endfor %}
-                        </ul>
-                    </div>
+                        <div class="subTitleWrap">
+                            <h2>Saved Billing Methods</h2>
+                        </div>
+                        <div class="addedPayments">
+                            <ul>
+                                {% for method in methods %}
+                                <li>
+                                    <img class="paymIcon" src="/media/images/icons/visa-card.png">
+                                    <span class="paymAccount">************{{ method.customer_number|slice:"12:16" }}</span>
+                                    <div class="paymActions">
+                                        <button id="{{ method.id }}" class="change_method_status" {% if method.is_default == 0 %} data-status-type="1">Make Default{% else %}data-status-type="0">Default Method{% endif %}</button>
+                                        <button class="danger delete_billing_method" id="{{ method.id }}"><i class="icon-trash"></i></button>
+                                    </div>
+                                </li>
+                                <!--<li>-->
+                                    <!--<img class="paymIcon" src="/media/images/icons/paypal-card.png">-->
+                                    <!--<span class="paymAccount">mail@company.com</span>-->
+                                    <!--<div class="paymActions">-->
+                                        <!--<button>Default Method</button>-->
+                                        <!--<button class="danger"><i class="icon-trash"></i></button>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                                {% endfor %}
+                            </ul>
+                        </div>
                     {% endif %}
                 </section>
             </div>

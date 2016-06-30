@@ -361,7 +361,7 @@ class BillingView(LoginRequiredMixin, View):
         form = BillingForm()
         encrypt = NemoEncrypt()
 
-        methods = Billing.objects.filter(user_id=request.user.id)
+        methods = Billing.objects.filter(user_id=request.user.id).order_by('-created')
         for method in methods:
             method.customer_number = encrypt.decrypt_val(method.customer_number)
         context = {'form': form, 'methods': methods}
@@ -389,16 +389,16 @@ class BillingView(LoginRequiredMixin, View):
                 billing.customer_number = encrypt.encrypt_val(form.cleaned_data['card_number'])
 
                 try:
-                    def_method = Billing.objects.filter(user_id=request.user.id)
+                    def_method = Billing.objects.filter(user_id=request.user.id, is_default=1)
                 except:
                     def_method = None
                 if def_method:
-                    billing.is_default = 0
-                else:
-                    billing.is_default = 1
-                    user = User.objects.get(id=request.user.id)
-                    user.customer_id = customer_id
-                    user.save()
+                    Billing.objects.filter(user_id=request.user.id).update(is_default=0)
+
+                billing.is_default = 1
+                user = User.objects.get(id=request.user.id)
+                user.customer_id = customer_id
+                user.save()
 
                 billing.user_id = request.user.id
                 billing.save()
