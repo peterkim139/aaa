@@ -50,6 +50,7 @@ $(function(){
 	$("#showMenu").click(function(){
 		$(".headerNav").slideToggle();
 	}, function(){
+		$(".sticky").removeClass("animated");
 		$(".headerNav").slideToggle();
 		$("body").toggleClass("over-hide");
 		$(".menuToggle i").toggleClass("fa-bars");
@@ -61,5 +62,17 @@ $(function(){
 	});
 
 	/* End Responsive Menu Js */
+
+	/* Start Custom Scroll Js */
+
+	$(".tableScroll").mCustomScrollbar({
+		axis:"x",
+		theme:"light-2",
+		scrollButtons:{
+			enable:false
+		}
+	});
+
+	/* End Custom Scroll Js */
 
 });

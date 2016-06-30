@@ -711,7 +711,7 @@ input[type="file"].formControl {
 	margin-bottom: 30px;
 	&.hasInput {
 		.formRow {
-			width: 300px;
+			width: 60%;
 			float: right;
 		}
 	}
@@ -919,6 +919,11 @@ i {
 		button {
 			font-size: 22px;
 		}
+	}
+}
+.tableScroll {
+	table {
+		width: 755px;
 	}
 }
 .fbBtn {
@@ -2228,7 +2233,7 @@ search page
     position: relative;
     padding-bottom: 25px;
 	.mCSB_outside + .mCSB_scrollTools {
-		right: -18px;
+		right: -15px;
 	}
 }
 .searchR {
@@ -2273,6 +2278,8 @@ search page
     background: #5CBB46;
     border-radius: 4px;
     height: 10px;
+    width: 98%;
+    margin: 0 auto;
     .ui-slider-range {
 	    background: #fff;
 	    height: 10px;

@@ -926,7 +926,7 @@ input[type="file"].formControl {
   padding-bottom: 10px;
   margin-bottom: 30px; }
   .subTitleWrap.hasInput .formRow {
-    width: 300px;
+    width: 60%;
     float: right; }
   .subTitleWrap h2 {
     font-size: 24px;
@@ -1106,6 +1106,9 @@ i {
   padding: 5px 0; }
   .tableStyle .tableShares button {
     font-size: 22px; }
+
+.tableScroll table {
+  width: 755px; }
 
 .fbBtn {
   color: #4C66A4; }
@@ -2243,7 +2246,7 @@ search page
   position: relative;
   padding-bottom: 25px; }
   .searchL .mCSB_outside + .mCSB_scrollTools {
-    right: -18px; }
+    right: -15px; }
 
 .searchR {
   width: 65%;
@@ -2284,7 +2287,9 @@ search page
 .ui-slider-horizontal {
   background: #5CBB46;
   border-radius: 4px;
-  height: 10px; }
+  height: 10px;
+  width: 98%;
+  margin: 0 auto; }
   .ui-slider-horizontal .ui-slider-range {
     background: #fff;
     height: 10px;
@@ -2578,7 +2583,7 @@ Responsive styles
       padding: 0px 15px 0px 265px; }
 
   .tabsStyle1 li.active a {
-    border-width: 2px; } }
+    border-width: 1px; } }
 /* end of (max-width: 1070px) */
 @media (max-width: 980px) {
   .grid-sizer, .grid-item {
@@ -2594,6 +2599,45 @@ Responsive styles
   .searchWrap .grid-item {
     width: 100%; } }
 /* end of (max-width: 980px) */
+@media (max-width: 880px) {
+  .hamburgerBtn {
+    display: block; }
+
+  .headerNav {
+    margin-top: 0px;
+    position: fixed;
+    display: none;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    z-index: 3; }
+    .headerNav ul {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle; }
+      .headerNav ul li {
+        display: block; }
+        .headerNav ul li a {
+          color: #fff;
+          font-weight: 300;
+          font-size: 18px;
+          display: block; }
+          .headerNav ul li a:hover {
+            color: #5bbc2e; }
+          .headerNav ul li a:after {
+            display: none; }
+    .headerNav .verticalMiddle {
+      width: 100%;
+      height: 100%; }
+
+  .wrapper.pt85 {
+    padding-top: 75px; }
+
+  .colRow .offsetTab0 {
+    margin-left: 5%; } }
+/* end of (max-width: 880px) */
 @media (max-width: 768px) {
   .colRow .colTab12 {
     width: 100%; }
@@ -2696,42 +2740,28 @@ Responsive styles
     width: 100%; }
 
   .searchR {
-    display: none; } }
+    display: none; }
+
+  .accountDetail h5 {
+    font-size: 16px; }
+  .accountDetail li {
+    font-size: 14px; }
+
+  .listingR .col4, .listingR .col5 {
+    width: 50%; }
+  .listingR .col3 {
+    width: 100%; } }
 /* end of (max-width: 768px) */
-@media (max-width: 880px) {
-  .hamburgerBtn {
-    display: block; }
+@media (max-width: 600px) {
+  .listingsList > ul > li {
+    padding-left: 0px; }
 
-  .headerNav {
-    margin-top: 0px;
-    position: fixed;
-    display: none;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    background: rgba(0, 0, 0, 0.8);
-    width: 100%;
-    z-index: 3; }
-    .headerNav ul {
-      text-align: center;
-      display: table-cell;
-      vertical-align: middle; }
-      .headerNav ul li {
-        display: block; }
-        .headerNav ul li a {
-          color: #fff;
-          font-weight: 300;
-          font-size: 18px;
-          display: block; }
-          .headerNav ul li a:hover {
-            color: #5bbc2e; }
-          .headerNav ul li a:after {
-            display: none; }
-    .headerNav .verticalMiddle {
-      width: 100%;
-      height: 100%; }
-
-  /* end of (max-width: 768px) */ }
+  .listing_li .listingImg {
+    position: relative;
+    margin: 0 auto; }
+  .listing_li .listing_h3 {
+    margin-top: 15px; } }
+/* end of (max-width: 600px) */
 @media (max-width: 520px) {
   .colRow .colMob12 {
     width: 100%; }
@@ -2805,9 +2835,31 @@ Responsive styles
     .testimWrap h4 {
       border-left: none; }
 
-  .addPayMethod .colRow .col4 {
-    width: 100%; } }
+  .addPayMethod > .colRow > .col4 {
+    width: 100%; }
+  .addPayMethod > .colRow .col8 {
+    width: 100%; }
+
+  .accountL .accountImg {
+    position: relative;
+    float: none;
+    margin-right: auto;
+    margin-left: auto; }
+  .accountL .accountDetail {
+    float: none;
+    text-align: center;
+    padding-left: 0px; } }
 /* end of (max-width: 520px) */
+@media (max-width: 480px) {
+  .listingR .col4, .listingR .col5 {
+    width: 100%; }
+
+  .subTitleWrap.hasInput .formRow {
+    width: 100%;
+    float: none;
+    display: block;
+    margin: 15px auto; } }
+/* end of (max-width: 480px) */
 @media (max-width: 360px) {
   .homeTopTxt h1 {
     font-size: 46px; }

@@ -48,7 +48,7 @@ $inputBorderRadius: 0;
 		}
 	}
 	.tabsStyle1 li.active a {
-		border-width: 2px;
+		border-width: 1px;
 	}
 } /* end of (max-width: 1070px) */
 
@@ -70,6 +70,58 @@ $inputBorderRadius: 0;
 	}
 	
 } /* end of (max-width: 980px) */
+
+@media (max-width: 880px) {
+	
+	.hamburgerBtn {
+		display: block;
+	}
+	.headerNav {
+		margin-top: 0px;
+		position: fixed;
+		display: none;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		background: rgba(0,0,0, 0.8);
+		width: 100%;
+		z-index: 3;
+
+		ul {
+    		text-align: center;
+    		display: table-cell;
+    		vertical-align: middle;
+
+			li {
+				display: block;
+
+				a {
+					color: #fff;
+					font-weight: 300;
+					font-size: $fontSize + 2px;
+					display: block;
+
+					&:hover {
+						color: $brandColor;
+					}
+					&:after {
+						display: none;
+					}
+				}
+			}
+		}
+		.verticalMiddle {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.wrapper.pt85 {
+		padding-top: 75px;
+	}
+	.colRow .offsetTab0 {
+		margin-left: 5%;
+	}
+}/* end of (max-width: 880px) */
 
 @media (max-width: 768px) {
 	.colRow {
@@ -146,53 +198,39 @@ $inputBorderRadius: 0;
 	.searchR {
 		display: none;
 	}
+	.accountDetail {
+		h5 {
+			font-size: $fontSize;
+		}
+		li {
+			font-size: $fontSize - 2px;
+		}
+	}
+	.listingR {
+		.col4,.col5 {
+			width: 50%;
+		}
+		.col3 {
+			width: 100%;
+		}
+	}
 } /* end of (max-width: 768px) */
 
-@media (max-width: 880px) {
-	
-	.hamburgerBtn {
-		display: block;
+@media (max-width: 600px) {
+	.listingsList > ul > li{
+		padding-left: 0px;
 	}
-	.headerNav {
-		margin-top: 0px;
-		position: fixed;
-		display: none;
-		height: 100%;
-		top: 0px;
-		left: 0px;
-		background: rgba(0,0,0, 0.8);
-		width: 100%;
-		z-index: 3;
-
-		ul {
-    		text-align: center;
-    		display: table-cell;
-    		vertical-align: middle;
-
-			li {
-				display: block;
-
-				a {
-					color: #fff;
-					font-weight: 300;
-					font-size: $fontSize + 2px;
-					display: block;
-
-					&:hover {
-						color: $brandColor;
-					}
-					&:after {
-						display: none;
-					}
-				}
-			}
+	.listing_li {
+		.listingImg {
+			position: relative;
+			margin: 0 auto;
 		}
-		.verticalMiddle {
-			width: 100%;
-			height: 100%;
+		.listing_h3 {
+			margin-top: 15px;
 		}
-	} /* end of (max-width: 768px) */
-}
+	}
+	
+}/* end of (max-width: 600px) */
 @media (max-width: 520px) {
 	.colRow {
 		@for $i from $colCount through 1 {
@@ -235,15 +273,48 @@ $inputBorderRadius: 0;
 		}
 	}
 	.addPayMethod {
-		.colRow {
-			.col4 {
+		>.colRow {
+			>.col4 {
 				width: 100%;
 			}
+			.col8 {
+				width: 100%;
+			}
+		}
+	}
+	.accountL {
+		.accountImg {
+			position: relative;
+			float: none;
+			margin-right: auto;
+			margin-left: auto; 
+		}
+		.accountDetail {
+			float: none;
+			text-align: center;
+			padding-left: 0px;
 		}
 	}
 		
 } /* end of (max-width: 520px) */
 
+@media (max-width: 480px) {
+	.listingR {
+		.col4,.col5 {
+			width: 100%;
+		}
+	}
+	.subTitleWrap {
+		&.hasInput {
+			.formRow {
+				width: 100%;
+				float: none;
+				display: block;
+				margin: 15px auto;
+			}
+		}
+	}
+}/* end of (max-width: 480px) */
 @media (max-width: 360px) {
 	.homeTopTxt h1 {
 		font-size: $fontSize + 30px;
