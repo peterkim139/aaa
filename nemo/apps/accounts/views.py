@@ -396,6 +396,9 @@ class BillingView(LoginRequiredMixin, View):
                     billing.is_default = 0
                 else:
                     billing.is_default = 1
+                    user = User.objects.get(id=request.user.id)
+                    user.customer_id = customer_id
+                    user.save()
 
                 billing.user_id = request.user.id
                 billing.save()
