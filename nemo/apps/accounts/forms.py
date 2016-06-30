@@ -89,24 +89,28 @@ class ProfileForm(forms.Form):
 
 class RegistrationForm(forms.Form):
 
-    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True,
-                            validators=[validate_email], widget=forms.TextInput(attrs={'class': 'formControl'}))
-    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
-                               validators=[validate_zipcode],
-                               widget=forms.TextInput(attrs={'class': 'formControl'}), )
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
+    email = forms.CharField(label='Email', max_length=60, min_length=5, required=True,
+                            validators=[validate_email], widget=forms.TextInput(attrs={'class': 'formControl'}))
 
     password = forms.CharField(
         label="Password",
         widget=forms.PasswordInput(attrs={'id': 'id_password_reg', 'class': 'formControl'}),
         required=True
     )
+
+    zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
+                               validators=[validate_zipcode],
+                               widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
+
+    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
+                                   validators=[validate_numbersonly],
+                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     # def __init__(self, *args, **kwargs):
     #     super(RegistrationForm, self).__init__(*args, **kwargs)

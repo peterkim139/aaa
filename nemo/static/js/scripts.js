@@ -270,13 +270,19 @@ $(document).ready(function(){
     $("form#registration label").each(function() {
 
         $(this).addClass('formLabel');
+        var elem = $(this).attr('for');
         if($(this).next('ul').length > 0){
             $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
             $(this).next().next().after($(this).next());
         }else{
             $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
         }
-
+        if( elem == 'id_first_name' || elem == 'id_last_name'){
+            $(this).parent('div').addClass('col6')
+            if(elem == 'id_last_name'){
+                $('div.formRow.col6').wrapAll("<div class='colRow'></div>");
+            }
+        }
     });
 
     if(getCookie('registr_error') != ''){
