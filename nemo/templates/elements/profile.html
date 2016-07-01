@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <div class="accountL">
-    <div class="accountImg wow fadeInDown" data-wow-duration=".6s">
+    <div class="accountImg">
         <div class="wrapAbs imgCover">
             <img src="/media/{% if request.user.photo %}{{ request.user.photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
         </div>
