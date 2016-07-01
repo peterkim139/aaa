@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils import timezone
 from accounts.mixins import AuthUserManager, AbstractDateTime
 
 
@@ -12,6 +13,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
     customer_id = models.CharField(max_length=255, blank=True, default='')
     phone_number = models.CharField(max_length=255, blank=False, default='')
     zip_code = models.CharField(max_length=10, blank=False, default='')
+    birthday = models.DateTimeField(default=timezone.now)
     photo = models.FileField(upload_to='images/users', default=None, blank=True, null=True)
     STATUS_TYPES = (('admin', 'admin'), ('client', 'client'))
     role = models.CharField(max_length=10, choices=STATUS_TYPES, default='client')
