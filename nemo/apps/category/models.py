@@ -14,6 +14,7 @@ class Category(AbstractDateTime):
         ordering = ["id"]
         db_table = "category"
         get_latest_by = "created"
+        verbose_name_plural = 'Categories'
 
 
 class SubCategory(AbstractDateTime):
@@ -27,6 +28,7 @@ class SubCategory(AbstractDateTime):
         ordering = ["id"]
         db_table = "sub_category"
         get_latest_by = "created"
+        verbose_name_plural = 'Subcategories'
 
 
 class Properties(AbstractDateTime):
@@ -85,5 +87,6 @@ class Params(AbstractDateTime):
     class Meta:
         ordering = ["id"]
         db_table = "parametrs"
+        verbose_name_plural = 'Items'
         get_latest_by = "created"
 

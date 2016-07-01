@@ -53,12 +53,15 @@
                     {{ form.account_number.errors }}
                  </div>
                  <div class="formRow checkForm">
-                    {{ form.terms.label_tag}}
-                    {{ form.terms }}
-                    <label class="checkAndRadio" for="TermCheckBox">
-                        <input type="checkbox" name="category" class="chboxRadio" id="TermCheckBox"/>
+                     <span></span>
+                    <label class="checkAndRadio" for="id_terms">
+                        {{ form.terms }} {{ form.terms.label }}
                     </label>
+                     <br><br>
                     {{ form.terms.errors }}
+                    <!--<label class="checkAndRadio" for="TermCheckBox">-->
+                        <!--<input type="checkbox" name="category" class="chboxRadio" id="TermCheckBox"/>-->
+                    <!--</label>-->
                  </div>
                  <input type="submit" value="next" class="btn btnPrime">
              </form>
