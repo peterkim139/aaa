@@ -86,6 +86,11 @@ class RegisterView(View):
         response = HttpResponseRedirect('/')
         if form.is_valid():
             user = User()
+            year = request.POST['birthdate_year']
+            month = request.POST['birthdate_month']
+            day = request.POST['birthdate_day']
+            date_of_birth = year+'-'+month+'-'+day
+            user.birthday = date_of_birth
             user.email = form.cleaned_data['email']
             user.role = 'client'
             user.first_name = form.cleaned_data['first_name']
