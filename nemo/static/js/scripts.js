@@ -266,20 +266,25 @@ $(document).ready(function(){
 
 
     $("form#registration label").each(function() {
-
         $(this).addClass('formLabel');
         var elem = $(this).attr('for');
-        if($(this).next('ul').length > 0){
+        if($(this).next('ul').length > 0 && elem != 'id_birthdate_month'){
             $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
             $(this).next().next().after($(this).next());
         }else{
-            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+            if(elem != 'id_birthdate_month'){
+                $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
+            }
         }
         if( elem == 'id_first_name' || elem == 'id_last_name'){
             $(this).parent('div').addClass('col6')
             if(elem == 'id_last_name'){
                 $('div.formRow.col6').wrapAll("<div class='colRow'></div>");
             }
+        }
+        if(elem == 'id_birthdate_month'){
+            $(this).add($(this).next()).add($(this).next().next()).add($(this).next().next().next()).add($(this).next().next().next().next('select')).wrapAll("<div class='formRow birthDate'></div>");
+
         }
     });
 
@@ -334,6 +339,16 @@ $(document).ready(function(){
 
     ///////////////////////////////////// Register form validation //////////////////////////////////////////////
 
+    $.validator.addMethod("birthday",
+        function(value, element) {
+           if($('#id_birthdate_month').val() == '' || $('#id_birthdate_year').val() == '' || $('#id_birthdate_day').val()){
+                return false;
+           }else{
+                return true;
+           }
+        },
+        "This field is required.");
+
     $("#registration").validate({
         rules: {
             'email': {
@@ -365,6 +380,9 @@ $(document).ready(function(){
             'password':{
                 required: true,
             },
+            'birthdate_year':{
+                birthday: true
+            }
         },
         messages: {
             'email': {
@@ -404,6 +422,9 @@ $(document).ready(function(){
                var id = $(this).attr('id');
                imageUpload(id);
     });
+
+    $("#id_birthdate_year").prepend("<option value=''>Year</option>").val('');
+    $("#id_birthdate_day").prepend("<option value=''>Day</option>").val('');
 
     function imageUpload(id){
         return new qq.FileUploader({
@@ -1112,7 +1133,7 @@ $(document).ready(function(){
 //          fillColor: '#AA0000'
 //        });
 
-        circle.bindTo('center', my_marker, 'position');
+ //       circle.bindTo('center', my_marker, 'position');
 
         var currentInfoWindow = null;
         var show = false;

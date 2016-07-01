@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm as CoreAuthenticationForm
 from accounts.models import User
 from django import forms
+from django.forms import extras
 import datetime
 from accounts.validations import *
 
@@ -89,6 +90,19 @@ class ProfileForm(forms.Form):
 
 class RegistrationForm(forms.Form):
 
+
+    def __init__(self, *args, **kwargs):
+            super(RegistrationForm, self).__init__(*args, **kwargs)
+            self.fields['birthdate'].widget.attrs.update({'class': 'formControl'})
+
+
+    MONTHS = {
+        '':('Month'),
+        1:('January'), 2:('February'), 3:('March'), 4:('April'),
+        5:('May'), 6:('June'), 7:('July'), 8:('August'),
+        9:('September'), 10:('October'), 11:('November'), 12:('December')
+    }
+
     first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
@@ -111,6 +125,8 @@ class RegistrationForm(forms.Form):
     phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
+
+    birthdate = forms.DateField(widget=extras.SelectDateWidget(years=range(1998, 1923, -1), months=MONTHS))
 
     # def __init__(self, *args, **kwargs):
     #     super(RegistrationForm, self).__init__(*args, **kwargs)

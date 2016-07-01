@@ -61,6 +61,7 @@ class HomeView(View):
 class LoginView(View):
 
     def post(self, request):
+
         form = AuthenticationForm(data=request.POST)
 
         if form.is_valid():
