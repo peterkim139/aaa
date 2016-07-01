@@ -341,7 +341,7 @@ $(document).ready(function(){
 
     $.validator.addMethod("birthday",
         function(value, element) {
-           if($('#id_birthdate_month').val() == '' || $('#id_birthdate_year').val() == '' || $('#id_birthdate_day').val()){
+           if($('#id_birthdate_month').val() == '' || $('#id_birthdate_year').val() == '' || $('#id_birthdate_day').val() == ''){
                 return false;
            }else{
                 return true;
