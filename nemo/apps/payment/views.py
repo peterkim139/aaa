@@ -84,7 +84,7 @@ class RentView(TemplateView):
         for blockday in blockdays:
             dates[blockday.rent_date.strftime('%Y-%m-%d')] = blockday.start_date.strftime('%Y-%m-%d')
         context['blockdays'] = dates
-        param = Params.objects.get(id=self.id, status='published', item_owner__is_active=1)
+        param = Params.objects.get(id=self.id, status='published', item_owner__profile_status=1)
         image = Image.objects.get(param_image=self.id)
         today = datetime.datetime.now().date()
         try:
