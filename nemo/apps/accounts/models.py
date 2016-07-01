@@ -19,6 +19,7 @@ class User(AbstractDateTime, AbstractBaseUser, PermissionsMixin):
     credits = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     is_staff = models.BooleanField(default=0)
     is_active = models.BooleanField(default=1)
+    profile_status = models.BooleanField(default=1)
     objects = AuthUserManager()
     USERNAME_FIELD = 'email'
 

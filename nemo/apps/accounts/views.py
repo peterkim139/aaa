@@ -37,7 +37,7 @@ class HomeView(View):
                 LEFT JOIN user
                 ON user.id=parametrs.item_owner_id
                 WHERE parametrs.status = 'published'
-                AND user.is_active=1
+                AND user.profile_status=1
                 ORDER BY distance ASC
                 LIMIT %s''',
                 [latitude, latitude, longitude, limit])
@@ -50,7 +50,7 @@ class HomeView(View):
                 LEFT JOIN user
                 ON user.id=parametrs.item_owner_id
                 WHERE parametrs.status = 'published'
-                AND user.is_active=1
+                AND user.profile_status=1
                 ORDER BY parametrs.created DESC
                 LIMIT 5''')
 
@@ -132,7 +132,7 @@ def save_profile(backend, user, response, *args, **kwargs):
                     new_user_instance.first_name = kwargs['details']['first_name']
                     new_user_instance.email = kwargs['details']['email']
                     new_user_instance.last_name = kwargs['details']['last_name']
-                    new_user_instance.is_active = 1
+                    new_user_instance.profile_status = 1
                     new_user_instance.save()
                 else:
                     new_user_instance = User.objects.get(email=kwargs['details']['email'])
@@ -159,7 +159,7 @@ def save_profile(backend, user, response, *args, **kwargs):
                     new_user_instance.first_name = kwargs['details']['first_name']
                     new_user_instance.email = kwargs['details']['email']
                     new_user_instance.last_name = kwargs['details']['last_name']
-                    new_user_instance.is_active = 1
+                    new_user_instance.profile_status = 1
                     new_user_instance.save()
                 else:
                     new_user_instance = User.objects.get(email=kwargs['details']['email'])
@@ -299,7 +299,7 @@ class SearchView(View):
                 ON user.id=parametrs.item_owner_id
                 WHERE (parametrs.name LIKE %s or parametrs.description LIKE %s)
                 and parametrs.subcategory_id IN %s
-                and user.is_active = 1
+                and user.profile_status = 1
                 and parametrs.price >= %s and parametrs.price <= %s
                 and parametrs.status = 'published'
                 and sub_category.category_id = %s
@@ -561,7 +561,7 @@ class ChangeAccountStatusView(LoginRequiredMixin, View):
         except User.DoesNotExist:
             user = None
         if user:
-            user.is_active = status
+            user.profile_status = status
             user.save()
             return JsonResponse({'response': True})
         else:
