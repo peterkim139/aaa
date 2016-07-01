@@ -7,6 +7,7 @@ $(function(){
 
         if (windowSize <= 880) {
         	$(".headerNav").css("display","none");
+            $("body").removeClass("over-hide");
         	if($("body").hasClass("over-hide")){
 				$("#showMenu i").removeClass("icon-bars").addClass("icon-cancel");
 			}else {
@@ -67,7 +68,6 @@ $(function(){
 
 	$(".tableScroll").mCustomScrollbar({
 		axis:"x",
-		theme:"light-2",
 		scrollButtons:{
 			enable:false
 		}

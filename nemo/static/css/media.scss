@@ -68,6 +68,16 @@ $inputBorderRadius: 0;
 			width: 100%;
 		}
 	}
+	.homeMapSect {
+		.colRow {
+			.col9 {
+				width: 100%;
+			}
+			.col3 {
+				width: 33.33%;
+			}
+		}
+	}
 	
 } /* end of (max-width: 980px) */
 
@@ -136,6 +146,13 @@ $inputBorderRadius: 0;
 			}
 		}
 	}
+	.homeMapSect {
+		.colRow {
+			.col3 {
+				width: 50%;
+			}
+		}
+	}
 	.grid-sizer, .grid-item {
 		width: 50%;
 	}
@@ -200,7 +217,7 @@ $inputBorderRadius: 0;
 	}
 	.accountDetail {
 		h5 {
-			font-size: $fontSize;
+			font-size: $fontSize + 2px;
 		}
 		li {
 			font-size: $fontSize - 2px;
@@ -229,6 +246,31 @@ $inputBorderRadius: 0;
 			margin-top: 15px;
 		}
 	}
+	#edit_profile_form {
+		.colRow {
+			.col6 {
+				width: 100%;
+			}
+		}
+	}
+	.subTitleWrap {
+		&.hasTabs {
+			.subTitleTabs {
+				@include transform(translateX(0%));
+				float: right;
+			}
+		}
+	}
+	.addPayMethod {
+		>.colRow {
+			>.col4 {
+				width: 100%;
+			}
+			.col8 {
+				width: 100%;
+			}
+		}
+	}
 	
 }/* end of (max-width: 600px) */
 @media (max-width: 520px) {
@@ -250,6 +292,14 @@ $inputBorderRadius: 0;
 	.homeSrch .listInline {
 		margin-top: 20px;
 	}
+
+	.homeMapSect {
+		.colRow {
+			.col3 {
+				width: 100%;
+			}
+		}
+	}
 	.homeTopTxt h1 {
 		font-size: $fontSize + 45px;
 	}
@@ -270,16 +320,6 @@ $inputBorderRadius: 0;
 		}
 		h4 {
 			border-left: none;
-		}
-	}
-	.addPayMethod {
-		>.colRow {
-			>.col4 {
-				width: 100%;
-			}
-			.col8 {
-				width: 100%;
-			}
 		}
 	}
 	.accountL {
@@ -311,6 +351,25 @@ $inputBorderRadius: 0;
 				float: none;
 				display: block;
 				margin: 15px auto;
+			}
+		}
+	}
+	.fullWidth {
+		.col6 {
+			width: 100%;
+		}
+	}
+	.birthDate {
+		select {
+			&:nth-of-type(1) {
+				width: 100%;
+				margin-bottom: 4%;
+			}
+			&:nth-of-type(2) {
+				width: 46%;
+			}
+			&:nth-of-type(3) {
+				width: 50%;
 			}
 		}
 	}

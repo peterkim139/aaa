@@ -354,40 +354,6 @@ header {
     color: $brandColor;
 	font-size: 32px;
 }
-.drawerCont {
-	height: 100%;
-}
-.modalview .drawerCont {
-	overflow: auto;
-	cursor: auto;
-	background: $bodyBg;
-}
-.modalview.animate .drawerCont {
-	overflow: hidden;
-	cursor: pointer;
-}
-.effect-movedown .outer-nav a {
-	@include transition(color .7s, transform .4s, opacity .4s);
-	text-align: center;
-	&:before {
-		display: none;
-	}
-	&:hover {
-		color: $brandColor;
-	}
-}
-.effect-movedown {
-	background: transparent;
-}
-.effect-movedown.modalview {
-    background: #343A41;
-}
-.outer-nav.horizontal, .outer-nav.vertical {
-	width: auto;
-}
-.outer-nav.top {
-	top: 5%;
-}
 /*== end mobile navigation ==*/
 /*== end header ==*/
 /*== footer ==*/
@@ -925,6 +891,12 @@ i {
 	table {
 		width: 755px;
 	}
+	.mCustomScrollBox {
+		height: inherit;
+	}
+	.mCSB_scrollTools .mCSB_draggerRail {
+		background-color: #DCDCDC;
+	}
 }
 .fbBtn {
 	color: #4C66A4;
@@ -1114,6 +1086,9 @@ Home page
 			text-decoration: underline;
 		}
 	}
+}
+#howItWorks {
+	background: #fff;
 }
 .homeMapSect {
 	padding-top: 60px; 
@@ -2539,7 +2514,7 @@ start braintree page
 	select {
 		float: left;
 		&:nth-of-type(1) {
-			width: 56%;
+			width: 45%;
 			margin-right: 4%;
 		}
 		&:nth-of-type(2) {
@@ -2547,8 +2522,18 @@ start braintree page
 			margin-right: 4%;
 		}
 		&:nth-of-type(3) {
-			width: 18%;
+			width: 29%;
 		}
+	}
+}
+.checkForm {
+	label:first-child {
+		padding-left: 30px;
+	}
+	.checkAndRadio {
+		position: absolute;
+		top: 0px;
+		width: 100%;
 	}
 }
 /*

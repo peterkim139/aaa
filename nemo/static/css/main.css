@@ -599,41 +599,6 @@ header {
   color: #5bbc2e;
   font-size: 32px; }
 
-.drawerCont {
-  height: 100%; }
-
-.modalview .drawerCont {
-  overflow: auto;
-  cursor: auto;
-  background: #fff; }
-
-.modalview.animate .drawerCont {
-  overflow: hidden;
-  cursor: pointer; }
-
-.effect-movedown .outer-nav a {
-  transition: color 0.7s, transform 0.4s, opacity 0.4s;
-  -o-transition: color 0.7s, transform 0.4s, opacity 0.4s;
-  -moz-transition: color 0.7s, transform 0.4s, opacity 0.4s;
-  -webkit-transition: color 0.7s, transform 0.4s, opacity 0.4s;
-  text-align: center; }
-  .effect-movedown .outer-nav a:before {
-    display: none; }
-  .effect-movedown .outer-nav a:hover {
-    color: #5bbc2e; }
-
-.effect-movedown {
-  background: transparent; }
-
-.effect-movedown.modalview {
-  background: #343A41; }
-
-.outer-nav.horizontal, .outer-nav.vertical {
-  width: auto; }
-
-.outer-nav.top {
-  top: 5%; }
-
 /*== end mobile navigation ==*/
 /*== end header ==*/
 /*== footer ==*/
@@ -1109,6 +1074,10 @@ i {
 
 .tableScroll table {
   width: 755px; }
+.tableScroll .mCustomScrollBox {
+  height: inherit; }
+.tableScroll .mCSB_scrollTools .mCSB_draggerRail {
+  background-color: #DCDCDC; }
 
 .fbBtn {
   color: #4C66A4; }
@@ -1274,6 +1243,9 @@ Home page
       color: inherit;
       font-style: italic;
       text-decoration: underline; }
+
+#howItWorks {
+  background: #fff; }
 
 .homeMapSect {
   padding-top: 60px; }
@@ -2506,13 +2478,20 @@ start braintree page
 .birthDate select {
   float: left; }
   .birthDate select:nth-of-type(1) {
-    width: 56%;
+    width: 45%;
     margin-right: 4%; }
   .birthDate select:nth-of-type(2) {
     width: 18%;
     margin-right: 4%; }
   .birthDate select:nth-of-type(3) {
-    width: 18%; }
+    width: 29%; }
+
+.checkForm label:first-child {
+  padding-left: 30px; }
+.checkForm .checkAndRadio {
+  position: absolute;
+  top: 0px;
+  width: 100%; }
 
 /*
 end braintree page
@@ -2597,7 +2576,12 @@ Responsive styles
 
   .searchWrap .grid-sizer,
   .searchWrap .grid-item {
-    width: 100%; } }
+    width: 100%; }
+
+  .homeMapSect .colRow .col9 {
+    width: 100%; }
+  .homeMapSect .colRow .col3 {
+    width: 33.33%; } }
 /* end of (max-width: 980px) */
 @media (max-width: 880px) {
   .hamburgerBtn {
@@ -2690,6 +2674,9 @@ Responsive styles
   .colRow .offsetTab0 {
     margin-left: 0%; }
 
+  .homeMapSect .colRow .col3 {
+    width: 50%; }
+
   .grid-sizer, .grid-item {
     width: 50%; }
 
@@ -2743,7 +2730,7 @@ Responsive styles
     display: none; }
 
   .accountDetail h5 {
-    font-size: 16px; }
+    font-size: 18px; }
   .accountDetail li {
     font-size: 14px; }
 
@@ -2760,7 +2747,22 @@ Responsive styles
     position: relative;
     margin: 0 auto; }
   .listing_li .listing_h3 {
-    margin-top: 15px; } }
+    margin-top: 15px; }
+
+  #edit_profile_form .colRow .col6 {
+    width: 100%; }
+
+  .subTitleWrap.hasTabs .subTitleTabs {
+    transform: translateX(0%);
+    -o-transform: translateX(0%);
+    -moz-transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    float: right; }
+
+  .addPayMethod > .colRow > .col4 {
+    width: 100%; }
+  .addPayMethod > .colRow .col8 {
+    width: 100%; } }
 /* end of (max-width: 600px) */
 @media (max-width: 520px) {
   .colRow .colMob12 {
@@ -2818,6 +2820,9 @@ Responsive styles
   .homeSrch .listInline {
     margin-top: 20px; }
 
+  .homeMapSect .colRow .col3 {
+    width: 100%; }
+
   .homeTopTxt h1 {
     font-size: 61px; }
 
@@ -2834,11 +2839,6 @@ Responsive styles
       text-align: center; }
     .testimWrap h4 {
       border-left: none; }
-
-  .addPayMethod > .colRow > .col4 {
-    width: 100%; }
-  .addPayMethod > .colRow .col8 {
-    width: 100%; }
 
   .accountL .accountImg {
     position: relative;
@@ -2858,7 +2858,18 @@ Responsive styles
     width: 100%;
     float: none;
     display: block;
-    margin: 15px auto; } }
+    margin: 15px auto; }
+
+  .fullWidth .col6 {
+    width: 100%; }
+
+  .birthDate select:nth-of-type(1) {
+    width: 100%;
+    margin-bottom: 4%; }
+  .birthDate select:nth-of-type(2) {
+    width: 46%; }
+  .birthDate select:nth-of-type(3) {
+    width: 50%; } }
 /* end of (max-width: 480px) */
 @media (max-width: 360px) {
   .homeTopTxt h1 {
