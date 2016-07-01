@@ -1106,6 +1106,14 @@ $(document).ready(function(){
             title: 'Your Location!'
         });
 
+//        var circle = new google.maps.Circle({
+//          map: map,
+//          radius: 1600,
+//          fillColor: '#AA0000'
+//        });
+
+        circle.bindTo('center', my_marker, 'position');
+
         var currentInfoWindow = null;
         var show = false;
 
