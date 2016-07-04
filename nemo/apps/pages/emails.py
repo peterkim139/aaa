@@ -29,9 +29,9 @@ def cancel_before_approving(request, email, client, seller, item):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -59,9 +59,9 @@ def cancel_after_approving(request, email, client, item, seller, amount):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -89,9 +89,9 @@ def seller_penalize_email(request, seller, item, amount, email):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -117,9 +117,9 @@ def seller_canceled_request_before(request, client, email, item):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -145,9 +145,9 @@ def seller_canceled_request_after(request, client, email, item):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -173,9 +173,9 @@ def seller_declined_request(request, client, email, item):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -203,9 +203,9 @@ def seller_approved_request(request, client, seller, email, item, price):
         'html': content,
         'to': [{'email': email,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -227,9 +227,9 @@ def send_support_email(email, name, comments):
         'html': context,
         'to': [{'email': settings.ADMIN_EMAIL,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
     return  True

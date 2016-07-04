@@ -29,9 +29,9 @@ def reset_mail(request, email, first_name, reset_key):
         'to': [{'email': email,
                 'name': first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -60,8 +60,8 @@ def confirm_register_mail(request, email, first_name, last_name, zip_code):
         'to': [{'email': email,
                 'name': first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')

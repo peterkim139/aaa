@@ -31,9 +31,9 @@ def new_rent_mail(request, email, client, item, seler, rent_id):
         'to': [{'email': email,
                 'name': seler,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -65,9 +65,9 @@ def expired_rent_client(info):
         'to': [{'email': info.user.email,
                 'name': info.user.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -100,9 +100,9 @@ def expired_rent_seller(info):
         'to': [{'email': info.owner.email,
                 'name':  info.owner.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -135,9 +135,9 @@ def admin_cancel_rent_to_seller(info):
         'to': [{'email': info.owner.email,
                 'name':  info.owner.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -170,9 +170,9 @@ def admin_cancel_rent_to_client(info):
         'to': [{'email': info.owner.email,
                 'name':  info.owner.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -199,9 +199,9 @@ def reminder_rent_client(info):
         'to': [{'email': info.user.email,
                 'name': info.user.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -229,9 +229,9 @@ def reminder_rent_seller(info):
         'to': [{'email': info.owner.email,
                 'name':  info.owner.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -268,9 +268,9 @@ def seller_transaction_email(info):
         'to': [{'email': info.owner.email,
                 'name':  info.owner.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
@@ -297,9 +297,9 @@ def return_rent_client(info):
         'to': [{'email': info.user.email,
                 'name': info.user.first_name,
                 'type': 'to'}],
-        'return_path_domain': 'nemo.codebnb.me',
-        'signing_domain': 'nemo.codebnb.me',
-        'tracking_domain': 'nemo.codebnb.me',
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
     }
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 

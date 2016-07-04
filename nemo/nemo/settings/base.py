@@ -102,6 +102,7 @@ DEFAULT_FROM_EMAIL = 'sipanm19@gmail.com'
 
 SERVER_EMAIL = 'sipanm19@gmail.com'
 
+MANDRILL_DOMAIN = 'nemocentral.com'
 
 # ADMINS
 ADMINS = (
