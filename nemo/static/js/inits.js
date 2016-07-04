@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 
 	// wow js init
-	new WOW().init();
+	//new WOW().init();
 
 
 	// smooth scroll to href

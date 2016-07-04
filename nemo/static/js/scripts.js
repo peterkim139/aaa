@@ -69,7 +69,7 @@ $(document).ready(function(){
 
     if(getCookie('exist') != ''){
         if(getCookie('exist') == 'error'){
-            $('#login_password').after('<span class="incorectUP">Incorect Username or Password</span>');
+            $('#login_password').after('<span class="incorectUP">Incorrect Email or Password</span>');
         }
         $('.popupBtn')[0].click();
         var next = getCookie('next');

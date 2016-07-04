@@ -564,14 +564,15 @@ footer {
 	}
 	textarea.formControl {
 		min-height: 110px;
-		resize: vertical;
+		resize: none;
 	}
 }
 input[type="file"].formControl {
 	height: auto;
 	padding: 6px;
 }
-.help-inline {
+.help-inline,
+.errorlist li {
 	display: inline-block;
 	margin-top: 3px;
 	color: #D53131;
@@ -2426,6 +2427,12 @@ view listing page
 		cursor: no-drop!important;
 	}
 }
+.ui-datepicker-today {
+	a {
+		color: #ffc0cb;
+		border-color: #ffc0cb;
+	}
+}
 .datepicker {
 	border: solid 1px #dbdbdb;
 	padding: 14px;
@@ -2522,16 +2529,16 @@ start braintree page
 		}
 	}
 }
-.checkForm {
-	label:first-child {
-		padding-left: 30px;
-	}
-	.checkAndRadio {
-		position: absolute;
-		top: 0px;
-		width: 100%;
-	}
-}
+//.checkForm {
+//	label:first-child {
+//		padding-left: 30px;
+//	}
+//	.checkAndRadio {
+//		position: absolute;
+//		top: 0;
+//		width: 100%;
+//	}
+//}
 /*
 end braintree page
 */
@@ -2547,7 +2554,7 @@ end braintree page
 	padding: 2em;
 	border: 1px solid $lightGrey;
 	background-color: $bodyBg;
-	box-shadow: 0px 0px 94px 0px rgba(240,240,240,1);
+	box-shadow: 0 0 94px 0 rgba(240,240,240,1);
 }
 .blockTitle {
 	font-size: $fontSize + 5px;
@@ -2563,7 +2570,7 @@ end braintree page
 	font-weight: 300;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
-	line-height: 1.5;
+	line-height: 1.5em;
 
 	a {
 		color: $brandColor;
