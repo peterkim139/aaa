@@ -2425,7 +2425,7 @@ view listing page
 	.ui-state-disabled {
 		opacity: 0.3;
 		cursor: no-drop!important;
-		&.blocked {
+		&.booked {
 			opacity: 1;
 			a {
 				color: #e91919

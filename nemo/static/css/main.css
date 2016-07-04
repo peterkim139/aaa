@@ -2401,9 +2401,9 @@ view listing page
 .ui-datepicker .ui-state-disabled {
   opacity: 0.3;
   cursor: no-drop !important; }
-  .ui-datepicker .ui-state-disabled.blocked {
+  .ui-datepicker .ui-state-disabled.booked {
     opacity: 1; }
-    .ui-datepicker .ui-state-disabled.blocked a {
+    .ui-datepicker .ui-state-disabled.booked a {
       color: #e91919; }
 
 .ui-datepicker-today a {
