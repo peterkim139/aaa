@@ -1094,10 +1094,22 @@ $(document).ready(function(){
         $("#latitude").val(position.coords.latitude);
         $("#longitude").val(position.coords.longitude)
         var cvalue = [position.coords.latitude,position.coords.longitude]
-        setCookie('lat_lng',cvalue,30)
+        setCookie('lat_lng',cvalue,365)
     }
 
+    var geocoder = new google.maps.Geocoder();
 
+    function codeLatLng(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
+        geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    var address =  results[0].formatted_address
+                    setCookie('address',address,365)
+                }
+            }
+        });
+    }
  /////////////////////////  init map ,show items on map /////////////////////////
 
     function initMap(latitude,longitude) {
