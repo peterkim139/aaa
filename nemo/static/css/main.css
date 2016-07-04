@@ -2399,8 +2399,12 @@ view listing page
 .ui-datepicker .ui-datepicker-title {
   line-height: 1em; }
 .ui-datepicker .ui-state-disabled {
-  opacity: 0.2;
+  opacity: 0.3;
   cursor: no-drop !important; }
+  .ui-datepicker .ui-state-disabled.blocked {
+    opacity: 1; }
+    .ui-datepicker .ui-state-disabled.blocked a {
+      color: #e91919; }
 
 .ui-datepicker-today a {
   color: #ffc0cb;

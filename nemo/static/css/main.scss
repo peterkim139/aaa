@@ -2423,8 +2423,14 @@ view listing page
 		line-height: 1em;
 	}
 	.ui-state-disabled {
-		opacity: 0.2;
+		opacity: 0.3;
 		cursor: no-drop!important;
+		&.blocked {
+			opacity: 1;
+			a {
+				color: #e91919
+			}
+		}
 	}
 }
 .ui-datepicker-today {
