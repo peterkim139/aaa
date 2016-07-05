@@ -1233,6 +1233,8 @@ Home page
     height: 50px;
     background: #5bbc2e;
     font-size: 20px; }
+  .homeSrch .col3 select, .supportBlock .col3 select {
+    width: 99.99%; }
 
 .srchAddress {
   margin-bottom: 10px; }
@@ -1354,7 +1356,7 @@ Home page
   font-style: italic;
   font-size: 14px;
   display: inline-block;
-  vertical-align: center; }
+  vertical-align: middle; }
 
 .ownerWrap .stars {
   vertical-align: middle;
@@ -1691,7 +1693,7 @@ account listing page
 */
 .listingsList > ul {
   list-style-type: decimal;
-  padding-left: 20px;
+  padding-left: 30px;
   font-weight: 300; }
   .listingsList > ul > li {
     padding-left: 110px;
@@ -1877,6 +1879,9 @@ transactions page
     font-size: 22px;
     color: #7E7D88; }
 
+.nowrap {
+  white-space: nowrap; }
+
 /*
 end of transaction page
 */
@@ -1961,7 +1966,8 @@ messages page
     padding: 24px 20px; }
     .msgConvrsList li a > div {
       position: relative;
-      padding-left: 60px; }
+      padding-left: 60px;
+      min-height: 50px; }
       .msgConvrsList li a > div:after {
         content: '';
         position: absolute;
@@ -2200,6 +2206,15 @@ search page
     .searchWrap figure a:hover:after {
       opacity: 1;
       margin-top: 0; }
+
+.searchList .listingBy {
+  display: block;
+  float: none; }
+.searchList .stars {
+  display: block;
+  float: none;
+  margin-left: 0;
+  margin-top: 4px; }
 
 #amount {
   background: transparent; }
@@ -2790,7 +2805,15 @@ Responsive styles
       padding: 20px 30px; }
 
   .popupBody {
-    padding: 20px 30px; } }
+    padding: 20px 30px; }
+
+  .messagesWrap {
+    padding-left: 0; }
+
+  .messagesL {
+    position: static;
+    width: 100%;
+    height: 360px; } }
 /* end of (max-width: 768px) */
 @media (max-width: 600px) {
   .listingsList > ul > li {

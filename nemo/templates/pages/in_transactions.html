@@ -36,6 +36,8 @@
                                         {{ form.cvv.errors }}
                                     </div>
                                 </div>
+                            </div>
+                            <div class="colRow">
                                 <div class="col6">
                                     <div class="formRow">
                                         {{ form.month.label_tag}}
@@ -51,7 +53,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="submit"  value="Cancel" id="cancel_request" class="approve"/>
+                            <input type="submit"  value="Cancel" id="cancel_request" class="btn btnBorder approve"/>
                         </form>
                     </div>
                     <div id="incoming" class="tableScroll">
@@ -80,7 +82,7 @@
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
                                             <td>{{ in_transaction.status }}</td>
-                                            <td>
+                                            <td class="nowrap">
                                                 {% if in_transaction.status == 'pending' %}
                                                     <button class="success seller_actions" action="Approve">Approve</button> | <button class="success  seller_actions" action="Cancel">Cancel</button>
                                                 {% elif in_transaction.status == 'approved' %}

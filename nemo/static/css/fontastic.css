@@ -161,3 +161,6 @@
 .icon-phone:before {
   content: "\4f";
 }
+.icon-play:before {
+  content: "\50";
+}

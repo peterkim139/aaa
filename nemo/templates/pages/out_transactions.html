@@ -30,6 +30,8 @@ f{% extends "base.html" %}
                                     <input type="text" class="formControl">
                                 </div>
                             </div>
+                        </div>
+                        <div class="colRow">
                             <div class="col6">
                                 <div class="formRow">
                                     <label class="formLabel">Some lorem ipxum</label>
@@ -82,7 +84,7 @@ f{% extends "base.html" %}
                                                     <td>{{out_transaction.status}}</td>
                                             {% endif %}
                                             <td>Make payment</td>
-                                            <td>
+                                            <td class="nowrap">
                                                 {% if out_transaction.status == 'pending' %}
                                                     <button class="success client_actions" action="Decline">Decline</button>
                                                 {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}

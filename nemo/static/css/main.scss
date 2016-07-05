@@ -1074,6 +1074,9 @@ Home page
 		background: $brandColor;
 		font-size: $fontSize + 4px; 
 	}
+	.col3 select {
+		width: 99.99%;
+	}
 }
 .srchAddress {
 	margin-bottom: 10px;
@@ -1218,7 +1221,7 @@ Home page
 	font-style: italic;
 	font-size: $fontSize - 2px;
 	display: inline-block;
-	vertical-align: center;
+	vertical-align: middle;
 }
 .ownerWrap .stars {
 	vertical-align: middle;
@@ -1605,7 +1608,7 @@ account listing page
 .listingsList {
 	>ul {
 		list-style-type: decimal;
-		padding-left: 20px;
+		padding-left: 30px;
 		font-weight: 300;
 		>li {
 			padding-left: 110px;
@@ -1835,6 +1838,9 @@ transactions page
 		color: #7E7D88;
 	}
 }
+.nowrap {
+	white-space: nowrap;
+}
 /*
 end of transaction page
 */
@@ -1937,6 +1943,7 @@ messages page
 			>div {
 				position: relative;
 				padding-left: 60px;
+				min-height: 50px;
 				&:after {
 					content: '';
 					position: absolute;
@@ -2189,6 +2196,18 @@ search page
 				margin-top: 0;
 			}
 		}
+	}
+}
+.searchList {
+	.listingBy {
+		display: block;
+		float: none;
+	}
+	.stars {
+		display: block;
+		float: none;
+		margin-left: 0;
+		margin-top: 4px;
 	}
 }
 #amount {

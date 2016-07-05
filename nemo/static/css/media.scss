@@ -264,7 +264,14 @@
 	.popupBody {
 		padding: 20px 30px;
 	}
-
+	.messagesWrap {
+		padding-left: 0;
+	}
+	.messagesL {
+		position: static;
+		width: 100%;
+		height: 360px;
+	}
 } /* end of (max-width: 768px) */
 
 @media (max-width: 600px) {

@@ -828,11 +828,11 @@ $(document).ready(function(){
                     self.parents('li.listing_li').remove();
                 }else if(response && status == 'unpublished'){
                     self.attr("data-status-type",'published');
-                    self.text("Publish");
+                    self.html("<i class='icon-play'></i>");
                     self.parents(".listingR").children(".listing_h3").find("a").attr("href", "#");
                 }else {
                     self.attr("data-status-type",'unpublished');
-                    self.text("Unpublish");
+                    self.html("<i class='icon-pause'></i>");
                     self.parents(".listingR").children(".listing_h3").find("a").attr("href", "/payment/rent/"+item_id);
                 }
             },
