@@ -26,6 +26,8 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
+    $('.loader').hide();
+
     if(document.referrer.indexOf("payment/rent/") === -1){
         delCookie('to_billing');
     }
@@ -623,6 +625,8 @@ $(document).ready(function(){
 
     $(".seller_actions").on('click',function(){
         var self = $(this)
+        $('.footable-visible button').prop('disabled', true);
+        self.closest('td').find("div").show();
         var action = self.attr("action");
         var rent = self.closest('tr').attr('rent');
         $.ajax({
@@ -639,9 +643,11 @@ $(document).ready(function(){
                     }else{
                         location.reload()
                     }
+                    self.closest('td').find("div").hide();
                 }else {
                     alert(response.message);
                 }
+                $('.footable-visible button').prop('disabled', false);
             },
         });
     });

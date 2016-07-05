@@ -88,6 +88,7 @@
                                                 {% elif in_transaction.status == 'approved' %}
                                                     <button class="success expandBtn">Cancel</button>
                                                 {% endif %}
+                                                <div class="loader"></div>
                                             </td>
                                             <td>{{ in_transaction.created|date:"Y-m-d h:i:s" }}</td>
                                             <td>{{ in_transaction.start_date|date:"Y-m-d" }} - {{ in_transaction.rent_date|date:"Y-m-d" }}</td>
