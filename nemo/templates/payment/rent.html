@@ -188,12 +188,12 @@ $(document).ready(function() {
                 if(dateRange.indexOf(dateString) == -1){
                     return [true,'dp-highlight']
                 }else{
-                    return [true,"ui-datepicker-unselectable ui-state-disabled"]
+                    return [true,"ui-datepicker-unselectable ui-state-disabled booked"]
                 }
             }else if(dateRange.indexOf(dateString) == -1){
                 return [true,'']
             }else{
-                 return [true,"ui-datepicker-unselectable ui-state-disabled"]
+                 return [true,"ui-datepicker-unselectable ui-state-disabled booked"]
             }
         },
         onSelect: function(dateText, inst) {
