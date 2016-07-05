@@ -1,3 +1,4 @@
+import datetime
 from category.models import SubCategory
 from .models import Message
 from django import forms
@@ -23,6 +24,16 @@ class RentForm(forms.Form):
                            validators=[validate_year],
                            widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
+
+    def clean_month(self):
+
+        month = self.cleaned_data.get('month')
+        year = self.cleaned_data.get('year')
+        now = datetime.datetime.now()
+        if year is not None:
+            if now.year == int(year) and int(month) < now.month:
+                raise forms.ValidationError("Invalid Month")
+            return month
 
 class AddListingForm(forms.Form):
 

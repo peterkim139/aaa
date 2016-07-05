@@ -154,7 +154,8 @@ $(document).ready(function(){
                 digits: true,
                 minlength: 2,
                 maxlength: 2,
-                valid_month: true
+                valid_month: true,
+                month_check: true
             },
             'year':{
                 required: true,
@@ -211,6 +212,19 @@ $(document).ready(function(){
        }
        return result;
     }, "Month field can accept values from 01 to 12");
+
+    $.validator.addMethod("month_check",
+        function(value, element) {
+           var dt = new Date();
+           var current_month = dt.getMonth()+1;
+           var current_year = dt.getFullYear();
+           if(value < current_month && $('#id_year').val() == current_year){
+                return false;
+           }else{
+                return true;
+           }
+        },
+        "Please enter valid month");
 
     $("#cancel_request").on('click',function (e) {
         if(N_cancel_rent.valid()){
