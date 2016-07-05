@@ -1,6 +1,6 @@
 import hashlib
 import os
-#from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geoip import GeoIP
 
 
 def generate_activation_key(email):
