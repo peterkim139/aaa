@@ -283,6 +283,9 @@
 	}
 	.messagesR {
 		padding: 20px 27px;
+		.customScroll {
+			max-height: none!important;
+		}
 	}
 	.msgReplyArea {
 		position: static;

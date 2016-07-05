@@ -2114,7 +2114,8 @@ messages page
     font-size: 14px;
     font-weight: 300;
     line-height: 1.4em;
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    word-break: break-word; }
 
 .threadCont time {
   font-size: 12px;
@@ -2868,6 +2869,8 @@ Responsive styles
 
   .messagesR {
     padding: 20px 27px; }
+    .messagesR .customScroll {
+      max-height: none !important; }
 
   .msgReplyArea {
     position: static; }
