@@ -1,4 +1,3 @@
-import datetime
 from category.models import SubCategory
 from .models import Message
 from django import forms
@@ -24,16 +23,6 @@ class RentForm(forms.Form):
                            validators=[validate_year],
                            widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 
-
-    def clean_month(self):
-
-        month = self.cleaned_data.get('month')
-        year = self.cleaned_data.get('year')
-        now = datetime.datetime.now()
-        if year is not None:
-            if now.year == int(year) and int(month) < now.month:
-                raise forms.ValidationError("Invalid Month")
-            return month
 
 class AddListingForm(forms.Form):
 
@@ -77,6 +66,7 @@ class AddListingForm(forms.Form):
     longitude = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'id': 'longitudes', 'class': 'formControl', 'type': 'hidden'}), )
     street = forms.CharField(required=True,
+                               error_messages={'required': 'Please enter street name'},
                                widget=forms.TextInput(attrs={'id': 'street', 'class': 'formControl', 'type': 'hidden'}), )
     item_id = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'id': 'item_id', 'class': 'formControl', 'type': 'hidden'}), )

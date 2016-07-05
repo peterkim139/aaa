@@ -671,6 +671,7 @@ $(document).ready(function(){
             $('#add_listing_title').text('Edit Listing')
             $('#street_address').val(response[0].fields.address)
             $('#city').val(response[0].fields.city)
+            $('#street').val(response[0].fields.street)
             $('#postal_code').val(response[0].fields.postal_code)
             $('#name').val(response[0].fields.name)
             $('#description').val(response[0].fields.description)
