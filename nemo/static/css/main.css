@@ -1018,7 +1018,7 @@ i {
 .loginPopup {
   width: 560px; }
   .loginPopup .popupBody {
-    padding: 20px 130px; }
+    padding: 20px 90px; }
   .loginPopup hr {
     border: none;
     height: 1px;
@@ -1283,6 +1283,22 @@ Home page
       font-weight: 500;
       text-transform: uppercase;
       font-size: 14px; }
+
+.listingOnMap {
+  border: none; }
+  .listingOnMap figure {
+    max-width: 200px;
+    max-height: 200px;
+    overflow: hidden; }
+    .listingOnMap figure img {
+      max-width: 100%;
+      max-height: 100%; }
+  .listingOnMap .listingDets {
+    padding: 0; }
+  .listingOnMap .listDetsTop {
+    margin-bottom: 0; }
+  .listingOnMap .listDetsTopR {
+    top: 8px; }
 
 .item_image {
   position: absolute;
@@ -2129,8 +2145,8 @@ end messages page
 search page
 */
 .searchWrap {
-  padding-right: 0;
-  position: relative; }
+  position: relative;
+  margin-bottom: 40px; }
   .searchWrap:before {
     transition: opacity 0.7s;
     -o-transition: opacity 0.7s;
@@ -2209,7 +2225,7 @@ search page
     font-weight: 400; }
 
 .searchL {
-  width: 35%;
+  width: 45%;
   float: left;
   height: 100%;
   position: relative;
@@ -2218,9 +2234,9 @@ search page
     right: -15px; }
 
 .searchR {
-  width: 65%;
+  width: 55%;
   float: right;
-  height: 930px;
+  height: 580px;
   padding-left: 20px; }
   .searchR .gMap {
     height: 100%; }
@@ -2483,10 +2499,10 @@ start braintree page
 .birthDate select {
   float: left; }
   .birthDate select:nth-of-type(1) {
-    width: 45%;
+    width: 35%;
     margin-right: 4%; }
   .birthDate select:nth-of-type(2) {
-    width: 18%;
+    width: 28%;
     margin-right: 4%; }
   .birthDate select:nth-of-type(3) {
     width: 29%; }
@@ -2545,11 +2561,13 @@ Responsive styles
     width: 100%; }
 
   .accountWrapper {
-    padding-left: 0px; }
+    padding-left: 15px;
+    padding-right: 15px; }
 
   .accountL {
     width: 100%;
-    position: relative; }
+    position: relative;
+    left: 0; }
     .accountL .accountImg {
       float: left;
       width: 250px;
@@ -2557,7 +2575,10 @@ Responsive styles
     .accountL .accountDetail {
       float: left;
       width: 100%;
-      padding: 0px 15px 0px 265px; }
+      padding: 0 15px 0 265px; }
+
+  .accountR {
+    padding-left: 0; }
 
   .tabsStyle1 li.active a {
     border-width: 1px; } }
@@ -2579,19 +2600,40 @@ Responsive styles
   .homeMapSect .colRow .col9 {
     width: 100%; }
   .homeMapSect .colRow .col3 {
-    width: 33.33%; } }
+    width: 33.33%; }
+
+  .searchR {
+    width: 100%;
+    float: none;
+    padding-left: 0;
+    margin-bottom: 30px;
+    height: 320px; }
+
+  .searchL {
+    width: 100%;
+    float: none; }
+
+  .msgRelItem {
+    float: none;
+    margin-bottom: 40px; }
+
+  .relItemImg img {
+    margin: 0 auto; }
+
+  .messagesWrap {
+    width: 100%; } }
 /* end of (max-width: 980px) */
 @media (max-width: 880px) {
   .hamburgerBtn {
     display: block; }
 
   .headerNav {
-    margin-top: 0px;
+    margin-top: 0;
     position: fixed;
     display: none;
     height: 100%;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     background: rgba(0, 0, 0, 0.8);
     width: 100%;
     z-index: 3; }
@@ -2621,6 +2663,8 @@ Responsive styles
     margin-left: 5%; } }
 /* end of (max-width: 880px) */
 @media (max-width: 768px) {
+  .colRow [class^="col"]:not(.colRow) {
+    width: 100%; }
   .colRow .colTab12 {
     width: 100%; }
   .colRow .colTab11 {
@@ -2724,9 +2768,6 @@ Responsive styles
   .searchL {
     width: 100%; }
 
-  .searchR {
-    display: none; }
-
   .accountDetail h5 {
     font-size: 18px; }
   .accountDetail li {
@@ -2735,15 +2776,30 @@ Responsive styles
   .listingR .col4, .listingR .col5 {
     width: 50%; }
   .listingR .col3 {
-    width: 100%; } }
+    width: 100%; }
+
+  .tabsStyle1 li a {
+    padding: 12px 0; }
+
+  .listingPrevWrap {
+    width: 100%; }
+
+  .loginPopup {
+    width: 100%; }
+    .loginPopup .popupBody {
+      padding: 20px 30px; }
+
+  .popupBody {
+    padding: 20px 30px; } }
 /* end of (max-width: 768px) */
 @media (max-width: 600px) {
   .listingsList > ul > li {
-    padding-left: 0px; }
+    padding-left: 0; }
 
   .listing_li .listingImg {
     position: relative;
-    margin: 0 auto; }
+    margin: 0 auto;
+    width: 200px; }
   .listing_li .listing_h3 {
     margin-top: 15px; }
 
@@ -2760,7 +2816,16 @@ Responsive styles
   .addPayMethod > .colRow > .col4 {
     width: 100%; }
   .addPayMethod > .colRow .col8 {
-    width: 100%; } }
+    width: 100%; }
+
+  .listingViewL {
+    width: 100%;
+    float: none; }
+
+  .listingViewR {
+    width: 100%;
+    float: none;
+    padding-left: 0; } }
 /* end of (max-width: 600px) */
 @media (max-width: 520px) {
   .colRow .colMob12 {
@@ -2846,7 +2911,7 @@ Responsive styles
   .accountL .accountDetail {
     float: none;
     text-align: center;
-    padding-left: 0px; } }
+    padding-left: 0; } }
 /* end of (max-width: 520px) */
 @media (max-width: 480px) {
   .listingR .col4, .listingR .col5 {
@@ -2867,7 +2932,19 @@ Responsive styles
   .birthDate select:nth-of-type(2) {
     width: 46%; }
   .birthDate select:nth-of-type(3) {
-    width: 50%; } }
+    width: 50%; }
+
+  .viewListingTop .pullLeft {
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    text-align: center; }
+  .viewListingTop .pullRight {
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    margin-top: 10px; } }
 /* end of (max-width: 480px) */
 @media (max-width: 360px) {
   .homeTopTxt h1 {
@@ -2878,6 +2955,8 @@ Responsive styles
 /* end of (max-width: 360px) */
 @media (min-width: 880px) {
   .headerNav {
-    display: block; } }
+    display: block; }
+    .headerNav .bordered {
+      border: none; } }
 
 /*# sourceMappingURL=main.css.map */

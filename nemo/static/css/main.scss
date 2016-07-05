@@ -817,7 +817,7 @@ i {
 .loginPopup {
 	width: 560px;
 	.popupBody {
-		padding: 20px 130px;
+		padding: 20px 90px;
 	}
 	hr {
 		border: none;
@@ -1136,6 +1136,27 @@ Home page
 			text-transform: uppercase;
 			font-size: $fontSize - 2px;
 		}
+	}
+}
+.listingOnMap {
+	border: none;
+	figure {
+		max-width: 200px;
+		max-height: 200px;
+		overflow: hidden;
+		img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+	.listingDets {
+		padding: 0;
+	}
+	.listDetsTop {
+		margin-bottom: 0;
+	}
+	.listDetsTopR {
+		top: 8px;
 	}
 }
 .item_image {
@@ -2117,8 +2138,8 @@ end messages page
 search page
 */
 .searchWrap {
-	padding-right: 0;
 	position: relative;
+	margin-bottom: 40px;
 	&:before {
 		@include transition(opacity .7s);
 		content: '';
@@ -2199,7 +2220,7 @@ search page
 	}
 }
 .searchL {
-	width: 35%;
+	width: 45%;
 	float: left;
 	height: 100%;
     position: relative;
@@ -2209,9 +2230,9 @@ search page
 	}
 }
 .searchR {
-	width: 65%;
+	width: 55%;
 	float: right;
-	height: 930px;
+	height: 580px;
 	padding-left: 20px;
 	.gMap {
 		height: 100%;
@@ -2523,11 +2544,11 @@ start braintree page
 	select {
 		float: left;
 		&:nth-of-type(1) {
-			width: 45%;
+			width: 35%;
 			margin-right: 4%;
 		}
 		&:nth-of-type(2) {
-			width: 18%;
+			width: 28%;
 			margin-right: 4%;
 		}
 		&:nth-of-type(3) {

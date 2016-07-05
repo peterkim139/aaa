@@ -149,11 +149,23 @@ $(document).ready(function() {
 		var src = $(this).find('img').attr('src');
 		$(this).css('background-image', 'url(' + src +')');
 		$(this).find('img').hide();
-	})
+	});
+
+
+	// remove search customScroll
+	function removeSrchScroll(){
+		if ($(window).width() < 980) {
+			$('.searchL .customScroll').mCustomScrollbar("destroy");
+		} else {
+			$(".searchL .customScroll").mCustomScrollbar({
+				scrollbarPosition: "outside"
+			});
+		}
+	}
 
 
 
-	
+	removeSrchScroll();
 	homeSrchPosition();
 	equalHeight();
 
@@ -163,6 +175,7 @@ $(document).ready(function() {
 		// searchWrapperHeight(768);
 		homeSrchPosition();
 		equalHeight();
+		removeSrchScroll();
 	});
 
 	// expend up slider

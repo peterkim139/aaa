@@ -1,16 +1,3 @@
-// Variables
-$fontFamily: 'Roboto', sans-serif;
-$fontSize: 16px;
-$brandColor: #5bbc2e;
-$bodyBg: #fff;
-$borderGrey: #e8e8e8;
-$lightGrey: #f0f0f0;
-$textColor: #484848;
-$darkColor: #2b2a2c;
-$containerWith: 1070px;
-$colCount: 12;
-$inputBorderRadius: 0;
-
 @media (max-width: 1366px) {
 	.searchWrap {
 		.grid-sizer,
@@ -30,12 +17,13 @@ $inputBorderRadius: 0;
 		 width: 100%;
 	}
 	.accountWrapper {
-		padding-left: 0px;
+		padding-left: 15px;
+		padding-right: 15px;
 	}
 	.accountL {
 		width: 100%;
 		position: relative;
-
+		left: 0;
 		.accountImg {
 			float: left;
 			width: 250px;
@@ -44,8 +32,11 @@ $inputBorderRadius: 0;
 		.accountDetail {
 			float: left;
 			width: 100%;
-			padding: 0px 15px 0px 265px;
+			padding: 0 15px 0 265px;
 		}
+	}
+	.accountR {
+		padding-left: 0;
 	}
 	.tabsStyle1 li.active a {
 		border-width: 1px;
@@ -78,7 +69,27 @@ $inputBorderRadius: 0;
 			}
 		}
 	}
-	
+	.searchR {
+		width: 100%;
+		float: none;
+		padding-left: 0;
+		margin-bottom: 30px;
+		height: 320px;
+	}
+	.searchL {
+		width: 100%;
+		float: none;
+	}
+	.msgRelItem {
+		float: none;
+		margin-bottom: 40px;
+	}
+	.relItemImg img {
+		margin: 0 auto;
+	}
+	.messagesWrap {
+		width: 100%;
+	}
 } /* end of (max-width: 980px) */
 
 @media (max-width: 880px) {
@@ -87,12 +98,12 @@ $inputBorderRadius: 0;
 		display: block;
 	}
 	.headerNav {
-		margin-top: 0px;
+		margin-top: 0;
 		position: fixed;
 		display: none;
 		height: 100%;
-		top: 0px;
-		left: 0px;
+		top: 0;
+		left: 0;
 		background: rgba(0,0,0, 0.8);
 		width: 100%;
 		z-index: 3;
@@ -135,6 +146,9 @@ $inputBorderRadius: 0;
 
 @media (max-width: 768px) {
 	.colRow {
+		[class^="col"]:not(.colRow) {
+			width: 100%;
+		}
 		@for $i from $colCount through 1 {
 			.#{colTab}#{$i} {
 				width: (100% / $colCount) * $i;
@@ -213,7 +227,7 @@ $inputBorderRadius: 0;
 		width: 100%;
 	}
 	.searchR {
-		display: none;
+		//display: none;
 	}
 	.accountDetail {
 		h5 {
@@ -231,16 +245,37 @@ $inputBorderRadius: 0;
 			width: 100%;
 		}
 	}
+	.tabsStyle1 {
+		li {
+			a {
+				padding: 12px 0;
+			}
+		}
+	}
+	.listingPrevWrap {
+		width: 100%;
+	}
+	.loginPopup {
+		width: 100%;
+		.popupBody {
+			padding: 20px 30px;
+		}
+	}
+	.popupBody {
+		padding: 20px 30px;
+	}
+
 } /* end of (max-width: 768px) */
 
 @media (max-width: 600px) {
 	.listingsList > ul > li{
-		padding-left: 0px;
+		padding-left: 0;
 	}
 	.listing_li {
 		.listingImg {
 			position: relative;
 			margin: 0 auto;
+			width: 200px;
 		}
 		.listing_h3 {
 			margin-top: 15px;
@@ -271,8 +306,17 @@ $inputBorderRadius: 0;
 			}
 		}
 	}
-	
-}/* end of (max-width: 600px) */
+	.listingViewL {
+		width: 100%;
+		float: none;
+	}
+	.listingViewR {
+		width: 100%;
+		float: none;
+		padding-left: 0;
+	}
+} /* end of (max-width: 600px) */
+
 @media (max-width: 520px) {
 	.colRow {
 		@for $i from $colCount through 1 {
@@ -332,7 +376,7 @@ $inputBorderRadius: 0;
 		.accountDetail {
 			float: none;
 			text-align: center;
-			padding-left: 0px;
+			padding-left: 0;
 		}
 	}
 		
@@ -373,6 +417,21 @@ $inputBorderRadius: 0;
 			}
 		}
 	}
+	.viewListingTop {
+		.pullLeft {
+			float: none;
+			width: 100%;
+			max-width: 100%;
+			text-align: center;
+		}
+		.pullRight {
+			float: none;
+			width: 100%;
+			max-width: 100%;
+			text-align: center;
+			margin-top: 10px;
+		}
+	}
 }/* end of (max-width: 480px) */
 @media (max-width: 360px) {
 	.homeTopTxt h1 {
@@ -386,5 +445,8 @@ $inputBorderRadius: 0;
 @media (min-width: 880px) {
 	.headerNav {
 		display: block;
+		.bordered {
+			border: none;
+		}
 	}
 }

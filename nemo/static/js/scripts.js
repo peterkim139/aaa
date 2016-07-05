@@ -1179,10 +1179,13 @@ $(document).ready(function(){
                     if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
                 });
 
-                var content = '<div class="singleMapVendor listingSingle" style="width:100%;" data-id="'+id+'"><p>'+
-                $(this).find('span.item_name').text()+'</p><p>'+
-                $(this).find('span.item_price').text()+
-                '</p><img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/></div>';
+                var content = '<div class="listingOnMap listingSingle" style="width:100%;" data-id="'+id+'">'+
+                    '<figure><img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/></figure>' +
+                    '<div class="listingDets"><div class="listDetsTop">' +
+                        '<div class="listDetsTopL"><span class="listingName">'+ $(this).find('span.item_name').text() + '</span></div>' +
+                        '<div class="listDetsTopR"><span class="listPrice ">'+ $(this).find('span.item_price').text() + '</span></div>' +
+                    '</div>' +
+                '</div>';
                 var infowindow = new google.maps.InfoWindow();
 
                 google.maps.event.addListener(marker,'click', function(){

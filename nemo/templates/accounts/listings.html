@@ -62,7 +62,7 @@
                                                                 <label>Actions:</label>
                                                                 <span class="listingActions">
                                                                     <a href="#add-listing" id="{{ listing.id }}" class="openSlideBtn success edit_listing_icon"><i class="icon-edit"></i></a>
-                                                                    <button id="{{ listing.id }}" class="change_listing_status" {% if listing.status == "published" %} data-status-type="unpublished">Unpublish{% elif listing.status == 'unpublished'%}data-status-type="published">Publish{% endif %}</button>
+                                                                    <button id="{{ listing.id }}" class="change_listing_status neutral" {% if listing.status == "published" %} data-status-type="unpublished"><i class="icon-pause"></i>{% elif listing.status == 'unpublished'%}data-status-type="published"><i class="icon-play"></i>{% endif %}</button>
                                                                     <button class="danger change_listing_status" id="{{ listing.id }}" data-status-type="deleted"><i class="icon-trash"></i></button>
                                                                     <button class="neutral"><i class="icon-share"></i></button>
                                                                 </span>
