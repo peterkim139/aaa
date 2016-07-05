@@ -303,7 +303,7 @@ function slideAnimation(self){
         setTimeout(function(){
             $(targetID).show("slide", { direction: "left" }, 800);
             $(targetID).addClass('active');
-        },500);
+        },1000);
     } else {
         $('.prevSlide').removeClass('prevSlide');
         wrap.find('.active').hide("slide", { direction: "left" }, 800);
@@ -311,7 +311,7 @@ function slideAnimation(self){
         setTimeout(function(){
             $(targetID).fadeIn(1000);
             $(targetID).addClass('active');
-        },500);
+        },1000);
     }
     wrap.css('min-height',$(targetID).outerHeight(true));
 }

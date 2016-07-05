@@ -888,6 +888,8 @@ i {
 	}
 }
 .tableScroll {
+	width: 100%;
+	overflow: hidden;
 	table {
 		width: 755px;
 	}
@@ -1612,6 +1614,7 @@ account billing page
 		color: #484848;
 		font-size: $fontSize + 8px;
 		margin-bottom: 16px;
+		overflow: hidden;
 	}
 }
 .paymIcon {

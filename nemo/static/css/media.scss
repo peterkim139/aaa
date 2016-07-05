@@ -90,6 +90,9 @@
 	.messagesWrap {
 		width: 100%;
 	}
+	.homeMapSect .col9 {
+		max-height: 320px;
+	}
 } /* end of (max-width: 980px) */
 
 @media (max-width: 880px) {
@@ -103,10 +106,12 @@
 		display: none;
 		height: 100%;
 		top: 0;
+		bottom: 0;
+		right: 0;
 		left: 0;
 		background: rgba(0,0,0, 0.8);
 		width: 100%;
-		z-index: 3;
+		z-index: 99;
 
 		ul {
     		text-align: center;
@@ -266,11 +271,24 @@
 	}
 	.messagesWrap {
 		padding-left: 0;
+		max-height: none;
 	}
 	.messagesL {
 		position: static;
 		width: 100%;
 		height: 360px;
+	}
+	.threadTxt {
+		min-width: 100%;
+	}
+	.messagesR {
+		padding: 20px 27px;
+	}
+	.msgReplyArea {
+		position: static;
+	}
+	.popupWrap {
+		width: 100%;
 	}
 } /* end of (max-width: 768px) */
 
@@ -282,7 +300,7 @@
 		.listingImg {
 			position: relative;
 			margin: 0 auto;
-			width: 200px;
+			width: 100%;
 		}
 		.listing_h3 {
 			margin-top: 15px;
@@ -386,7 +404,13 @@
 			padding-left: 0;
 		}
 	}
-		
+	.paymActions {
+		float: none;
+		margin-top: 5px;
+		button:first-of-type {
+			margin-left: l;
+		}
+	}
 } /* end of (max-width: 520px) */
 
 @media (max-width: 480px) {
