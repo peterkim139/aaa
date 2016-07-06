@@ -1070,7 +1070,7 @@ $(document).ready(function(){
             if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
                 setCookie('lat_lng',cvalue,365)
                 setCookie('default','default',2)
-//                $('.mfp-close').click()
+                $('.mfp-close').click()
             }
         }
     })
