@@ -1068,11 +1068,9 @@ $(document).ready(function(){
             var float_long = parseFloat(latitude);
             var cvalue = [latitude,longitude]
             if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
-                delCookie('lat_lng')
-                delCookie('default')
                 setCookie('lat_lng',cvalue,365)
                 setCookie('default','default',2)
-                $('.mfp-close').click()
+//                $('.mfp-close').click()
             }
         }
     })
@@ -1142,7 +1140,7 @@ $(document).ready(function(){
         var d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
+        document.cookie = cname+"="+cvalue+expires+"; path=/";
      }
 
      function delCookie(name) {
@@ -1161,7 +1159,6 @@ $(document).ready(function(){
         $("#latitude").val(position.coords.latitude);
         $("#longitude").val(position.coords.longitude)
         var cvalue = [position.coords.latitude,position.coords.longitude]
-        delCookie('lat_lng')
         setCookie('lat_lng',cvalue,365)
     }
 
