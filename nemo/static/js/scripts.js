@@ -64,7 +64,9 @@ $(document).ready(function(){
     next = '/login/?'+login_req.split('?')[1]
     if(window.location.pathname == '/login_req/'){
         $('.login_tab').click()
-        $('#login_form').attr('action',next);
+        if ( next.indexOf('undefined') === -1 ){
+            $('#login_form').attr('action',next);
+        }
     }
 
 ////////////////////////////////////////////////// check cookie //////////////////////////////////////////////
