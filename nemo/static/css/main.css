@@ -999,7 +999,8 @@ i {
   .popupHead h3 {
     padding: 0 0 15px 0;
     font-size: 22px;
-    text-align: center; }
+    text-align: center;
+    line-height: 1.3em; }
   .popupHead .text {
     text-align: center; }
 
@@ -1109,14 +1110,19 @@ i {
   right: 0; }
 
 .mCSB_scrollTools .mCSB_draggerRail {
-  background-color: #DCDCDC; }
+  background-color: #DCDCDC;
+  width: 6px; }
 
 .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-  background-color: #B1B1B1; }
+  background-color: #B1B1B1;
+  width: 8px; }
 
 .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
 .mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar {
   background-color: #B1B1B1; }
+
+.searchL .mCSB_outside + .mCSB_scrollTools {
+  right: -18px; }
 
 /*== end custom scroll ==*/
 /*== dropdown styles ==*/
@@ -2478,7 +2484,8 @@ view listing page
   .ui-datepicker .ui-state-disabled.booked {
     opacity: 1; }
     .ui-datepicker .ui-state-disabled.booked a {
-      color: #e91919; }
+      color: #e91919;
+      cursor: no-drop !important; }
 
 .ui-datepicker-today a {
   color: #ffc0cb;
@@ -2599,6 +2606,9 @@ end braintree page
     font-weight: 400; }
     .text a:hover {
       color: #76d34a; }
+
+.pac-container {
+  z-index: 9999999; }
 
 /* End Support Page Styles */
 /*
@@ -2876,7 +2886,17 @@ Responsive styles
     position: static; }
 
   .popupWrap {
-    width: 100%; } }
+    width: 100%; }
+
+  .tabsStyle1 li {
+    width: 33.3333%;
+    margin-right: 0; }
+    .tabsStyle1 li.active a {
+      border-bottom: none;
+      margin-bottom: 0;
+      color: #5bbc2e; }
+    .tabsStyle1 li a {
+      padding: 12px 0; } }
 /* end of (max-width: 768px) */
 @media (max-width: 600px) {
   .listingsList > ul > li {
@@ -2911,7 +2931,13 @@ Responsive styles
   .listingViewR {
     width: 100%;
     float: none;
-    padding-left: 0; } }
+    padding-left: 0; }
+
+  .homeSrch .checkAndRadio {
+    display: block; }
+
+  .tabsStyle1 li {
+    width: 50%; } }
 /* end of (max-width: 600px) */
 @media (max-width: 520px) {
   .colRow .colMob12 {
