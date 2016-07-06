@@ -1,0 +1,171 @@
+{% load staticfiles %}
+<div id="change-address" class="mfp-hide popupWrap">
+	<div class="popupHead">
+		<h3>Change Address</h3>
+	</div>
+	<div class="popupBody">
+		<form action="" method="POST" id="defaul_address_form">
+			<div class="formRow">
+				<input type="text" class="formControl" placeholder="Address" id="default_address" name="default_address">
+			</div>
+			<input type="hidden" class="formControl" id="default_latitudes" name="default_latitudes">
+			<input type="hidden" class="formControl" id="default_longitudes" name="default_longitudes">
+			<!--<div class="formRow">-->
+				<!--<input type="text" class="formControl" placeholder="Street" id="default_street" name="default_street">-->
+			<!--</div>-->
+			<!--<div class="formRow">-->
+				<!--<input type="text" class="formControl" placeholder="City" id="default_city" name="default_city">-->
+			<!--</div>-->
+			<!--<div class="formRow">-->
+				<!--<select class="formControl" id="default_state" name="default_state">-->
+					<!--<option value="AL">Alabama</option>-->
+					<!--<option value="AK">Alaska</option>-->
+					<!--<option value="AZ">Arizona</option>-->
+					<!--<option value="AR">Arkansas</option>-->
+					<!--<option value="CA">California</option>-->
+					<!--<option value="CO">Colorado</option>-->
+					<!--<option value="CT">Connecticut</option>-->
+					<!--<option value="DE">Delaware</option>-->
+					<!--<option value="DC">District Of Columbia</option>-->
+					<!--<option value="FL">Florida</option>-->
+					<!--<option value="GA">Georgia</option>-->
+					<!--<option value="HI">Hawaii</option>-->
+					<!--<option value="ID">Idaho</option>-->
+					<!--<option value="IL">Illinois</option>-->
+					<!--<option value="IN">Indiana</option>-->
+					<!--<option value="IA">Iowa</option>-->
+					<!--<option value="KS">Kansas</option>-->
+					<!--<option value="KY">Kentucky</option>-->
+					<!--<option value="LA">Louisiana</option>-->
+					<!--<option value="ME">Maine</option>-->
+					<!--<option value="MD">Maryland</option>-->
+					<!--<option value="MA">Massachusetts</option>-->
+					<!--<option value="MI">Michigan</option>-->
+					<!--<option value="MN">Minnesota</option>-->
+					<!--<option value="MS">Mississippi</option>-->
+					<!--<option value="MO">Missouri</option>-->
+					<!--<option value="MT">Montana</option>-->
+					<!--<option value="NE">Nebraska</option>-->
+					<!--<option value="NV">Nevada</option>-->
+					<!--<option value="NH">New Hampshire</option>-->
+					<!--<option value="NJ">New Jersey</option>-->
+					<!--<option value="NM">New Mexico</option>-->
+					<!--<option value="NY">New York</option>-->
+					<!--<option value="NC">North Carolina</option>-->
+					<!--<option value="ND">North Dakota</option>-->
+					<!--<option value="OH">Ohio</option>-->
+					<!--<option value="OK">Oklahoma</option>-->
+					<!--<option value="OR">Oregon</option>-->
+					<!--<option value="PA">Pennsylvania</option>-->
+					<!--<option value="RI">Rhode Island</option>-->
+					<!--<option value="SC">South Carolina</option>-->
+					<!--<option value="SD">South Dakota</option>-->
+					<!--<option value="TN">Tennessee</option>-->
+					<!--<option value="TX">Texas</option>-->
+					<!--<option value="UT">Utah</option>-->
+					<!--<option value="VT">Vermont</option>-->
+					<!--<option value="VA">Virginia</option>-->
+					<!--<option value="WA">Washington</option>-->
+					<!--<option value="WV">West Virginia</option>-->
+					<!--<option value="WI">Wisconsin</option>-->
+					<!--<option value="WY">Wyoming</option>-->
+				<!--</select>-->
+			<!--</div>-->
+			<!--<div class="formRow">-->
+				<!--<input type="text" class="formControl" placeholder="Postal Code" id="default_code" name="default_code">-->
+			<!--</div>-->
+			<button class="btn btnPrime" id="change_default_address">Change</button>
+		</form>
+	</div>
+</div>
+<script>
+
+///////////////////////////  google autocomplete ////////////////////////////
+var autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  postal_code: 'short_name'
+};
+
+function initialize() {
+    autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('default_address')),
+            {types: ['geocode'],
+    });
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        fillInAddress();
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+function getLatLngFromAddress(address) {
+   var geocoder = new google.maps.Geocoder();
+   geocoder.geocode({'address': address}, function(results, status) {
+       if (status == google.maps.GeocoderStatus.OK) {
+           $('#default_latitudes').val(results[0].geometry.location.lat())
+           $('#default_longitudes').val(results[0].geometry.location.lng())
+       } else {
+           console.log("Geocode was not successful for the following reason: " + status);
+       }
+   });
+}
+
+function fillInAddress() {
+    $("#city").val("");
+
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+    for (var component in componentForm) {
+       if (document.getElementById(component)) {
+           document.getElementById(component).value = '';
+           document.getElementById(component).disabled = false;
+       }
+    }
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+    var address = '';
+    for (var i = 0; i < place.address_components.length; i++) {
+       var addressType = place.address_components[i].types[0];
+
+       if (componentForm[addressType]) {
+           var val = place.address_components[i][componentForm[addressType]];
+
+           if (addressType === "route") {
+            $("#street").val(val);
+           }
+
+           if (addressType === "locality") {
+            $("#city").val(val);
+           }
+
+           if (addressType === "postal_code") {
+            $("#postal_code").val(val);
+           }
+
+           address = address + ' ' + val;
+
+           if (document.getElementById(addressType)) {
+               document.getElementById(addressType).value = val;
+           }
+       }
+    }
+    getLatLngFromAddress(address);
+}
+
+$(document).ready(function(){
+	$("#default_address").keydown(function(event){
+		if(event.keyCode == 13) {
+		  if($("#default_address").val().length==0) {
+			  event.preventDefault();
+			  return false;
+		  }
+		}
+ 	});
+
+})
+</script>
