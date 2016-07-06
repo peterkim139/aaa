@@ -222,14 +222,17 @@ def send_support_email(email, name, comments):
     message = {
         'subject': subject,
         'bcc_address': 'message.bcc_address@example.com',
-        'from_email': email,
+        'from_email': settings.AUTO_REPLY,
         'from_name': name,
         'html': context,
         'to': [{'email': settings.ADMIN_EMAIL,
                 'type': 'to'}],
+        "headers": {
+            "Reply-To": email
+        },
         'return_path_domain': settings.MANDRILL_DOMAIN,
         'signing_domain': settings.MANDRILL_DOMAIN,
         'tracking_domain': settings.MANDRILL_DOMAIN,
     }
-    mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+    print mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
     return  True
