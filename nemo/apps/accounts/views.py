@@ -286,7 +286,7 @@ class SearchView(View):
         coordinates = get_coordinates(request)
         latitude = coordinates[0]
         longitude = coordinates[1]
-        limit = 8
+        limit = 4
         if request.is_ajax():
             offset = request.session['offset']
             request.session['offset'] = offset + limit
