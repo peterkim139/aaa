@@ -91,8 +91,8 @@ MEDIA_ROOT = os.path.dirname(BASE_DIR)+"/media"
 MEDIA_URL = '/media/'
 
 
-AUTO_REPLY = 'sipanm24@gmail.com'
-ADMIN_EMAIL = 'sipanm19@gmail.com'
+AUTO_REPLY = 'info@nemocentral.com'
+ADMIN_EMAIL = 'info@nemocentral.com'
 
 WSGI_APPLICATION = 'nemo.wsgi.application'
 
