@@ -138,12 +138,6 @@ $(document).ready(function() {
 	});
 
 
-	// datepicker 
-
-
-
-
-
 	// image fill container
 	$('.imgCover').each(function(){
 		var src = $(this).find('img').attr('src');

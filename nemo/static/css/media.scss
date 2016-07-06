@@ -293,6 +293,22 @@
 	.popupWrap {
 		width: 100%;
 	}
+	.tabsStyle1 {
+		li {
+			width: 33.3333%;
+			margin-right: 0;
+			&.active {
+				a {
+					border-bottom: none;
+					margin-bottom: 0;
+					color: $brandColor;
+				}
+			}
+			a {
+				padding: 12px 0;
+			}
+		}
+	}
 } /* end of (max-width: 768px) */
 
 @media (max-width: 600px) {
@@ -342,6 +358,16 @@
 		width: 100%;
 		float: none;
 		padding-left: 0;
+	}
+	.homeSrch {
+		.checkAndRadio {
+			display: block;
+		}
+	}
+	.tabsStyle1 {
+		li {
+			width: 50%;
+		}
 	}
 } /* end of (max-width: 600px) */
 

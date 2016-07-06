@@ -797,6 +797,7 @@ i {
 	    padding: 0 0 15px 0;
 		font-size: 22px;
 		text-align: center;
+		line-height: 1.3em;
 	}
 	.text {
 		text-align: center;
@@ -928,14 +929,20 @@ i {
 }
 .mCSB_scrollTools .mCSB_draggerRail {
 	background-color: #DCDCDC;
+	width: 6px;
 }
 .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     background-color: #B1B1B1;
+	width: 8px;
 }
 .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar, 
 .mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar {
 	background-color: #B1B1B1;
 }
+.searchL .mCSB_outside + .mCSB_scrollTools {
+	right: -18px;
+}
+
 /*== end custom scroll ==*/
 /*== dropdown styles ==*/
 .drDnCont {
@@ -2517,7 +2524,8 @@ view listing page
 		&.booked {
 			opacity: 1;
 			a {
-				color: #e91919
+				color: #e91919;
+				cursor: no-drop!important;
 			}
 		}
 	}
