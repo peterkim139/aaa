@@ -1,31 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- POPUPS -->
-<div id="change-address" class="mfp-hide popupWrap">
-	<div class="popupHead">
-		<h3>Change Address</h3>
-	</div>
-	<div class="popupBody">
-		<div class="formRow">
-			<input type="text" class="formControl" placeholder="Street">
-		</div>
-		<div class="formRow">
-			<input type="text" class="formControl" placeholder="City">
-		</div>
-		<div class="formRow">
-			<select class="formControl">
-				<option>State</option>
-				<option>State</option>
-				<option>State</option>
-			</select>
-		</div>
-		<div class="formRow">
-			<input type="text" class="formControl" placeholder="Postal Code">
-		</div>
-		<button class="btn btnPrime">Change</button>
-	</div>
-</div>
-
 <section class="homeSrch">
 	<div class="container">
 		<form method="GET" action="/search_results/">
@@ -111,7 +85,6 @@
 				var latitude = '{{ latitude }}';
 				var longitude = '{{ longitude }}'
 				var address = '{{address}}'
-				getLocation();
 				initMap(latitude,longitude) ;
 			</script>
 		</div>

@@ -13,6 +13,7 @@
 					</div>
 					<button id="showMenu" class="hamburgerBtn"><i class="icon-bars"></i></button>
 				</header>
+				{% include "elements/default_address.html" %}
 				{% if user.is_anonymous %}
 				{% include "elements/login_form.html" %}
 				{% include "elements/reg_form.html" %}

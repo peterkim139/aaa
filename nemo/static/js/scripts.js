@@ -1056,6 +1056,52 @@ $(document).ready(function(){
     $("#submit_add_listing_form").on('click',function(e){
         N_add_listing_form.submit();
     })
+
+    //////////////////////////////////////////////////////////////  change default address //////////////////////////////////////
+
+    $('#change_default_address').on('click',function(e){
+        if($('#defaul_address_form').valid()){
+            e.preventDefault();
+            var latitude = $('#default_latitudes').val()
+            var longitude = $('#default_longitudes').val()
+            var float_lat = parseFloat(latitude);
+            var float_long = parseFloat(latitude);
+            var cvalue = [latitude,longitude]
+            if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
+                delCookie('lat_lng')
+                delCookie('default')
+                setCookie('lat_lng',cvalue,365)
+                setCookie('default','default',2)
+                $('.mfp-close').click()
+            }
+        }
+    })
+
+
+    $('#defaul_address_form').validate({
+        ignore:[],
+        rules: {
+            'default_address': {
+                required: true,
+            },
+        },
+        messages: {
+            'default_address': {
+                required: "This field is required."
+            },
+        },
+        errorClass: "help-inline",
+            errorElement: "span",
+            highlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').addClass('error');
+                $(element).parents('.control-group').removeClass('success');
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+    });
+
 })
 
 /////////////////////////// CSRF code ///////////////////////
@@ -1115,7 +1161,12 @@ $(document).ready(function(){
         $("#latitude").val(position.coords.latitude);
         $("#longitude").val(position.coords.longitude)
         var cvalue = [position.coords.latitude,position.coords.longitude]
+        delCookie('lat_lng')
         setCookie('lat_lng',cvalue,365)
+    }
+
+    if(getCookie('default') == ''){
+        getLocation();
     }
 
     var geocoder = new google.maps.Geocoder();
@@ -1131,6 +1182,27 @@ $(document).ready(function(){
             }
         });
     }
+
+//    function codeAddress(address) {
+//        var address = address
+//        geocoder.geocode( { 'address': address}, function(results, status) {
+//            if (status == google.maps.GeocoderStatus.OK) {
+//                var latitude = results[0].geometry.viewport.b.b
+//                var longitude = results[0].geometry.viewport.b.f
+//                if(latitude != '' && longitude != ''){
+//                    var cvalue = [latitude,longitude]
+//                    $('.incorect_address').hide();
+//                    delCookie('lat_lng')
+//                    setCookie('lat_lng',cvalue,365)
+//                    setCookie('default','default',2)
+//                    $('.mfp-close').click()
+//                }else{
+//                    $('.incorect_address').show();
+//                }
+//            }
+//        });
+//    }
+
  /////////////////////////  init map ,show items on map /////////////////////////
 
     function initMap(latitude,longitude) {

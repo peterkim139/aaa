@@ -125,7 +125,6 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                     fee = Decimal(requests.price)*Decimal(12.9/100)+Decimal('0.30')
                     fee = fee.quantize(twoplaces)
                     result = seller_approve(requests, current_user, customer_id, fee)
-                    print result
                     if result.is_success:
                         transaction = result.transaction
                         Rent.objects.filter(owner_id=request.user.id, id=rent).update(transaction=transaction.id, status=status, modified=timezone.now())
