@@ -101,6 +101,9 @@
 		display: block;
 	}
 	.headerNav {
+		display: none;
+	}
+	.headerNavMobile {
 		margin-top: 0;
 		position: fixed;
 		display: none;
@@ -112,21 +115,17 @@
 		background: rgba(0,0,0, 0.8);
 		width: 100%;
 		z-index: 99;
-
 		ul {
     		text-align: center;
     		display: table-cell;
     		vertical-align: middle;
-
 			li {
 				display: block;
-
 				a {
 					color: #fff;
 					font-weight: 300;
 					font-size: $fontSize + 2px;
 					display: block;
-
 					&:hover {
 						color: $brandColor;
 					}
