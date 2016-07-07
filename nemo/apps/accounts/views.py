@@ -1,4 +1,3 @@
-import math
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
@@ -43,16 +42,7 @@ class HomeView(View):
                 LIMIT %s''',
                 [latitude, latitude, longitude, limit])
 
-        positions = []
-        for item in items:
-            try:
-                position = '0.' + len(positions) - positions[::-1].index(item.latitude) - 1
-            except:
-                position = None
-            if position is not None:
-                positions.append(item.latitude)
-                item.latitude = float(item.latitude) + float(position)
-
+       
         count = len(list(items))
 
         recent_items = Params.objects.raw('''SELECT * FROM parametrs
