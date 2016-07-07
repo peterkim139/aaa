@@ -306,6 +306,8 @@ $(document).ready(function(){
         }
     });
 
+    $('#registration .birthDate label').html('BIRTHDATE:<span>(To verify you are over 18 years old)</span>')
+
     if(getCookie('registr_error') != ''){
         $('.registr_tab').click();
     }
@@ -1010,7 +1012,6 @@ $(document).ready(function(){
         }else{
             $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
         }
-
     });
 
     if(getCookie('reset_error') != ''){
