@@ -18,7 +18,7 @@ def new_rent_mail(request, email, client, item, seler, rent_id):
         'item': item,
         'id': rent_id,
         'seler': seler,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('payment/emails/new_rent.html', context)
@@ -49,7 +49,7 @@ def expired_rent_client(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'description': info.param.description,
         'price': str(info.price),
         'start_date': str(start_date),
@@ -84,7 +84,7 @@ def expired_rent_seller(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'description': info.param.description,
         'price': str(info.price),
         'start_date': str(start_date),
@@ -119,7 +119,7 @@ def admin_cancel_rent_to_seller(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'description': info.param.description,
         'price': str(info.price),
         'start_date': str(start_date),
@@ -154,7 +154,7 @@ def admin_cancel_rent_to_client(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'description': info.param.description,
         'price': str(info.price),
         'start_date': str(start_date),
@@ -187,7 +187,8 @@ def reminder_rent_client(info):
         'item': info.param.name,
         'seller': info.owner.first_name,
         'seller_fullName': info.owner.first_name + ' ' + info.owner.last_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
+        'seller_id':info.owner.id,
     })
     content = loader.render_to_string('payment/emails/reminder_rent_client.html', context)
     message = {
@@ -217,7 +218,7 @@ def reminder_rent_seller(info):
         'client_fullname': info.user.first_name+' '+info.user.last_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
     })
     content = loader.render_to_string('payment/emails/reminder_rent_seller.html', context)
     message = {
@@ -253,7 +254,7 @@ def seller_transaction_email(info):
         'seller': info.owner.first_name,
         'fee': str(fee),
         'total': str(total),
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'price': str(info.price),
         'start_date': str(start_date),
         'rent_date': str(rent_date),
@@ -285,7 +286,8 @@ def return_rent_client(info):
         'client': info.user.first_name,
         'item': info.param.name,
         'seller': info.owner.first_name,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
+        'seller_id':info.owner.id,
     })
     content = loader.render_to_string('payment/emails/return_rent_client.html', context)
     message = {

@@ -17,7 +17,7 @@ def cancel_before_approving(request, email, client, seller, item):
         'client': client,
         'seller': seller,
         'item': item,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/cancel_before_approving.html', context)
@@ -47,7 +47,7 @@ def cancel_after_approving(request, email, client, item, seller, amount):
         'seller': seller,
         'amount': amount,
         'item': item,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/cancel_after_approving.html', context)
@@ -77,7 +77,7 @@ def seller_penalize_email(request, seller, item, amount, email):
         'seller': seller,
         'amount': amount,
         'item': item,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_penalize_email.html', context)
@@ -105,7 +105,7 @@ def seller_canceled_request_before(request, client, email, item):
     context = Context({
         'client': client,
         'item': item,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_canceled_request_before.html', context)
@@ -133,7 +133,7 @@ def seller_canceled_request_after(request, client, email, item):
     context = Context({
         'client': client,
         'item': item,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_canceled_request_after.html', context)
@@ -161,7 +161,7 @@ def seller_declined_request(request, client, email, item):
     context = Context({
         'client': client,
         'item': item,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_declined_request.html', context)
@@ -191,7 +191,7 @@ def seller_approved_request(request, client, seller, email, item, price):
         'item': item,
         'price': price,
         'seller': seller,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_approved_request.html', context)

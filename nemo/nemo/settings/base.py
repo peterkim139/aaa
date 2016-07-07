@@ -90,6 +90,7 @@ TEMPLATES = [
 MEDIA_ROOT = os.path.dirname(BASE_DIR)+"/media"
 MEDIA_URL = '/media/'
 
+BRAND = 'NEMO'
 
 AUTO_REPLY = 'info@nemocentral.com'
 ADMIN_EMAIL = 'info@nemocentral.com'

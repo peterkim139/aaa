@@ -16,7 +16,7 @@ def reset_mail(request, email, first_name, reset_key):
     context = Context({
         'username': first_name,
         'reset_key': reset_key,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('accounts/emails/password_reset_email.html', context)
@@ -47,7 +47,7 @@ def confirm_register_mail(request, email, first_name, last_name, zip_code):
         'last_name': last_name,
         'email': email,
         'zip_code': zip_code,
-        'site_name': settings.ADMIN_EMAIL,
+        'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('accounts/emails/confirm_register_email.html', context)
