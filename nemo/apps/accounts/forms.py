@@ -122,9 +122,6 @@ class RegistrationForm(forms.Form):
                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
 
-    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
-                                   validators=[validate_numbersonly],
-                                   widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     birthdate = forms.DateField(widget=extras.SelectDateWidget(years=range(1998, 1923, -1), months=MONTHS))
 
@@ -143,11 +140,6 @@ class RegistrationForm(forms.Form):
         return email
 
 
-    def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number']
-        if User.objects.filter(phone_number=phone_number).exists():
-            raise forms.ValidationError("This phone number is already taken")
-        return phone_number
 
     def clean_password(self):
         password = self.cleaned_data.get('password')

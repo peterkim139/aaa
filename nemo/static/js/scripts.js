@@ -1071,8 +1071,8 @@ $(document).ready(function(){
             var cvalue = [latitude,longitude]
             if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
                 setCookie('lat_lng',cvalue,365)
-                setCookie('default','default',2)
-                $('.mfp-close').click()
+                setCookie('default','default',1)
+                location.reload()
             }
         }
     })

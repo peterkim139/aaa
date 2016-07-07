@@ -17,6 +17,8 @@ def get_coordinates(request):
     cookies = request.COOKIES.get('lat_lng')
     if cookies:
         cookies = request.COOKIES.get('lat_lng').split(',')
+        if 'expires' in cookies:
+            cookies =  cookies.split("expires",1)[0]
     else:
         g = GeoIP()
         x_forwarded_for = request.META.get('HTTP_CLIENT_IP')

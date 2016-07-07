@@ -94,7 +94,7 @@ class RegisterView(View):
             user.email = form.cleaned_data['email']
             user.role = 'client'
             user.first_name = form.cleaned_data['first_name']
-            user.phone_number = form.cleaned_data['phone_number']
+            user.phone_number = ''
             user.zip_code = form.cleaned_data['zip_code']
             user.last_name = form.cleaned_data['last_name']
             user.set_password(form.cleaned_data['password'])
@@ -575,3 +575,6 @@ class ChangeAccountStatusView(LoginRequiredMixin, View):
 
 def error404(request):
     return render(request, '404.html')
+
+def error500(request):
+    return render(request, '500.html')
