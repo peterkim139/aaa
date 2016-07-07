@@ -5,6 +5,25 @@ $(document).ready(function(){
 	$('.hamburgerBtn').on('click', menuToggle)
 });
 
+$(window).on("scroll", function() {
+	var scrollOff = $(".wrapper").offset().top + 85;
+	var stHeader = $(".sticky");
+
+	if ($(window).scrollTop() > scrollOff) {
+		stHeader.addClass("animated fadeInDown");
+		stHeader.css("background-color","#fff");
+		stHeader.parents(".homeTop").removeClass("trHeader");
+		$('.headerNav').css('margin-top', '0');
+	}
+	else {
+		stHeader.parents(".homeTop").addClass("trHeader");
+		stHeader.css("background-color","transparent");
+		stHeader.addClass("fadeInUp").removeClass("fadeInDown");
+		$('.headerNav').css('margin-top', '10px');
+	}
+});
+
+
 function addMobileMenu(){
 	var menuStatus = !!$('.headerNavMobile').length;
 	if (($(window).width()<880) && menuStatus==false) {
@@ -29,3 +48,6 @@ function menuToggle(){
 		btnStatus = false;
 	}
 }
+
+
+
