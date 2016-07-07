@@ -2571,6 +2571,9 @@ start braintree page
     margin-right: 4%; }
   .birthDate select:nth-of-type(3) {
     width: 29%; }
+.birthDate label span {
+  text-transform: none;
+  margin-left: 5px; }
 
 /*
 end braintree page

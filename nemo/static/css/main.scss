@@ -2631,6 +2631,12 @@ start braintree page
 			width: 29%;
 		}
 	}
+	label {
+		span {
+			text-transform: none;
+			margin-left: 5px;
+		}
+	}
 }
 //.checkForm {
 //	label:first-child {
