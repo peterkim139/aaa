@@ -10,7 +10,9 @@
         <h5 class="accountName wow fadeInDown" data-wow-delay=".2s">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
         <ul class="list hasIcon mb20 wow fadeInDown" data-wow-delay=".4s">
             <li><i class="icon-email"></i>{{ request.user.email }}</li>
-            <li><i class="icon-phone"></i>{{ request.user.phone_number }}</li>
+            {% if request.user.phone_number %}
+                <li><i class="icon-phone"></i>{{ request.user.phone_number }}</li>
+            {% endif %}
             <li><i class="icon-location-1"></i>{{ request.user.zip_code }}</li>
         </ul>
     </div>

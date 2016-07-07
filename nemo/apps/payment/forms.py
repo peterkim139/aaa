@@ -2,6 +2,7 @@ import re
 from django import forms
 from django.forms import extras
 from accounts.validations import *
+from accounts.models import User
 
 
 class ConnectForm(forms.Form):
@@ -31,7 +32,7 @@ class ConnectForm(forms.Form):
                ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'), ('WI', 'Wisconsin'),
                ('WY', 'Wyoming')
               )
-    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=False,
+    phone_number = forms.CharField(label="Phone number", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
 

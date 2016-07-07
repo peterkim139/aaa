@@ -34,10 +34,7 @@ class ConnectView(LoginRequiredMixin, TemplateView):
             month = request.POST['birthdate_month']
             day = request.POST['birthdate_day']
             date_of_birth = year+'-'+month+'-'+day
-            if form.cleaned_data['phone_number']:
-                phone = form.cleaned_data['phone_number']
-            else:
-                phone = request.user.phone_number
+            phone = request.POST['phone_number']
             merchant_account_params = {
                 'individual': {
                     'first_name': request.user.first_name,
