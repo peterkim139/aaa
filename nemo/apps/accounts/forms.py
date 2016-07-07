@@ -123,7 +123,7 @@ class RegistrationForm(forms.Form):
 
 
 
-    birthdate = forms.DateField(widget=extras.SelectDateWidget(years=range(1998, 1923, -1), months=MONTHS))
+    birthdate = forms.DateField(label="BIRTHDATE:(To verify you are over 18 years old)",widget=extras.SelectDateWidget(years=range(1998, 1923, -1), months=MONTHS))
 
     # def __init__(self, *args, **kwargs):
     #     super(RegistrationForm, self).__init__(*args, **kwargs)
