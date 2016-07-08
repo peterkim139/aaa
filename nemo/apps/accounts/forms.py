@@ -2,6 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm as CoreAuthenticationFo
 from accounts.models import User
 from django import forms
 from django.forms import extras
+from django.utils.safestring import mark_safe
 import datetime
 from accounts.validations import *
 
@@ -103,9 +104,9 @@ class RegistrationForm(forms.Form):
         9:('September'), 10:('October'), 11:('November'), 12:('December')
     }
 
-    first_name = forms.CharField(label='Name', max_length=255, required=True, validators=[validate_lettersonly],
+    first_name = forms.CharField(label='FIRST NAME', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    last_name = forms.CharField(label='Surname', max_length=255, required=True, validators=[validate_lettersonly],
+    last_name = forms.CharField(label='Last NAME', max_length=255, required=True, validators=[validate_lettersonly],
                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
     email = forms.CharField(label='Email', max_length=60, min_length=5, required=True,
@@ -136,7 +137,8 @@ class RegistrationForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email is already taken")
+            error = mark_safe("This email is already taken <a class='txtBtn popupBtn forgot_tub' href='#forgot_popup'>Forgot your password? Click here.</a>")
+            raise forms.ValidationError(error)
         return email
 
 
