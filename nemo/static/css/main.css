@@ -1174,6 +1174,31 @@ i {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 /*== end loader ==*/
+/*== tooltip ==*/
+.ttipCont {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  min-width: 160px;
+  background: #000;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  color: #8e8f90;
+  display: none; }
+  .ttipCont:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    border: solid 4px transparent;
+    border-top-color: #000; }
+
+.ttipWrap {
+  position: relative; }
+  .ttipWrap:hover .ttipCont {
+    display: block; }
+
+/*== end tooltip ==*/
 /*== end general styles ==*/
 /*
 Home page 
