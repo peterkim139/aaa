@@ -1272,7 +1272,7 @@ $(document).ready(function(){
                     if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
                 });
 
-                var content = '<div class="listingOnMap listingSingle" style="width:100%;" data-id="'+id+'"><a href="#">'+
+                var content = '<div class="listingOnMap listingSingle" style="width:100%;" data-id="'+id+'"><a href="/payment/rent/'+id+'">'+
                     '<figure class="fluidImage" style="background-image: url('+$(this).find('img.item_image').attr('src')+')">' +
                         '<img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/>' +
                         '<img class="imgSizer" src="/media/images/sizers/landscape-sizer.png" />' +
