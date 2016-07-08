@@ -1272,7 +1272,7 @@ $(document).ready(function(){
                     if(typeof markers[id] != 'undefined' ) markers[id].setIcon(window.pin);
                 });
 
-                var content = '<div class="listingOnMap listingSingle" style="width:100%;" data-id="'+id+'">'+
+                var content = '<div class="listingOnMap listingSingle" style="width:100%;" data-id="'+id+'"><a href="#">'+
                     '<figure class="fluidImage" style="background-image: url('+$(this).find('img.item_image').attr('src')+')">' +
                         '<img class="item_image" src="'+$(this).find('img.item_image').attr('src')+'"/>' +
                         '<img class="imgSizer" src="/media/images/sizers/landscape-sizer.png" />' +
@@ -1281,7 +1281,7 @@ $(document).ready(function(){
                         '<div class="listDetsTopL"><span class="listingName">'+ $(this).find('span.item_name').text() + '</span></div>' +
                         '<div class="listDetsTopR"><span class="listPrice ">'+ $(this).find('span.item_price').text() + '</span></div>' +
                     '</div>' +
-                '</div>';
+                '</a></div>';
                 var infowindow = new google.maps.InfoWindow();
 
                 google.maps.event.addListener(marker,'click', function(){

@@ -1197,6 +1197,9 @@ Home page
 }
 .listingOnMap {
 	border: none;
+	a {
+		display: block;
+	}
 	figure {
 		max-width: 200px;
 		max-height: 200px;
@@ -1212,7 +1215,7 @@ Home page
 	.listDetsTop {
 		margin-bottom: 0;
 	}
-	.listDetsTopR {
+	.listDetsTop .listDetsTopR {
 		top: 8px;
 	}
 }
@@ -2301,7 +2304,15 @@ search page
     position: relative;
     padding-bottom: 25px;
 	.mCSB_outside + .mCSB_scrollTools {
-		right: -15px;
+		right: -18px;
+	}
+	.mCSB_draggerRail {
+		width: 16px;
+		border-radius: 0;
+	}
+	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+		width: 14px;
+		border-radius: 0;
 	}
 }
 .searchR {
@@ -2372,14 +2383,14 @@ search page
 	}
 }
 /*== end range slider ==*/
-.gm-style-iw {
-	.item_image {
-		position: static;
-		z-index: -1;
-		visibility: visible;
-		opacity: 1;
-	}
-}
+//.gm-style-iw {
+//	.item_image {
+//		position: static;
+//		z-index: -1;
+//		visibility: visible;
+//		opacity: 1;
+//	}
+//}
 /*
 end search page
 */
@@ -2532,8 +2543,8 @@ view listing page
 }
 .ui-datepicker-today {
 	a {
-		color: #ffc0cb;
-		border-color: #ffc0cb;
+		color: #fb002c;
+		border-color: #fb002c;
 	}
 }
 .datepicker {

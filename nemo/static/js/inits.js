@@ -36,7 +36,7 @@ $(document).ready(function() {
 	    var href = $(this).attr("href");
 	    var offsetTop = $(href).offset().top;
 	    $('html, body').animate({
-	      scrollTop: offsetTop
+	      scrollTop: offsetTop - $('header').height()
 	    }, 1000);
 	    return false;
 	});
