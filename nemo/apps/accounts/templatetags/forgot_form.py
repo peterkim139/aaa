@@ -4,7 +4,7 @@ from accounts.forms import ResetForm
 register = template.Library()
 
 
-@register.simple_tag
+@register.assignment_tag
 def forgot_form():
 
     forgot_error = cache.get('forgot_error')

@@ -7,7 +7,17 @@
     <div class="popupBody">
         <form method="post" action="/change_password/" id="reset_form">
             {% csrf_token %}
-            {% reset_form %}
+            {% reset_form  as reset %}
+            <div class="formRow">
+                {{ reset.password.label_tag}}
+                {{ reset.password }}
+                {{ reset.password.errors }}
+            </div>
+            <div class="formRow">
+                {{ reset.password2.label_tag}}
+                {{ reset.password2 }}
+                {{ reset.password2.errors }}
+            </div>
             <input type="submit" value="Reset" class="btn btnPrime btnBlock" id="resetpass">
         </form>
     </div>

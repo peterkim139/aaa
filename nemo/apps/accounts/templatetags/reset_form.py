@@ -4,7 +4,7 @@ from accounts.forms import ChangePasswordForm
 register = template.Library()
 
 
-@register.simple_tag
+@register.assignment_tag
 def reset_form():
 
     reset_error = cache.get('reset_error')

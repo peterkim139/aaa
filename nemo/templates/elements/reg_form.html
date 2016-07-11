@@ -7,7 +7,39 @@
     <div class="popupBody">
         <form method="post" action="{% url 'accounts:register' %}" id="registration">
             {% csrf_token %}
-            {% registration_form %}
+            {% registration_form  as registration %}
+            <div class="colRow">
+                <div class="formRow col6">
+                    {{ registration.first_name.label_tag}}
+                    {{ registration.first_name }}
+                    {{ registration.first_name.errors }}
+                </div>
+                <div class="formRow col6">
+                    {{ registration.last_name.label_tag}}
+                    {{ registration.last_name }}
+                    {{ registration.last_name.errors }}
+                </div>
+            </div>
+            <div class="formRow">
+                {{ registration.email.label_tag}}
+                {{ registration.email }}
+                {{ registration.email.errors }}
+            </div>
+            <div class="formRow">
+                {{ registration.password.label_tag}}
+                {{ registration.password }}
+                {{ registration.password.errors }}
+            </div>
+            <div class="formRow">
+                {{ registration.zip_code.label_tag}}
+                {{ registration.zip_code }}
+                {{ registration.zip_code.errors }}
+            </div>
+            <div class="formRow birthDate">
+                {{ registration.birthdate.label_tag}}
+                {{ registration.birthdate }}
+                {{ registration.birthdate.errors }}
+            </div>
             <input type="submit" value="Sign up" class="btn btnPrime btnBlock">
         </form>
     </div>

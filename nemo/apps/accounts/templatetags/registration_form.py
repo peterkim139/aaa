@@ -4,7 +4,7 @@ from accounts.forms import RegistrationForm
 register = template.Library()
 
 
-@register.simple_tag
+@register.assignment_tag
 def registration_form():
 
     registartion_error = cache.get('registartion_error')
@@ -14,6 +14,7 @@ def registration_form():
         return registartion_error
     else:
         return RegistrationForm()
+
 
 
 

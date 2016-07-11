@@ -104,6 +104,8 @@ class RegistrationForm(forms.Form):
         9:('September'), 10:('October'), 11:('November'), 12:('December')
     }
 
+    now = datetime.datetime.now()
+
     first_name = forms.CharField(label='FIRST NAME', max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Last NAME', max_length=255, required=True, validators=[validate_lettersonly],
@@ -124,15 +126,9 @@ class RegistrationForm(forms.Form):
 
 
 
-    birthdate = forms.DateField(label="BIRTHDATE:(To verify you are over 18 years old)",widget=extras.SelectDateWidget(years=range(1998, 1923, -1), months=MONTHS))
+    birthdate = forms.DateField(label="BIRTHDATE:(To verify you are over 18 years old)",widget=extras.SelectDateWidget(years=range(now.year-18, now.year-100, -1), months=MONTHS))
 
-    # def __init__(self, *args, **kwargs):
-    #     super(RegistrationForm, self).__init__(*args, **kwargs)
-    #     if 'form' in kwargs:
-    #         if 'is_social' in kwargs['data']:
-    #             self.fields['password'].required = False
-    #             self.fields['confirmpassword'].required = False
-    #             self.fields['phone_number'].required = False
+
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -141,7 +137,16 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError(error)
         return email
 
-
+    def clean_birthdate(self):
+        month = int(self.data.get('birthdate_month'))
+        year = int(self.data.get('birthdate_year'))
+        day = int(self.data.get('birthdate_day'))
+        if self.now.year-18 == year:
+            if self.now.month < month:
+                raise forms.ValidationError('Invalid birthdate')
+            elif self.now.month == month:
+                if self.now.day < day:
+                    raise forms.ValidationError('Invalid birthdate')
 
     def clean_password(self):
         password = self.cleaned_data.get('password')

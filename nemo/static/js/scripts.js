@@ -281,31 +281,6 @@ $(document).ready(function(){
 
     ///////////////////////////////////// Register popup //////////////////////////////////////////////
 
-
-
-    $("form#registration label").each(function() {
-        $(this).addClass('formLabel');
-        var elem = $(this).attr('for');
-        if($(this).next('ul').length > 0 && elem != 'id_birthdate_month'){
-            $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
-            $(this).next().next().after($(this).next());
-        }else{
-            if(elem != 'id_birthdate_month'){
-                $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
-            }
-        }
-        if( elem == 'id_first_name' || elem == 'id_last_name'){
-            $(this).parent('div').addClass('col6')
-            if(elem == 'id_last_name'){
-                $('div.formRow.col6').wrapAll("<div class='colRow'></div>");
-            }
-        }
-        if(elem == 'id_birthdate_month'){
-            $(this).add($(this).next()).add($(this).next().next()).add($(this).next().next().next()).add($(this).next().next().next().next('select')).wrapAll("<div class='formRow birthDate'></div>");
-
-        }
-    });
-
     $('#registration .birthDate label').html('BIRTHDATE:<span>(To verify you are over 18 years old)</span>')
 
     if(getCookie('registr_error') != ''){
@@ -317,21 +292,15 @@ $(document).ready(function(){
 
     ///////////////////////////////////  forgot password ///////////////////////////////////////////////////
 
-    $("form#forgot_form label").each(function() {
-        $(this).addClass('formLabel');
-        var forgot = getCookie('forgot_error');
-        if(forgot != '' && forgot != 'invalid_key'){
-            $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
-            $(this).next().next().after($(this).next());
+    var forgot = getCookie('forgot_error');
+    if(forgot != '' && forgot != 'invalid_key'){
+        $('.forgot_tub').click();
+    }else{
+        if(forgot == 'invalid_key'){
             $('.forgot_tub').click();
-        }else{
-            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
-            if(forgot == 'invalid_key'){
-                $('.forgot_tub').click();
-            }
         }
-        delCookie('forgot_error')
-    });
+    }
+    delCookie('forgot_error')
 
     $('#forgot_form').validate({
         rules: {
@@ -361,13 +330,13 @@ $(document).ready(function(){
 
     $.validator.addMethod("birthday",
         function(value, element) {
-           if($('#id_birthdate_month').val() == '' || $('#id_birthdate_year').val() == '' || $('#id_birthdate_day').val() == ''){
+            if($('#id_birthdate_month').val() == '' || $('#id_birthdate_year').val() == '' || $('#id_birthdate_day').val() == ''){
                 return false;
-           }else{
+            }else{
                 return true;
-           }
+            }
         },
-        "This field is required.");
+        "All fields are required.");
 
     $("#registration").validate({
         rules: {
@@ -1003,16 +972,6 @@ $(document).ready(function(){
             showCloseBtn: true,
         });
     }
-
-    $("form#reset_form label").each(function() {
-        $(this).addClass('formLabel');
-        if($(this).next('ul').length > 0){
-            $(this).add($(this).next()).add($(this).next().next()).wrapAll("<div class='formRow'></div>");
-            $(this).next().next().after($(this).next());
-        }else{
-            $(this).add($(this).next()).wrapAll("<div class='formRow'></div>");
-        }
-    });
 
     if(getCookie('reset_error') != ''){
         openResetForm()

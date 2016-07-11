@@ -9,7 +9,12 @@
     <div class="popupBody">
         <form method="post" action="{% url 'accounts:reset' %}" id="forgot_form">
             {% csrf_token %}
-            {% forgot_form %}
+            {% forgot_form as forgot %}
+            <div class="formRow">
+                {{ forgot.email.label_tag}}
+                {{ forgot.email }}
+                {{ forgot.email.errors }}
+            </div>
             <input type="submit" value="Send Email" class="btn btnPrime btnBlock" id="sendEmail">
             <div class="clearAfter mt20 alignC">
                 <span>Dont have an account?</span>
