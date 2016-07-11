@@ -752,11 +752,11 @@ footer {
     margin-bottom: 4px;
     display: block;
     font-weight: 500; }
-  .formRow .formLabel {
+  .formRow .formLabel, .formRow label {
     font-weight: 400;
     color: #808080;
     text-transform: uppercase; }
-    .formRow .formLabel .labelDesc {
+    .formRow .formLabel .labelDesc, .formRow label .labelDesc {
       font-size: 12px;
       position: relative;
       top: -2px;
@@ -3111,7 +3111,8 @@ Responsive styles
 @media (min-width: 880px) {
   .headerNav {
     display: block; }
-    .headerNav .bordered {
-      border: none; } }
+
+  .headerNavMobile .bordered {
+    border: none; } }
 
 /*# sourceMappingURL=main.css.map */
