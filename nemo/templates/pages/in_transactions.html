@@ -82,9 +82,9 @@
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
                                             <td>{{ in_transaction.status }}</td>
-                                            <td class="nowrap">
+                                            <td>
                                                 {% if in_transaction.status == 'pending' %}
-                                                    <button class="success seller_actions" action="Approve">Approve</button> | <button class="success  seller_actions" action="Cancel">Cancel</button>
+                                                    <div class="nowrap"><button class="success seller_actions" action="Approve">Approve</button> | <button class="success  seller_actions" action="Cancel">Cancel</button></div>
                                                 {% elif in_transaction.status == 'approved' %}
                                                     <button class="success expandBtn">Cancel</button>
                                                 {% endif %}

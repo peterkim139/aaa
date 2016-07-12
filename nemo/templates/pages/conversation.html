@@ -152,6 +152,7 @@ $(document).ready(function(){
                     });
                     playSound();
                     $(".msgThread").append(message_div);
+                    $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
                 }
             },
             error:function(){
@@ -246,6 +247,7 @@ $(document).ready(function(){
                             $('.msgThread').append(next_li);
                             $('#id_message').val('');
                             $('#last_message_'+partner_id).text(message);
+                            $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
                         }
                     },
                     error:function(){

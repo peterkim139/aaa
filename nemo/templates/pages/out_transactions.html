@@ -59,7 +59,7 @@ f{% extends "base.html" %}
                                         <th>Total Amount</th>
                                         <th data-hide="all">Transaction Dates</th>
                                         <th data-hide="all">Reserved Dates</th>
-                                        <th data-hide="all">Action</th>
+                                        <th data-hide="all">Status</th>
                                         <th>Payment</th>
                                         <th>Action</th>
                                         <th data-hide="all">Rate & Review</th>
@@ -79,12 +79,12 @@ f{% extends "base.html" %}
                                             <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
                                             {% if out_transaction.status == 'pending' %}
-                                                <td>waiting Approval</td>
+                                            <td>waiting Approval</td>
                                             {% else %}
-                                                    <td>{{out_transaction.status}}</td>
+                                            <td>{{out_transaction.status}}</td>
                                             {% endif %}
                                             <td>Make payment</td>
-                                            <td class="nowrap">
+                                            <td>
                                                 {% if out_transaction.status == 'pending' %}
                                                     <button class="success client_actions" action="Decline">Decline</button>
                                                 {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}
