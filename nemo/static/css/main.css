@@ -1190,6 +1190,7 @@ i {
     content: '';
     position: absolute;
     top: 100%;
+    left: 10px;
     border: solid 4px transparent;
     border-top-color: #000; }
 
