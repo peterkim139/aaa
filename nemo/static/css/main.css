@@ -1964,10 +1964,12 @@ transactions page
   white-space: nowrap; }
 
 .pagination {
-  margin-top: 5px;
-  text-align: right; }
+  margin-top: 15px;
+  text-align: right;
+  color: #bfbfbf; }
   .pagination a {
-    vertical-align: middle; }
+    vertical-align: middle;
+    color: #bfbfbf; }
   .pagination .current {
     vertical-align: top;
     margin: 0 5px; }
