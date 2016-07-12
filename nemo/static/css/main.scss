@@ -571,12 +571,17 @@ input[type="file"].formControl {
 	height: auto;
 	padding: 6px;
 }
-.help-inline,
-.errorlist li {
+.help-inline {
 	display: inline-block;
 	margin-top: 3px;
 	color: #D53131;
 	font-size: 13px;
+}
+.errorlist li {
+	margin-top: 3px;
+	color: #D53131;
+	font-size: 13px;
+	margin-right: 5px;
 }
 .icheckbox_square-green {
 	margin-top: -1px;
