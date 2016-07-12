@@ -1963,6 +1963,15 @@ transactions page
 .nowrap {
   white-space: nowrap; }
 
+.pagination {
+  margin-top: 5px;
+  text-align: right; }
+  .pagination a {
+    vertical-align: middle; }
+  .pagination .current {
+    vertical-align: top;
+    margin: 0 5px; }
+
 /*
 end of transaction page
 */

@@ -1933,6 +1933,17 @@ transactions page
 .nowrap {
 	white-space: nowrap;
 }
+.pagination {
+	margin-top: 5px;
+	text-align: right;
+	a {
+		vertical-align: middle;
+	}
+	.current {
+		vertical-align: top;
+		margin: 0 5px;
+	}
+}
 /*
 end of transaction page
 */
