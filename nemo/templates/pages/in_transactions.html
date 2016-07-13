@@ -97,6 +97,21 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if in_transactions.has_previous %}
+                                        <a href="?page={{ in_transactions.previous_page_number }}"><i class="icon-arrow-left-thin"></i></a>
+                                    {% endif %}
+                                    <span class="current">
+                                        Page {{ in_transactions.number }} of {{ in_transactions.paginator.num_pages }}
+                                    </span>
+                                    {% if in_transactions.has_next %}
+                                        <a href="?page={{ in_transactions.next_page_number }}"><i class="icon-arrow-right-thin"></i></a>
+                                    {% endif %}
+                                </span>
+                            </div>
+
                             <div id="cancel_request_popup_2" class="popupWrap mfp-hide">
                                 <div class="popupHead">
                                     <h3>Confirmation</h3>

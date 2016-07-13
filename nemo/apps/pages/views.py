@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.http import HttpResponseRedirect, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from payment.models import Rent
 from .forms import RentForm, SupportForm
@@ -33,7 +34,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
 
-        out_transactions = Rent.objects.filter(user_id=request.user.id)
+        out_transactions = Rent.objects.filter(user_id=request.user.id).order_by('-created')
         hour = timezone.now() - datetime.timedelta(hours=2)
         for out_transaction in out_transactions:
             if out_transaction.modified < hour:
@@ -41,7 +42,16 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
             else:
                 out_transaction.cancel = 0
 
-        return self.render_to_response(self.get_context_data(out_transactions))
+        paginator = Paginator(out_transactions, 10)
+        page = request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        return self.render_to_response(self.get_context_data(posts))
 
     def post(self, request):
 
@@ -93,14 +103,26 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
 
-        in_transactions = Rent.objects.filter(owner_id=request.user.id)
+        in_transactions = Rent.objects.filter(owner_id=request.user.id).order_by('-created')
+
+
         today = timezone.now() + datetime.timedelta(days=1)
         for in_transaction in in_transactions:
             if today < in_transaction.start_date:
                 in_transaction.param.amount = '2'
             else:
                 in_transaction.param.amount = '5'
-        return self.render_to_response(self.get_context_data(in_transactions))
+
+        paginator = Paginator(in_transactions, 10)
+        page = request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        return self.render_to_response(self.get_context_data(posts))
 
     def post(self, request):
 

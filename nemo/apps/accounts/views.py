@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.core.cache import cache
 from django.contrib import messages
 from django.core import serializers
+from django.http import Http404
 from .forms import ProfileForm, RegistrationForm, AuthenticationForm, ResetForm, ChangePasswordForm, SocialForm, BillingForm
 from accounts.mixins import LoginRequiredMixin
 from accounts.utils import get_coordinates, generate_activation_key
@@ -61,6 +62,9 @@ class HomeView(View):
 
 class LoginView(View):
 
+    def get(self,request):
+        raise Http404
+
     def post(self, request):
 
         form = AuthenticationForm(data=request.POST)
@@ -80,6 +84,9 @@ class LoginView(View):
 
 
 class RegisterView(View):
+
+    def get(self,request):
+        raise Http404
 
     def post(self, request):
         

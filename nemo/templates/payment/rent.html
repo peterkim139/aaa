@@ -242,6 +242,7 @@ $(document).ready(function() {
     $('.ui-datepicker-current-day').find('.ui-state-active').removeClass('ui-state-active');
 })
 
+window.pin = '/media/images/icons/map-pin.png';
 var myLatLng = {lat: parseFloat('{{param.latitude}}'), lng: parseFloat('{{param.longitude}}')};
 
 var map = new google.maps.Map(document.getElementById('gMap'), {
@@ -252,6 +253,7 @@ var map = new google.maps.Map(document.getElementById('gMap'), {
 var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
+    icon: window.pin,
     title: '{{ param.name }}'
 });
 

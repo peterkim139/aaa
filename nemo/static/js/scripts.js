@@ -423,7 +423,7 @@ $(document).ready(function(){
             multiple: false,
             sizeLimit: 5 * 1024 * 1024, // max size
             minSizeLimit: 0, // min size
-            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif','tiff','bmp'],
             onSubmit: function(id, fileName){
                 if ($('.qq-upload-list').has('li')) {
                     $('.qq-upload-list').html('');
@@ -1024,6 +1024,7 @@ $(document).ready(function(){
     $('#change_default_address').on('click',function(e){
         if($('#defaul_address_form').valid()){
             e.preventDefault();
+            var address = $('#default_address').val()
             var latitude = $('#default_latitudes').val()
             var longitude = $('#default_longitudes').val()
             var float_lat = parseFloat(latitude);
@@ -1031,6 +1032,7 @@ $(document).ready(function(){
             var cvalue = [latitude,longitude]
             if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
                 setCookie('lat_lng',cvalue,365)
+                setCookie('address',address,365)
                 setCookie('default','default',1)
                 location.reload()
             }
@@ -1122,6 +1124,7 @@ $(document).ready(function(){
         $("#longitude").val(position.coords.longitude)
         var cvalue = [position.coords.latitude,position.coords.longitude]
         setCookie('lat_lng',cvalue,365)
+        codeLatLng(position.coords.latitude, position.coords.longitude)
     }
 
     if(getCookie('default') == ''){
@@ -1141,6 +1144,7 @@ $(document).ready(function(){
             }
         });
     }
+
 
 //    function codeAddress(address) {
 //        var address = address

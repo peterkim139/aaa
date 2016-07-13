@@ -108,6 +108,19 @@ f{% extends "base.html" %}
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if out_transactions.has_previous %}
+                                        <a href="?page={{ out_transactions.previous_page_number }}"><i class="icon-arrow-left-thin"></i></a>
+                                    {% endif %}
+                                    <span class="current">
+                                        Page {{ out_transactions.number }} of {{ out_transactions.paginator.num_pages }}
+                                    </span>
+                                    {% if in_transactions.has_next %}
+                                        <a href="?page={{ out_transactions.next_page_number }}"><i class="icon-arrow-right-thin"></i></a>
+                                    {% endif %}
+                                </span>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

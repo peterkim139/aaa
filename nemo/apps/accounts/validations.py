@@ -11,7 +11,7 @@ def validate_file(value):
         if value._size > int(settings.MAX_UPLOAD_SIZE):
             raise forms.ValidationError('Please keep file size under 2 Mb')
     else:
-        raise forms.ValidationError('Only .jpg/jpeg/png/gif files allowed.')
+        raise forms.ValidationError('Only .jpg/jpeg/png/gif/tiff/bmp files allowed.')
 
 
 def validate_lettersonly(value):

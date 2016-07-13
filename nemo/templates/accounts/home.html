@@ -91,6 +91,12 @@
 			</div>
 			{% endif %}
 			<script>
+				var default_address = getCookie('address')
+				default_address = default_address.substr(0, default_address.indexOf('expire'))
+				if(default_address != ''){
+					var contents = $('.srchAddress p').contents();
+					contents[contents.length - 1].nodeValue = default_address;
+				}
 				var latitude = '{{ latitude }}';
 				var longitude = '{{ longitude }}'
 				var address = '{{address}}'
