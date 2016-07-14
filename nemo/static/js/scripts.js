@@ -1033,8 +1033,9 @@ $(document).ready(function(){
             if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
                 setCookie('lat_lng',cvalue,365)
                 setCookie('address',address,365)
+                initMap(latitude,longitude)
                 setCookie('default','default',1)
-                location.reload()
+                $('.mfp-close').click()
             }
         }
     })
@@ -1123,6 +1124,7 @@ $(document).ready(function(){
         $("#latitude").val(position.coords.latitude);
         $("#longitude").val(position.coords.longitude)
         var cvalue = [position.coords.latitude,position.coords.longitude]
+        initMap(position.coords.latitude,position.coords.longitude)
         setCookie('lat_lng',cvalue,365)
         codeLatLng(position.coords.latitude, position.coords.longitude)
     }
@@ -1145,26 +1147,6 @@ $(document).ready(function(){
         });
     }
 
-
-//    function codeAddress(address) {
-//        var address = address
-//        geocoder.geocode( { 'address': address}, function(results, status) {
-//            if (status == google.maps.GeocoderStatus.OK) {
-//                var latitude = results[0].geometry.viewport.b.b
-//                var longitude = results[0].geometry.viewport.b.f
-//                if(latitude != '' && longitude != ''){
-//                    var cvalue = [latitude,longitude]
-//                    $('.incorect_address').hide();
-//                    delCookie('lat_lng')
-//                    setCookie('lat_lng',cvalue,365)
-//                    setCookie('default','default',2)
-//                    $('.mfp-close').click()
-//                }else{
-//                    $('.incorect_address').show();
-//                }
-//            }
-//        });
-//    }
 
  /////////////////////////  init map ,show items on map /////////////////////////
 
