@@ -1034,6 +1034,8 @@ $(document).ready(function(){
                 setCookie('lat_lng',cvalue,365)
                 setCookie('address',address,365)
                 initMap(latitude,longitude)
+                var contents = $('.srchAddress p').contents();
+                contents[contents.length - 1].nodeValue = address;
                 setCookie('default','default',1)
                 $('.mfp-close').click()
             }
