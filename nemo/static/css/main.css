@@ -1984,9 +1984,7 @@ messages page
   position: relative;
   max-height: 750px;
   min-height: 630px;
-  border: solid 1px #f3f3f3;
-  width: 80%;
-  float: left; }
+  border: solid 1px #f3f3f3; }
 
 .msgRelItem {
   float: right;
