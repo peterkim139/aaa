@@ -33,10 +33,10 @@
                                                 <span id="count_{{thread.user_id}}" {% if  thread.message_count > 0 %}class="msgCount">{{thread.message_count}}{% else %}>{% endif %}</span>
                                             </div>
                                             <div class="msgConvrsR">
-                                                <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name }}
+                                                <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name|striptags }}
                                                     <!--<span id="status_{{thread.user_id}}"{% if thread|user_online %}class="userStatus online">Online{% else %}class="userStatus offline">Offline{% endif %}</span>-->
                                                 </strong>
-                                                <span class="msgConvrsMsg" id="last_message_{{thread.user_id}}">{{thread.last_message}}</span>
+                                                <span class="msgConvrsMsg" id="last_message_{{thread.user_id}}">{{thread.last_message|striptags}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -76,7 +76,7 @@
                                 <div class="threadCont">
                                     <div class="clearAfter">
                                         <div class="threadTxt">
-                                            <p>{{ message.message }}</p>
+                                            <p>{{ message.message|striptags }}</p>
                                         </div>
                                     </div>
                                     <time>{{message.modified|date:"F d, Y h:i A"}}</time>
@@ -238,7 +238,7 @@ $(document).ready(function(){
                                                 +'<div class="threadCont">'
                                                     +'<div class="clearAfter">'
                                                         +'<div class="threadTxt">'
-                                                            +'<p>'+message+'</p>'
+                                                            +'<p>'+responseJSON.last_message+'</p>'
                                                         +'</div>'
                                                     +'</div>'
                                                     +'<time>'+responseJSON.modified+'</time>'
@@ -248,6 +248,8 @@ $(document).ready(function(){
                             $('#id_message').val('');
                             $('#last_message_'+partner_id).text(message);
                             $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
+                        }else{
+                            alert('error');
                         }
                     },
                     error:function(){

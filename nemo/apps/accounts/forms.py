@@ -69,6 +69,8 @@ class ProfileForm(forms.Form):
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
                                validators=[validate_zipcode],
                                widget=forms.TextInput(attrs={'class': 'formControl'}), )
+    address = forms.CharField(label="Address",required=True,
+                               widget=forms.TextInput(attrs={'id':'change_address','class': 'formControl'}), )
     first_name = forms.CharField(label='First Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
@@ -217,7 +219,7 @@ class BillingForm(forms.Form):
 
 
 
-    year = forms.CharField(label="Year", max_length=4, min_length=2, required=True,
+    year = forms.CharField(label="Year", max_length=4, min_length=4, required=True,
                            validators=[validate_year],
                            widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
 

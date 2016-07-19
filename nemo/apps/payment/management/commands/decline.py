@@ -9,7 +9,7 @@ from django.db.models import Q
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        today = timezone.now() - datetime.timedelta(days=2)
+        today = timezone.localtime(timezone.now()) - datetime.timedelta(days=2)
         rents = Rent.objects.filter(Q(status='pending', created__lte=today) | Q(status='pending', rent_date__lte=today))
         if rents:
             for rent in rents:

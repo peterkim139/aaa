@@ -245,6 +245,19 @@ $(document).ready(function(){
             return false;
         }
     })
+    $('#edit_user_profile').on('click',function(e){
+        e.preventDefault();
+        if($('#edit_profile_form').valid()){
+            var latitude = parseFloat($('#latitudes').val())
+            var longitude = parseFloat($('#longitudes').val())
+            if(!isNaN(latitude) && !isNaN(longitude)){
+                var cvalue = [latitude,longitude]
+                setCookie('lat_lng',cvalue,365)
+                setCookie('address',$('#change_address').val(),365)
+            }
+           $('#edit_profile_form').submit();
+        }
+    })
 
     $(".cancel_request_yes").on('click',function(){
          N_cancel_rent.submit();
@@ -535,6 +548,10 @@ $(document).ready(function(){
 
     $("#edit_profile_form").validate({
         rules: {
+            'address': {
+                required: true,
+                address_validated: true,
+            },
             'email': {
                 required: true,
                 customemail: true
@@ -563,6 +580,9 @@ $(document).ready(function(){
             },
         },
         messages: {
+            'address': {
+                required: "This field is required."
+            },
             'email': {
                 required: "This field is required."
             },
@@ -1036,7 +1056,6 @@ $(document).ready(function(){
                 initMap(latitude,longitude)
                 var contents = $('.srchAddress p').contents();
                 contents[contents.length - 1].nodeValue = address;
-                setCookie('default','default',1)
                 $('.mfp-close').click()
             }
         }
@@ -1103,16 +1122,25 @@ $(document).ready(function(){
 
 /////////////////////  set data in cookie /////////////////////////////////
 
-     function setCookie(cname, cvalue, exdays) {
+    function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+d.toUTCString();
         document.cookie = cname+"="+cvalue+expires+"; path=/";
-     }
+    }
 
-     function delCookie(name) {
+    timezone = new Date().getTimezoneOffset()
+    if(timezone > 0){
+        timezone = -Math.abs(timezone/60)
+    }else{
+        timezone = Math.abs(timezone/60)
+    }
+
+    setCookie('timezone',timezone,365)
+
+    function delCookie(name) {
         document.cookie = name + "=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT";
-     }
+    }
 
 /////////////////////// get user location ////////////////////////////
 
@@ -1131,7 +1159,7 @@ $(document).ready(function(){
         codeLatLng(position.coords.latitude, position.coords.longitude)
     }
 
-    if(getCookie('default') == ''){
+    if(getCookie('address') == ''){
         getLocation();
     }
 
@@ -1246,7 +1274,6 @@ $(document).ready(function(){
             }
         });
     }
-
     /////////////////////////////////  message sound //////////////////////////////////////
     
     function playSound(){

@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.core.cache import cache
 from django.contrib import messages
 from django.core import serializers
+from django.conf import settings
 from django.http import Http404
 from .forms import ProfileForm, RegistrationForm, AuthenticationForm, ResetForm, ChangePasswordForm, SocialForm, BillingForm
 from accounts.mixins import LoginRequiredMixin
@@ -345,7 +346,8 @@ class EditProfileView(LoginRequiredMixin, View):
                                     'last_name': request.user.last_name,
                                     'email': request.user.email,
                                     'phone_number': request.user.phone_number,
-                                    'zip_code': request.user.zip_code})
+                                    'zip_code': request.user.zip_code,
+                                    'address': request.user.address})
         context = {'form': form}
         return render(request, 'accounts/edit_profile.html', context)
 
@@ -359,6 +361,7 @@ class EditProfileView(LoginRequiredMixin, View):
             user.email = form.cleaned_data['email']
             user.phone_number = form.cleaned_data['phone_number']
             user.zip_code = form.cleaned_data['zip_code']
+            user.address = form.cleaned_data['address']
             if 'image_file' in request.FILES:
                 user.photo = request.FILES['image_file']
             user.save()
@@ -582,7 +585,8 @@ class ChangeAccountStatusView(LoginRequiredMixin, View):
 
 
 def error404(request):
-    return render(request, '404.html')
+    context = {'site_url': settings.SITE_URL}
+    return render(request, '404.html',context)
 
 def error500(request):
     return render(request, '500.html')

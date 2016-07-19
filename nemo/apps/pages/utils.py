@@ -1,6 +1,10 @@
 from decimal import Decimal
 from django.conf import settings
 import uuid
+import datetime
+import pytz
+from django.utils import timezone
+
 
 
 def save_file(request, uploaded, filename, path, raw_data=True):
@@ -25,6 +29,21 @@ def save_file(request, uploaded, filename, path, raw_data=True):
 def date_handler(obj):
     return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
+
+def handel_datetime(request):
+    tz_number = request.COOKIES.get('timezone')
+    if 'expires' in tz_number:
+            tz_number = int(tz_number.split("expires",1)[0])
+    hours = -4
+    if type(tz_number) is int:
+        hours = tz_number
+
+    utc_offset = datetime.timedelta(hours=hours, minutes=0)
+    now = datetime.datetime.now(pytz.utc)
+    for tz in map(pytz.timezone, pytz.all_timezones_set):
+        if now.astimezone(tz).utcoffset() == utc_offset:
+            tz_name = tz.zone
+    timezone.activate(pytz.timezone(tz_name))
 
 def refund_price(price):
 

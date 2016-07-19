@@ -7,6 +7,7 @@ from decimal import Decimal
 from django.utils import timezone
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
+from django.utils.html import strip_tags
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -16,7 +17,7 @@ from accounts.models import User
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from pages.utils import date_handler, save_file, refund_price
+from pages.utils import date_handler, save_file, refund_price, handel_datetime
 from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer
 from pages.emails import seller_approved_request, seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
 from pages.models import Image, Thread, Message
@@ -285,18 +286,18 @@ class NoConversationView(LoginRequiredMixin, View):
 class ConversationView(LoginRequiredMixin, View):
 
     def get(self, request, id):
-
+        handel_datetime(request)
         partner_id = id
         messages = None
         current_user_id = request.user.id
 
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id = partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
         except Thread.DoesNotExist:
             thread = None
         if thread:
             messages = Message.objects.filter(thread_id=thread.id)
-            unread_messages = Message.objects.filter(thread_id=thread.id,from_user_id=partner_id,unread = 1)
+            unread_messages = Message.objects.filter(thread_id=thread.id,from_user_id=partner_id,unread=1)
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
@@ -326,32 +327,35 @@ class ConversationView(LoginRequiredMixin, View):
         return render(request, 'pages/conversation.html', context)
 
     def post(self, request, id):
-
+        handel_datetime(request)
         partner_id = id
-        last_message = request.POST["message"]
-        try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
-            thread.last_message = last_message
-            thread.modified = timezone.now()
-            thread.save()
-        except Thread.DoesNotExist:
-            thread = Thread()
-            thread.user1_id = request.user.id
-            thread.user2_id = partner_id
-            thread.last_message = last_message
-            thread.modified = timezone.now()
-            thread.save()
+        last_message = strip_tags(request.POST["message"])
+        message_time = timezone.localtime(timezone.now())
+        if last_message != '':
+            try:
+                thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+                thread.last_message = last_message
+                thread.modified = message_time
+                thread.save()
+            except Thread.DoesNotExist:
+                thread = Thread()
+                thread.user1_id = request.user.id
+                thread.user2_id = partner_id
+                thread.last_message = last_message
+                thread.modified = message_time
+                thread.save()
 
-        message = Message()
-        message.thread_id = thread.id
-        message.unread = 1
-        message.message = last_message
-        message.from_user_id = User.objects.get(id=request.user.id)
-        message.to_user_id = User.objects.get(id=partner_id)
-        message.save()
+            message = Message()
+            message.thread_id = thread.id
+            message.unread = 1
+            message.message = last_message
+            message.from_user_id = User.objects.get(id=request.user.id)
+            message.to_user_id = User.objects.get(id=partner_id)
+            message.save()
 
-        return JsonResponse({'response': True, 'modified': message.modified.strftime("%B %d, %Y %I:%M%p")})
-
+            return JsonResponse({'response': True, 'modified': message_time.strftime("%B %d, %Y %I:%M%p"),'last_message':last_message})
+        else:
+            return JsonResponse({'response': False})
 
 class UserStatusView(LoginRequiredMixin, View):
 

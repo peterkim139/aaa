@@ -92,6 +92,8 @@ MEDIA_URL = '/media/'
 
 BRAND = 'NEMO'
 
+SITE_URL = 'http://nemo.codebnb.me/'
+
 AUTO_REPLY = 'info@nemocentral.com'
 ADMIN_EMAIL = 'info@nemocentral.com'
 
