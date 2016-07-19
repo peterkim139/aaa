@@ -2529,8 +2529,8 @@ view listing page
       cursor: no-drop !important; }
 
 .ui-datepicker-today a {
-  color: #fb002c;
-  border-color: #fb002c; }
+  color: #5bbc2e;
+  font-weight: 600; }
 
 .datepicker {
   border: solid 1px #dbdbdb;
@@ -2596,6 +2596,20 @@ view listing page
     display: block; }
 
 /*== end side slider ==*/
+#billing_popup .popupWrap {
+  width: 420px; }
+#billing_popup .popupHead {
+  padding: 50px; }
+  #billing_popup .popupHead h3 {
+    padding: 0;
+    color: #252525; }
+  #billing_popup .popupHead h2 {
+    color: #5bbc2e;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 20px; }
+
 /*
 end view listing page 
 */

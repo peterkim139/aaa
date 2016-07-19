@@ -2589,8 +2589,8 @@ view listing page
 }
 .ui-datepicker-today {
 	a {
-		color: #fb002c;
-		border-color: #fb002c;
+		color: $brandColor;
+		font-weight: 600;
 	}
 }
 .datepicker {
@@ -2665,6 +2665,25 @@ view listing page
 	}
 }
 /*== end side slider ==*/
+#billing_popup {
+	.popupWrap {
+		width: 420px;
+	}
+	.popupHead {
+		padding: 50px;
+		h3 {
+			padding: 0;
+			color: #252525;
+		}
+		h2 {
+			color: $brandColor;
+			font-weight: 600;
+			text-transform: uppercase;
+			text-align: center;
+			margin-top: 20px;
+		}
+	}
+}
 /*
 end view listing page 
 */
