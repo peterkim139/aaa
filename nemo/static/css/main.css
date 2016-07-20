@@ -2935,8 +2935,9 @@ Responsive styles
 
   .messagesL {
     position: static;
-    width: 100%;
-    height: 360px; }
+    width: 100%; }
+    .messagesL .customScroll {
+      overflow-y: auto !important; }
 
   .threadTxt {
     min-width: 100%; }
