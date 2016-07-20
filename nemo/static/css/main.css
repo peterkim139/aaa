@@ -2523,6 +2523,8 @@ view listing page
     .ui-datepicker .ui-state-disabled.booked a {
       color: #e91919;
       cursor: no-drop !important; }
+  .ui-datepicker .ui-state-disabled span {
+    opacity: 0.3; }
 
 .ui-datepicker-today a {
   color: #5bbc2e;
@@ -2598,7 +2600,8 @@ view listing page
   padding: 50px; }
   #billing_popup .popupHead h3 {
     padding: 0;
-    color: #252525; }
+    color: #252525;
+    font-size: 18px; }
   #billing_popup .popupHead h2 {
     color: #5bbc2e;
     font-weight: 600;

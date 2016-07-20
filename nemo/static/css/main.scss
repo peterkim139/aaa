@@ -2585,6 +2585,9 @@ view listing page
 				cursor: no-drop!important;
 			}
 		}
+		span {
+			opacity: 0.3;
+		}
 	}
 }
 .ui-datepicker-today {
@@ -2674,6 +2677,7 @@ view listing page
 		h3 {
 			padding: 0;
 			color: #252525;
+			font-size: $fontSize + 2px;
 		}
 		h2 {
 			color: $brandColor;
