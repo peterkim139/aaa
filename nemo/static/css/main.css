@@ -2527,11 +2527,10 @@ view listing page
   cursor: no-drop !important; }
   .ui-datepicker .ui-state-disabled > * {
     opacity: 0.3; }
-  .ui-datepicker .ui-state-disabled.booked {
+  .ui-datepicker .ui-state-disabled.booked a {
+    color: #e91919;
+    cursor: no-drop !important;
     opacity: 1; }
-    .ui-datepicker .ui-state-disabled.booked a {
-      color: #e91919;
-      cursor: no-drop !important; }
   .ui-datepicker .ui-state-disabled span {
     opacity: 0.3; }
 

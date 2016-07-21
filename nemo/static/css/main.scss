@@ -2588,10 +2588,10 @@ view listing page
 			opacity: 0.3;
 		}
 		&.booked {
-			opacity: 1;
 			a {
 				color: #e91919;
 				cursor: no-drop!important;
+				opacity: 1;
 			}
 		}
 		span {
