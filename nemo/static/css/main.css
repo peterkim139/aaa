@@ -2524,8 +2524,9 @@ view listing page
 .ui-datepicker .ui-datepicker-title {
   line-height: 1em; }
 .ui-datepicker .ui-state-disabled {
-  opacity: 0.3;
   cursor: no-drop !important; }
+  .ui-datepicker .ui-state-disabled > * {
+    opacity: 0.3; }
   .ui-datepicker .ui-state-disabled.booked {
     opacity: 1; }
     .ui-datepicker .ui-state-disabled.booked a {
@@ -2563,8 +2564,6 @@ view listing page
       .ui-datepicker-calendar tbody a.ui-state-active {
         border: 1px solid #5bbc2e;
         color: #5bbc2e; }
-      .ui-datepicker-calendar tbody a.ui-priority-secondary {
-        color: #e8e8e8; }
 
 .ui-datepicker-prev {
   float: left; }

@@ -2583,8 +2583,10 @@ view listing page
 		line-height: 1em;
 	}
 	.ui-state-disabled {
-		opacity: 0.3;
 		cursor: no-drop!important;
+		&>* {
+			opacity: 0.3;
+		}
 		&.booked {
 			opacity: 1;
 			a {
@@ -2633,7 +2635,7 @@ view listing page
 		    	color: $brandColor;
 		    }
 		    &.ui-priority-secondary {
-		    	color: $borderGrey;
+		    	//color: $borderGrey;
 		    }
 		}
 	}
