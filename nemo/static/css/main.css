@@ -592,7 +592,7 @@ header {
 /*== start mobile navigation ==*/
 .hamburgerBtn {
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 999;
   right: 10px;
   top: 24px;
