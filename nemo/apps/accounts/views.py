@@ -585,8 +585,7 @@ class ChangeAccountStatusView(LoginRequiredMixin, View):
 
 
 def error404(request):
-    context = {'site_url': settings.SITE_URL}
-    return render(request, '404.html',context)
+    return render(request, '404.html')
 
 def error500(request):
     return render(request, '500.html')

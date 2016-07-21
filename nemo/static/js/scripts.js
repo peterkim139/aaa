@@ -1053,10 +1053,13 @@ $(document).ready(function(){
             if(longitude != ''  && longitude != '' && !isNaN(float_lat) && !isNaN(float_long)){
                 setCookie('lat_lng',cvalue,365)
                 setCookie('address',address,365)
+                $('.valid_address').hide()
                 initMap(latitude,longitude)
                 var contents = $('.srchAddress p').contents();
                 contents[contents.length - 1].nodeValue = address;
                 $('.mfp-close').click()
+            }else{
+                $('.valid_address').show()
             }
         }
     })
