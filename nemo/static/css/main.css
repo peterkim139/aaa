@@ -1205,6 +1205,9 @@ i {
     display: block; }
 
 /*== end tooltip ==*/
+.hidden {
+  display: none; }
+
 /*== end general styles ==*/
 /*
 Home page 
