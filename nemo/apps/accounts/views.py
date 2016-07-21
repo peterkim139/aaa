@@ -365,7 +365,7 @@ class EditProfileView(LoginRequiredMixin, View):
             if 'image_file' in request.FILES:
                 user.photo = request.FILES['image_file']
             user.save()
-            messages.success(request, "Successfully Edited")
+            messages.success(request, "Successfully Saved")
             return HttpResponseRedirect('/edit_profile/')
         else:
             context = {'form': form}

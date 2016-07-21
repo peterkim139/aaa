@@ -13,7 +13,7 @@
             {% if request.user.phone_number %}
                 <li><i class="icon-phone"></i>{{ request.user.phone_number }}</li>
             {% endif %}
-            <li><i class="icon-location-1"></i>{{ request.user.zip_code }}</li>
+            <li class="user_def_address"><i class="icon-location-1"></i>{{ request.user.address }}</li>
         </ul>
     </div>
 </div>

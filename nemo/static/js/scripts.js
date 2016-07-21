@@ -33,6 +33,12 @@ $(document).ready(function(){
     }
 
 
+    var user_address = getCookie('address')
+    if(user_address){
+        var user_address= user_address.substr(0, user_address.indexOf('expire'));
+        $('.user_def_address').html('<i class="icon-location-1"></i>'+user_address)
+    }
+
 ///////////////////////////////// to open login popup //////////////////////////////////////
 
     var N_login_form = $('#login_form');
@@ -532,7 +538,7 @@ $(document).ready(function(){
     var site_pathname = window.location.pathname;
     site_pathname = site_pathname.substring(0, site_pathname.lastIndexOf('/')) + '/';
     var menu_link = $('a[href="'+site_pathname+'"]').parent('li');
-    var list = ['/profile/out_transactions/', '/profile/in_transactions/', '/edit_profile/', '/payment/connect/'];
+    var list = ['/profile/out_transactions/', '/profile/in_transactions/', '/edit_profile/', '/payment/connect/','/billing/'];
     if(list.lastIndexOf(site_pathname) !== -1){
        $('.account').parent('li').addClass("active");
     }else{
@@ -1179,6 +1185,8 @@ $(document).ready(function(){
             }
         });
     }
+
+
 
 
  /////////////////////////  init map ,show items on map /////////////////////////
