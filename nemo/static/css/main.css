@@ -1018,6 +1018,9 @@ i {
   margin-top: 15px;
   text-align: center; }
 
+.mfp-wrap {
+  overflow-y: auto; }
+
 .mfp-close {
   top: 7px; }
 
@@ -1040,7 +1043,8 @@ i {
   background: #3b5999;
   color: #fff;
   text-transform: none;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  padding: 0 25px; }
   .btnFacebook img {
     width: 14px;
     vertical-align: middle; }
@@ -1048,7 +1052,8 @@ i {
 .btnGoogle {
   background: #fff;
   text-transform: none;
-  border: solid 1px #cacac8; }
+  border: solid 1px #cacac8;
+  padding: 0 25px; }
   .btnGoogle img {
     width: 14px;
     vertical-align: middle; }
@@ -2800,7 +2805,10 @@ Responsive styles
     padding-top: 75px; }
 
   .colRow .offsetTab0 {
-    margin-left: 5%; } }
+    margin-left: 5%; }
+
+  .tableScroll {
+    overflow-x: scroll; } }
 /* end of (max-width: 880px) */
 @media (max-width: 768px) {
   .colRow [class^="col"]:not(.colRow) {
@@ -3005,7 +3013,13 @@ Responsive styles
     display: block; }
 
   .tabsStyle1 li {
-    width: 50%; } }
+    width: 50%; }
+
+  .listingR {
+    padding-left: 0; }
+
+  .listing_h3 a {
+    display: block; } }
 /* end of (max-width: 600px) */
 @media (max-width: 520px) {
   .colRow .colMob12 {
@@ -3130,7 +3144,10 @@ Responsive styles
     width: 100%;
     max-width: 100%;
     text-align: center;
-    margin-top: 10px; } }
+    margin-top: 10px; }
+
+  .paymIcon {
+    width: 50px; } }
 /* end of (max-width: 480px) */
 @media (max-width: 360px) {
   .homeTopTxt h1 {

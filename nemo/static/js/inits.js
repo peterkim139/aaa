@@ -311,6 +311,9 @@ function slideAnimation(self){
             $(targetID).addClass('active');
         },1000);
     }
+	$('html,body').animate({
+		scrollTop: $('.sideSlideWrap').offset().top - 100
+	}, 'slow');
     wrap.css('min-height',$(targetID).outerHeight(true));
 }
 

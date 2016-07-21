@@ -2,22 +2,9 @@
 {% block content %}
 {% load user_online %}
 <div class="container pb80 pt40">
-    <!--<div class="msgRelItem">-->
-        <!--<div class="relItemImg">-->
-            <!--<img src="media/images/thumbs/listing-img-1.jpg" alt="">-->
-        <!--</div>-->
-        <!--<h3 class="relItemTitle">Lorem ipsum item</h3>-->
-        <!--<div class="relFromTo">-->
-            <!--<button class="active">From</button>-->
-            <!--<span>/</span>-->
-            <!--<button>To</button>-->
-        <!--</div>-->
-        <!--<span class="relFromToName">Samuel L. Jackson</span>-->
-    <!--</div>-->
     <div class="messagesWrap">
         <div class="messagesL tabsWrap">
             <ul class="tabs">
-                <!--<li><a href="#new-messages">New <br> Messages</a></li>-->
                 <li><a href="#recent-messages">Recent Messages</a></li>
             </ul>
             <div class="customScroll" style="height: 580px;">
@@ -45,23 +32,6 @@
                         {% endif %}
                     </ul>
                 </div>
-                <!--<div id="recent-messages">-->
-                    <!--<ul class="msgConvrsList">-->
-                        <!--<li class="">-->
-                            <!--<a href="#">-->
-                                <!--<div>-->
-                                    <!--<div class="msgConvrsImg">-->
-                                        <!--<img src="media/images/thumbs/user-img-2.jpg">-->
-                                    <!--</div>-->
-                                    <!--<div class="msgConvrsR">-->
-                                        <!--<strong class="msgConvrsName">Samuel L. Jackson</strong>-->
-                                        <!--<span class="msgConvrsMsg">Lorem ipsum dolor sit amet message here</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
             </div>
         </div>
         <div class="messagesR">
@@ -259,6 +229,15 @@ $(document).ready(function(){
     });
 
     $(".scrollBottom").mCustomScrollbar("scrollTo","bottom");
+    $(window).load(function(){
+        $(".messagesL  .customScroll").mCustomScrollbar("scrollTo", $('.newMsg'));
+        if ($(window).width() < 768) {
+            $('html, body').animate({
+                scrollTop: $('.msgReplyArea').offset().top - $(window).height() + $('.msgReplyArea').outerHeight() + 10
+            });
+        }
+    });
+
 });
 </script>
 

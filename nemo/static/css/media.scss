@@ -152,6 +152,9 @@
 	.colRow .offsetTab0 {
 		margin-left: 5%;
 	}
+	.tableScroll {
+		overflow-x: scroll;
+	}
 }/* end of (max-width: 880px) */
 
 @media (max-width: 768px) {
@@ -377,6 +380,14 @@
 			width: 50%;
 		}
 	}
+	.listingR {
+		padding-left: 0;
+	}
+	.listing_h3 {
+		a {
+			display: block;
+		}
+	}
 } /* end of (max-width: 600px) */
 
 @media (max-width: 520px) {
@@ -499,6 +510,9 @@
 			text-align: center;
 			margin-top: 10px;
 		}
+	}
+	.paymIcon {
+		width: 50px;
 	}
 }/* end of (max-width: 480px) */
 @media (max-width: 360px) {

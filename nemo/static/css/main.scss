@@ -817,6 +817,9 @@ i {
 	margin-top: 15px;
 	text-align: center;
 }
+.mfp-wrap {
+	overflow-y: auto;
+}
 .mfp-close {
 	top: 7px;
 }
@@ -842,6 +845,7 @@ i {
 	color: #fff;
 	text-transform: none;
 	margin-bottom: 10px;
+	padding: 0 25px;
 	img {
 		width: 14px;
 		vertical-align: middle;
@@ -851,6 +855,7 @@ i {
 	background: #fff;
 	text-transform: none;
 	border: solid 1px #cacac8;
+	padding: 0 25px;
 	img {
 		width: 14px;
 		vertical-align: middle;
