@@ -33,12 +33,6 @@ $(document).ready(function(){
     }
 
 
-    var user_address = getCookie('address')
-    if(user_address){
-        var user_address= user_address.substr(0, user_address.indexOf('expire'));
-        $('.user_def_address').html('<i class="icon-location-1"></i>'+user_address)
-    }
-
 ///////////////////////////////// to open login popup //////////////////////////////////////
 
     var N_login_form = $('#login_form');
@@ -1060,6 +1054,9 @@ $(document).ready(function(){
                 setCookie('lat_lng',cvalue,365)
                 setCookie('address',address,365)
                 $('.valid_address').hide()
+                $('#default_address').val('')
+                $('#default_latitudes').val('')
+                $('#default_longitudes').val('')
                 initMap(latitude,longitude)
                 var contents = $('.srchAddress p').contents();
                 contents[contents.length - 1].nodeValue = address;
