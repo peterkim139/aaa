@@ -122,7 +122,7 @@
         </div>
         <div id="billing_popup" class="popupWrap mfp-hide">
             <div class="popupHead">
-                <h3>It seems that you do not have a payment method on file. Please add one <a href="{% url 'accounts:billing' %}" target="_blank" class="txtBtn to_billing_page" item_id="{{param.id}}">here</a>.</h3>
+                <h3>It seems that you do not have a payment method on file. Please add one <a href="{% url 'accounts:billing' %}" class="txtBtn to_billing_page" item_id="{{param.id}}">here</a>.</h3>
                 <h2>The nemo team</h2>
             </div>
         </div>
@@ -241,6 +241,10 @@ $(document).ready(function() {
         },
 	});
     $('.ui-datepicker-current-day').find('.ui-state-active').removeClass('ui-state-active');
+
+    $('.booked').on('click',function(){
+        alert('Some of the dates are no longer available.');
+    })
 })
 
 window.pin = '/media/images/icons/map-pin.png';
@@ -257,6 +261,5 @@ var marker = new google.maps.Marker({
     icon: window.pin,
     title: '{{ param.name }}'
 });
-
 </script>
 {% endblock %}
