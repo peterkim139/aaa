@@ -15,9 +15,13 @@ def validate_file(value):
 
 
 def validate_lettersonly(value):
-    if not re.match("^[A-Za-z ]*$", value):
+    if not re.match("^[A-Za-z,.'-]*$", value):
         raise ValidationError('Name field should contain only letters')
 
+
+def validate_cardholder(value):
+    if not re.match("^[ A-Za-z,.'-]*$", value):
+        raise ValidationError('Please Enter valid name')
 
 def validate_numbersonly(value):
     if not re.match("^[0-9]*$", value):
@@ -41,7 +45,7 @@ def validate_month(value):
 
 def validate_year(value):
 
-    if not re.match("^[0-9]*$", value) or (int(value) > 2050 or int(value) < datetime.datetime.now().year):
+    if not re.match("^[0-9]*$", value) or (int(value) > 2050 or int(value) < datetime.datetime.now().year) or (len(value)>4 or len(value)<4):
         raise ValidationError('Please enter a correct year')
 
 
@@ -55,6 +59,9 @@ def has_numbers(value):
     if not any(char.isdigit() for char in value):
         raise ValidationError('Field should contain at least 1 digit')
 
+def cvv_length(value):
+    if len(value) != 3 or len(value) != 4:
+        raise ValidationError('Field should contain  3 or 4 digits')
 
 def validate_length(value):
     if len(value) != 4:

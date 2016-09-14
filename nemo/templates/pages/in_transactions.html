@@ -10,8 +10,8 @@
                     <div class="subTitleWrap hasTabs">
                         <h2>Transactions</h2>
                         <ul class="tabs subTitleTabs">
-                            <li class="active"><a href="{% url 'profile:in_transactions' %}">Incoming</a></li>
-                            <li><a href="{% url 'profile:out_transactions' %}">Outgoing</a></li>
+                            <li><a href="{% url 'profile:out_transactions' %}">Incoming</a></li>
+                            <li><a href="{% url 'profile:in_transactions' %}">Outgoing</a></li>
                         </ul>
                     </div>
                     <div class="cancelWrap expandWrap">
@@ -81,7 +81,21 @@
                                             <td>{{ in_transaction.user.first_name }} {{ in_transaction.user.last_name }}</td>
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
-                                            <td>{{ in_transaction.status }}</td>
+                                            <td>
+                                                {% if in_transaction.status == 'customer_canceled' %}
+                                                    customer canceled
+                                                {% elif in_transaction.status == 'customer_declined' %}
+                                                    customer declined
+                                                {% elif in_transaction.status == 'seller_canceled' %}
+                                                    seller canceled
+                                                {% elif in_transaction.status == 'seller_declined' %}
+                                                    seller declined
+                                                {% elif in_transaction.status == 'admin_canceled' %}
+                                                    admin canceled
+                                                {% else %}
+                                                    {{ in_transaction.status }}
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
                                                     <div class="nowrap"><button class="success seller_actions" action="Approve">Approve</button> | <button class="success  seller_actions" action="Cancel">Cancel</button></div>

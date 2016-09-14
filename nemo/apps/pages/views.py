@@ -331,7 +331,7 @@ class ConversationView(LoginRequiredMixin, View):
         partner_id = id
         last_message = strip_tags(request.POST["message"])
         message_time = timezone.localtime(timezone.now())
-        if last_message != '':
+        if last_message != '' and len(last_message) <= 250:
             try:
                 thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
                 thread.last_message = last_message

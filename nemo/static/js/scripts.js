@@ -252,8 +252,8 @@ $(document).ready(function(){
             var longitude = parseFloat($('#longitudes').val())
             if(!isNaN(latitude) && !isNaN(longitude)){
                 var cvalue = [latitude,longitude]
-                setCookie('lat_lng',cvalue,365)
-                setCookie('address',$('#change_address').val(),365)
+//                setCookie('lat_lng',cvalue,365)
+//                setCookie('address',$('#change_address').val(),365)
             }
            $('#edit_profile_form').submit();
         }
@@ -277,7 +277,7 @@ $(document).ready(function(){
 
     $.validator.addMethod("only_letters",
         function(value, element) {
-        value = value.match(/^[a-zA-Z\s]+$/)
+        value = value.match(/^[a-z ,.'-]+$/i)
         value == null ? value = false : value = true;
         return value;
     }, "Please enter only letters");
@@ -434,7 +434,7 @@ $(document).ready(function(){
             'action': '/profile/upload_image/',
             'debug': false,
             multiple: false,
-            sizeLimit: 5 * 1024 * 1024, // max size
+//            sizeLimit: 5 * 1024 * 1024, // max size
             minSizeLimit: 0, // min size
             allowedExtensions: ['jpg', 'jpeg', 'png', 'gif','tiff','bmp'],
             onSubmit: function(id, fileName){
@@ -455,8 +455,8 @@ $(document).ready(function(){
             },
             onCancel: function(id, fileName){$('.qq-upload-button').removeClass('.qq-upload-button-visited')},
             messages: {
-                sizeError: "Your photo(s) couldn't be uploaded. Photos should be less than 2 MB and saved as JPG, JPEG, GIF or PNG files. ",
-                typeError: "Your photo(s) couldn't be uploaded. Photos should be less than 2 MB and saved as JPG, JPEG, GIF or PNG files. ",
+//                sizeError: "Your photo(s) couldn't be uploaded. Photos should be less than 2 MB and saved as JPG, JPEG, GIF or PNG files. ",
+                typeError: 'Only .jpg/jpeg/png/gif/tiff/bmp files allowed.',
             },
             showMessage: function(message){
                 $.jGrowl(message,{theme: 'jGrowlError'});

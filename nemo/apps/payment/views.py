@@ -117,7 +117,7 @@ class RentView(TemplateView):
             start_date = datetime.datetime.strptime(form.cleaned_data['start_date'], '%Y-%m-%d')
             while start_date <= rent_date:
                 if start_date.strftime('%Y-%m-%d') in dates:
-                    messages.error(request, "Invalid Date Range")
+                    messages.error(request, "Some of the dates are no longer available.")
                     return HttpResponseRedirect('/payment/rent/'+id)
                 start_date = start_date + datetime.timedelta(days=1)
 

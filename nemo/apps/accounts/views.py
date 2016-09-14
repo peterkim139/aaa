@@ -419,9 +419,9 @@ class BillingView(LoginRequiredMixin, View):
 
                 billing.user_id = request.user.id
                 billing.save()
+                messages.success(request, "Payment added successfully.")
                 if request.COOKIES.get('to_billing') is not None:
                     return HttpResponseRedirect('/payment/rent/'+request.COOKIES.get('to_billing'))
-                messages.success(request, "Payment added successfully.")
             else:
                 show_errors(request, customer)
             return HttpResponseRedirect('/billing/')

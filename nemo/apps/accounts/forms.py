@@ -206,26 +206,27 @@ class BillingForm(forms.Form):
     def __init__(self, *args, **kwargs):
             super(BillingForm, self).__init__(*args, **kwargs)
 
-    first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[validate_lettersonly],
-                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
+    date = datetime.datetime.now()
+    first_name = forms.CharField(label='Cardholder name', max_length=255, required=True, validators=[validate_cardholder],
+                                 widget=forms.TextInput(attrs={'class': 'formControl','placeholder':'ex. John Smith'}), )
 
     card_number = forms.CharField(label="Card Number", max_length=16, min_length=15, required=True,
                                   validators=[validate_numbersonly],
-                                  widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+                                  widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off','placeholder':'ex. 4111111111111111'}), )
 
     cvv = forms.CharField(label="Cvv", max_length=4, min_length=3, required=True,
                           validators=[validate_numbersonly],
-                          widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+                          widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off','placeholder':'ex. 563'}), )
 
 
 
     year = forms.CharField(label="Year", max_length=4, min_length=4, required=True,
                            validators=[validate_year],
-                           widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off'}), )
+                           widget=forms.TextInput(attrs={'class': 'formControl', 'autocomplete': 'off','placeholder':'ex. '+str(date.year)}), )
 
     month = forms.CharField(label="Month", max_length=2, min_length=2, required=True,
                             validators=[validate_month],
-                            widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off'}), )
+                            widget=forms.TextInput(attrs={'class': 'formControl', ' autocomplete': 'off','placeholder':'ex. '+ '0'+str(date.month)}), )
 
 
     def clean_month(self):

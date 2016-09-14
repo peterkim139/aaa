@@ -10,8 +10,8 @@ f{% extends "base.html" %}
                     <div class="subTitleWrap hasTabs">
                         <h2>Transactions</h2>
                         <ul class="tabs subTitleTabs">
-                            <li><a href="{% url 'profile:in_transactions' %}">Incoming</a></li>
-                            <li class="active"><a href="{% url 'profile:out_transactions' %}">Outgoing</a></li>
+                            <li><a href="{% url 'profile:out_transactions' %}">Incoming</a></li>
+                            <li ><a href="{% url 'profile:in_transactions' %}">Outgoing</a></li>
                         </ul>
                     </div>
                     <div class="cancelWrap expandWrap">
@@ -72,7 +72,21 @@ f{% extends "base.html" %}
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ out_transaction.param.name }}</td>
                                             <td>Rent</td>
-                                            <td>{{ out_transaction.status }}</td>
+                                            <td>
+                                                {% if out_transaction.status == 'customer_canceled' %}
+                                                    customer canceled
+                                                {% elif out_transaction.status == 'customer_declined' %}
+                                                    customer declined
+                                                {% elif out_transaction.status == 'seller_canceled' %}
+                                                    seller canceled
+                                                {% elif out_transaction.status == 'seller_declined' %}
+                                                    seller declined
+                                                {% elif out_transaction.status == 'admin_canceled' %}
+                                                    admin canceled
+                                                {% else %}
+                                                    {{ out_transaction.status }}
+                                                {% endif %}
+                                            </td>
                                             <td>${{ out_transaction.price }}</td>
                                             <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
@@ -89,8 +103,18 @@ f{% extends "base.html" %}
                                                     <button class="success client_actions" action="Cancel">Cancel</button>
                                                 {% elif out_transaction.status == 'approved' and out_transaction.cancel == 0 %}
                                                     {{'You will be able to cancel the request  2 hours later after approving'}}
+                                                 {% elif out_transaction.status == 'customer_canceled' %}
+                                                    customer canceled
+                                                {% elif out_transaction.status == 'customer_declined' %}
+                                                    customer declined
+                                                {% elif out_transaction.status == 'seller_canceled' %}
+                                                    seller canceled
+                                                {% elif out_transaction.status == 'seller_declined' %}
+                                                    seller declined
+                                                {% elif out_transaction.status == 'admin_canceled' %}
+                                                    admin canceled
                                                 {% else %}
-                                                    {{out_transaction.status}}
+                                                    {{ out_transaction.status }}
                                                 {% endif %}
                                             </td>
                                             <td><a href="#" class="btn btnBorder sizeS valignM">Add Review</a></td>

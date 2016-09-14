@@ -58,7 +58,8 @@
             </div>
             <div class="msgReplyArea wow fadeInDown" data-wow-delay=".4s">
                 <div class="formRow">
-                    <textarea class="formControl" id="id_message" placeholder="Reply..."></textarea>
+                    <textarea maxlength="250" class="formControl" id="id_message" placeholder="Reply..."></textarea>
+                    <span class="hidden help-inline message_length">Maximum 250 characters</span>
                 </div>
                 <div class="alignC">
                     <button type="button" id="send_message" class="btn btnBorder">Send</button>
@@ -184,6 +185,11 @@ $(document).ready(function(){
 
     $("#send_message").on('click',function(){
         var message = $('#id_message').val();
+        if(message.length > 250){
+            $('.message_length').show();
+        }else{
+            $('.message_length').hide();
+        }
         if (message.trim()) {
             $.ajax({
                     url: '/profile/conversation/'+partner_id,
@@ -224,7 +230,7 @@ $(document).ready(function(){
                                 });
                             }
                         }else{
-                            alert('error');
+                            $('.message_length').show();
                         }
                     },
                     error:function(){

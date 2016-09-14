@@ -18,6 +18,17 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.static import static
+import os
+from django.http import Http404
+from django.views.static import serve
+
+def protected_serve(request,path,document_root=None):
+    name = os.path.dirname(settings.BASE_DIR)+request.path
+    if os.path.isfile(name):
+         return serve(request, path, document_root)
+    else:
+        raise Http404
+
 
 urlpatterns = [
      url(r'^', include('accounts.urls', namespace='accounts')),
@@ -26,6 +37,7 @@ urlpatterns = [
      url(r'^profile/', include('pages.urls', namespace='profile')),
      url(r'^admin/', include(admin.site.urls)),
      url('', include('social.apps.django_app.urls', namespace='social')),
+     url(r'^{}(?P<path>.*)$'.format(settings.MEDIA_URL[1:]), protected_serve, {'document_root': settings.MEDIA_ROOT}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'accounts.views.error404'
