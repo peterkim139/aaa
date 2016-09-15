@@ -22,6 +22,7 @@ class Thread(AbstractDateTime):
     last_message = models.TextField(max_length=500)
     user1_id = models.IntegerField()
     user2_id = models.IntegerField()
+    item_id = models.IntegerField(blank=False, default=1)
 
     @staticmethod
     def last_seen(email):
