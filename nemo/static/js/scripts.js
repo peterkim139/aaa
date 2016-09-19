@@ -426,8 +426,8 @@ $(document).ready(function(){
                imageUpload(id);
     });
 
-    $("#id_birthdate_year").prepend("<option value=''>Year</option>").val('');
-    $("#id_birthdate_day").prepend("<option value=''>Day</option>").val('');
+    $(".loginPopup #id_birthdate_year").prepend("<option value=''>Year</option>").val('');
+    $(".loginPopup #id_birthdate_day").prepend("<option value=''>Day</option>").val('');
 
     function imageUpload(id){
         return new qq.FileUploader({
@@ -644,14 +644,6 @@ $(document).ready(function(){
                 $('.footable-visible button').prop('disabled', false);
             },
         });
-    });
-
-    ///////////////////////////empty add listing form ///////////////////////
-
-    $("#add_listing_button").on('click',function(){
-       $("#add_listing_form").trigger('reset');
-       $("#filename").val('');
-       $('#add_listing_title').text('Add New Listing');
     });
 
     //////////////// edit listing /////////////

@@ -82,7 +82,7 @@ class SupportForm(forms.Form):
 
     email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}), validators=[validate_email])
     name = forms.CharField(label='Name', min_length=2, max_length=255, required=True,
-                           validators=[validate_lettersonly],
+                           validators=[validate_support_name],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
     comments = forms.CharField(label='Message', required='True', widget=forms.Textarea(attrs={'id': 'comments', 'class': 'formControl'}))
 

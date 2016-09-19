@@ -24,7 +24,17 @@ class ConnectView(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
 
-        return self.render_to_response(self.get_context_data())
+        date_object = str(request.user.birthday);
+
+        form = ConnectForm(initial={'birthdate' : date_object[:10],
+                                    'phone_number': request.user.phone_number,
+                                    'postal_code': request.user.zip_code,
+                                    # 'street_address': request.user.address
+                                    })
+        context = {'form': form, 'address': request.user.address}
+        # return render(request, 'accounts/edit_profile.html', context)
+
+        return self.render_to_response(context)
 
     def post(self, request):
         form = ConnectForm(data=request.POST)

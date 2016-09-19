@@ -509,7 +509,7 @@ class ListingsView(LoginRequiredMixin, View):
 
         form = AddListingForm()
         this_moment = datetime.datetime.now()
-        context = {'listings': listings, 'this_moment': this_moment, 'form': form}
+        context = {'listings': listings, 'this_moment': this_moment, 'form': form, 'address': request.user.address}
         return render(request, 'accounts/listings.html', context)
 
     def post(self, request):

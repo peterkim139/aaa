@@ -152,7 +152,7 @@ def seller_canceled_request_after(request, client, email, item):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
-def seller_declined_request(request, client, email, item):
+def seller_declined_request(request, client, email, item, category):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -161,6 +161,7 @@ def seller_declined_request(request, client, email, item):
     context = Context({
         'client': client,
         'item': item,
+        'category' : category,
         'site_name': settings.BRAND,
         'absolute_url': request.META['HTTP_HOST']
     })

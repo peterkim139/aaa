@@ -18,6 +18,9 @@ def validate_lettersonly(value):
     if not re.match("^[A-Za-z,.'-]*$", value):
         raise ValidationError('Name field should contain only letters')
 
+def validate_support_name(value):
+    if not re.match("^[ A-Za-z,.'-]*$", value):
+        raise ValidationError('Name field should contain only letters')
 
 def validate_cardholder(value):
     if not re.match("^[ A-Za-z,.'-]*$", value):

@@ -159,7 +159,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
                 elif status == 'seller_declined':
                     Rent.objects.filter(owner_id=request.user.id, id=rent).update(status=status)
-                    seller_declined_request(request, orderer.first_name, orderer.email, requests.param.name)
+                    seller_declined_request(request, orderer.first_name, orderer.email, requests.param.name, requests.param.subcategory_id)
                     return JsonResponse({'success': True, 'message': 'The request has been declined'})
 
                 elif status == 'seller_canceled':

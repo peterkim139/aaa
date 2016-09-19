@@ -36,7 +36,7 @@ class ConnectForm(forms.Form):
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
 
-    birthdate = forms.DateField(widget=extras.SelectDateWidget(years=range(1998, 1923, -1)), required=True)
+    birthdate = forms.DateField(widget=extras.SelectDateWidget(years=range(1998, 1923, -1), empty_label=("Year", "Month", "Day")), required=True)
 
     account_number = forms.CharField(label="Account Number", max_length=16, required=True,
                                      validators=[validate_numbersonly],

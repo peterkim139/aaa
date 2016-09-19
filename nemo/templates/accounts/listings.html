@@ -247,12 +247,33 @@
 <script>
 
 ///////////////////////////add listing form for validation /////////////////
-
 $(document).ready(function(){
+
+    var address = '{{address}}';
+    if(address) {
+        getGeoDataFromAddress(address);
+    }
+
     var val_error = '{{val_error}}'
     if(val_error){
         $("#add_listing_button").trigger('click');
     }
+
+     ///////////////////////////empty add listing form ///////////////////////
+
+    $("#add_listing_button").on('click',function(){
+        $("#add_listing_form").trigger('reset');
+        $("#filename").val('');
+        if(address) {
+              $("#street_address").val(street_address);
+              $("#city").val(city);
+              $("#id_state").val(state);
+              $("#postal_code").val(zip_code);
+        }
+        $('#add_listing_title').text('Add New Listing');
+    });
+
+
 })
 
 ///////////////////////////  google autocomplete ////////////////////////////
@@ -265,6 +286,8 @@ var componentForm = {
   administrative_area_level_1: 'short_name',
   postal_code: 'short_name'
 };
+
+var street_address ='', city, state, zip_code;
 
 function initialize() {
     autocomplete = new google.maps.places.Autocomplete(
@@ -288,6 +311,34 @@ function getLatLngFromAddress(address) {
            console.log("Geocode was not successful for the following reason: " + status);
        }
    });
+}
+
+function getGeoDataFromAddress(address) {
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            for (var i = 0; i < results[0].address_components.length; i++) {
+                var addressType = results[0].address_components[i].types[0];
+                var val = results[0].address_components[i][componentForm[addressType]];
+                if (val) {
+                    if (addressType === "locality") {
+                        city=val;
+                    }
+                    if (addressType === "administrative_area_level_1") {
+                         state=val;
+                    }
+                    if (addressType === "postal_code") {
+                        zip_code =val;
+                    }
+                    if (addressType === "street_number" || addressType === "route") {
+                        street_address = street_address + ' ' + val;
+                    }
+                }
+            }
+        } else {
+            street_address = address;
+        }
+    });
 }
 
 function fillInAddress() {

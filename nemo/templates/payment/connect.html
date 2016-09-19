@@ -65,5 +65,46 @@
     </div>
 </div>
 </div>
+<script>
+    $(document).ready(function(){
+
+        var address = '{{address}}';
+        if(address) {
+            var componentForm = {
+                street_number: 'short_name',
+                route: 'long_name',
+                locality: 'long_name',
+                administrative_area_level_1: 'short_name',
+            };
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var address = '';
+                    for (var i = 0; i < results[0].address_components.length; i++) {
+                        var addressType = results[0].address_components[i].types[0];
+                        var val = results[0].address_components[i][componentForm[addressType]];
+                        if (val) {
+                            if (addressType === "locality") {
+                                 $("#id_locality").val(val);
+                            }
+                            if (addressType === "administrative_area_level_1") {
+                                $("#id_region").val(val);
+                            }
+                            if (addressType === "street_number" || addressType === "route") {
+                                address = address + ' ' + val;
+                            }
+                        }
+                    }
+                    $('#id_street_address').val(address);
+                } else {
+                    $('#id_street_address').val(address);
+                }
+            });
+        }
+    });
+</script>
+
 
 {% endblock %}
+
