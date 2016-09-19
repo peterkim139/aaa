@@ -339,6 +339,7 @@ $(document).ready(function(){
         }
     })
 
+    $('.chatWrapper').hide();
     ///////////////////////////////////// Register form validation //////////////////////////////////////////////
 
     $.validator.addMethod("birthday",
@@ -1290,5 +1291,3 @@ $(document).ready(function(){
             + '<source src="/media/sounds/pling.ogg" type="audio/ogg" />'
             + '<embed hidden="true" autostart="true" loop="false" src="/media/sounds/pling.mp3" /></audio>';
     }
-
-

@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.utils.html import strip_tags
+from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -281,6 +282,53 @@ class NoConversationView(LoginRequiredMixin, View):
             return HttpResponseRedirect('/profile/conversation/'+str(partner_id))
         else:
             return render(request, 'pages/no_conversation.html')
+
+class StartChat(LoginRequiredMixin, View):
+
+    def post(self, request):
+        partner_id = request.POST["partner_id"]
+        item_id = request.POST["item_id"]
+        current_user_id = request.user.id
+        messages = None
+        try:
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id=item_id) | Q(user1_id=partner_id, user2_id=request.user.id, item_id=item_id))
+        except Thread.DoesNotExist:
+            thread = None
+        if thread:
+            messages = (Message.objects.filter(thread_id=thread.id)
+                        .values('id', 'message', 'modified', 'from_user_id_id', 'from_user_id__photo', 'thread_id'))
+            unread_messages = Message.objects.filter(thread_id=thread.id,from_user_id=partner_id,unread=1)
+            for unread_message in unread_messages:
+                unread_message.unread = 0
+                unread_message.save()
+        else:
+            thread = Thread()
+            thread.user1_id = request.user.id
+            thread.user2_id = partner_id
+            thread.item_id = item_id
+            thread.last_message = ""
+            thread.save()
+        user = User.objects.filter(id=partner_id)
+        item = Image.objects.filter(param_image_id=item_id)
+        response_data = {}
+        response_data['user'] = {}
+        response_data['user']['user_name'] = user[0].first_name + ' ' + user[0].last_name
+        response_data['user']['partner_id'] = user[0].id
+        response_data['user']['user_id'] = current_user_id
+        response_data['user']['current_user_name'] = request.user.first_name
+        response_data['user']['current_user_last'] = request.user.last_name
+        response_data['user']['photo'] = user[0].photo.name or 'images/users/default_user_photo.jpg'
+        response_data['user']['my_photo'] = request.user.photo.name or 'images/users/default_user_photo.jpg'
+        response_data['item'] = serializers.serialize('json', item)
+        response_data['thread_id'] = thread.id
+        if messages is not None:
+            for message in messages:
+                message['modified'] = message['modified'].strftime("%B %d, %Y %I:%M%p")
+            message_data = json.dumps(list(messages), date_handler(messages))
+            response_data['messages'] = message_data
+            return HttpResponse(JsonResponse(response_data), content_type="application/json")
+        else:
+            return HttpResponse(JsonResponse(response_data), content_type="application/json")
 
 
 class ConversationView(LoginRequiredMixin, View):

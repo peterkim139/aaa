@@ -49,7 +49,7 @@
                                 {% if param.item_owner_id != request.user.id %}
                                 <div class="pullRight ownerMessage">
                                     {% if user.is_authenticated %}
-                                        <a href="{% url 'profile:conversation' param.item_owner_id %}" class="btn btnPrime btnSquare">
+                                        <a class="btn btnPrime btnSquare start_chat" item="{{param.id}}">
                                             <i class="icon-message"></i>
                                         </a>
                                     {% else %}
@@ -128,10 +128,167 @@
         </div>
     </div>
 </div>
+<div id="sound"></div>
 </div>
 <script>
 $(document).ready(function() {
+    var partner_id = '{{param.item_owner_id}}'
+    var interval = null;
 
+    $('.chatCloseBtn').on('click',function(){
+        $('.chatWrapper').hide();
+        if(interval){
+            clearInterval(interval);
+        }
+    })
+
+    $('#chat_message').keypress(function (e) {
+      if (e.which == 13) {
+        $("#submit_chat_message").trigger("click");
+        return false;
+      }
+    });
+
+    $("#submit_chat_message").on('click',function(){
+        var message = $('#chat_message').val();
+        $('#chat_message').val('');
+        if (message.trim()) {
+            $.ajax({
+                    url: '/profile/conversation/'+partner_id,
+                    type:'post',
+                    data:{
+                        message: message
+                    },
+                    success:function(responseJSON) {
+                        if(responseJSON.response){
+                            var user_photo = '{{ request.user.photo }}';
+
+                            if (user_photo){
+                                var photo = user_photo
+                            }else {
+                                var photo = 'images/users/default_user_photo.jpg'
+                            }
+
+                            var next_li = '<li class="msgSent">'
+                                                +'<div class="threadImg">'
+                                                    +'<img src="/media/'+photo+'">'
+                                                +'</div>'
+                                                +'<div class="threadCont">'
+                                                    +'<div class="clearAfter">'
+                                                        +'<div class="threadTxt">'
+                                                            +'<p>'+responseJSON.last_message+'</p>'
+                                                        +'</div>'
+                                                    +'</div>'
+                                                    +'<time>'+responseJSON.modified+'</time>'
+                                                +'</div>'
+                                            +'</li>'
+                            $('.msgThread').append(next_li);
+                            $('#id_message').val('');
+                            $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom");
+                        }
+                    },
+                    error:function(){
+                    }
+            });
+        }
+    });
+
+    ////////////// get unread_messages ///////////////////////
+
+
+    function checkData(){
+        $.ajax({
+            url: '/profile/unread_messages/',
+            type:'post',
+            data:{
+                partner_id:partner_id
+            },
+            success:function(response) {
+                if(response != ''){
+                    message_div = '';
+
+                    jQuery.each(response, function(index, element) {
+
+                        if (element.from_user_id__photo)
+                            { var photo = element.from_user_id__photo;
+                             }
+                        else {
+                            var photo = 'images/users/default_user_photo.jpg'
+                            }
+
+                        message_div += '<li class="msgReceived">'
+                                        +'<div class="threadImg">'
+                                            +'<img src="/media/'+ photo +'">'
+
+                                        +'</div>'
+                                        +'<div class="threadCont">'
+                                            +'<div class="clearAfter">'
+                                                +'<div class="threadTxt">'
+                                                    +'<p>'+element.message+'</p>'
+                                                +'</div>'
+                                            +'</div>'
+                                            +'<time>'+element.modified+'</time>'
+                                        +'</div>'
+                                    +'</li>'
+                    });
+                    playSound();
+                    $(".msgThread").append(message_div);
+                    $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
+                }
+            },
+            error:function(){
+            }
+        });
+    }
+
+    $('.start_chat').on("click",function(){
+        $(".msgThread").html('')
+        if(interval){
+            clearInterval(interval);
+        }
+        interval = setInterval(function(){checkData()}, 5000);
+        $('.chatWrapper').show();
+        var item_id = $(this).attr('item')
+        $.ajax({
+            url: '/profile/start_chat/',
+            type:'post',
+            data:{
+                partner_id:partner_id,
+                item_id:item_id
+            },
+            success:function(response) {
+                messages = jQuery.parseJSON(response.messages)
+                $('.chatHeader h4 span').text(response.user.user_name)
+                if(messages != ''){
+                    message_div = '';
+                    jQuery.each(messages, function(index, element) {
+                        if(element.from_user_id_id == response.user.user_id){
+                             var msgClass = "msgSent"
+                             var photo = response.user.my_photo
+                        }else{
+                             var msgClass = "msgReceived"
+                             var photo = response.user.photo
+                        }
+                        message_div += '<li class="' + msgClass + '">'
+                                +'<div class="threadImg">'
+                                    +'<img src="/media/' + photo + '">'
+                                +'</div>'
+                                +'<div class="threadCont">'
+                                    +'<div class="clearAfter">'
+                                        +'<div class="threadTxt">'
+                                            +'<p>' + element.message + '</p>'
+                                        +'</div>'
+                                    +'</div>'
+                                    + '<time>' + element.modified + '</time>'
+                                + '</div>'
+                        +'</li>'
+                    });
+                    $(".msgThread").append(message_div);
+                    $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom");
+                }
+            },
+        });
+    })
     var val_error = '{{val_error}}'
     if(val_error){
         $('.additionalTxt').addClass('warning');
