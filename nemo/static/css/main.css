@@ -2684,7 +2684,7 @@ end braintree page
   background: #fff;
   padding-top: 45px;
   padding-bottom: 60px;
-  border: solid 1px #eaeaea; }
+  box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1); }
 
 .chatHeader {
   padding: 10px 20px;
