@@ -20,7 +20,7 @@ from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
 from pages.utils import date_handler, save_file, refund_price, handel_datetime
 from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer
-from pages.emails import seller_approved_request, seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
+from pages.emails import seller_approved_request, new_message,seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
 from pages.models import Image, Thread, Message
 
 
@@ -216,6 +216,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
         return HttpResponseRedirect('/profile/in_transactions/')
 
 
+
 class UploadImageView(LoginRequiredMixin, View):
 
     def post(self, request):
@@ -377,6 +378,7 @@ class ConversationView(LoginRequiredMixin, View):
     def post(self, request, id):
         handel_datetime(request)
         partner_id = id
+        user_partner = User.objects.get(id=partner_id)
         last_message = strip_tags(request.POST["message"])
         message_time = timezone.localtime(timezone.now())
         if last_message != '' and len(last_message) <= 250:
@@ -400,7 +402,7 @@ class ConversationView(LoginRequiredMixin, View):
             message.from_user_id = User.objects.get(id=request.user.id)
             message.to_user_id = User.objects.get(id=partner_id)
             message.save()
-
+            new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message)
             return JsonResponse({'response': True, 'modified': message_time.strftime("%B %d, %Y %I:%M%p"),'last_message':last_message})
         else:
             return JsonResponse({'response': False})

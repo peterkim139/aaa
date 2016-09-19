@@ -210,6 +210,37 @@ def seller_approved_request(request, client, seller, email, item, price):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
+
+def new_message(request, pratner_email, partner_name, item_name, message):
+
+    mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
+
+    subject = 'You have new message from ' + request.user.first_name
+    from_email = settings.AUTO_REPLY
+    context = Context({
+        'partner_name': partner_name,
+        'user_id': request.user.id,
+        'item_name':item_name,
+        'user_name': request.user.first_name,
+        'site_name': settings.BRAND,
+        'message': message,
+        'absolute_url': request.META['HTTP_HOST']
+    })
+    content = loader.render_to_string('pages/emails/new_message.html', context)
+    message = {
+        'subject': subject,
+        'bcc_address': 'message.bcc_address@example.com',
+        'from_email': from_email,
+        'from_name': 'NEMO',
+        'html': content,
+        'to': [{'email': pratner_email,
+                'type': 'to'}],
+        'return_path_domain': settings.MANDRILL_DOMAIN,
+        'signing_domain': settings.MANDRILL_DOMAIN,
+        'tracking_domain': settings.MANDRILL_DOMAIN,
+    }
+    mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
+
 def send_support_email(email, name, comments):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)

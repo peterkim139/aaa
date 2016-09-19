@@ -5,3 +5,4 @@ python==2.7.6
 pycrypto==2.6.1
 mysql-python==1.2.5
 mandrill==1.0.57
+Pillow==2.7

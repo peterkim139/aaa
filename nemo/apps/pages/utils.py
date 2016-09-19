@@ -3,6 +3,8 @@ from django.conf import settings
 import uuid
 import datetime
 import pytz
+from PIL import Image, ImageFile
+import os
 from django.utils import timezone
 
 
@@ -12,6 +14,7 @@ def save_file(request, uploaded, filename, path, raw_data=True):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     request.session['image_filename'] = filename
+    basewidth = 300
     try:
         fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)), 'wb')
         if raw_data:
@@ -19,6 +22,16 @@ def save_file(request, uploaded, filename, path, raw_data=True):
             while foo:
                 fd.write(foo)
                 foo = uploaded.read(1024)
+        size = os.stat('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename))).st_size
+        if size / 1000 > 300:
+            ImageFile.LOAD_TRUNCATED_IMAGES = True
+            img = Image.open('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)))
+            img.load()
+            wpercent = (basewidth/float(img.size[0]))
+            hsize = int((float(img.size[1])*float(wpercent)))
+            img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+            quality_val = 90
+            img.save('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)), quality=quality_val)
         return filename
     except IOError:
         return False
