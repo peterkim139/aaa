@@ -111,7 +111,7 @@
                             {% if request.user.customer_id %}
                                 <button class="btn btnBorder btnBlock" id="rent_item">Request</button>
                             {% else %}
-                                <a href="#billing_popup" class="btn btnBorder btnBlock popupBtn" id="">Request</a>
+                                <a href="#billing_popup" class="btn btnBorder btnBlock pay_meth popupBtn" id="">Request</a>
                             {% endif %}
                         {% else %}
                             <a href="#login_popup" class="btn btnBorder btnBlock popupBtn" id="request_item">Request</a>
@@ -132,6 +132,14 @@
 </div>
 <script>
 $(document).ready(function() {
+
+    if(getCookie('billing') == 'error'){
+        $('.to_billing_page').click();
+    }
+    setCookie('billing', '', -1)
+    delCookie('billing')
+
+    $('#meth_item_id').val('{{param.id}}')
     var partner_id = '{{param.item_owner_id}}'
     var interval = null;
 

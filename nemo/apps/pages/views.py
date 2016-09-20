@@ -12,14 +12,17 @@ from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from django.core.cache import cache
 from payment.models import Rent
+from django.http import Http404
 from .forms import RentForm, SupportForm
-from accounts.models import User
+from accounts.forms import BillingForm
+from accounts.models import User, Billing
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
 from pages.utils import date_handler, save_file, refund_price, handel_datetime
-from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer
+from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer, check_user_card
 from pages.emails import seller_approved_request, new_message,seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
 from pages.models import Image, Thread, Message
 
@@ -215,7 +218,58 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
         return HttpResponseRedirect('/profile/in_transactions/')
 
+class RentPaymentView(LoginRequiredMixin, View):
 
+    def get(self,request):
+        raise Http404
+
+    def post(self, request):
+        form = BillingForm(request.POST)
+        item_id = request.POST['item_id']
+        response = HttpResponseRedirect('/payment/rent/'+item_id)
+        if form.is_valid():
+            payment_connection()
+            expiration_date = form.cleaned_data['month'] + '/' + form.cleaned_data['year']
+            result = check_user_card(form, expiration_date)
+            if result.is_success:
+                transaction = result.transaction
+                braintree.Transaction.void(transaction.id)
+            else:
+                messages.error(request, "Credit card is invalid")
+                response.set_cookie('billing', 'error', max_age=10)
+                return response
+            customer = create_customer(request, form, expiration_date)
+            if customer.is_success:
+                encrypt = NemoEncrypt()
+                customer_id = encrypt.encrypt_val(customer.customer.id)
+                billing = Billing()
+                billing.customer_id = customer_id
+                billing.customer_name = form.cleaned_data['first_name']
+                billing.customer_number = encrypt.encrypt_val(form.cleaned_data['card_number'])
+
+                try:
+                    def_method = Billing.objects.filter(user_id=request.user.id, is_default=1)
+                except:
+                    def_method = None
+                if def_method:
+                    Billing.objects.filter(user_id=request.user.id).update(is_default=0)
+
+                billing.is_default = 1
+                user = User.objects.get(id=request.user.id)
+                user.customer_id = customer_id
+                user.save()
+
+                billing.user_id = request.user.id
+                billing.save()
+                messages.success(request, "Payment added successfully.")
+            else:
+                show_errors(request, customer)
+                response.set_cookie('billing', 'error',max_age=10)
+        else:
+            response.set_cookie('billing', 'error', max_age=10)
+            cache.set('billing_error', BillingForm(request.POST))
+
+        return response
 
 class UploadImageView(LoginRequiredMixin, View):
 
@@ -284,7 +338,7 @@ class NoConversationView(LoginRequiredMixin, View):
         else:
             return render(request, 'pages/no_conversation.html')
 
-class StartChat(LoginRequiredMixin, View):
+class StartChatView(LoginRequiredMixin, View):
 
     def post(self, request):
         partner_id = request.POST["partner_id"]

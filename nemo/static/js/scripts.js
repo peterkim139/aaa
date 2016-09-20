@@ -26,6 +26,7 @@ function validateDateRange() {
 
 $(document).ready(function(){
 
+
     $('.loader').hide();
 
     if(document.referrer.indexOf("payment/rent/") === -1){
@@ -1001,6 +1002,9 @@ $(document).ready(function(){
         openResetForm()
     }
     delCookie('reset_key')
+
+
+
     ///////////////////////  preview add listing form //////////////////////////
 
     $(".openSlideBtn").on('click',function(){
