@@ -21,3 +21,8 @@
 				{% include "elements/reset.html" %}
 				{% include "elements/reset_pass.html" %}
 			{% endif %}
+			{% if user.is_authenticated %}
+				{% include "elements/billing_form.html" %}
+			{% endif %}
+
+
