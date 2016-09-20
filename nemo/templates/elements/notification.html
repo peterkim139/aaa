@@ -2,9 +2,14 @@
 $(document).ready(function() {
     {% if messages %}
         {% for message in messages %}
-            {% if message.tags == 'success' %}
+            var x = "{{ message.tags }}"
+            console.log(x)
+            {% if message.tags == "success"%}
                 var success = "{{ message }}";
                 $.jGrowl(success, {theme:'right',sticky:true});
+            {% endif %}
+            {% if message.tags == "safe success" %}
+                $.jGrowl('Your request was successfully sent. <a href="/profile/out_transactions/">Click here</a> to review all your requests.', {theme:'right',sticky:true});
             {% endif %}
             {% if message.tags == 'error' %}
                 var error = "{{ message }}";
