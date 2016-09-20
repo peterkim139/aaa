@@ -292,7 +292,7 @@ class StartChat(LoginRequiredMixin, View):
         current_user_id = request.user.id
         messages = None
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id=item_id) | Q(user1_id=partner_id, user2_id=request.user.id, item_id=item_id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item_id) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item_id))
         except Thread.DoesNotExist:
             thread = None
         if thread:
@@ -306,7 +306,7 @@ class StartChat(LoginRequiredMixin, View):
             thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
-            thread.item_id = item_id
+            thread.item_id_id = item_id
             thread.last_message = ""
             thread.save()
         user = User.objects.filter(id=partner_id)
