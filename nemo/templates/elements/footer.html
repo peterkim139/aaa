@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<footer>
+<footer {% if request.path != "/" %} class="pages_footer" {% endif %}>
 	<div class="container">
 		<div class="colRow">
 			<div class="col5 colTab12">
