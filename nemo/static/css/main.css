@@ -150,7 +150,8 @@ p {
 
 .fluidImage {
   background-position: center;
-  background-size: cover; }
+  background-size: cover;
+  overflow: hidden; }
 
 .danger {
   color: #b52222; }
@@ -647,6 +648,45 @@ footer {
       text-transform: uppercase; }
       footer .footerBottom a:hover {
         color: #5bbc2e; }
+
+.footerHome {
+  display: block; }
+
+.footerInPages {
+  display: none;
+  text-align: center; }
+  .footerInPages .socialWrap {
+    text-align: center;
+    margin: 0 10px;
+    margin-top: 0;
+    display: inline-block;
+    vertical-align: middle; }
+    .footerInPages .socialWrap ul {
+      border: none;
+      width: initial; }
+  .footerInPages .fLinks {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px; }
+    .footerInPages .fLinks li {
+      display: inline-block;
+      margin: 0 5px; }
+    .footerInPages .fLinks a {
+      color: #fff; }
+
+.footerTerms {
+  text-transform: uppercase;
+  color: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px; }
+
+.pages_footer {
+  padding-top: 0; }
+  .pages_footer .footerHome {
+    display: none; }
+  .pages_footer .footerInPages {
+    display: block; }
 
 /*== end footer ==*/
 /*== start button styles ==*/

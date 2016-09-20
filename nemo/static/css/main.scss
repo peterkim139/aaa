@@ -178,6 +178,7 @@ p {
 .fluidImage {
 	background-position: center;
 	background-size: cover;
+	overflow: hidden;
 }
 .danger {
 	color: #b52222;
@@ -414,6 +415,52 @@ footer {
 				color: $brandColor;
 			}
 		}
+	}
+}
+.footerHome {
+	display: block;
+}
+.footerInPages {
+	display: none;
+	text-align: center;
+	.socialWrap {
+		text-align: center;
+		margin: 0 10px;
+		margin-top: 0;
+		display: inline-block;
+		vertical-align: middle;
+		ul {
+			border: none;
+			width: initial;
+		}
+	}
+	.fLinks {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0 10px;
+		li {
+			display: inline-block;
+			margin: 0 5px;
+		}
+		a {
+			color: #fff;
+		}
+	}
+}
+.footerTerms {
+	text-transform: uppercase;
+	color: #fff;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 10px;
+}
+.pages_footer {
+	padding-top: 0;
+	.footerHome {
+		display: none;
+	}
+	.footerInPages {
+		display: block;
 	}
 }
 /*== end footer ==*/
