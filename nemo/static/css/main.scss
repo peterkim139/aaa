@@ -919,6 +919,10 @@ i {
 		border: solid 1px $borderGrey;
 		padding: 12px 10px;
 		text-align: left;
+		ul {
+			display: inline-block;
+			vertical-align: middle;
+		}
 	}
 	td {
 		border: solid 1px $borderGrey;

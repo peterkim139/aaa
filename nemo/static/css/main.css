@@ -1106,6 +1106,9 @@ i {
   border: solid 1px #e8e8e8;
   padding: 12px 10px;
   text-align: left; }
+  .tableStyle th ul {
+    display: inline-block;
+    vertical-align: middle; }
 .tableStyle td {
   border: solid 1px #e8e8e8;
   padding: 5px 10px; }
