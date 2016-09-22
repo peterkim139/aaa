@@ -2027,6 +2027,12 @@ transactions page
     vertical-align: top;
     margin: 0 5px; }
 
+.inOutTableImg {
+  display: inline-block;
+  max-height: 40px;
+  vertical-align: middle;
+  margin-right: 5px; }
+
 /*
 end of transaction page
 */
