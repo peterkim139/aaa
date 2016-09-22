@@ -39,7 +39,18 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
 
-        out_transactions = Rent.objects.filter(user_id=request.user.id).order_by('-created')
+        if 'name' in request.GET:
+            name = request.GET['name']
+            if name == 'DESC':
+                order = '-param__name'
+            else:
+                order = 'param__name'
+        else:
+            order = '-created'
+
+        out_transactions = Rent.objects.filter(user_id=request.user.id) \
+            .select_related('param', 'param__image')\
+            .order_by(order)
         hour = timezone.now() - datetime.timedelta(hours=2)
         for out_transaction in out_transactions:
             if out_transaction.modified < hour:
@@ -108,8 +119,19 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
 
-        in_transactions = Rent.objects.filter(owner_id=request.user.id).order_by('-created')
+        if 'name' in request.GET:
+            name = request.GET['name']
+            if name == 'DESC':
+                order = '-param__name'
+            else:
+                order = 'param__name'
+        else:
+            order = '-created'
 
+        in_transactions = Rent.objects\
+            .filter(owner_id=request.user.id)\
+            .select_related('user', 'param', 'param__image')\
+            .order_by(order)
 
         today = timezone.now() + datetime.timedelta(days=1)
         for in_transaction in in_transactions:
@@ -278,6 +300,7 @@ class UploadImageView(LoginRequiredMixin, View):
             if request.is_ajax():
                 upload = request
                 filename = request.GET['qqfile']
+                print filename
                 response = save_file(request, upload, filename, 'images/items/', True)
             return JsonResponse({'filename': response})
 

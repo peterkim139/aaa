@@ -9,7 +9,7 @@ from accounts.mixins import AbstractDateTime
 
 class Image(AbstractDateTime):
 
-    param_image = models.ForeignKey(Params)
+    param_image = models.OneToOneField(Params, null=True)
     image_name = models.CharField(max_length=255, blank=False, default='')
 
     class Meta:

@@ -48,45 +48,26 @@ f{% extends "base.html" %}
                     </div>
                     <div id="outgoing" class="tableScroll">
                         {% if out_transactions %}
-                            <table class="tableStyle footable">
+                            <table class="tableStyle">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Item name</th>
+                                        <th>Item</th>
                                         <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Requested on</th>
+                                        <th>Need it for</th>
                                         <th>Status</th>
-                                        <th>Total Amount</th>
-                                        <th data-hide="all">Transaction Dates</th>
-                                        <th data-hide="all">Reserved Dates</th>
-                                        <th data-hide="all">Status</th>
-                                        <th>Payment</th>
                                         <th>Action</th>
-                                        <th data-hide="all">Rate & Review</th>
-                                        <th data-hide="all">Share</th>
-                                        <th data-toggle="true">More</th>
+                                        <th>Others</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for out_transaction in out_transactions %}
                                         <tr rent='{{out_transaction.id}}' >
                                             <td>{{ forloop.counter }}</td>
-                                            <td>{{ out_transaction.param.name }}</td>
+                                            <td><img width="40px" src='/media/images/items/{{ out_transaction.param.image.image_name }}'> {{ out_transaction.param.name }}</td>
                                             <td>Rent</td>
-                                            <td>
-                                                {% if out_transaction.status == 'customer_canceled' %}
-                                                    customer canceled
-                                                {% elif out_transaction.status == 'customer_declined' %}
-                                                    customer declined
-                                                {% elif out_transaction.status == 'seller_canceled' %}
-                                                    seller canceled
-                                                {% elif out_transaction.status == 'seller_declined' %}
-                                                    seller declined
-                                                {% elif out_transaction.status == 'admin_canceled' %}
-                                                    admin canceled
-                                                {% else %}
-                                                    {{ out_transaction.status }}
-                                                {% endif %}
-                                            </td>
                                             <td>${{ out_transaction.price }}</td>
                                             <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
@@ -118,14 +99,6 @@ f{% extends "base.html" %}
                                                 {% endif %}
                                             </td>
                                             <td><a href="#" class="btn btnBorder sizeS valignM">Add Review</a></td>
-                                            <td>
-                                                <div class="tableShares">
-                                                    <button class="fbBtn"><i class="icon-facebook44"></i></button>
-                                                    <button class="twBtn"><i class="icon-twitter37"></i></button>
-                                                    <button class="gpBtn"><i class="icon-google110"></i></button>
-                                                </div>
-                                            </td>
-                                            <td class="alignC"></td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
