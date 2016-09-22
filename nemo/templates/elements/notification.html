@@ -2,8 +2,6 @@
 $(document).ready(function() {
     {% if messages %}
         {% for message in messages %}
-            var x = "{{ message.tags }}"
-            console.log(x)
             {% if message.tags == "success"%}
                 var success = "{{ message }}";
                 $.jGrowl(success, {theme:'right',sticky:true});

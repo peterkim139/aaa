@@ -24,7 +24,7 @@ from payment.generate import NemoEncrypt
 from pages.utils import date_handler, save_file, refund_price, handel_datetime
 from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer, check_user_card
 from pages.emails import seller_approved_request, new_message,seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
-from pages.models import Image, Thread, Message
+from pages.models import Image, Thread, Message, Image
 
 
 class OutTransactionsView(LoginRequiredMixin, TemplateView):
@@ -303,8 +303,9 @@ class UnreadMessagesView(LoginRequiredMixin, View):
 
     def post(self, request):
         partner_id = request.POST["partner_id"]
+        item_id = request.POST["item_id"]
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item_id) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item_id))
             thread_id = thread.id
             unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
                                .values('id', 'message', 'modified', 'from_user_id__photo', 'thread_id'))
@@ -334,7 +335,7 @@ class NoConversationView(LoginRequiredMixin, View):
                 partner_id = user.user2_id
             else:
                 partner_id = user.user1_id
-            return HttpResponseRedirect('/profile/conversation/'+str(partner_id))
+            return HttpResponseRedirect('/profile/conversation/'+str(partner_id) + '/' + str(user.item_id_id))
         else:
             return render(request, 'pages/no_conversation.html')
 
@@ -388,14 +389,14 @@ class StartChatView(LoginRequiredMixin, View):
 
 class ConversationView(LoginRequiredMixin, View):
 
-    def get(self, request, id):
+    def get(self, request, id, item):
         handel_datetime(request)
         partner_id = id
         messages = None
         current_user_id = request.user.id
-
+        image = Image.objects.get(id=item)
         try:
-            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+            thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item))
         except Thread.DoesNotExist:
             thread = None
         if thread:
@@ -423,13 +424,19 @@ class ConversationView(LoginRequiredMixin, View):
                  [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
         if messages is not None:
-            context = {'threads': threads, 'messages': messages }
+            # time_list = []
+            # for message in messages:
+            #     time_list.append(str(message.created)[:16])
+            # for message in messages:
+            #     if time_list.count(str(message.created)[:16]) > 1:
+            #         message.bubble = 'True'
+            context = {'threads': threads, 'messages': messages, 'item_image': image, 'partner_id': partner_id, 'item_id':item}
         else:
-            context = {'threads': threads}
+            context = {'threads': threads,  'item_image': image, 'partner_id': partner_id, 'item_id':item}
 
         return render(request, 'pages/conversation.html', context)
 
-    def post(self, request, id):
+    def post(self, request, id, item):
         handel_datetime(request)
         partner_id = id
         user_partner = User.objects.get(id=partner_id)
@@ -437,7 +444,7 @@ class ConversationView(LoginRequiredMixin, View):
         message_time = timezone.localtime(timezone.now())
         if last_message != '' and len(last_message) <= 250:
             try:
-                thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id) | Q(user1_id=partner_id, user2_id=request.user.id))
+                thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item))
                 thread.last_message = last_message
                 thread.modified = message_time
                 thread.save()

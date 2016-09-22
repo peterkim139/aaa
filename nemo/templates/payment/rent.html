@@ -142,7 +142,7 @@ $(document).ready(function() {
     $('#meth_item_id').val('{{param.id}}')
     var partner_id = '{{param.item_owner_id}}'
     var interval = null;
-
+    var item_id = '{{param.id}}'
     $('.chatCloseBtn').on('click',function(){
         $('.chatWrapper').hide();
         if(interval){
@@ -162,7 +162,7 @@ $(document).ready(function() {
         $('#chat_message').val('');
         if (message.trim()) {
             $.ajax({
-                    url: '/profile/conversation/'+partner_id,
+                    url: '/profile/conversation/'+partner_id+'/' + item_id + '/',
                     type:'post',
                     data:{
                         message: message
@@ -209,7 +209,8 @@ $(document).ready(function() {
             url: '/profile/unread_messages/',
             type:'post',
             data:{
-                partner_id:partner_id
+                partner_id: partner_id,
+                item_id: item_id
             },
             success:function(response) {
                 if(response != ''){
