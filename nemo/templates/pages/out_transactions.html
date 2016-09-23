@@ -11,7 +11,7 @@ f{% extends "base.html" %}
                         <h2>Transactions</h2>
                         <ul class="tabs subTitleTabs">
                             <li><a href="{% url 'profile:out_transactions' %}">Incoming</a></li>
-                            <li ><a href="{% url 'profile:in_transactions' %}">Outgoing</a></li>
+                            <li ><a href="{% url 'profile:out_transactions' %}">Outgoing</a></li>
                         </ul>
                     </div>
                     <div class="cancelWrap expandWrap">
@@ -70,35 +70,41 @@ f{% extends "base.html" %}
                                             <td>Rent</td>
                                             <td>${{ out_transaction.price }}</td>
                                             <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
-                                            <td>{{ out_transaction.start_date|date:"Y-m-d" }} - {{ out_transaction.rent_date|date:"Y-m-d" }}</td>
-                                            {% if out_transaction.status == 'pending' %}
-                                            <td>waiting Approval</td>
-                                            {% else %}
-                                            <td>{{out_transaction.status}}</td>
-                                            {% endif %}
-                                            <td>Make payment</td>
+                                            <td>{{ out_transaction.start_date|date:"Y-m-d" }}</td>
                                             <td>
                                                 {% if out_transaction.status == 'pending' %}
-                                                    <button class="success client_actions" action="Decline">Decline</button>
-                                                {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}
-                                                    <button class="success client_actions" action="Cancel">Cancel</button>
-                                                {% elif out_transaction.status == 'approved' and out_transaction.cancel == 0 %}
-                                                    {{'You will be able to cancel the request  2 hours later after approving'}}
-                                                 {% elif out_transaction.status == 'customer_canceled' %}
-                                                    customer canceled
-                                                {% elif out_transaction.status == 'customer_declined' %}
-                                                    customer declined
-                                                {% elif out_transaction.status == 'seller_canceled' %}
-                                                    seller canceled
-                                                {% elif out_transaction.status == 'seller_declined' %}
-                                                    seller declined
-                                                {% elif out_transaction.status == 'admin_canceled' %}
-                                                    admin canceled
+                                                    Pending
+                                                {% elif out_transaction.status == 'approved' %}
+                                                    Request approved
+                                                {% elif out_transaction.status == 'customer_canceled' or out_transaction.status == 'customer_declined' %}
+                                                    You have canceled this request
+                                                {% elif out_transaction.status == 'seller_canceled' or out_transaction.status == 'seller_declined' or out_transaction.status == 'admin_canceled' %}
+                                                    Canceled
+                                                {% elif out_transaction.status == 'paid' %}
+                                                    Returned <br/>
+                                                    <a href="#" class="success">Add Review</a>
+                                                {% elif out_transaction.status == 'expired' %}
+                                                    This request has been expired
                                                 {% else %}
                                                     {{ out_transaction.status }}
                                                 {% endif %}
                                             </td>
-                                            <td><a href="#" class="btn btnBorder sizeS valignM">Add Review</a></td>
+                                            <td>
+                                                {% if out_transaction.status == 'pending' or out_transaction.status == 'approved' %}
+                                                    <a href="/profile/conversation/{{out_transaction.owner_id }}/{{out_transaction.param_id}}" class="success">Contact owner</a>
+                                                {% else %}
+                                                    <a href="{% url 'payment:rent' out_transaction.param_id %}" class="success">Request Again</a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if out_transaction.status == 'pending' %}
+                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success client_actions" action="Decline">here</button></div>
+                                                {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}
+                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success client_actions" action="Cancel">here</button></div>
+                                                {% else %}
+                                                    <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Connect</a> NEMO</div>
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

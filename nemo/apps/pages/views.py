@@ -417,7 +417,7 @@ class ConversationView(LoginRequiredMixin, View):
         partner_id = id
         messages = None
         current_user_id = request.user.id
-        image = Image.objects.get(id=item)
+        image = Image.objects.get(param_image_id=item)
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item))
         except Thread.DoesNotExist:

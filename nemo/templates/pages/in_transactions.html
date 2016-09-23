@@ -84,7 +84,12 @@
                                         <tr amount='{{in_transaction.param.amount}}' rent='{{in_transaction.id}}' >
                                             <td>{{ forloop.counter }}</td>
                                             <td><img width="40px" class="inOutTableImg" src='/media/images/items/{{ in_transaction.param.image.image_name }}'> {{ in_transaction.param.name }}</td>
-                                            <td>{{ in_transaction.user.first_name }} {{ in_transaction.user.last_name }}</td>
+                                            <td>
+                                                {{ in_transaction.user.first_name }} {{ in_transaction.user.last_name }} <br/>
+                                                <a href="/profile/conversation/{{in_transaction.user_id }}/{{in_transaction.param_id}}" class="btn btnPrime btnSquare start_chat">
+                                                    <i class="icon-message"></i>
+                                                </a>
+                                            </td>
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
                                             <td>{{ in_transaction.created|date:"Y-m-d h:i:s" }}</td>
@@ -112,15 +117,20 @@
                                                 {% if in_transaction.status == 'pending' %}
                                                     <div class="nowrap"><button class="success seller_actions" action="Approve">Approve</button></div>
                                                 {% elif in_transaction.status == 'approved' %}
-                                                    <button class="success expandBtn">Cancel</button>
+                                                     <a href="/profile/conversation/{{in_transaction.user_id }}/{{in_transaction.param_id}}" class="success">Contact neighor</a>
+                                                {% else %}
+                                                    <div class="nowrap">All Set</div>
                                                 {% endif %}
                                                 <div class="loader"></div>
                                             </td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
-                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success  seller_actions" action="Cancel">here</button></div>
+                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success seller_actions" action="Cancel">here</button></div>
+                                                {% elif in_transaction.status == 'approved' %}
+                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success expandBtn">here</button></div>
+                                                {% else %}
+                                                    <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Connect</a> NEMO</div>
                                                 {% endif %}
-
                                             </td>
                                         </tr>
                                     {% endfor %}
