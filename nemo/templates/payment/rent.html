@@ -177,20 +177,25 @@ $(document).ready(function() {
                                 var photo = 'images/users/default_user_photo.jpg'
                             }
 
-                            var next_li = '<li class="msgSent">'
-                                                +'<div class="threadImg">'
-                                                    +'<img src="/media/'+photo+'">'
-                                                +'</div>'
-                                                +'<div class="threadCont">'
-                                                    +'<div class="clearAfter">'
-                                                        +'<div class="threadTxt">'
-                                                            +'<p>'+responseJSON.last_message+'</p>'
-                                                        +'</div>'
+                            if(responseJSON.bubble){
+                                $('.msgThread li.msgSent:last-child p').append('<br> '+ responseJSON.last_message);
+                                $('.msgThread li.msgSent:last-child time').text(responseJSON.modified)
+                            }else{
+                                 var next_li = '<li class="msgSent">'
+                                                    +'<div class="threadImg">'
+                                                        +'<img src="/media/'+photo+'">'
                                                     +'</div>'
-                                                    +'<time>'+responseJSON.modified+'</time>'
-                                                +'</div>'
-                                            +'</li>'
-                            $('.msgThread').append(next_li);
+                                                    +'<div class="threadCont">'
+                                                        +'<div class="clearAfter">'
+                                                            +'<div class="threadTxt">'
+                                                                +'<p>'+responseJSON.last_message+'</p>'
+                                                            +'</div>'
+                                                        +'</div>'
+                                                        +'<time>'+responseJSON.modified+'</time>'
+                                                    +'</div>'
+                                                +'</li>'
+                                                $('.msgThread').append(next_li);
+                            }
                             $('#id_message').val('');
                             $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom");
                         }
@@ -225,23 +230,28 @@ $(document).ready(function() {
                             var photo = 'images/users/default_user_photo.jpg'
                             }
 
-                        message_div += '<li class="msgReceived">'
-                                        +'<div class="threadImg">'
-                                            +'<img src="/media/'+ photo +'">'
+                        if(element.thread_id !=0){
+                            message_div = '<li class="msgReceived">'
+                                            +'<div class="threadImg">'
+                                                +'<img src="/media/'+ photo +'">'
 
-                                        +'</div>'
-                                        +'<div class="threadCont">'
-                                            +'<div class="clearAfter">'
-                                                +'<div class="threadTxt">'
-                                                    +'<p>'+element.message+'</p>'
-                                                +'</div>'
                                             +'</div>'
-                                            +'<time>'+element.modified+'</time>'
-                                        +'</div>'
-                                    +'</li>'
+                                            +'<div class="threadCont">'
+                                                +'<div class="clearAfter">'
+                                                    +'<div class="threadTxt">'
+                                                        +'<p>'+element.message+'</p>'
+                                                    +'</div>'
+                                                +'</div>'
+                                                +'<time>'+element.modified+'</time>'
+                                            +'</div>'
+                                        +'</li>'
+                            $(".msgThread").append(message_div);
+                        }else{
+                              $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
+                              $('.msgThread li.msgReceived:last-child time').text(element.modified)
+                        }
                     });
                     playSound();
-                    $(".msgThread").append(message_div);
                     $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
                 }
             },
@@ -255,7 +265,7 @@ $(document).ready(function() {
         if(interval){
             clearInterval(interval);
         }
-        interval = setInterval(function(){checkData()}, 5000);
+        interval = setInterval(function(){checkData()}, 7000);
         $('.chatWrapper').show();
         var item_id = $(this).attr('item')
         $.ajax({

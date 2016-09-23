@@ -331,8 +331,20 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item_id) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item_id))
             thread_id = thread.id
             unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
-                               .values('id', 'message', 'modified', 'from_user_id__photo', 'thread_id'))
+                               .values('id', 'message','modified', 'from_user_id__photo', 'thread_id','from_user_id_id'))
+
+
+            previous = None
+            get_last_read = (Message.objects.filter(thread_id=thread.id, unread=0)
+                            .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id')[0])
+            if get_last_read['from_user_id_id'] != request.user.id:
+                previous = get_last_read['modified']
             for unread_message in unread_messages:
+                if previous:
+                    if (unread_message['modified'] - previous).total_seconds() < 60:
+                        unread_message['thread_id'] = 0
+
+                previous = unread_message['modified']
                 unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
 
             message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
@@ -446,13 +458,14 @@ class ConversationView(LoginRequiredMixin, View):
             ORDER BY thread.modified DESC''',
                  [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
 
+        previous = None
         if messages is not None:
-            # time_list = []
-            # for message in messages:
-            #     time_list.append(str(message.created)[:16])
-            # for message in messages:
-            #     if time_list.count(str(message.created)[:16]) > 1:
-            #         message.bubble = 'True'
+            for message in messages:
+                if previous:
+                    if previous.from_user_id_id == message.from_user_id_id and (message.created - previous.created).total_seconds() < 60 :
+                        message.message = previous.message + ' <br/> ' +  message.message
+                        previous.bubble = True
+                previous = message
             context = {'threads': threads, 'messages': messages, 'item_image': image, 'partner_id': partner_id, 'item_id':item}
         else:
             context = {'threads': threads,  'item_image': image, 'partner_id': partner_id, 'item_id':item}
@@ -478,7 +491,7 @@ class ConversationView(LoginRequiredMixin, View):
                 thread.last_message = last_message
                 thread.modified = message_time
                 thread.save()
-
+            get_last_writer = Message.objects.filter(from_user_id_id=request.user.id, to_user_id_id=partner_id, thread_id=thread.id).order_by('-id')[0]
             message = Message()
             message.thread_id = thread.id
             message.unread = 1
@@ -487,7 +500,10 @@ class ConversationView(LoginRequiredMixin, View):
             message.to_user_id = User.objects.get(id=partner_id)
             message.save()
             new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message)
-            return JsonResponse({'response': True, 'modified': message_time.strftime("%B %d, %Y %I:%M%p"),'last_message':last_message})
+            bubble = False
+            if get_last_writer.from_user_id_id == request.user.id and (message.created - get_last_writer.created).total_seconds() < 60:
+                bubble = True
+            return JsonResponse({'response': True, 'modified': message_time.strftime("%B %d, %Y %I:%M%p"),'last_message':last_message,'bubble':bubble})
         else:
             return JsonResponse({'response': False})
 
