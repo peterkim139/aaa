@@ -1111,7 +1111,7 @@ i {
     vertical-align: middle; }
 .tableStyle td {
   border: solid 1px #e8e8e8;
-  padding: 5px 10px; }
+  padding: 5px 8px; }
 .tableStyle.footable > tbody > tr > td > span.footable-toggle {
   vertical-align: middle; }
   .tableStyle.footable > tbody > tr > td > span.footable-toggle:before {
@@ -1130,7 +1130,7 @@ i {
   width: 100%;
   overflow: hidden; }
   .tableScroll table {
-    width: 755px; }
+    width: 100%; }
   .tableScroll .mCustomScrollBox {
     height: inherit; }
   .tableScroll .mCSB_scrollTools .mCSB_draggerRail {
@@ -2019,7 +2019,8 @@ transactions page
 .pagination {
   margin-top: 15px;
   text-align: right;
-  color: #bfbfbf; }
+  color: #bfbfbf;
+  margin-bottom: 10px; }
   .pagination a {
     vertical-align: middle;
     color: #bfbfbf; }
@@ -2030,8 +2031,20 @@ transactions page
 .inOutTableImg {
   display: inline-block;
   max-height: 40px;
+  max-width: 40px;
   vertical-align: middle;
   margin-right: 5px; }
+
+#transaction table th {
+  font-size: 14px; }
+#transaction table td {
+  vertical-align: top;
+  font-size: 13px; }
+#transaction .start_chat {
+  line-height: 0;
+  width: auto;
+  height: auto;
+  padding: 3px; }
 
 /*
 end of transaction page
@@ -2736,7 +2749,8 @@ end braintree page
   background: #fff;
   padding-top: 45px;
   padding-bottom: 60px;
-  box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1); }
+  box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1);
+  display: none; }
 
 .chatHeader {
   padding: 10px 20px;
@@ -2819,7 +2833,8 @@ Responsive styles
       padding: 0 15px 0 265px; }
 
   .accountR {
-    padding-left: 0; }
+    padding-left: 0;
+    margin-top: 30px; }
 
   .tabsStyle1 li.active a {
     border-width: 1px; }
@@ -2916,7 +2931,11 @@ Responsive styles
     margin-left: 5%; }
 
   .tableScroll {
-    overflow-x: scroll; } }
+    overflow-x: scroll; }
+    .tableScroll table {
+      min-width: 768px; }
+    .tableScroll .pagination {
+      text-align: left; } }
 /* end of (max-width: 880px) */
 @media (max-width: 768px) {
   .colRow [class^="col"]:not(.colRow) {

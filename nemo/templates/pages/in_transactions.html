@@ -69,7 +69,7 @@
                                                 <li><a href="/profile/in_transactions/?name=DESC"><i class="icon-angle-down"></i></a></li>
                                             </ul>
                                         </th>
-                                        <th>Owned by</th>
+                                        <th style="min-width: 90px;">Owned by</th>
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Requested on</th>
@@ -83,12 +83,19 @@
                                     {% for in_transaction in in_transactions %}
                                         <tr amount='{{in_transaction.param.amount}}' rent='{{in_transaction.id}}' >
                                             <td>{{ forloop.counter }}</td>
-                                            <td><img width="40px" class="inOutTableImg" src='/media/images/items/{{ in_transaction.param.image.image_name }}'> {{ in_transaction.param.name }}</td>
+                                            <td class="nowrap">
+                                                <img class="inOutTableImg" src='/media/images/items/{{ in_transaction.param.image.image_name }}'>
+                                                <span>{{ in_transaction.param.name }}</span>
+                                            </td>
                                             <td>
-                                                {{ in_transaction.user.first_name }} {{ in_transaction.user.last_name }} <br/>
-                                                <a href="/profile/conversation/{{in_transaction.user_id }}/{{in_transaction.param_id}}" class="btn btnPrime btnSquare start_chat">
-                                                    <i class="icon-message"></i>
-                                                </a>
+                                                <div style="max-width: 100px;">
+                                                    {{ in_transaction.user.first_name }} {{ in_transaction.user.last_name }} <br/>
+                                                </div>
+                                                <div class="alignC">
+                                                    <a href="/profile/conversation/{{in_transaction.user_id }}/{{in_transaction.param_id}}" class="btn btnPrime btnSquare start_chat">
+                                                        <i class="icon-message"></i>
+                                                    </a>
+                                                </div>
                                             </td>
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>

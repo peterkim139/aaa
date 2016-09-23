@@ -926,7 +926,7 @@ i {
 	}
 	td {
 		border: solid 1px $borderGrey;
-		padding: 5px 10px;
+		padding: 5px 8px;
 	}
 	&.footable>tbody>tr>td>span.footable-toggle {
 		vertical-align: middle;
@@ -953,7 +953,7 @@ i {
 	width: 100%;
 	overflow: hidden;
 	table {
-		width: 755px;
+		width: 100%;
 	}
 	.mCustomScrollBox {
 		height: inherit;
@@ -1997,6 +1997,7 @@ transactions page
 	margin-top: 15px;
 	text-align: right;
 	color: #bfbfbf;
+	margin-bottom: 10px;
 	a {
 		vertical-align: middle;
 		color: #bfbfbf;
@@ -2009,8 +2010,26 @@ transactions page
 .inOutTableImg {
 	display: inline-block;
 	max-height: 40px;
+	max-width: 40px;
 	vertical-align: middle;
 	margin-right: 5px;
+}
+#transaction {
+	table {
+		th {
+			font-size: $fontSize - 2px;
+		}
+		td {
+			vertical-align: top;
+			font-size: $fontSize - 3px;
+		}
+	}
+	.start_chat {
+		line-height: 0;
+		width: auto;
+		height: auto;
+		padding: 3px;
+	}
 }
 /*
 end of transaction page
@@ -2860,6 +2879,7 @@ end braintree page
 	padding-top: 45px;
 	padding-bottom: 60px;
 	box-shadow: -5px 5px 10px rgba(0,0,0,.1);
+	display: none;
 }
 .chatHeader {
 	padding: 10px 20px;
