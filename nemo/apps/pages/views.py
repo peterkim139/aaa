@@ -333,12 +333,16 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
                                .values('id', 'message','modified', 'from_user_id__photo', 'thread_id','from_user_id_id'))
 
+            try:
+                get_last_read = (Message.objects.filter(thread_id=thread.id, unread=0)
+                                .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id')[0])
+                if get_last_read['from_user_id_id'] != request.user.id:
+                    previous = get_last_read['modified']
+                else:
+                    previous = None
+            except IndexError:
+                previous = None
 
-            previous = None
-            get_last_read = (Message.objects.filter(thread_id=thread.id, unread=0)
-                            .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id')[0])
-            if get_last_read['from_user_id_id'] != request.user.id:
-                previous = get_last_read['modified']
             for unread_message in unread_messages:
                 if previous:
                     if (unread_message['modified'] - previous).total_seconds() < 60:
@@ -392,6 +396,8 @@ class StartChatView(LoginRequiredMixin, View):
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
+
+            print messages
         else:
             thread = Thread()
             thread.user1_id = request.user.id
@@ -415,11 +421,12 @@ class StartChatView(LoginRequiredMixin, View):
         if messages is not None:
             for message in messages:
                 message['modified'] = message['modified'].strftime("%B %d, %Y %I:%M%p")
-            message_data = json.dumps(list(messages), date_handler(messages))
-            response_data['messages'] = message_data
-            return HttpResponse(JsonResponse(response_data), content_type="application/json")
         else:
-            return HttpResponse(JsonResponse(response_data), content_type="application/json")
+            messages = []
+
+        message_data = json.dumps(list(messages), date_handler(messages))
+        response_data['messages'] = message_data
+        return HttpResponse(JsonResponse(response_data), content_type="application/json")
 
 
 class ConversationView(LoginRequiredMixin, View):
