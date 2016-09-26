@@ -96,9 +96,9 @@
                             }
                         }
                     }
-                    $('#id_street_address').val(address);
+                    $('#id_street_address').val($.trim(address));
                 } else {
-                    $('#id_street_address').val(address);
+                    $('#id_street_address').val($.trim(address));
                 }
             });
         }

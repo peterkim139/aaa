@@ -252,6 +252,7 @@ $(document).ready(function(){
     var address = '{{address}}';
     if(address) {
         getGeoDataFromAddress(address);
+        getLatLngFromAddress(address)
     }
 
     var val_error = '{{val_error}}'
@@ -265,10 +266,11 @@ $(document).ready(function(){
         $("#add_listing_form").trigger('reset');
         $("#filename").val('');
         if(address) {
-              $("#street_address").val(street_address);
-              $("#city").val(city);
-              $("#id_state").val(state);
-              $("#postal_code").val(zip_code);
+            $("#street_address").val($.trim(street_address));
+            $("#street").val($.trim(street_address))
+            $("#city").val(city);
+            $("#id_state").val(state);
+            $("#postal_code").val(zip_code);
         }
         $('#add_listing_title').text('Add New Listing');
     });
@@ -316,6 +318,7 @@ function getLatLngFromAddress(address) {
 function getGeoDataFromAddress(address) {
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function(results, status) {
+        console.log(results)
         if (status == google.maps.GeocoderStatus.OK) {
             for (var i = 0; i < results[0].address_components.length; i++) {
                 var addressType = results[0].address_components[i].types[0];

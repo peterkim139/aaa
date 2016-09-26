@@ -11,7 +11,7 @@ f{% extends "base.html" %}
                         <h2>Transactions</h2>
                         <ul class="tabs subTitleTabs">
                             <li><a href="{% url 'profile:out_transactions' %}">Incoming</a></li>
-                            <li ><a href="{% url 'profile:out_transactions' %}">Outgoing</a></li>
+                            <li><a href="{% url 'profile:in_transactions' %}">Outgoing</a></li>
                         </ul>
                     </div>
                     <div class="cancelWrap expandWrap">
@@ -52,11 +52,18 @@ f{% extends "base.html" %}
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Item</th>
+                                        <th>
+                                            Item
+                                            <ul>
+                                                <li><a href="/profile/out_transactions/?name=ASC"><i class="icon-angle-up"></i></a></li>
+                                                <li><a href="/profile/out_transactions/?name=DESC"><i class="icon-angle-down"></i></a></li>
+                                            </ul>
+                                        </th>
+                                        <th style="min-width: 90px;">Owned by</th>
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Requested on</th>
-                                        <th style="min-width: 90px;">Need it for</th>
+                                        <th>Need it for</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Others</th>
@@ -69,6 +76,16 @@ f{% extends "base.html" %}
                                             <td class="nowrap">
                                                 <img class="inOutTableImg" src='/media/images/items/{{ out_transaction.param.image.image_name }}'>
                                                 <span>{{ out_transaction.param.name }}</span>
+                                            </td>
+                                            <td>
+                                                <div style="max-width: 100px;">
+                                                    {{ out_transaction.owner.first_name }} {{ out_transaction.owner.last_name }} <br/>
+                                                </div>
+                                                <div class="alignC">
+                                                    <a href="/profile/conversation/{{out_transaction.owner_id }}/{{out_transaction.param_id}}" class="btn btnPrime btnSquare start_chat">
+                                                        <i class="icon-message"></i>
+                                                    </a>
+                                                </div>
                                             </td>
                                             <td>Rent</td>
                                             <td>${{ out_transaction.price }}</td>

@@ -42,7 +42,7 @@ class AddListingForm(forms.Form):
 
     street_address = forms.CharField(label='Address', max_length=255, required=True, validators=[has_numbers],
                                      widget=forms.TextInput(attrs={'id': 'street_address', 'class': 'formControl'}), )
-    city = forms.CharField(label='City', max_length=255, required=True, validators=[validate_lettersonly],
+    city = forms.CharField(label='City', max_length=255, required=True, validators=[validate_name_lettersonly],
                            widget=forms.TextInput(attrs={'id': 'city', 'class': 'formControl'}), )
 
     state = forms.CharField(max_length=2,
@@ -82,7 +82,7 @@ class SupportForm(forms.Form):
 
     email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}), validators=[validate_email])
     name = forms.CharField(label='Name', min_length=2, max_length=255, required=True,
-                           validators=[validate_support_name],
+                           validators=[validate_name_lettersonly],
                            widget=forms.TextInput(attrs={'class': 'formControl'}), )
     comments = forms.CharField(label='Message', required='True', widget=forms.Textarea(attrs={'id': 'comments', 'class': 'formControl'}))
 

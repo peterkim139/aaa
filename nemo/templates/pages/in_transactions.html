@@ -69,7 +69,7 @@
                                                 <li><a href="/profile/in_transactions/?name=DESC"><i class="icon-angle-down"></i></a></li>
                                             </ul>
                                         </th>
-                                        <th style="min-width: 90px;">Owned by</th>
+                                        <th style="min-width: 90px;">Requested by</th>
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Requested on</th>
@@ -103,7 +103,7 @@
                                             <td>{{ in_transaction.start_date|date:"Y-m-d" }}</td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
-                                                    Withing for your approval
+                                                    Waiting for your approval
                                                 {% elif in_transaction.status == 'approved' %}
                                                     You have approved this request
                                                 {% elif in_transaction.status == 'customer_canceled' or in_transaction.status == 'customer_declined' %}

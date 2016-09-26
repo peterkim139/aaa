@@ -495,10 +495,16 @@ class ConversationView(LoginRequiredMixin, View):
                 thread = Thread()
                 thread.user1_id = request.user.id
                 thread.user2_id = partner_id
+                thread.item_id_id = item
                 thread.last_message = last_message
                 thread.modified = message_time
                 thread.save()
-            get_last_writer = Message.objects.filter(from_user_id_id=request.user.id, to_user_id_id=partner_id, thread_id=thread.id).order_by('-id')[0]
+
+            try:
+                get_last_writer = Message.objects.filter(from_user_id_id=request.user.id, to_user_id_id=partner_id, thread_id=thread.id).order_by('-id')[0]
+            except IndexError:
+                get_last_writer = None
+
             message = Message()
             message.thread_id = thread.id
             message.unread = 1
@@ -508,7 +514,7 @@ class ConversationView(LoginRequiredMixin, View):
             message.save()
             new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message)
             bubble = False
-            if get_last_writer.from_user_id_id == request.user.id and (message.created - get_last_writer.created).total_seconds() < 60:
+            if get_last_writer and get_last_writer.from_user_id_id == request.user.id and (message.created - get_last_writer.created).total_seconds() < 60:
                 bubble = True
             return JsonResponse({'response': True, 'modified': message_time.strftime("%B %d, %Y %I:%M%p"),'last_message':last_message,'bubble':bubble})
         else:
