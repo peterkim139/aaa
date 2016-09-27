@@ -61,29 +61,29 @@
                             <table class="tableStyle">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>
+                                        <th style="width: 5%;">#</th>
+                                        <th style="width: 13%;">
                                             Item
                                             <ul>
                                                 <li><a href="/profile/in_transactions/?name=ASC"><i class="icon-angle-up"></i></a></li>
                                                 <li><a href="/profile/in_transactions/?name=DESC"><i class="icon-angle-down"></i></a></li>
                                             </ul>
                                         </th>
-                                        <th style="min-width: 90px;">Requested by</th>
-                                        <th>Type</th>
-                                        <th>Amount</th>
-                                        <th>Requested on</th>
-                                        <th>Need it for</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                        <th>Others</th>
+                                        <th style="width: 12%;">Requested by</th>
+                                        <th style="width: 6%;">Type</th>
+                                        <th style="width: 9%;">Amount</th>
+                                        <th style="width: 12%;">Requested on</th>
+                                        <th style="width: 12%;">Need it for</th>
+                                        <th style="width: 9%;">Status</th>
+                                        <th style="width: 8%;">Action</th>
+                                        <th style="width: 14%;">Others</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for in_transaction in in_transactions %}
                                         <tr amount='{{in_transaction.param.amount}}' rent='{{in_transaction.id}}' >
-                                            <td>{{ forloop.counter }}</td>
-                                            <td class="nowrap">
+                                            <td class="">{{ forloop.counter }}</td>
+                                            <td class="">
                                                 <img class="inOutTableImg" src='/media/images/items/{{ in_transaction.param.image.image_name }}'>
                                                 <span>{{ in_transaction.param.name }}</span>
                                             </td>
