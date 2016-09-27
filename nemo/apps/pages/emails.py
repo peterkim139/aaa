@@ -214,7 +214,7 @@ def seller_approved_request(request, client, seller, email, item, price, item_id
 
 
 
-def new_message(request, pratner_email, partner_name, item_name, message):
+def new_message(request, pratner_email, partner_name, item_name, message, item_id):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -227,6 +227,7 @@ def new_message(request, pratner_email, partner_name, item_name, message):
         'user_name': request.user.first_name,
         'site_name': settings.BRAND,
         'message': message,
+        'item_id': item_id,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/new_message.html', context)

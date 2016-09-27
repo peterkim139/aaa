@@ -514,7 +514,7 @@ class ConversationView(LoginRequiredMixin, View):
             message.from_user_id = User.objects.get(id=request.user.id)
             message.to_user_id = User.objects.get(id=partner_id)
             message.save()
-            new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message)
+            new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message, item)
             bubble = False
             if get_last_writer and get_last_writer.from_user_id_id == request.user.id and (message.created - get_last_writer.created).total_seconds() < 60:
                 bubble = True
