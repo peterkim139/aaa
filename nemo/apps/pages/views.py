@@ -177,8 +177,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                     if result.is_success:
                         transaction = result.transaction
                         Rent.objects.filter(owner_id=request.user.id, id=rent).update(transaction=transaction.id, status=status, modified=timezone.now())
-                        print()
-                        seller_approved_request(request, orderer.first_name, current_user.first_name, orderer.email, requests.param.name, requests.price, requests.param.id, requests.user.id)
+                        seller_approved_request(request, orderer.first_name, current_user.first_name, orderer.email, requests.param.name, requests.price, requests.param.id, current_user.id)
                         return JsonResponse({'success': True, 'message': 'The request has been approved'})
                     else:
                         return JsonResponse({'success': False, 'message': 'There are some errors in transaction process'})

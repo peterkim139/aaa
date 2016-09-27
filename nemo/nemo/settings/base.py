@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'category',
     'payment',
     'pages',
+    'debug_toolbar'
 ]
 
 
