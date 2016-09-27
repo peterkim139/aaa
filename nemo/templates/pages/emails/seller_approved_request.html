@@ -1,5 +1,5 @@
 <p>Hi {{ client }},</p></br>
 <p>Your request of {{item}} has just been approved by your neighbor {{seller}} and ${{price}} is charged from your credit card,
-please <a href="#">click here</a> to contact him/her to arrange pickup of the item.</p>
+please <a href="{{ 'http' }}://{{ absolute_url }}/profile/conversation/{{ owner_id }}/{{ item_id }}/">click here</a> to contact him/her to arrange pickup of the item.</p>
 <p>The {{ site_name }} Team.</p>
 

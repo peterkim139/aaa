@@ -181,7 +181,7 @@ def seller_declined_request(request, client, email, item, category):
     mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
 
 
-def seller_approved_request(request, client, seller, email, item, price):
+def seller_approved_request(request, client, seller, email, item, price, item_id, owner_id):
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
@@ -193,6 +193,8 @@ def seller_approved_request(request, client, seller, email, item, price):
         'price': price,
         'seller': seller,
         'site_name': settings.BRAND,
+        'item_id': item_id,
+        'owner_id' : owner_id,
         'absolute_url': request.META['HTTP_HOST']
     })
     content = loader.render_to_string('pages/emails/seller_approved_request.html', context)
