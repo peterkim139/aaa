@@ -2039,7 +2039,9 @@ transactions page
   font-size: 14px; }
 #transaction table td {
   vertical-align: top;
-  font-size: 13px; }
+  font-size: 13px;
+  word-break: break-word;
+  word-wrap: break-word; }
 #transaction .start_chat {
   line-height: 0;
   width: auto;
@@ -2209,6 +2211,8 @@ messages page
       color: #5bbc2e; }
   .messagesR .mCSB_outside + .mCSB_scrollTools {
     right: -20px; }
+  .messagesR .listingSingle {
+    margin-bottom: 5px; }
 
 .msgThread > li {
   position: relative;
@@ -2302,6 +2306,15 @@ messages page
   padding: 100px 0;
   font-size: 22px;
   font-weight: 300; }
+
+.listDets strong {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 4px; }
+.listDets > span {
+  display: block;
+  color: #5bbc2e;
+  font-size: 16px; }
 
 /*
 end messages page 

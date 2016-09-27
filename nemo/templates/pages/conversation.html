@@ -36,7 +36,7 @@
         </div>
         <div class="messagesR">
             <div class="colRow">
-                <div class="col8">
+                <div class="col9">
                     <div class="customScroll scrollBottom wow fadeInDown" data-wow-delay=".2s" style="max-height: 360px;">
                         <ul class="msgThread">
                             {% if messages %}
@@ -70,10 +70,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col4">
-                    <img src="/media/images/items/{{item_image.image_name}}">
-                    <p>{{item.name}}</p>
-                    <p>${{item.price}}</p>
+                <div class="col3">
+                    <div class="listingSingle">
+                        <figure style="background-image: url(/media/images/items/{{item_image.image_name}});" class="fluidImage">
+                            <img class="imgBlock" src="/media/images/sizers/landscape-sizer.png" alt="">
+                        </figure>
+                    </div>
+                    <div class="listDets">
+                        <strong>{{item.name}}</strong>
+                        <span>${{item.price}}</span>
+                    </div>
                 </div>
             </div>
         </div>

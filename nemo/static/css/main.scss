@@ -2022,6 +2022,8 @@ transactions page
 		td {
 			vertical-align: top;
 			font-size: $fontSize - 3px;
+			word-break: break-word;
+			word-wrap: break-word;
 		}
 	}
 	.start_chat {
@@ -2227,6 +2229,9 @@ messages page
 	.mCSB_outside + .mCSB_scrollTools {
 		right: -20px;
 	}
+	.listingSingle {
+		margin-bottom: 5px;
+	}
 }
 .msgThread {
 	>li {
@@ -2327,6 +2332,19 @@ messages page
 	padding: 100px 0;
 	font-size: $fontSize + 6px;
 	font-weight: 300;
+}
+.listDets {
+	strong {
+		font-weight: 500;
+		display: block;
+		margin-bottom: 4px;
+	}
+	>span {
+		display: block;
+		color: $brandColor;
+		font-size: 16px;
+
+	}
 }
 /*
 end messages page 

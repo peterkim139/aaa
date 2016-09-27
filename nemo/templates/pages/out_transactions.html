@@ -90,7 +90,7 @@ f{% extends "base.html" %}
                                             <td>Rent</td>
                                             <td>${{ out_transaction.price }}</td>
                                             <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
-                                            <td>{{ out_transaction.start_date|date:"Y-m-d" }}</td>
+                                            <td class="nowrap">{{ out_transaction.start_date|date:"Y-m-d" }}</td>
                                             <td>
                                                 {% if out_transaction.status == 'pending' %}
                                                     Pending

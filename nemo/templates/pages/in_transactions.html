@@ -100,7 +100,7 @@
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
                                             <td>{{ in_transaction.created|date:"Y-m-d h:i:s" }}</td>
-                                            <td>{{ in_transaction.start_date|date:"Y-m-d" }}</td>
+                                            <td class="nowrap">{{ in_transaction.start_date|date:"Y-m-d" }}</td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
                                                     Waiting for your approval
