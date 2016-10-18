@@ -561,6 +561,19 @@ header {
     .headerNav .bordered a:after {
       display: none; }
 
+.msgCount {
+  background: #d01515;
+  border-radius: 60px;
+  padding: 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-left: 3px;
+  min-width: 18px;
+  height: 18px;
+  text-align: center;
+  line-height: 18px; }
+
 .headhesive {
   position: fixed;
   top: 0;
