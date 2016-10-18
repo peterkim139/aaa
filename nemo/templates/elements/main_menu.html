@@ -6,7 +6,7 @@
             {% if user.is_authenticated %}
             <li><a href="{% url 'accounts:search_results' %}">Search For Items</a></li>
             <li><a href="{% url 'accounts:listings' %}">List Your Items</a></li>
-            <li><a href="{% url 'profile:no_conversation' %}">Messages{{ request.user.id|unread_messages }}</a></li>
+            <li><a href="{% url 'profile:no_conversation' %}">Messages{% autoescape off %}{{ request.user.id|unread_messages }}{% endautoescape %}</a></li>
             <li><a href="{% url 'accounts:edit_profile' %}" class="account">Account</a></li>
             <li><a href="{% url 'accounts:logout' %}">Log Out</a></li>
             {% else %}

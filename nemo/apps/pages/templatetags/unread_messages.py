@@ -7,6 +7,6 @@ def unread_messages(user_id):
 
     unread_messages = Message.objects.filter(to_user_id_id=user_id, unread=1)
     if not unread_messages:
-        return 0
+        return ''
     else:
-        return len(unread_messages)
+        return "<span class='msgCount'>" + str(len(unread_messages)) + "</span>"
