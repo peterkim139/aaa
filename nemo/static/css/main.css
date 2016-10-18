@@ -2117,7 +2117,6 @@ messages page
   top: 0;
   height: 100%;
   width: 340px;
-  background-color: #f8f8f8;
   padding-bottom: 8px; }
   .messagesL .tabs {
     width: 100%; }
@@ -2131,15 +2130,18 @@ messages page
       text-align: center;
       background-color: #ededed; }
     .messagesL .ui-tabs-nav li.ui-tabs-active a {
-      background-color: #f8f8f8; }
+      background-color: #fff; }
 
 .msgConvrsList li {
-  position: relative; }
+  position: relative;
+  background: #fff; }
   .msgConvrsList li.active {
     background-color: #fff;
     box-shadow: inset 5px 0 0 0 #f8f8f8; }
   .msgConvrsList li.newMsg {
     box-shadow: inset 5px 0 0 0 rgba(91, 188, 46, 0.5); }
+  .msgConvrsList li.unreadMsg {
+    background: #f8f8f8; }
   .msgConvrsList li a {
     display: block;
     min-height: 50px;
