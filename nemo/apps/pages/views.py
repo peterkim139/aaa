@@ -334,7 +334,7 @@ class UnreadMessagesView(LoginRequiredMixin, View):
                                .values('id', 'message','modified', 'from_user_id__photo', 'thread_id','from_user_id_id'))
 
             if not unread_messages:
-                return JsonResponse({'response': 'false'})
+                return JsonResponse({'response': False})
             else:
                 print unread_messages
                 previous = None
@@ -357,7 +357,7 @@ class UnreadMessagesView(LoginRequiredMixin, View):
                     message.save()
                 return HttpResponse(message_data, content_type="application/json")
         except Thread.DoesNotExist:
-            return JsonResponse({'response': 'false'})
+            return JsonResponse({'response': False})
 
 
 class NoConversationView(LoginRequiredMixin, View):
