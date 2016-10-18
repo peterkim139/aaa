@@ -333,32 +333,31 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             unread_messages = (Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
                                .values('id', 'message','modified', 'from_user_id__photo', 'thread_id','from_user_id_id'))
 
-            try:
+            if not unread_messages:
+                return JsonResponse({'response': 'false'})
+            else:
+                print unread_messages
+                previous = None
                 get_last_read = (Message.objects.filter(thread_id=thread.id, unread=0)
                                 .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id')[0])
                 if get_last_read['from_user_id_id'] != request.user.id:
                     previous = get_last_read['modified']
-                else:
-                    previous = None
-            except IndexError:
-                previous = None
+                for unread_message in unread_messages:
+                    if previous:
+                        if (unread_message['modified'] - previous).total_seconds() < 60:
+                            unread_message['thread_id'] = 0
 
-            for unread_message in unread_messages:
-                if previous:
-                    if (unread_message['modified'] - previous).total_seconds() < 60:
-                        unread_message['thread_id'] = 0
+                    previous = unread_message['modified']
+                    unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
 
-                previous = unread_message['modified']
-                unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
-
-            message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
-            messages = Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
-            for message in messages:
-                message.unread = 0
-                message.save()
-            return HttpResponse(message_data, content_type="application/json")
+                message_data = json.dumps(list(unread_messages), date_handler(unread_messages))
+                messages = Message.objects.filter(thread_id=thread_id, from_user_id=partner_id, unread=1)
+                for message in messages:
+                    message.unread = 0
+                    message.save()
+                return HttpResponse(message_data, content_type="application/json")
         except Thread.DoesNotExist:
-            return JsonResponse({'response': False})
+            return JsonResponse({'response': 'false'})
 
 
 class NoConversationView(LoginRequiredMixin, View):

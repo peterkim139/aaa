@@ -218,7 +218,7 @@ $(document).ready(function() {
                 item_id: item_id
             },
             success:function(response) {
-                if(response != ''){
+                if(!response.response){
                     message_div = '';
 
                     jQuery.each(response, function(index, element) {
