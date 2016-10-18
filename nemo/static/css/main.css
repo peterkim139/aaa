@@ -572,7 +572,8 @@ header {
   min-width: 18px;
   height: 18px;
   text-align: center;
-  line-height: 18px; }
+  line-height: 18px;
+  color: #fff; }
 
 .headhesive {
   position: fixed;
