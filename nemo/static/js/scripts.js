@@ -235,8 +235,9 @@ $(document).ready(function(){
 //        if(N_cancel_rent.valid()){
 
             var amount = $(this).closest('tr').attr('amount');
+            var rent = $(this).closest('tr').attr('rent');
             var action = $(this).attr('action');
-            $(".rent_cancel").val(amount);
+             $("input[name='rent']").val(rent);
             $("input[name='action']").val(action);
             var src = '';
             amount == '2' ? src = '#cancel_request_popup_2' : src = '#cancel_request_popup_5';

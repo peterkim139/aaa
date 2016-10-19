@@ -19,7 +19,7 @@
                         <h3 class="cancelItemName">Cancelation for <strong class="item_name"></strong> item</h3>
                         <form  action='' method="POST" id="cancel_rent">
                             {% csrf_token %}
-                            <input type='hidden' value='{{requests.id}}' name="rent" class="rent_cancel">
+                            <input type='hidden' value='{{requests.id}}' name="rent">
                             <input type='hidden' value='' name="action" class='action'>
                             <div class="colRow">
                                 <div class="col6">
