@@ -134,7 +134,7 @@
                                                 {% if in_transaction.status == 'pending' %}
                                                     <div class="nowrap">Need to cancel?<br/>Click <button class="success seller_actions" action="Cancel">here</button></div>
                                                 {% elif in_transaction.status == 'approved' %}
-                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success expandBtn">here</button></div>
+                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success cancel_approved_transaction">here</button></div>
                                                 {% else %}
                                                     <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Connect</a> NEMO</div>
                                                 {% endif %}
@@ -166,7 +166,7 @@
                                     <p>Please note that you have already approved your neighbor’s request and your neighbor is awaiting the item, if you cancel now, you will be charged $2 as a compensation to your neighbor and to cover the transaction fee.</p>
                                     <p>Are you sure you want to cancel?</p>
                                     <input type="submit" name="no" value="No" class="cancel_request_no btn btnBorder" />
-                                    <input type="submit" name="yes" value="Cancel" class="cancel_request_yes btn btnPrime" />
+                                    <input type="submit" name="yes" value="Cancel" class="cancel_request_yes btn expandBtn btnPrime" />
                                 </div>
                             </div>
                             <div id="cancel_request_popup_5" class="popupWrap mfp-hide">
@@ -177,7 +177,7 @@
                                     <p>Please note that tomorrow is the rental start date and your neighbor is awaiting the item, if you cancel now, it will incur great inconvenience to him/her, thus you will be charged $5 as a compensation to your neighbor and to cover the transaction fee</p>
                                     <p>Are you sure you want to cancel?</p>
                                     <input type="submit" name="no" value="No" class="cancel_request_no btn btnBorder" />
-                                    <input type="submit" name="yes" value="Cancel" class="cancel_request_yes btn btnPrime" />
+                                    <input type="submit" name="yes" value="Cancel" class="cancel_request_yes expandBtn btn btnPrime" />
                                 </div>
                             </div>
                         {% endif %}

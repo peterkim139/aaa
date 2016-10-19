@@ -231,8 +231,8 @@ $(document).ready(function(){
         },
         "Please enter valid month");
 
-    $("#cancel_request").on('click',function (e) {
-        if(N_cancel_rent.valid()){
+    $(".cancel_approved_transaction").on('click',function (e) {
+//        if(N_cancel_rent.valid()){
             var tax = $("input[name='rent']").val();
             var amount = $('tr[rent='+tax+']').attr('amount');
             var src = '';
@@ -244,7 +244,7 @@ $(document).ready(function(){
                 showCloseBtn: false,
             });
             return false;
-        }
+//        }
     })
     $('#edit_user_profile').on('click',function(e){
         e.preventDefault();
@@ -261,7 +261,7 @@ $(document).ready(function(){
     })
 
     $(".cancel_request_yes").on('click',function(){
-         N_cancel_rent.submit();
+        // N_cancel_rent.submit();
          $.magnificPopup.close();
     })
 
