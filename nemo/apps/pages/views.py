@@ -21,11 +21,10 @@ from accounts.models import User, Billing
 from category.models import Params
 from accounts.mixins import LoginRequiredMixin
 from payment.generate import NemoEncrypt
-from pages.utils import date_handler, save_file, refund_price, handel_datetime
+from pages.utils import date_handler, save_file, refund_price, handel_datetime, utc_to_local, get_timezone
 from payment.utils import payment_connection, cancel_transaction, seller_approve, show_errors, create_customer, check_user_card
 from pages.emails import seller_approved_request, new_message,seller_declined_request, cancel_before_approving, cancel_after_approving, seller_penalize_email, seller_canceled_request_before, seller_canceled_request_after, send_support_email
 from pages.models import Image, Thread, Message, Image
-
 
 class OutTransactionsView(LoginRequiredMixin, TemplateView):
 
@@ -325,6 +324,7 @@ class ChangeListingStatusView(LoginRequiredMixin, View):
 class UnreadMessagesView(LoginRequiredMixin, View):
 
     def post(self, request):
+
         partner_id = request.POST["partner_id"]
         item_id = request.POST["item_id"]
         try:
@@ -336,17 +336,16 @@ class UnreadMessagesView(LoginRequiredMixin, View):
             if not unread_messages:
                 return JsonResponse({'response': False})
             else:
-                print unread_messages
                 previous = None
                 get_last_read = (Message.objects.filter(thread_id=thread.id, unread=0)
-                                .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id')[0])
-                if get_last_read['from_user_id_id'] != request.user.id:
+                                .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id'))
+                if get_last_read and get_last_read[0]['from_user_id_id'] != request.user.id:
                     previous = get_last_read['modified']
                 for unread_message in unread_messages:
                     if previous:
                         if (unread_message['modified'] - previous).total_seconds() < 60:
                             unread_message['thread_id'] = 0
-
+                    unread_message['modified'] = utc_to_local(unread_message['modified'] ,get_timezone(request))
                     previous = unread_message['modified']
                     unread_message['modified'] = unread_message['modified'].strftime("%B %d, %Y %I:%M%p")
 
@@ -396,7 +395,6 @@ class StartChatView(LoginRequiredMixin, View):
                 unread_message.unread = 0
                 unread_message.save()
 
-            print messages
         else:
             thread = Thread()
             thread.user1_id = request.user.id
@@ -419,6 +417,7 @@ class StartChatView(LoginRequiredMixin, View):
         response_data['thread_id'] = thread.id
         if messages is not None:
             for message in messages:
+                message['modified'] = utc_to_local(message['modified'], get_timezone(request))
                 message['modified'] = message['modified'].strftime("%B %d, %Y %I:%M%p")
         else:
             messages = []
