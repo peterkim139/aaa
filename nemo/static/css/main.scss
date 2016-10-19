@@ -322,6 +322,20 @@ header {
 		}
 	}
 }
+.msgCount {
+	background: #d01515;
+	border-radius: 60px;
+	padding: 0 3px;
+	font-size: 12px;
+	font-weight: 600;
+	display: inline-block;
+	margin-left: 3px;
+	min-width: 18px;
+	height: 18px;
+	text-align: center;
+	line-height: 18px;
+	color: #fff;
+}
 .headhesive {
 	position: fixed;
 	top: 0;
@@ -1814,8 +1828,8 @@ account listing page
 				height: 36px;
 				line-height: 36px;
 				position: absolute;
-				top: 0px;
-				right: 0px;
+				top: 0;
+				right: 0;
 				@include borderRadius(0);
 			}
 		}
@@ -1924,6 +1938,8 @@ account listing page
 		cursor: pointer;
 		&:checked + span {
 			border-color: $brandColor;
+			word-break: break-word;
+			word-wrap: break-word;
 		}
 	}
 }
@@ -2009,21 +2025,27 @@ transactions page
 }
 .inOutTableImg {
 	display: inline-block;
-	max-height: 40px;
-	max-width: 40px;
+	max-height: 32px;
+	max-width: 32px;
 	vertical-align: middle;
 	margin-right: 5px;
+	float: left;
+	&+span {
+		padding-left: 34px;
+		display: block;
+	}
 }
 #transaction {
 	table {
+		table-layout: fixed;
 		th {
 			font-size: $fontSize - 2px;
 		}
 		td {
 			vertical-align: top;
 			font-size: $fontSize - 3px;
-			word-break: break-word;
-			word-wrap: break-word;
+			//word-break: break-word;
+			//word-wrap: break-word;
 		}
 	}
 	.start_chat {
@@ -2089,7 +2111,7 @@ messages page
 	top: 0;
 	height: 100%;
 	width: 340px;
-	background-color: #f8f8f8;
+	//background-color: #f8f8f8;
     //padding-top: 72px;
     padding-bottom: 8px;
 	.tabs {
@@ -2112,7 +2134,7 @@ messages page
 			}
 			&.ui-tabs-active {
 				a {
-					background-color: #f8f8f8;
+					background-color: #fff;
 				}
 			}
 		}
@@ -2121,12 +2143,16 @@ messages page
 .msgConvrsList {
 	li {
 		position: relative;
+		background: #fff;
 		&.active {
 			background-color: #fff;
 		    box-shadow: inset 5px 0 0 0 #f8f8f8;
 		}
 		&.newMsg {
 			box-shadow: inset 5px 0 0 0 rgba($brandColor,.5);
+		}
+		&.unreadMsg {
+			background: #f8f8f8;
 		}
 		a {
 			display: block;
@@ -2155,7 +2181,10 @@ messages page
 	height: 50px;
 	left: 0;
 	top: 0;
+	overflow: visible;
 	img {
+		max-width: 100%;
+		max-height: 100%;
 		@include borderRadius(100%);
 	}
 	.msgCount {
