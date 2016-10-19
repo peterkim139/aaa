@@ -176,7 +176,6 @@ $(document).ready(function() {
  	$(document).on("click",".expandBtn",function(e){
 		var wrap = $('.expandWrap');
 		var wrap_offset_t = $('#transaction').offset().top;
-		$("input[name='rent']").val($(this).closest('tr').attr('rent'));
 		var closestElement = $(this).closest('tr');
 		var item_name = closestElement.children(':eq(1)').text();
 		$('.item_name').text(item_name);

@@ -19,7 +19,7 @@
                         <h3 class="cancelItemName">Cancelation for <strong class="item_name"></strong> item</h3>
                         <form  action='' method="POST" id="cancel_rent">
                             {% csrf_token %}
-                            <input type='hidden' value='{{requests.id}}' name="rent">
+                            <input type='hidden' value='{{requests.id}}' name="rent" class="rent_cancel">
                             <input type='hidden' value='' name="action" class='action'>
                             <div class="colRow">
                                 <div class="col6">
@@ -134,7 +134,7 @@
                                                 {% if in_transaction.status == 'pending' %}
                                                     <div class="nowrap">Need to cancel?<br/>Click <button class="success seller_actions" action="Cancel">here</button></div>
                                                 {% elif in_transaction.status == 'approved' %}
-                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success cancel_approved_transaction">here</button></div>
+                                                    <div class="nowrap">Need to cancel?<br/>Click <button class="success cancel_approved_transaction" action="Cancel">here</button></div>
                                                 {% else %}
                                                     <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Connect</a> NEMO</div>
                                                 {% endif %}
