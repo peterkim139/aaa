@@ -1139,6 +1139,8 @@ i {
   padding: 5px 0; }
   .tableStyle .tableShares button {
     font-size: 22px; }
+.tableStyle .success, .tableStyle .subTitleTabs li.ui-tabs-active a, .subTitleTabs li.ui-tabs-active .tableStyle a {
+  font-size: 13px; }
 
 .tableScroll {
   width: 100%;
