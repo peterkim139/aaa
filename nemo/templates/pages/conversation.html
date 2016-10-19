@@ -12,7 +12,7 @@
                     <ul class="msgConvrsList">
                         {%if threads %}
                             {% for thread in threads %}
-                                <li id="user_{{thread.user_id}}">
+                                <li id="user_{{thread.user_id}}_{{thread.item_id_id}}">
                                     <a href="/profile/conversation/{{thread.user_id }}/{{thread.item_id_id}}">
                                         <div>
                                             <div class="msgConvrsImg fluidImage" style="background-image: url(/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %})">
@@ -92,14 +92,11 @@
 
 $(document).ready(function(){
 
-    /////////////// get partner_id from url /////////////////
+    /////////////// get partner_id, item_id  /////////////////
 
-    <!--var url = document.URL;-->
-    <!--var stuff = url.split('/');-->
-    <!--var partner_id = stuff[stuff.length-1];-->
     var partner_id = '{{partner_id}}'
-    $('#user_'+partner_id).addClass('newMsg')
     var item_id = '{{item_id}}'
+    $('#user_'+partner_id+'_' + item_id).addClass('newMsg')
 
     ////////////// get unread_messages ///////////////////////
 
@@ -113,42 +110,45 @@ $(document).ready(function(){
                 item_id: item_id
             },
             success:function(response) {
-                if(response.response){
-                    message_div = '';
 
-                    jQuery.each(response, function(index, element) {
-
-                        if (element.from_user_id__photo)
-                            { var photo = element.from_user_id__photo;
-                             }
-                        else {
-                            var photo = 'images/users/default_user_photo.jpg'
-                            }
-                        if(element.thread_id !=0){
-                            message_div = '<li class="msgReceived">'
-                                            +'<div class="threadImg">'
-                                                +'<img src="/media/'+ photo +'">'
-
-                                            +'</div>'
-                                            +'<div class="threadCont">'
-                                                +'<div class="clearAfter">'
-                                                    +'<div class="threadTxt">'
-                                                        +'<p>'+element.message+'</p>'
-                                                    +'</div>'
-                                                +'</div>'
-                                                +'<time>'+element.modified+'</time>'
-                                            +'</div>'
-                                        +'</li>'
-                            $(".msgThread").append(message_div);
-                        }else{
-                              $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
-                              $('.msgThread li.msgReceived:last-child time').text(element.modified)
-                        }
-                        $('#last_message_'+partner_id).text(element.message);
-                    });
-                    playSound();
-                    $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
+                if(!response || response.response == false || response == '') {
+                    return false
                 }
+
+                var message_div = '';
+
+                jQuery.each(response, function(index, element) {
+
+                    if (element.from_user_id__photo) {
+                        var photo = element.from_user_id__photo;
+                    } else {
+                        var photo = 'images/users/default_user_photo.jpg'
+                    }
+                    if(element.thread_id !=0){
+                        message_div = '<li class="msgReceived">'
+                                        +'<div class="threadImg">'
+                                            +'<img src="/media/'+ photo +'">'
+
+                                        +'</div>'
+                                        +'<div class="threadCont">'
+                                            +'<div class="clearAfter">'
+                                                +'<div class="threadTxt">'
+                                                    +'<p>'+element.message+'</p>'
+                                                +'</div>'
+                                            +'</div>'
+                                            +'<time>'+element.modified+'</time>'
+                                        +'</div>'
+                                    +'</li>'
+                        $(".msgThread").append(message_div);
+                    }else{
+                          $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
+                          $('.msgThread li.msgReceived:last-child time').text(element.modified)
+                    }
+                    $('#last_message_'+partner_id).text(element.message);
+                });
+                playSound();
+                $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
+
             },
             error:function(){
             }

@@ -218,42 +218,45 @@ $(document).ready(function() {
                 item_id: item_id
             },
             success:function(response) {
-                if(response.response){
-                    message_div = '';
 
-                    jQuery.each(response, function(index, element) {
-
-                        if (element.from_user_id__photo)
-                            { var photo = element.from_user_id__photo;
-                             }
-                        else {
-                            var photo = 'images/users/default_user_photo.jpg'
-                            }
-
-                        if(element.thread_id !=0){
-                            message_div = '<li class="msgReceived">'
-                                            +'<div class="threadImg">'
-                                                +'<img src="/media/'+ photo +'">'
-
-                                            +'</div>'
-                                            +'<div class="threadCont">'
-                                                +'<div class="clearAfter">'
-                                                    +'<div class="threadTxt">'
-                                                        +'<p>'+element.message+'</p>'
-                                                    +'</div>'
-                                                +'</div>'
-                                                +'<time>'+element.modified+'</time>'
-                                            +'</div>'
-                                        +'</li>'
-                            $(".msgThread").append(message_div);
-                        }else{
-                              $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
-                              $('.msgThread li.msgReceived:last-child time').text(element.modified)
-                        }
-                    });
-                    playSound();
-                    $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
+                if(!response || response.response == false || response == '') {
+                    return false
                 }
+                var message_div = '';
+
+                jQuery.each(response, function(index, element) {
+
+                    if (element.from_user_id__photo)
+                        { var photo = element.from_user_id__photo;
+                         }
+                    else {
+                        var photo = 'images/users/default_user_photo.jpg'
+                        }
+
+                    if(element.thread_id !=0){
+                        message_div = '<li class="msgReceived">'
+                                        +'<div class="threadImg">'
+                                            +'<img src="/media/'+ photo +'">'
+
+                                        +'</div>'
+                                        +'<div class="threadCont">'
+                                            +'<div class="clearAfter">'
+                                                +'<div class="threadTxt">'
+                                                    +'<p>'+element.message+'</p>'
+                                                +'</div>'
+                                            +'</div>'
+                                            +'<time>'+element.modified+'</time>'
+                                        +'</div>'
+                                    +'</li>'
+                        $(".msgThread").append(message_div);
+                    }else{
+                          $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
+                          $('.msgThread li.msgReceived:last-child time').text(element.modified)
+                    }
+                });
+                playSound();
+                $('.messagesR .customScroll').mCustomScrollbar("scrollTo","bottom")
+
             },
             error:function(){
             }
