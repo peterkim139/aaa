@@ -3,7 +3,7 @@ import datetime
 import braintree
 from django.utils import timezone
 from payment.models import Rent
-from payment.utils import payment_connection, error_logging, seller_transaction_email
+from payment.utils import payment_connection, error_logging
 from payment.emails import seller_transaction_email
 
 
