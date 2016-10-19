@@ -37,6 +37,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
             return context
 
     def get(self, request):
+        handel_datetime(request)
 
         if 'name' in request.GET:
             name = request.GET['name']
@@ -69,6 +70,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(self.get_context_data(posts))
 
     def post(self, request):
+        handel_datetime(request)
 
         if request.POST['rent']:
             payment_connection()
@@ -117,6 +119,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
             return context
 
     def get(self, request):
+        handel_datetime(request)
 
         if 'name' in request.GET:
             name = request.GET['name']
@@ -151,6 +154,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(self.get_context_data(posts))
 
     def post(self, request):
+        handel_datetime(request)
 
         if request.POST['rent']:
             payment_connection()
@@ -525,23 +529,28 @@ class UserStatusView(LoginRequiredMixin, View):
 
         current_user_id = request.user.id
         threads = Thread.objects.raw('''
-            SELECT *,COUNT(message.id) AS message_count, message.message as message_text, user.id as user_id FROM thread
-            LEFT JOIN user
-            ON (user.id=thread.user1_id AND thread.user1_id!=%s) OR (user.id=thread.user2_id AND thread.user2_id!=%s)
+            SELECT *, COUNT(message.id) AS message_count
+            FROM thread
             LEFT JOIN message
-            ON message.thread_id = thread.id AND message.unread = 1 AND message.to_user_id_id = %s
+              ON message.thread_id = thread.id AND message.unread = 1 AND message.to_user_id_id = %s
             WHERE thread.user1_id=%s OR thread.user2_id=%s
             GROUP BY thread.id
+            HAVING message_count > 0
             ORDER BY thread.modified DESC''',
-            [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
+            [current_user_id, current_user_id, current_user_id])
 
         final = []
         for t in threads:
             status_data = {}
-            status_data['id'] = t.user_id
+            if(t.user1_id == current_user_id):
+                status_data['id'] = t.user2_id
+            else:
+                status_data['id'] = t.user1_id
+
+            status_data['item_id'] = t.item_id_id
             status_data['message_count'] = t.message_count
-            status_data['message_text'] = t.message_text
-            status_data['online'] = t.online(t.email)
+            status_data['message_text'] = t.last_message
+            # status_data['online'] = t.online(t.email)
             final.append(status_data)
 
         status_list = json.dumps(final)

@@ -23,7 +23,7 @@
                                                 <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name|striptags }}
                                                     <!--<span id="status_{{thread.user_id}}"{% if thread|user_online %}class="userStatus online">Online{% else %}class="userStatus offline">Offline{% endif %}</span>-->
                                                 </strong>
-                                                <span class="msgConvrsMsg" id="last_message_{{thread.user_id}}">{{thread.last_message|striptags}}</span>
+                                                <span class="msgConvrsMsg" id="last_message_{{thread.user_id}}_{{thread.item_id_id}}">{{thread.last_message|striptags}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -157,7 +157,7 @@ $(document).ready(function(){
 
     ////////////// get users' statuses ///////////////////////
 
-    // setInterval(function(){checkStatusData()}, 60000);
+     setInterval(function(){checkStatusData()}, 60000);
     function checkStatusData(){
         $.ajax({
             url: '/profile/user_status/',
@@ -168,33 +168,28 @@ $(document).ready(function(){
                 if(response){
                     jQuery.each(response, function(index, element) {
 
-                        var status_class = $('#status_'+element.id).attr('class');
-
-                        if (element.online == true) {
-                            if (status_class == "Offline") {
-                                $('#status_'+element.id).toggleClass('userStatus online');
-                                $('#status_'+element.id).text("Online");
-                                }
-                            }
-                        else {
-                            if (status_class == "Online") {
-                                $('#status_'+element.id).toggleClass('userStatus offline');
-                                $('#status_'+element.id).text("Offline");
-                                }
-                        }
+//                        var status_class = $('#status_'+element.id).attr('class');
+//                        if (element.online == true) {
+//                            if (status_class == "Offline") {
+//                                $('#status_'+element.id).toggleClass('userStatus online');
+//                                $('#status_'+element.id).text("Online");
+//                            }
+//                        } else {
+//                            if (status_class == "Online") {
+//                                $('#status_'+element.id).toggleClass('userStatus offline');
+//                                $('#status_'+element.id).text("Offline");
+//                            }
+//                        }
 
                         if (partner_id !== element.id) {
-                            if (element.message_count > 0) {
-                                if ($('#count_'+element.id).attr('class') !== 'msgCount'){
-                                    $('#count_'+element.id).addClass('msgCount');
-                                }
-                                $('#count_'+element.id).text(element.message_count);
-                                }
-                            else {
-                                $('#count_'+element.id).removeClass('msgCount');
+                            var msg_id = element.id+'_'+element.item_id;
+                            if ($('#count_' + msg_id).attr('class') !== 'msgCount'){
+                                $('#count_' + msg_id).addClass('msgCount');
+                                $('#user_' + msg_id).addClass('unreadMsg');
                             }
+                            $('#count_'+msg_id).text(element.message_count);
                             if (element.message_text !== null) {
-                                $('#last_message_'+element.id).text(element.message_text);
+                                $('#last_message_'+msg_id).text(element.message_text);
                             }
                         }
                     });
