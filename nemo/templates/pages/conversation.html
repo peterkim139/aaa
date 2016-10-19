@@ -12,12 +12,12 @@
                     <ul class="msgConvrsList">
                         {%if threads %}
                             {% for thread in threads %}
-                                <li id="user_{{thread.user_id}}_{{thread.item_id_id}}">
+                                <li id="user_{{thread.user_id}}_{{thread.item_id_id}}" {% if  thread.message_count > 0 %}class="unreadMsg"{% endif %}>
                                     <a href="/profile/conversation/{{thread.user_id }}/{{thread.item_id_id}}">
                                         <div>
                                             <div class="msgConvrsImg fluidImage" style="background-image: url(/media/{% if thread.user_photo %}{{ thread.user_photo }}{% else %}images/users/default_user_photo.jpg{% endif %})">
                                                 <img class="imgBlock" src="/media/images/sizers/square-sizer.png">
-                                                <span id="count_{{thread.user_id}}" {% if  thread.message_count > 0 %}class="msgCount">{{thread.message_count}}{% else %}>{% endif %}</span>
+                                                <span id="count_{{thread.user_id}}_{{thread.item_id_id}}" {% if  thread.message_count > 0 %}class="msgCount">{{thread.message_count}}{% else %}>{% endif %}</span>
                                             </div>
                                             <div class="msgConvrsR">
                                                 <strong class="msgConvrsName">{{ thread.user_first_name }} {{ thread.user_last_name|striptags }}
