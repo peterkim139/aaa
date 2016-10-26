@@ -2058,6 +2058,12 @@ transactions page
 		padding: 3px;
 	}
 }
+#outgoing,
+#incoming {
+	td:not(:first-child) {
+		text-align: center;
+	}
+}
 /*
 end of transaction page
 */
@@ -2983,7 +2989,11 @@ end braintree page
 		}
 	}
 }
-
+.jGrowl-message {
+	.txtBtn {
+		text-decoration: none;
+	}
+}
 /* end chat window */
 
 
