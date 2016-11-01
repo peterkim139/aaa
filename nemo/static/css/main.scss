@@ -2064,6 +2064,17 @@ transactions page
 		text-align: center;
 	}
 }
+.transactIntro {
+	font-weight: 500;
+	color: $brandColor;
+	text-align: center;
+	margin-top: -10px;
+	margin-bottom: 20px;
+}
+tr.active {
+	background: #f3f3f3;
+	font-weight: 500;
+}
 /*
 end of transaction page
 */
@@ -2333,6 +2344,22 @@ messages page
 	}
 	time {
 		float: left;
+	}
+	&.new {
+		position: relative;
+		&:before {
+			content: '';
+			position: absolute;
+			width: 12px;
+			height: 12px;
+			background: #d01515;
+			left: 19px;
+			top: 56px;
+			@include borderRadius(100%);
+		}
+		.threadTxt p {
+			font-weight: 500;
+		}
 	}
 }
 .msgSent {
@@ -2993,6 +3020,12 @@ end braintree page
 	.txtBtn {
 		text-decoration: none;
 	}
+}
+#outgoing td:not(:first-child), #incoming td:not(:first-child) {
+	text-align: center;
+}
+.jGrowl-message .txtBtn {
+	text-decoration: none;
 }
 /* end chat window */
 

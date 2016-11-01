@@ -2070,6 +2070,21 @@ transactions page
   height: auto;
   padding: 3px; }
 
+#outgoing td:not(:first-child),
+#incoming td:not(:first-child) {
+  text-align: center; }
+
+.transactIntro {
+  font-weight: 500;
+  color: #5bbc2e;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 20px; }
+
+tr.active {
+  background: #f3f3f3;
+  font-weight: 500; }
+
 /*
 end of transaction page
 */
@@ -2298,6 +2313,22 @@ messages page
       background: url(../media/images/received-thread-arrow.png) no-repeat; }
   .msgReceived time {
     float: left; }
+  .msgReceived.new {
+    position: relative; }
+    .msgReceived.new:before {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #d01515;
+      left: 19px;
+      top: 56px;
+      border-radius: 100%;
+      -ms-border-radius: 100%;
+      -moz-border-radius: 100%;
+      -webkit-border-radius: 100%; }
+    .msgReceived.new .threadTxt p {
+      font-weight: 500; }
 
 .msgSent {
   padding-right: 60px; }
@@ -2836,6 +2867,15 @@ end braintree page
     color: #5bbc2e; }
     .chatReply button i {
       font-size: 18px; }
+
+.jGrowl-message .txtBtn {
+  text-decoration: none; }
+
+#outgoing td:not(:first-child), #incoming td:not(:first-child) {
+  text-align: center; }
+
+.jGrowl-message .txtBtn {
+  text-decoration: none; }
 
 /* end chat window */
 /*
