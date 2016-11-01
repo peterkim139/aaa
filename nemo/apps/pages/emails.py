@@ -269,5 +269,4 @@ def send_support_email(email, name, comments):
         'signing_domain': settings.MANDRILL_DOMAIN,
         'tracking_domain': settings.MANDRILL_DOMAIN,
     }
-    print mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')
-    return  True
+    mandrill_client.messages.send(message=message, async=False, ip_pool='', send_at='')

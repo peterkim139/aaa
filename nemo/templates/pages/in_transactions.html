@@ -100,7 +100,7 @@
                                             </td>
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
-                                            <td>{{ in_transaction.created|date:"Y-m-d h:i:s" }}</td>
+                                            <td>{{ in_transaction.created|date:"Y-m-d g:i A" }}</td>
                                             <td class="nowrap">{{ in_transaction.start_date|date:"Y-m-d" }}</td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
@@ -137,7 +137,7 @@
                                                 {% elif in_transaction.status == 'approved' %}
                                                     <div class="nowrap">Need to cancel?<br/>Click <button class="success cancel_approved_transaction" action="Cancel">here</button></div>
                                                 {% else %}
-                                                    <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Connect</a> NEMO</div>
+                                                    <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Contact</a> NEMO</div>
                                                 {% endif %}
                                             </td>
                                         </tr>

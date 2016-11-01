@@ -637,12 +637,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 if(response.success){
-                    if(action == 'Approve'){
-                        self.closest('td').html('<button class="success expandBtn">Cancel</button>')
-                    }else{
-                        location.reload()
-                    }
-                    self.closest('td').find("div").hide();
+                    location.reload()
                 }else {
                     alert(response.message);
                 }

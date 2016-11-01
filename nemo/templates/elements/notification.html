@@ -7,7 +7,7 @@ $(document).ready(function() {
                 $.jGrowl(success, {theme:'right',sticky:true});
             {% endif %}
             {% if message.tags == "safe success" %}
-                $.jGrowl('Your request was successfully sent. <a href="/profile/out_transactions/">Click here</a> to review all your requests.', {theme:'right',sticky:true});
+                $.jGrowl('Your request was successfully sent. <a href="/profile/out_transactions/" class="txtBtn">Click here</a> to review all your requests.', {theme:'right',sticky:true});
             {% endif %}
             {% if message.tags == 'error' %}
                 var error = "{{ message }}";

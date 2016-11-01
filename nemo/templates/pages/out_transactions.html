@@ -90,7 +90,7 @@ f{% extends "base.html" %}
                                             </td>
                                             <td>Rent</td>
                                             <td>${{ out_transaction.price }}</td>
-                                            <td>{{ out_transaction.created|date:"Y-m-d h:i:s" }}</td>
+                                            <td>{{ out_transaction.created|date:"Y-m-d g:i A" }}</td>
                                             <td>{{ out_transaction.start_date|date:"Y-m-d" }}</td>
                                             <td>
                                                 {% if out_transaction.status == 'pending' %}
@@ -123,7 +123,7 @@ f{% extends "base.html" %}
                                                 {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}
                                                     <div class="nowrap">Need to cancel?<br/>Click <button class="success client_actions" action="Cancel">here</button></div>
                                                 {% else %}
-                                                    <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Connect</a> NEMO</div>
+                                                    <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Contact</a> NEMO</div>
                                                 {% endif %}
                                             </td>
                                         </tr>
