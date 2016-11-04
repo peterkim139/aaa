@@ -14,7 +14,7 @@ f{% extends "base.html" %}
                             <li><a href="{% url 'profile:in_transactions' %}">Outgoing</a></li>
                         </ul>
                     </div>
-                    <p>Items shared/rented/sold to neighbors</p>
+                    <p class="transactIntro">Items borrowed/rented/bought from neighbors</p>
                     <div class="cancelWrap expandWrap">
                         <button class="closeExpandWrap"><i class="icon-cancel"></i></button>
                         <h3 class="cancelItemName">Cancelation for <strong>Lorem Ipsum</strong> item</h3>
@@ -72,7 +72,7 @@ f{% extends "base.html" %}
                                 </thead>
                                 <tbody>
                                     {% for out_transaction in out_transactions %}
-                                        <tr rent='{{out_transaction.id}}' >
+                                        <tr rent='{{out_transaction.id}}' {% if out_transaction.status == 'pending' %}class="active"{% endif %}>
                                             <td>{{ forloop.counter }}</td>
                                             <td>
                                                 <img class="inOutTableImg" src='/media/images/items/{{ out_transaction.param.image.image_name }}'>

@@ -219,6 +219,8 @@ $(document).ready(function() {
             },
             success:function(response) {
 
+                $('.msgReceived').removeClass('new')
+
                 if(!response || response.response == false || response == '') {
                     return false
                 }
@@ -234,7 +236,7 @@ $(document).ready(function() {
                         }
 
                     if(element.thread_id !=0){
-                        message_div = '<li class="msgReceived">'
+                        message_div = '<li class="msgReceived new">'
                                         +'<div class="threadImg">'
                                             +'<img src="/media/'+ photo +'">'
 

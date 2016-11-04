@@ -42,7 +42,7 @@
                             {% if messages %}
                                 {% for message in messages %}
                                     {% if message.bubble == None %}
-                                        <li {% if message.from_user_id.id = request.user.id %} class="msgSent" {% else %} class="msgReceived" {% endif %}>
+                                        <li {% if message.from_user_id.id = request.user.id %} class="msgSent" {% else %} {% if message.unread %} class="msgReceived new" {% else %} class="msgReceived " {% endif %} {% endif %}>
                                             <div class="threadImg">
                                                 <img src="/media/{% if message.from_user_id.photo %}{{ message.from_user_id.photo }}{% else %}images/users/default_user_photo.jpg{% endif %}">
                                             </div>
@@ -111,6 +111,8 @@ $(document).ready(function(){
             },
             success:function(response) {
 
+                $('.msgReceived').removeClass('new');
+
                 if(!response || response.response == false || response == '') {
                     return false
                 }
@@ -125,7 +127,7 @@ $(document).ready(function(){
                         var photo = 'images/users/default_user_photo.jpg'
                     }
                     if(element.thread_id !=0){
-                        message_div = '<li class="msgReceived">'
+                        message_div = '<li class="msgReceived new">'
                                         +'<div class="threadImg">'
                                             +'<img src="/media/'+ photo +'">'
 
@@ -141,8 +143,8 @@ $(document).ready(function(){
                                     +'</li>'
                         $(".msgThread").append(message_div);
                     }else{
-                          $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
-                          $('.msgThread li.msgReceived:last-child time').text(element.modified)
+                        $('.msgThread li.msgReceived:last-child p').append('<br> '+ element.message);
+                        $('.msgThread li.msgReceived:last-child time').text(element.modified)
                     }
                     $('#last_message_'+partner_id).text(element.message);
                 });

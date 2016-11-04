@@ -447,9 +447,7 @@ class ConversationView(LoginRequiredMixin, View):
         if thread:
             messages = Message.objects.filter(thread_id=thread.id)
             unread_messages = Message.objects.filter(thread_id=thread.id,from_user_id=partner_id,unread=1)
-            for unread_message in unread_messages:
-                unread_message.unread = 0
-                unread_message.save()
+
         else:
             thread = Thread()
             thread.user1_id = request.user.id
@@ -479,6 +477,12 @@ class ConversationView(LoginRequiredMixin, View):
             context = {'threads': threads, 'messages': messages, 'item_image': image, 'partner_id': partner_id, 'item_id':item, 'item' : itemInfo}
         else:
             context = {'threads': threads, 'item_image': image, 'partner_id': partner_id, 'item_id':item, 'item' : itemInfo}
+
+
+        if unread_messages:
+            for unread_message in unread_messages:
+                unread_message.unread = 0
+                unread_message.save()
 
         return render(request, 'pages/conversation.html', context)
 
