@@ -2036,6 +2036,8 @@ transactions page
 	&+span {
 		padding-left: 34px;
 		display: block;
+		word-wrap: break-word;
+		word-break: break-all;
 	}
 }
 #transaction {
