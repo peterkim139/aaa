@@ -12,6 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         payment_connection()
         today = timezone.now() - datetime.timedelta(days=1)
+        error_logging('transaction' + str(today))
         rents = Rent.objects.filter(status='approved', rent_date__lte=today)
         if rents:
             for rent in rents:

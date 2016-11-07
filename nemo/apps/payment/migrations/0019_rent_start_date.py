@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='rent',
             name='start_date',
-            field=models.DateTimeField(default=django.utils.timezone.now),
+            field=models.DateField(default=django.utils.timezone.now),
         ),
     ]
