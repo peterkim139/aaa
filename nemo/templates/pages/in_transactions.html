@@ -108,11 +108,11 @@
                                                 {% elif in_transaction.status == 'approved' %}
                                                     You have approved this request
                                                 {% elif in_transaction.status == 'customer_canceled' or in_transaction.status == 'customer_declined' %}
-                                                    Canceled
+                                                    Cancelled
                                                 {% elif in_transaction.status == 'seller_canceled' or in_transaction.status == 'seller_declined' %}
-                                                    You have canceled this request
+                                                    You have cancelled this request
                                                 {% elif in_transaction.status == 'admin_canceled' %}
-                                                    Admin has canceled this request
+                                                    Admin has cancelled this request
                                                 {% elif in_transaction.status == 'paid' %}
                                                     Returned
                                                 {% elif in_transaction.status == 'expired' %}

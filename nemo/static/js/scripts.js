@@ -746,9 +746,19 @@ $(document).ready(function(){
             success:function(response) {
                 if(response.success){
                     alert(response.message);
-                    self.closest('td').html('The request has been declined from your side.')
+                    location.reload();
                 }else {
-                    alert(response.message);
+                    if(response.message == 'processing') {
+                        $.magnificPopup.open({
+                            items: {
+                                src: '#cancel_request_popup_3',
+                            },
+                            showCloseBtn: false,
+                        });
+                        return false;
+                    } else {
+                        alert(response.message);
+                    }
                 }
             },
         });

@@ -72,7 +72,7 @@ f{% extends "base.html" %}
                                 </thead>
                                 <tbody>
                                     {% for out_transaction in out_transactions %}
-                                        <tr rent='{{out_transaction.id}}' {% if out_transaction.status == 'pending' %}class="active"{% endif %}>
+                                        <tr rent='{{out_transaction.id}}'>
                                             <td>{{ forloop.counter }}</td>
                                             <td>
                                                 <img class="inOutTableImg" src='/media/images/items/{{ out_transaction.param.image.image_name }}'>
@@ -98,9 +98,9 @@ f{% extends "base.html" %}
                                                 {% elif out_transaction.status == 'approved' %}
                                                     Request approved
                                                 {% elif out_transaction.status == 'customer_canceled' or out_transaction.status == 'customer_declined' %}
-                                                    You have canceled this request
+                                                    You have cancelled this request
                                                 {% elif out_transaction.status == 'seller_canceled' or out_transaction.status == 'seller_declined' or out_transaction.status == 'admin_canceled' %}
-                                                    Canceled
+                                                    Cancelled
                                                 {% elif out_transaction.status == 'paid' %}
                                                     Returned <br/>
                                                     <a href="#" class="success">Add Review</a>
@@ -120,7 +120,7 @@ f{% extends "base.html" %}
                                             <td>
                                                 {% if out_transaction.status == 'pending' %}
                                                     <div class="nowrap">Need to cancel?<br/>Click <button class="success client_actions" action="Decline">here</button></div>
-                                                {% elif out_transaction.status == 'approved' and out_transaction.cancel == 1 %}
+                                                {% elif out_transaction.status == 'approved'%}
                                                     <div class="nowrap">Need to cancel?<br/>Click <button class="success client_actions" action="Cancel">here</button></div>
                                                 {% else %}
                                                     <div class="nowrap">Need help?<br/><a href="{% url 'profile:support' %}" class="success">Contact</a> NEMO</div>
@@ -142,6 +142,16 @@ f{% extends "base.html" %}
                                         <a href="?page={{ out_transactions.next_page_number }}"><i class="icon-arrow-right-thin"></i></a>
                                     {% endif %}
                                 </span>
+                            </div>
+                            <div id="cancel_request_popup_3" class="popupWrap mfp-hide">
+                                <div class="popupHead">
+                                    <h3></h3>
+                                </div>
+                                <div class="popupBody">
+                                    <p>Request processing, please wait for 2 hrs to cancel.</p>
+                                    <p><br/></p>
+                                    <input type="submit" name="no" value="Close" class="cancel_request_no btn btnBorder" />
+                                </div>
                             </div>
                         {% endif %}
                     </div>

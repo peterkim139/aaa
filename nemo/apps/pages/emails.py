@@ -218,7 +218,7 @@ def new_message(request, pratner_email, partner_name, item_name, message, item_i
 
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'You have new message from ' + request.user.first_name
+    subject = 'You have new message on NEMO'
     from_email = settings.AUTO_REPLY
     context = Context({
         'partner_name': partner_name,

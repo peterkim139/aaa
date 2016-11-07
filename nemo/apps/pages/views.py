@@ -81,27 +81,31 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
                 status = 'customer_canceled'
             requests = Rent.objects.get(user_id=request.user.id, id=rent)
             if requests.status == 'pending' or requests.status == 'approved':
-                encrypt = NemoEncrypt()
-                current_user = User.objects.get(id=requests.owner_id)
-                orderer = User.objects.get(id=requests.user_id)
-                item = Params.objects.get(id=requests.param_id)
-                if status == 'customer_declined':
-                    Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
-                    cancel_before_approving(request, current_user.email, orderer.first_name, current_user.first_name, item.name)
-                    return JsonResponse({'success': True, 'message': 'Request has been declined'})
+                hour = timezone.now() - datetime.timedelta(hours=2)
+                if requests.modified < hour:
+                    encrypt = NemoEncrypt()
+                    current_user = User.objects.get(id=requests.owner_id)
+                    orderer = User.objects.get(id=requests.user_id)
+                    item = Params.objects.get(id=requests.param_id)
+                    if status == 'customer_declined':
+                        Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
+                        cancel_before_approving(request, current_user.email, orderer.first_name, current_user.first_name, item.name)
+                        return JsonResponse({'success': True, 'message': 'Request has been declined'})
+                    else:
+                        today = timezone.now() + datetime.timedelta(days=1)
+                        paid = refund_price(requests.price)
+                        if today.date() < requests.start_date:
+                            result = cancel_transaction(paid['amount'], orderer)
+                            if result.is_success:
+                                Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
+                                credits = Decimal(current_user.credits) + Decimal(paid['credit'])
+                                User.objects.filter(id=current_user.id).update(credits=credits)
+                                cancel_after_approving(request, current_user.email, orderer.first_name, item.name, current_user.first_name, paid['credit'])
+                                return JsonResponse({'success': True, 'message': 'Request has been canceled'})
+                            else:
+                                return JsonResponse({'success': False, 'message': 'There is an error in refund process'})
                 else:
-                    today = timezone.now() + datetime.timedelta(days=1)
-                    paid = refund_price(requests.price)
-                    if today < requests.start_date:
-                        result = cancel_transaction(paid['amount'], orderer)
-                        if result.is_success:
-                            Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
-                            credits = Decimal(current_user.credits) + Decimal(paid['credit'])
-                            User.objects.filter(id=current_user.id).update(credits=credits)
-                            cancel_after_approving(request, current_user.email, orderer.first_name, item.name, current_user.first_name, paid['credit'])
-                            return JsonResponse({'success': True, 'message': 'Request has been canceled'})
-                        else:
-                            return JsonResponse({'success': False, 'message': 'There is an error in refund process'})
+                    return JsonResponse({'success': False, 'message': 'processing'})
             else:
                 messages.error(request, "There is no request")
         else:
@@ -137,7 +141,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
 
         today = timezone.now() + datetime.timedelta(days=1)
         for in_transaction in in_transactions:
-            if today < in_transaction.start_date:
+            if today.date() < in_transaction.start_date:
                 in_transaction.param.amount = '2'
             else:
                 in_transaction.param.amount = '5'
@@ -198,7 +202,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                         if customer.is_success:
                             today = timezone.now() + datetime.timedelta(days=1)
                             customer_id = customer.customer.id
-                            if today < requests.start_date:
+                            if today.date() < requests.start_date:
                                 amount = '2.00'
                             else:
                                 amount = '5.00'
