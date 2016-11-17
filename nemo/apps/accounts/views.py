@@ -126,6 +126,8 @@ class LogoutView(TemplateView):
     template_name = 'accounts/home.html'
 
     def get(self, request):
+        current_user = request.user
+        cache.delete('seen_%s' % (current_user.email))
         logout(request)
         return HttpResponseRedirect('/')
 
