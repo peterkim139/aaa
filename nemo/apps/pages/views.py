@@ -104,6 +104,8 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
                                 return JsonResponse({'success': True, 'message': 'You have successfully cancelled this request'})
                             else:
                                 return JsonResponse({'success': False, 'message': 'There is an error in refund process'})
+                        else:
+                            return JsonResponse({'success': False, 'message': 'It has less than one day'})
                 else:
                     return JsonResponse({'success': False, 'message': 'processing'})
             else:
