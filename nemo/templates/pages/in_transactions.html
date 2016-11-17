@@ -101,7 +101,13 @@
                                             <td>Rent</td>
                                             <td>${{ in_transaction.price }}</td>
                                             <td>{{ in_transaction.created|date:"Y-m-d g:i A" }}</td>
-                                            <td class="nowrap">{{ in_transaction.start_date|date:"Y-m-d" }}</td>
+                                            <td class="nowrap">
+                                                {{ in_transaction.start_date|date:"Y-m-d" }}
+                                                {% if in_transaction.start_date != in_transaction.rent_date %}
+                                                    <br/>-<br/>
+                                                    {{ in_transaction.rent_date|date:"Y-m-d" }}
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
                                                     Waiting for your approval
@@ -123,7 +129,7 @@
                                             </td>
                                             <td>
                                                 {% if in_transaction.status == 'pending' %}
-                                                    <div class="nowrap"><button class="success seller_actions" action="Approve">Approve</button></div>
+                                                    <div class="nowrap"><button class="success seller_actions" action="Approve" style="font-size:12px">Approve</button></div>
                                                 {% elif in_transaction.status == 'approved' %}
                                                      <a href="/profile/conversation/{{in_transaction.user_id }}/{{in_transaction.param_id}}" class="success">Contact neighor</a>
                                                 {% else %}

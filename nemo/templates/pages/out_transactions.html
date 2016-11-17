@@ -91,7 +91,13 @@ f{% extends "base.html" %}
                                             <td>Rent</td>
                                             <td>${{ out_transaction.price }}</td>
                                             <td>{{ out_transaction.created|date:"Y-m-d g:i A" }}</td>
-                                            <td>{{ out_transaction.start_date|date:"Y-m-d" }}</td>
+                                            <td>
+                                                {{ out_transaction.start_date|date:"Y-m-d" }}
+                                                {% if out_transaction.start_date != out_transaction.rent_date %}
+                                                    <br/>-<br/>
+                                                    {{ out_transaction.rent_date|date:"Y-m-d" }}
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 {% if out_transaction.status == 'pending' %}
                                                     Pending
