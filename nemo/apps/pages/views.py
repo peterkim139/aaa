@@ -82,7 +82,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
             requests = Rent.objects.get(user_id=request.user.id, id=rent)
             if requests.status == 'pending' or requests.status == 'approved':
                 hour = timezone.now() - datetime.timedelta(hours=2)
-                if requests.modified < hour:
+                if requests.status == 'pending' or (requests.status == 'approved' and requests.modified < hour):
                     encrypt = NemoEncrypt()
                     current_user = User.objects.get(id=requests.owner_id)
                     orderer = User.objects.get(id=requests.user_id)
@@ -90,7 +90,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
                     if status == 'customer_declined':
                         Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
                         cancel_before_approving(request, current_user.email, orderer.first_name, current_user.first_name, item.name)
-                        return JsonResponse({'success': True, 'message': 'Request has been declined'})
+                        return JsonResponse({'success': True, 'message': 'Request has been cancelled'})
                     else:
                         today = timezone.now() + datetime.timedelta(days=1)
                         paid = refund_price(requests.price)
@@ -372,7 +372,7 @@ class NoConversationView(LoginRequiredMixin, View):
     def get(self, request):
 
         try:
-            user = Thread.objects.filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id)).order_by('-modified').first()
+            user = Thread.objects.filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id)).exclude(Q(last_message__isnull=True) | Q(last_message__exact='')).order_by('-modified').first()
         except Thread.DoesNotExist:
             user = None
         if user:
@@ -441,13 +441,16 @@ class ConversationView(LoginRequiredMixin, View):
         handel_datetime(request)
         partner_id = id
         messages = None
+        unread_messages = None
         current_user_id = request.user.id
         image = Image.objects.get(param_image_id=item)
         itemInfo = Params.objects.get(id=item)
+
         try:
             thread = Thread.objects.get(Q(user1_id=request.user.id, user2_id=partner_id, item_id_id=item) | Q(user1_id=partner_id, user2_id=request.user.id, item_id_id=item))
         except Thread.DoesNotExist:
             thread = None
+
         if thread:
             messages = Message.objects.filter(thread_id=thread.id)
             unread_messages = Message.objects.filter(thread_id=thread.id,from_user_id=partner_id,unread=1)
@@ -456,6 +459,7 @@ class ConversationView(LoginRequiredMixin, View):
             thread = Thread()
             thread.user1_id = request.user.id
             thread.user2_id = partner_id
+            thread.item_id_id = item
             thread.last_message = ""
             thread.save()
 
@@ -465,7 +469,7 @@ class ConversationView(LoginRequiredMixin, View):
             ON (user.id=thread.user1_id AND thread.user1_id!=%s) OR (user.id=thread.user2_id AND thread.user2_id!=%s)
             LEFT JOIN message
             ON message.thread_id = thread.id AND message.unread = 1 AND message.to_user_id_id = %s
-            WHERE thread.user1_id=%s OR thread.user2_id=%s
+            WHERE (thread.user1_id=%s OR thread.user2_id=%s) And thread.last_message is not null and thread.last_message != ''
             GROUP BY thread.id
             ORDER BY thread.modified DESC''',
                  [current_user_id, current_user_id, current_user_id, current_user_id, current_user_id])
@@ -483,7 +487,7 @@ class ConversationView(LoginRequiredMixin, View):
             context = {'threads': threads, 'item_image': image, 'partner_id': partner_id, 'item_id':item, 'item' : itemInfo}
 
 
-        if unread_messages:
+        if unread_messages is not None:
             for unread_message in unread_messages:
                 unread_message.unread = 0
                 unread_message.save()
@@ -523,6 +527,10 @@ class ConversationView(LoginRequiredMixin, View):
             message.from_user_id = User.objects.get(id=request.user.id)
             message.to_user_id = User.objects.get(id=partner_id)
             message.save()
+
+            print thread.online('test_nemo@mailinator.com')
+
+
             new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message, item)
             bubble = False
             if get_last_writer and get_last_writer.from_user_id_id == request.user.id and (message.created - get_last_writer.created).total_seconds() < 60:
