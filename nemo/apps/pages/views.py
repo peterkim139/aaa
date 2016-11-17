@@ -90,7 +90,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
                     if status == 'customer_declined':
                         Rent.objects.filter(user_id=request.user.id, id=rent).update(status=status)
                         cancel_before_approving(request, current_user.email, orderer.first_name, current_user.first_name, item.name)
-                        return JsonResponse({'success': True, 'message': 'Request has been cancelled'})
+                        return JsonResponse({'success': True, 'message': 'You have successfully cancelled this request'})
                     else:
                         today = timezone.now() + datetime.timedelta(days=1)
                         paid = refund_price(requests.price)
@@ -101,7 +101,7 @@ class OutTransactionsView(LoginRequiredMixin, TemplateView):
                                 credits = Decimal(current_user.credits) + Decimal(paid['credit'])
                                 User.objects.filter(id=current_user.id).update(credits=credits)
                                 cancel_after_approving(request, current_user.email, orderer.first_name, item.name, current_user.first_name, paid['credit'])
-                                return JsonResponse({'success': True, 'message': 'Request has been canceled'})
+                                return JsonResponse({'success': True, 'message': 'You have successfully cancelled this request'})
                             else:
                                 return JsonResponse({'success': False, 'message': 'There is an error in refund process'})
                 else:
@@ -230,7 +230,7 @@ class InTransactionsView(LoginRequiredMixin, TemplateView):
                                         credits = Decimal(orderer.credits) + Decimal('2.00')
                                         User.objects.filter(id=orderer.id).update(credits=credits)
                                         seller_canceled_request_after(request, orderer.first_name, orderer.email, requests.param.name)
-                                    messages.success(request, "Request has been canceled")
+                                    messages.success(request, "Request has been cancelled")
                                     Rent.objects.filter(owner_id=request.user.id, id=rent).update(status=status)
                                 else:
                                     messages.error(request, "There is an error in refund process")
@@ -348,7 +348,7 @@ class UnreadMessagesView(LoginRequiredMixin, View):
                 get_last_read = (Message.objects.filter(thread_id=thread.id, unread=0)
                                 .values('id', 'message', 'modified', 'from_user_id_id').order_by('-id'))
                 if get_last_read and get_last_read[0]['from_user_id_id'] != request.user.id:
-                    previous = get_last_read['modified']
+                    previous = get_last_read[0]['modified']
                 for unread_message in unread_messages:
                     if previous:
                         if (unread_message['modified'] - previous).total_seconds() < 60:
@@ -528,7 +528,7 @@ class ConversationView(LoginRequiredMixin, View):
             message.to_user_id = User.objects.get(id=partner_id)
             message.save()
 
-            if thread.online(User.objects.get(id=partner_id)) :
+            if thread.online(user_partner.email) is False:
                 new_message(request, user_partner.email, user_partner.first_name, thread.item_id.name, last_message, item)
 
             bubble = False
