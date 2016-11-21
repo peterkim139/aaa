@@ -80,6 +80,7 @@
                                         <th style="width: 14%;">Others</th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
                                     {% for in_transaction in in_transactions %}
                                         <tr amount='{{in_transaction.param.amount}}' rent='{{in_transaction.id}}' {% if in_transaction.status == "pending" %}class="active"{% endif %}>
