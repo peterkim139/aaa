@@ -2050,19 +2050,19 @@ transactions page
   display: inline-block;
   max-height: 32px;
   max-width: 32px;
-  vertical-align: middle;
-  margin-right: 5px;
-  float: left; }
+  vertical-align: middle; }
   .inOutTableImg + span {
-    padding-left: 34px;
     display: block;
-    word-wrap: break-word;
-    word-break: break-all; }
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; }
 
 #transaction table {
   table-layout: fixed; }
   #transaction table th {
-    font-size: 14px; }
+    font-size: 14px;
+    padding: 12px 4px;
+    text-align: center; }
   #transaction table td {
     vertical-align: top;
     font-size: 13px; }

@@ -2031,13 +2031,11 @@ transactions page
 	max-height: 32px;
 	max-width: 32px;
 	vertical-align: middle;
-	margin-right: 5px;
-	float: left;
 	&+span {
-		padding-left: 34px;
 		display: block;
-		word-wrap: break-word;
-		word-break: break-all;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 }
 #transaction {
@@ -2045,12 +2043,12 @@ transactions page
 		table-layout: fixed;
 		th {
 			font-size: $fontSize - 2px;
+			padding: 12px 4px;
+			text-align: center;
 		}
 		td {
 			vertical-align: top;
 			font-size: $fontSize - 3px;
-			//word-break: break-word;
-			//word-wrap: break-word;
 		}
 	}
 	.start_chat {
