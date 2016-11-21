@@ -2066,7 +2066,7 @@ transactions page
   #transaction table td {
     vertical-align: top;
     font-size: 13px;
-    padding: 5px 2px;
+    padding: 5px 3px;
     text-align: center; }
 #transaction .start_chat {
   line-height: 0;
