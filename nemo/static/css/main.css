@@ -2061,11 +2061,13 @@ transactions page
   table-layout: fixed; }
   #transaction table th {
     font-size: 14px;
-    padding: 12px 4px;
+    padding: 12px 2px;
     text-align: center; }
   #transaction table td {
     vertical-align: top;
-    font-size: 13px; }
+    font-size: 13px;
+    padding: 5px 2px;
+    text-align: center; }
 #transaction .start_chat {
   line-height: 0;
   width: auto;

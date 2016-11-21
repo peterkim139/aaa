@@ -2043,12 +2043,14 @@ transactions page
 		table-layout: fixed;
 		th {
 			font-size: $fontSize - 2px;
-			padding: 12px 4px;
+			padding: 12px 2px;
 			text-align: center;
 		}
 		td {
 			vertical-align: top;
 			font-size: $fontSize - 3px;
+			padding: 5px 2px;
+			text-align: center;
 		}
 	}
 	.start_chat {
