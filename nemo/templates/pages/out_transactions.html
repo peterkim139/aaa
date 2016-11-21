@@ -64,7 +64,7 @@ f{% extends "base.html" %}
                                         <th style="width: 6%;">Type</th>
                                         <th style="width: 8%;">Amount</th>
                                         <th style="width: 13%;">Requested on</th>
-                                        <th style="width: 12%;">Need it for</th>
+                                        <th style="width: 12%;">Needed for</th>
                                         <th style="width: 10%;">Status</th>
                                         <th style="width: 9%;">Action</th>
                                         <th style="width: 13.5%;">Others</th>
@@ -111,7 +111,7 @@ f{% extends "base.html" %}
                                                     Returned <br/>
                                                     <a href="#" class="success">Add Review</a>
                                                 {% elif out_transaction.status == 'expired' %}
-                                                    This request has been expired
+                                                    This request has expired
                                                 {% else %}
                                                     {{ out_transaction.status }}
                                                 {% endif %}
