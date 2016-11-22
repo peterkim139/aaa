@@ -63,7 +63,7 @@ class ProfileForm(forms.Form):
             self.fields['image_file'].widget.attrs.update({'class': 'formControl'})
 
     email = forms.CharField(label='Email', max_length=60, min_length=5, required=True, widget=forms.TextInput(attrs={'class': 'formControl'}), validators=[validate_email])
-    phone_number = forms.CharField(label="Phone Number - Numbers only", min_length=10, max_length=10, required=True,
+    phone_number = forms.CharField(label="Phone Number - Numbers Only", min_length=10, max_length=10, required=True,
                                    validators=[validate_numbersonly],
                                    widget=forms.TextInput(attrs={'class': 'formControl'}), )
     zip_code = forms.CharField(label="Zip Code", min_length=5, max_length=5, required=True,
@@ -75,7 +75,7 @@ class ProfileForm(forms.Form):
                                  widget=forms.TextInput(attrs={'class': 'formControl'}), )
     last_name = forms.CharField(label='Last Name', min_length=2, max_length=255, required=True, validators=[validate_lettersonly],
                                 widget=forms.TextInput(attrs={'class': 'formControl'}), )
-    image_file = forms.FileField(label='Select an Image', required=False, validators=[validate_file])
+    image_file = forms.FileField(label='Select an Image for Your Profile', required=False, validators=[validate_file])
 
     user = forms.CharField(required=True,
                            widget=forms.TextInput(attrs={'id': 'user', 'class': 'formControl', 'type': 'hidden'}), )

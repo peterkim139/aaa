@@ -75,8 +75,10 @@ f{% extends "base.html" %}
                                         <tr rent='{{out_transaction.id}}'>
                                             <td>{{ forloop.counter }}</td>
                                             <td>
-                                                <img class="inOutTableImg" src='/media/images/items/{{ out_transaction.param.image.image_name }}'>
-                                                <span>{{ out_transaction.param.name }}</span>
+                                                <a href="/payment/rent/{{ out_transaction.param.id }}">
+                                                    <img class="inOutTableImg" src='/media/images/items/{{ out_transaction.param.image.image_name }}'>
+                                                    <span>{{ out_transaction.param.name }}</span>
+                                                </a>
                                             </td>
                                             <td>
                                                 <div style="max-width: 100px;">
