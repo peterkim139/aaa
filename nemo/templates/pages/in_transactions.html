@@ -86,7 +86,7 @@
                                         <tr amount='{{in_transaction.param.amount}}' rent='{{in_transaction.id}}' {% if in_transaction.status == "pending" %}class="active"{% endif %}>
                                             <td class="">{{ forloop.counter }}</td>
                                             <td class="">
-                                                <a href="/payment/rent/{{ in_transaction.param.id }}">
+                                                <a href="/payment/rent/{{ in_transaction.param.id }}" class="imgNameWrap">
                                                     <img class="inOutTableImg" src='/media/images/items/{{ in_transaction.param.image.image_name }}'>
                                                     <span title="{{ in_transaction.param.name }}">{{ in_transaction.param.name }}</span>
                                                 </a>

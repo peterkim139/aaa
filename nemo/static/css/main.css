@@ -2074,6 +2074,9 @@ transactions page
   height: auto;
   padding: 3px; }
 
+.imgNameWrap {
+  display: block; }
+
 #outgoing td:not(:first-child),
 #incoming td:not(:first-child) {
   text-align: center; }
