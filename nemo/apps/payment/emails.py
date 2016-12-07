@@ -43,7 +43,7 @@ def expired_rent_client(info):
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
     rent_date = info.rent_date.strftime('%Y-%m-%d')
     start_date = info.start_date.strftime('%Y-%m-%d')
-    subject = 'Rent request has been expired'
+    subject = 'Rent request has expired'
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': info.user.first_name,
@@ -78,7 +78,7 @@ def expired_rent_seller(info):
     start_date = info.start_date.strftime('%Y-%m-%d')
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Rent request has been expired'
+    subject = 'Rent request has expired'
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': info.user.first_name,
@@ -148,7 +148,7 @@ def admin_cancel_rent_to_client(info):
     start_date = info.start_date.strftime('%Y-%m-%d')
     mandrill_client = mandrill.Mandrill(settings.MANDRILL_KEY)
 
-    subject = 'Rent request has been expired'
+    subject = 'Rent request has expired'
     from_email = settings.AUTO_REPLY
     context = Context({
         'client': info.user.first_name,

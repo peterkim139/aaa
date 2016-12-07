@@ -1,12 +1,12 @@
 <p>Hi {{ client }},</p></br>
-<p>The rent request has been expired because of unresponsiveness on your side.</p>
+<p>Your rent request has expired because of unresponsiveness of the owner.</p>
 <dl>
-    <dt>Complaint details:</dt>
+    <dt>Details of your request:</dt>
         <dd> - Item Name: {{item}} </dd>
         <dd> - Item Description:{{description}} </dd>
-        <dd> - Seller:{{seller}} </dd>
+        <dd> - Owner:{{seller}} </dd>
         <dd> - Price:{{price}} </dd>
-        <dd> - Date:{{start_date}} - {{rent_date}} </dd>
+        <dd> - Requested dates:{{start_date}} - {{rent_date}} </dd>
 </dl>
-<p>If you still want to rent the product, please make a new request.</p>
+<p>We are sorry for the inconvenience. Please contact the owner or search for a similar product <a href="{{ 'http' }}://{{ absolute_url }}/search_results">here</a>.</p>
 <p>The {{ site_name }} Team.</p>
